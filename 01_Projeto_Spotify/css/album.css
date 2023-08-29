@@ -1,0 +1,42 @@
+body {
+    background-color: black;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#main {
+    width: 70%;
+    background-color: rgb(48,48,48);
+    /* border-left: 5px solid rgb(68,68,68);
+    border-right: 5px solid rgb(68,68,68); */
+    margin: 0 auto;
+}
+
+#header {
+    /* border: 5px solid fuchsia; */
+}
+#cover {
+    width: 29%;
+    float: left;
+}
+#cover img{
+    width: 200px;
+    height: auto;
+}
+#albumInfo {
+    color: white;
+    width: 67%;
+    float: right;
+}
+#albulInfo h1{
+    font-size: 4em;
+}
+
+#content{
+    height: 800px;
+    /* border: 5px solid orange; */
+}
+
+#footer {
+    height: 800px;
+    border: 5px solid rgb(71, 214, 96);
+}
