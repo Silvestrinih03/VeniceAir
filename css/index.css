@@ -5,8 +5,54 @@ body{
     margin: 0;
 }
 
-#header {
+.top-header {
+    text-align: center;
+    background-color: white;
+}
+
+.header {
+    margin: 0;
+    height: 150px;
+}
+
+.image_logo{
+    margin-left: 50px;
+    width: auto;
     height: 100px;
-    background-color: black;
-    border: 5px solid pink;
+    float: left;
+}
+
+.menu{
+    background-color: #612674;
+    text-align: center;
+    float: right;
+}
+
+.menu ul{
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.menu a{
+    color: white;
+    text-decoration: none;
+    padding: 1em;
+    display: block;
+}
+
+.menu a:hover{
+    background: #7c3792;
+}
+
+#search {
+    height: 100px;
+    background-color: blue;
+    border: 5px solid black;
+}
+
+#image{
+    height: 100px;
+    background-color: palevioletred;
+    border: 5px solid black;
 }
