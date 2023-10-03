@@ -7,39 +7,34 @@ body {
 }
 
 /* Estilo para o cabeçalho */
-#header {
+#cabeçalho {
     background-color: white;
     text-align: center;
-    padding: 20px;
-}
-
-#img_logo{
-    height: 150px;
 }
 
 #img_logo img {
     max-width: 180px;
     height: auto;
+    float: left;
 }
 
-h1 {
+#name{
+    text-align: center;
+    margin: 0;
+}
+
+#name h1 {
     margin: 0;
     font-size: 24px;
 }
 
 #perfil_acesso{
     border-radius: 20px;
+    float: right;
 }
 
 #select_perfil {
     margin-top: 10px;
-}
-
-/* Estilo para o corpo principal */
-#body {
-    padding: 20px;
-    text-align: center;
-    background-color: #41699ebe;
 }
 
 #frase {
@@ -50,4 +45,5 @@ h1 {
 #fundo img {
     max-width: 100%;
     height: auto;
+    margin: 0;
 }
