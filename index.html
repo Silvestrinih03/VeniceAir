@@ -3,22 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VeniceAir</title>
-    <link rel="stylesheet" href="css/index.css">
+    <title>Dashboard VeniceAir</title>
+    <link href="assets/css/index.css" rel="stylesheet"/>
 </head>
 <body>
     <div id="header">
-        <!-- <div id="logo">
-            <img src="assets/Logo.jpg">
-        </div> -->
-        <table>
-            <tr>
-                <td><a>Home</a></td>
-                <td><a>Coin</a></td>
-                <td><a>Information</a></td>
-                <td><a>My profile</a></td>
-            </tr>
-        </table>
+        <div id="img_logo"><img src="assets/images/Logo.png"></div>
+        <div id="name"><h1>VeniceAir</h1></div>
+        <p id="select_perfil">
+            <select name="perfil_acesso" id="perfil_acesso">
+                <option value="0" selected>Selecione o perfil de acesso</option>
+                <option value="1">Admin</option>
+                <option value="2">Cliente</option>
+            </select>
+        </p>
+    </div>
+    <div id="body">
+        <p id="frase">The brightness on the sky</p>
+        <div id="fundo"><img src="assets/images/venice_fundo.webp"></div>
     </div>
 </body>
 </html>
