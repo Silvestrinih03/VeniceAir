@@ -1,7 +1,7 @@
 /* Estilo para o corpo da página */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+    background-color: #b9cadc;
     margin: 0;
     padding: 0;
 }
@@ -9,8 +9,8 @@ body {
 /* Estilo para o cabeçalho */
 #header_page {
     width: 100%;
-    height: 120px;
-    background-color: white;
+    height: 115px;
+    /* background-color: #b9cadc; */
     text-align: center;
     display: inline-flex;
 }
@@ -30,24 +30,32 @@ body {
     text-align: center;
     width: 150px;
     height: auto;
-    margin-left: 480px;
+    margin-left: 460px;
 }
 
 #title_page h1{
     margin-top: 40px;
+    color: #1f70b2;
+    font-size: 50px;
 }
 
 #perfil_acesso{
     border-radius: 20px;
-    margin-left: 370px;
-    margin-top: 80px;
-    height: 40px;
+    margin-left: 390px;
+    height: 35px;
+    background-color: #e3e8ee;
+    color: #1f70b2;
 }
 
 #select_profile {
     margin-top: 10px;
     float: right;
     display: inline;
+}
+
+#option{
+    margin: 5px;
+    text-align: center;
 }
 
 #frase {
