@@ -1,0 +1,76 @@
+body {
+    font-family: Arial, sans-serif;
+    /* background-color: #b9cadc; */
+    margin: 0;
+    padding: 0;
+}
+
+#header_page {
+    width: 100%;
+    height: 115px;
+    text-align: center;
+    background-color: #b9cadc;
+    display: flex; /* Substituí inline-flex por flex para melhor controle */
+    justify-content: center; /* Centralize o conteúdo horizontalmente */
+    align-items: center; /* Centralize o conteúdo verticalmente */
+    flex-wrap: wrap; /* Permite que os elementos quebrem para uma nova linha em telas menores */
+}
+
+#img_logo {
+    flex: 1; /* Cresça com o espaço disponível */
+    height: auto;
+    margin: 10px;
+    text-align: left;
+}
+
+#img_logo img {
+    max-width: 100px;
+    height: auto;
+}
+
+#title_page {
+    flex: 1; /* Cresça com o espaço disponível */
+    text-align: center;
+    margin: 10px;
+}
+
+#title_page h1 {
+    margin-top: 10px; /* Reduzi o espaço superior para telas menores */
+    color: #1f70b2;
+    font-size: 40px; /* Reduzi o tamanho da fonte para telas menores */
+}
+
+#perfil_acesso {
+    border-radius: 5px;
+    border: none;
+    margin: 10px;
+    height: 35px;
+    background-color: #e3e8ee;
+}
+
+#perfil_acesso a{
+    color: #1f70b2;
+    text-decoration: none;
+}
+
+#perfil_acesso:hover{
+    background-color: #afc1da;
+}
+
+#select_profile {
+    flex: 1; /* Cresça com o espaço disponível */
+    text-align: right;
+    margin: 10px;
+}
+
+/* Consulta de mídia para telas menores */
+@media screen and (max-width: 768px) {
+    #header_page {
+        flex-direction: column; /* Alinhe os elementos verticalmente */
+        text-align: center;
+    }
+
+    #title_page h1 {
+        font-size: 24px; /* Reduza o tamanho da fonte ainda mais para telas muito pequenas */
+    }
+}
