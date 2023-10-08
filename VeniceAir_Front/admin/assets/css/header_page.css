@@ -37,27 +37,27 @@ body {
 #title_page h1 {
     margin-top: 10px; /* Reduzi o espaço superior para telas menores */
     color: #1f70b2;
-    font-size: 40px; /* Reduzi o tamanho da fonte para telas menores */
+    font-size: 35px; /* Reduzi o tamanho da fonte para telas menores */
 }
 
-#perfil_acesso {
+#padrao_button {
     border-radius: 5px;
     border: none;
     margin: 10px;
-    height: 35px;
+    height: 37px;
     background-color: #e3e8ee;
 }
 
-#perfil_acesso a{
+#padrao_button a{
     color: #1f70b2;
     text-decoration: none;
 }
 
-#perfil_acesso:hover{
+#padrao_button:hover{
     background-color: #afc1da;
 }
 
-#select_profile {
+#button_padrao {
     flex: 1; /* Cresça com o espaço disponível */
     text-align: right;
     margin: 10px;
