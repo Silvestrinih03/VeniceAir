@@ -41,10 +41,11 @@ body {
 }
 
 #padrao_button {
-    border-radius: 5px;
+    border-radius: 1000px;
     border: none;
     margin: 10px;
-    height: 37px;
+    height: 75px;
+    width: 75px;
     background-color: #e3e8ee;
 }
 
