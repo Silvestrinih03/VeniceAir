@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>VeniceAir - AERONAVES</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Cadastro de Aeronaves</h1>
+    <p>Preencha todos os campos para cadastrar uma aeronave.</p>
+    <form>
+      <label for="comboFabricantes">Fabricante da aeronave:</label>
+      <select name="comboFabricantes" id="comboFabricantes">
+        <option value="0" selected>Selecione o fabricante</option>
+        <option value="Airbus">AirBus</option>
+        <option value="Boeing">Boeing</option>
+        <option value="Embraer">EMBRAER</option>
+      </select>
+
+      <label for="modelo">Modelo da aeronave:</label>
+      <input type="text" id="modelo" name="modelo"/>
+
+      <label for="anoFab">Ano de fabricação:</label>
+      <input type="text" id="anoFab" name="anoFab" maxlength="4" size="5"/>
+
+      <label for="qtdeAssentos">Número de Assentos:</label>
+      <input type="text" id="totalAssentos" name="totalAssentos" maxlength="4" size="5"/>
+
+      <button type="button" id="btnCadastrar" name="btnCadastrar">Cadastrar</button>
+      <button type="reset">Limpar</button>
+      <button type="button" id="btnSair" name="btnSair">Sair</button>
+    </form>
+    <p id="status" class="statusError"></p>
+  </div>
+</body>
+</html>
