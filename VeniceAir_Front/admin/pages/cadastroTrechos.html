@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>VeniceAir - TRECHOS</title>
+  <link rel="stylesheet" href="../assets/css/cadastroTrechos.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Cadastro de Trechos</h1>
+    <p>Preencha todos os campos para cadastrar um trecho.</p>
+    <form>
+      <div class="form-group">
+        <label for="comboOrigem">Origem:</label>
+        <select name="comboOrigem" id="comboOrigem">
+          <option value="0" selected>Selecione a origem</option>
+          <option value="BeloHorizonte">Belo Horizonte</option>
+          <option value="Brasilia">Brasília</option>
+          <option value="Cancun">Cancun</option>
+          <option value="Campinas">Campinas</option>
+          <option value="Curitiba">Curitiba</option>
+          <option value="Florianopolis">Florianópolis</option>
+          <option value="Frankfurt">Frankfurt</option>
+          <option value="Lisboa">Lisboa</option>
+          <option value="Londres">Londres</option>
+          <option value="Madrid">Madrid</option>
+          <option value="NovaIorque">Nova Iorque</option>
+          <option value="Paris">Paris</option>
+          <option value="PortoAlegre">Porto Alegre</option>
+          <option value="Recife">Recife</option>
+          <option value="RiodeJaneiro">Rio de Janeiro</option>
+          <option value="Roma">Roma</option>
+          <option value="Salvador">Salvador</option>
+          <option value="SaoPaulo">São Paulo</option>
+          <option value="Toronto">Toronto</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="comboDestino">Destino:</label>
+        <select name="comboDestino" id="comboDestino">
+          <option value="0" selected>Selecione o destino</option>
+          <option value="Brasilia">Brasília</option>
+          <option value="Cancun">Cancun</option>
+          <option value="Campinas">Campinas</option>
+          <option value="Curitiba">Curitiba</option>
+          <option value="Florianopolis">Florianópolis</option>
+          <option value="Frankfurt">Frankfurt</option>
+          <option value="Honolulu">Honolulu</option>
+          <option value="Lisboa">Lisboa</option>
+          <option value="Londres">Londres</option>
+          <option value="Madrid">Madrid</option>
+          <option value="NovaIorque">Nova Iorque</option>
+          <option value="Paris">Paris</option>
+          <option value="PortoAlegre">Porto Alegre</option>
+          <option value="Recife">Recife</option>
+          <option value="RiodeJaneiro">Rio de Janeiro</option>
+          <option value="Roma">Roma</option>
+          <option value="Salvador">Salvador</option>
+          <option value="SaoPaulo">São Paulo</option>
+          <option value="Toronto">Toronto</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <button 
+          type="button" 
+          onclick="cadastrarTrecho();"
+          id="btnCadastrar"
+          name="btnCadastrar">Cadastrar
+        </button>
+        <button type="reset">Limpar</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
