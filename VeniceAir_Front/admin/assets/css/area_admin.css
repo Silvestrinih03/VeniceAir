@@ -1,40 +1,36 @@
-*{
+body {
     background-color: #b9cadc;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
-#funcoes_admin{
+#opcoes {
+    margin-top: 150px;
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 200px;
-    background-color: #b9cadc;
 }
 
-#opc{
+#opcao {
+    width: 150px;
+    height: 150px;
+    background-color: #e3e8ee;
+    color: #1f70b2;
+    border-radius: 50%;
     display: flex;
     flex-direction: column;
-    height: 150px;
-    text-align: center;
-    flex: 1; /* Adicione esta propriedade para fazer as divs filhas crescerem e ocuparem o espaço verticalmente */
-    background-color: #b9cadc;
-    margin-top: 200px;
+    align-items: center;
+    justify-content: center;
+    margin: 0 10px;
+    transition: background-color 0.3s;
 }
 
-#opc a{
-    color: #1f70b2;
-    font-size: 24px;
+#opcao a {
     text-decoration: none;
-    margin-left: 145px;
-    height: 150px;
-    width: 150px;
-    background-color: #e3e8ee;
-    border-radius: 100px;
+    color: #1f70b2;
+    font-weight: bold;
 }
 
-/* #imagem img{
-    max-width: 100%;
-    height: auto;
-    margin: 0;
-} */
-
-
+#opcao:hover {
+    background-color: #007bff;
+}

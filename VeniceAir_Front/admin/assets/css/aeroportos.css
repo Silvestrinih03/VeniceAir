@@ -1,0 +1,23 @@
+#botao_cadastrar{
+    float: right;
+    margin-top: 15px;
+    margin-right: 15px;
+}
+
+#cadastrar{
+    height: 40px;
+    width: 150px;
+    border-radius: 12px;
+    border: none;
+    background-color: #0073e6;
+    transition: background-color 0.3s;
+}
+
+#cadastrar:hover{
+   background-color: #005bad; 
+}
+
+#cadastrar a{
+    text-decoration: none;
+    color: #fff;
+}

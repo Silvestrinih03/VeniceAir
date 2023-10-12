@@ -38,6 +38,7 @@ body {
     margin-top: 10px; /* Reduzi o espaço superior para telas menores */
     color: #1f70b2;
     font-size: 35px; /* Reduzi o tamanho da fonte para telas menores */
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 #padrao_button {
@@ -52,10 +53,11 @@ body {
 #padrao_button a{
     color: #1f70b2;
     text-decoration: none;
+    font-weight: bold;
 }
 
 #padrao_button:hover{
-    background-color: #afc1da;
+    background-color: #007bff;
 }
 
 #button_padrao {

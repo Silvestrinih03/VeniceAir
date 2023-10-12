@@ -15,11 +15,12 @@ body {
     border-radius: 5px;
     background-color: #f9f9f9;
     text-align: center;
+    margin-top: 20PX;
   }
   
-  h1 {
+  /* h1 {
     color: black
-  }
+  } */
   
   form {
     display: flex;
@@ -49,6 +50,7 @@ body {
     cursor: pointer;
     transition: background-color 0.3s;
     width: 100%;
+    margin: 2px;
   }
   
   button:hover {
