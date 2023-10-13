@@ -71,9 +71,9 @@ app.put("/inserirAeroporto", async(req,res)=>{
     });
 
     const cmdInsertAeroporto = `INSERT INTO AEROPORTOS 
-    (CODIGO, AEROPORTO, CIDADE, PAIS)
+    (ID_AEROPORTO, NOME, CIDADE, PAIS)
     VALUES
-    (SEQ_AEROPORTOS.NEXTVAL, :1, :2, :3, :4)`
+    (SEQ_AEROPORTOS.NEXTVAL, :1, :2, :3)`
 
     const dados = [aeroporto, cidade, pais];
     let resInsert = await conn.execute(cmdInsertAeroporto, dados);
@@ -116,7 +116,7 @@ app.delete("/excluirAeroporto", async(req,res)=>{
        connectionString: process.env.ORACLE_CONN_STR,
     });
 
-    const cmdDeleteAeroporto = `DELETE AEROPORTOS WHERE codigo = :1`
+    const cmdDeleteAeroporto = `DELETE AEROPORTOS WHERE ID_AEROPORTO = :1`
     const dados = [codigo];
     let resDelete = await connection.execute(cmdDeleteAeroporto, dados);
     await connection.commit();
