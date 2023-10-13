@@ -1,36 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VeniceAir Voos</title>
-    <link href="../../Geral/assets/css/header_page.css" rel="stylesheet"/>
-    <link href="../assets/css/voos.css" rel="stylesheet"/>
-</head>
-<body>
-    <div id="header_page">
-        <div id="img_logo">
-            <img src="../../Geral/assets/images/logo.png"> 
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>VeniceAir Voos</title>
+        <link href="../../Geral/assets/css/header_page.css" rel="stylesheet"/>
+        <link href="../assets/css/voos.css" rel="stylesheet"/>
+    </head>
+    <body>
+        <div id="header_page">
+            <div id="img_logo">
+                <img src="../../Geral/assets/images/logo.png"> 
+            </div>
+            <div id="title_page">
+                <h1>VeniceAir Voos</h1>
+            </div>
+            <div id="button_padrao">
+                <button id="padrao_button"><a href="area_admin.html">Voltar</a></button>
+            </div>
         </div>
-        <div id="title_page">
-            <h1>VeniceAir Voos</h1>
-        </div>
-        <div id="button_padrao">
-            <button id="padrao_button"><a href="area_admin.html">Voltar</a></button>
-        </div>
-    </div>
-    <div id="botao_cadastrar"><button id="cadastrar"><a href="cadastroVoos.html">Cadastrar Voos</a></button></div>
-   <ul id="listar_voos">
-       <li>
-           Voos - <button onclick="deletarVoo(this)">Deletar</button>
-       </li>
-   </ul> 
- <script>
-     function deletarVoo(button) {
-         // Função para deletar um voo
-         var listItem = button.parentNode;
-         ListItem.remove();
-     }
- </script>
-</body>
+        <div id="botao_cadastrar"><button id="cadastrar"><a href="cadastroVoos.html">Cadastrar Voos</a></button></div>
+    </body>
 </html>
