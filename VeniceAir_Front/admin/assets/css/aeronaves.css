@@ -30,9 +30,9 @@
     
 }
 
-/* #table{
-       
-} */
+th, th{
+    padding: 10px 15px;
+}
 
 #id_thead{
     font-weight: bold;

@@ -16,7 +16,7 @@ type CustomResponse = {
   payload: any
 };
 
-app.get("/listarAeronaves", async(req,res)=>{
+app.get("/listarAeronaves", async(req, res)=>{
 
   let cr: CustomResponse = {status: "ERROR", message: "", payload: undefined,};
 

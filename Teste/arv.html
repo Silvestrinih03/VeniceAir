@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exemplo de JavaScript</title>
+    <!-- Vincule o arquivo JavaScript externo -->
+    <script src="meu-script.js"></script>
+</head>
+<body>
+    <h1>Minha Página HTML</h1>
+
+    <button onclick="saudacao()">Clique em mim</button>
+    <p>A soma de 5 e 3 é: <span id="resultado"></span></p>
+
+    <script>
+        // Você pode adicionar código JavaScript adicional diretamente na página, se necessário
+        var resultadoElement = document.getElementById('resultado');
+        var resultado = soma(5, 3);
+        resultadoElement.textContent = resultado;
+    </script>
+</body>
+</html>
