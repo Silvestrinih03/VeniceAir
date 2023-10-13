@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../Geral/assets/css/header_page.css">
     <link rel="stylesheet" href="../assets/css/cadastroVoos.css">
+    <script src="../../../VeniceAir_Back/build/voos.js"></script>
     <title>Cadastro de Voos - VeniceAir</title>
 </head>
 <body>
@@ -47,9 +48,9 @@
         <button id="deletarVoo">Deletar Voo/button>
     </div>
     <script>
-         document.getElementById("deletarVoo").addEventListner("click",function(){
-    alert("Voo deletado com sucesso!")};
-        });
+         document.getElementById("deletarVoo").addEventListener("click", function() {
+    alert("Voo deletado com sucesso!");
+    });
     //função para listar voos
         function listarVoos() {
             //Código para listar voos aqui
