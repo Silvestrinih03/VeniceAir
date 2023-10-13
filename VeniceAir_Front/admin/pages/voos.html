@@ -20,5 +20,17 @@
         </div>
     </div>
     <div id="botao_cadastrar"><button id="cadastrar"><a href="cadastroVoos.html">Cadastrar Voos</a></button></div>
+   <ul id="listar_voos">
+       <li>
+           Voos - <button onclick="deletarVoo(this)">Deletar</button>
+       </li>
+   </ul> 
+ <script>
+     function deletarVoo(button) {
+         // Função para deletar um voo
+         var listItem = button.parentNode;
+         ListItem.remove();
+     }
+ </script>
 </body>
 </html>
