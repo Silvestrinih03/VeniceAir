@@ -2,6 +2,7 @@
     float: right;
     margin-top: 15px;
     margin-right: 15px;
+    width: 100%;
 }
 
 #cadastrar{
@@ -11,6 +12,7 @@
     border: none;
     background-color: #0073e6;
     transition: background-color 0.3s;
+    float: right;
 }
 
 #cadastrar:hover{
@@ -20,4 +22,28 @@
 #cadastrar a{
     text-decoration: none;
     color: #fff;
+}
+
+#listagem{
+    margin-top: 20px;
+    text-align: center;
+    
+}
+
+/* #table{
+       
+} */
+
+#id_thead{
+    font-weight: bold;
+    background-color:  #c7c4c4b0;
+    height: 20px;
+    width: 80%;
+    margin: 0 auto;
+    
+}
+
+#id_thead td{
+    /* padding: 10px; */
+    border-collapse: collapse;
 }
