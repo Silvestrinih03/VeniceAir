@@ -69,9 +69,9 @@ app.put("/inserirTrecho", async(req,res)=>{
     });
 
     const cmdInsertTrecho = `INSERT INTO TRECHOS 
-    (CODIGO, ORIGEM, DESTINO)
+    (ID_TRECHO, ORIGEM, DESTINO)
     VALUES
-    (SEQ_TRECHOS.NEXTVAL, :1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13, :14, :15)`
+    (SEQ_TRECHOS.NEXTVAL, :1, :2)`
 
     const dados = [origem, destino];
     let resInsert = await conn.execute(cmdInsertTrecho, dados);
@@ -114,7 +114,7 @@ app.delete("/excluirTrecho", async(req,res)=>{
        connectionString: process.env.ORACLE_CONN_STR,
     });
 
-    const cmdDeleteTrecho = `DELETE TRECHO WHERE codigo = :1`
+    const cmdDeleteTrecho = `DELETE TRECHO WHERE ID_TRECHO = :1`
     const dados = [codigo];
     let resDelete = await connection.execute(cmdDeleteTrecho, dados);
     await connection.commit();
