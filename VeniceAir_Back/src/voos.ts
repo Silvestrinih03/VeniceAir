@@ -74,9 +74,9 @@ app.put("/inserirVoo", async(req,res)=>{
     });
 
     const cmdInsertVoo = `INSERT INTO VOOS 
-    (VOO, ORIGEM, DESTINO, DIA, HORARIO, VALOR)
+    (ID_VOO, VOO, ORIGEM, DESTINO, DIA, HORARIO, VALOR)
     VALUES
-    (SEQ_TRECHOS.NEXTVAL, :1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13, :14, :15)`
+    (SEQ_TRECHOS.NEXTVAL, :1, :2, :3, :4, :5, :6)`
 
     const dados = [voo, origem, destino, dia, horario, valor];
     let resInsert = await conn.execute(cmdInsertVoo, dados);
@@ -119,7 +119,7 @@ app.delete("/excluirVoo", async(req,res)=>{
        connectionString: process.env.ORACLE_CONN_STR,
     });
 
-    const cmdDeleteVoo = `DELETE VOO WHERE codigo = :1`
+    const cmdDeleteVoo = `DELETE VOO WHERE ID_VOO = :1`
     const dados = [codigo];
     let resDelete = await connection.execute(cmdDeleteVoo, dados);
     await connection.commit();
