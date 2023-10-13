@@ -67,7 +67,7 @@ app.put("/inserirAeronave", (req, res) => __awaiter(void 0, void 0, void 0, func
             connectionString: process.env.ORACLE_CONN_STR,
         });
         const cmdInsertAero = `INSERT INTO AERONAVES 
-    (CODIGO, FABRICANTE, MODELO, ANO_FAB, NUMERO_ASSENTOS)
+    (ID_AERONAVE, FABRICANTE, MODELO, ANOFAB, NUM_ASSENTOS)
     VALUES
     (SEQ_AERONAVES.NEXTVAL, :1, :2, :3, :4)`;
         const dados = [fabricante, modelo, anofab, qtdeAssentos];
@@ -108,7 +108,7 @@ app.delete("/excluirAeronave", (req, res) => __awaiter(void 0, void 0, void 0, f
             password: process.env.ORACLE_DB_PASSWORD,
             connectionString: process.env.ORACLE_CONN_STR,
         });
-        const cmdDeleteAero = `DELETE AERONAVES WHERE codigo = :1`;
+        const cmdDeleteAero = `DELETE AERONAVES WHERE ID_AERONAVE = :1`;
         const dados = [codigo];
         let resDelete = yield connection.execute(cmdDeleteAero, dados);
         yield connection.commit();
