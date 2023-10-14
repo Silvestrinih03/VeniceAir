@@ -1,6 +1,7 @@
 body {
   font-family: Arial, sans-serif;
   background-color: #ffffff;
+  /* background-color: #b9cadc; OPÇÃO 2 */
   display: flex;
   flex-direction: column;
   align-items: center;
