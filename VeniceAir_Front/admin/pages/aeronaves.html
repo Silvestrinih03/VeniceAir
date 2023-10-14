@@ -6,7 +6,6 @@
     <title>VeniceAir Aeronaves</title>
     <link href="../../Geral/assets/css/header_page.css" rel="stylesheet"/>
     <link href="../assets/css/aeronaves.css" rel="stylesheet"/>
-    <script src="../../../VeniceAir_Back/src/aeronaves.ts"></script>
 </head>
 <body>
     <script src="../../../VeniceAir_Back/src/aeronaves.ts"></script>
@@ -24,6 +23,24 @@
     <div id="botao_cadastrar">
         <button id="cadastrar"><a href="cadastrarAeronaves.html">Cadastrar Aeronave</a></button>
     </div>
+    <div>
+        <button onclick="listarAeronaves()">Listar Aeronaves</button>
+        <table id="aeronavesTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Fabricante</th>
+                    <th>Modelo</th>
+                    <th>Ano de Fabricação</th>
+                    <th>Número de Assentos</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Linhas da tabela serão adicionadas aqui -->
+            </tbody>
+        </table>
+    </div>
+    <script src="../../../VeniceAir_Back/src/aeronaves.ts"></script>
     <!-- <div id="listagem">
         <table>
             <thead id="id_thead">
