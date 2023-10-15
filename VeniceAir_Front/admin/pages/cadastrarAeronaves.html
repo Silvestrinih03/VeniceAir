@@ -20,7 +20,6 @@
     </div>
     <!-- Formulário de cadastro -->
     <div class="container">
-      <!-- <h1>Cadastro de Aeronaves</h1> -->
       <p>Preencha todos os campos para cadastrar uma aeronave.</p>
       <form id="inserirAeronaveForm">
         <label for="comboFabricantes">Fabricante da aeronave:</label>
@@ -32,18 +31,45 @@
         </select>
 
         <label for="modelo">Modelo da aeronave:</label>
-        <input type="text" id="modelo" name="modelo" required/>
+        <input type="text" id="modelo" name="modelo"/>
 
         <label for="anoFab">Ano de fabricação:</label>
-        <input type="text" id="anoFab" name="anoFab" maxlength="4" size="5" required/>
+        <input type="number" id="anoFab" name="anoFab" maxlength="4" size="5"/>
 
         <label for="qtdeAssentos">Número de Assentos:</label>
-        <input type="text" id="totalAssentos" name="totalAssentos" maxlength="4" size="5" required/>
+        <input type="number" id="totalAssentos" name="totalAssentos" maxlength="4" size="5"/>
 
         <button type="submit" id="btnCadastrar" name="btnCadastrar">Cadastrar</button>
         <button type="reset">Limpar</button>
       </form>
       <p id="status" class="statusError"></p>
     </div>
-  </body>'
+
+    <script src="../../../VeniceAir_Back/build/aeronaves.js">
+      // Adicione o código JavaScript aqui
+      document.getElementById("inserirAeronaveForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Evita o envio do formulário por padrão
+        var comboFabricantes = document.getElementById("comboFabricantes");
+        var modelo = document.getElementById("modelo");
+        var anoFab = document.getElementById("anoFab");
+        var totalAssentos = document.getElementById("totalAssentos");
+        var status = document.getElementById("status");
+
+        if (comboFabricantes.value === "0" || modelo.value === "" || anoFab.value === "" || totalAssentos.value === "") {
+          status.innerText = "Por favor, preencha todos os campos.";
+          status.className = "statusError";
+        } else if(anoFab.value <1995 || anoFab.value >2026){
+          status.innerText = "O ano de fabricação precisar deve estar entre 1995 e 2026";
+          status.className = "statusError";
+        }
+        
+        {
+          // Aqui você pode adicionar código para enviar os dados do formulário para o servidor
+          status.innerText = "Aeronave cadastrada com sucesso!";
+          status.className = "statusSuccess";
+          // Você pode redirecionar o usuário ou realizar outras ações necessárias após o cadastro.
+        }
+      });
+    </script>
+  </body>
 </html>

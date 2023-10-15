@@ -1,7 +1,6 @@
 {
   "name": "veniceair_back",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "npx tsc && node build/voos.js && node build/trechos.js && node build/aeroportos.js && node build/aeronaves.js",
