@@ -45,7 +45,7 @@
       <p id="status" class="statusError"></p>
     </div>
 
-    <script src="../../../VeniceAir_Back/build/aeronaves.js">
+    <!-- <script>
       // Adicione o código JavaScript aqui
       document.getElementById("inserirAeronaveForm").addEventListener("submit", function(event) {
         event.preventDefault(); // Evita o envio do formulário por padrão
@@ -58,18 +58,13 @@
         if (comboFabricantes.value === "0" || modelo.value === "" || anoFab.value === "" || totalAssentos.value === "") {
           status.innerText = "Por favor, preencha todos os campos.";
           status.className = "statusError";
-        } else if(anoFab.value <1995 || anoFab.value >2026){
-          status.innerText = "O ano de fabricação precisar deve estar entre 1995 e 2026";
-          status.className = "statusError";
-        }
-        
-        {
+        } else {
           // Aqui você pode adicionar código para enviar os dados do formulário para o servidor
           status.innerText = "Aeronave cadastrada com sucesso!";
           status.className = "statusSuccess";
           // Você pode redirecionar o usuário ou realizar outras ações necessárias após o cadastro.
         }
       });
-    </script>
+    </script> -->
   </body>
 </html>
