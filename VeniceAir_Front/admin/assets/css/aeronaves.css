@@ -1,7 +1,6 @@
 #botao_cadastrar{
     float: right;
-    margin-top: 15px;
-    margin-right: 15px;
+    margin-top: 10px;
     width: 100%;
 }
 
@@ -13,6 +12,8 @@
     background-color: #0073e6;
     transition: background-color 0.3s;
     float: right;
+    margin-right: 10px;
+    margin-bottom: 20px;
 }
 
 #cadastrar:hover{
@@ -24,26 +25,16 @@
     color: #fff;
 }
 
-#listagem{
-    margin-top: 20px;
-    text-align: center;
-    
-}
-
 th, th{
     padding: 10px 15px;
 }
 
-#id_thead{
-    font-weight: bold;
-    background-color:  #c7c4c4b0;
-    height: 20px;
-    width: 80%;
-    margin: 0 auto;
-    
+#aeronavesTable{
+    width: 100%;
 }
 
-#id_thead td{
-    /* padding: 10px; */
-    border-collapse: collapse;
+#listagem{
+    margin-top: 20px;
+    text-align: center;
+    
 }

@@ -1,7 +1,7 @@
 #botao_cadastrar{
     float: right;
-    margin-top: 15px;
-    margin-right: 15px;
+    margin-top: 10px;
+    width: 100%;
 }
 
 #cadastrar{
@@ -11,6 +11,9 @@
     border: none;
     background-color: #0073e6;
     transition: background-color 0.3s;
+    float: right;
+    margin-right: 10px;
+    margin-bottom: 20px;
 }
 
 #cadastrar:hover{
@@ -20,4 +23,12 @@
 #cadastrar a{
     text-decoration: none;
     color: #fff;
+}
+
+th, th{
+    padding: 10px 15px;
+}
+
+#aeronavesTable{
+    width: 100%;
 }
