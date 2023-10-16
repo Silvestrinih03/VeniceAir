@@ -4,10 +4,12 @@ import dotenv from "dotenv";
 
 import cors from "cors";
 
-const app = express();
+//const app = express();
+export const cidadeRouter = express.Router();
+
 const port = 3000;
-app.use(express.json());
-app.use(cors());
+cidadeRouter.use(express.json());
+cidadeRouter.use(cors());
 
 
 dotenv.config();
@@ -17,15 +19,15 @@ type CustomResponse = {
   payload: any
 };
 
-app.get("/listarCidades", async(req,res)=>{
+cidadeRouter.get("/listarCidades", async(req,res)=>{
 
   let cr: CustomResponse = {status: "ERROR", message: "", payload: undefined,};
 
   try{
     const connAttibs: ConnectionAttributes = {
       user: process.env.ORACLE_DB_USER,
-      password: process.env.ORACLE_DB_PASSWORD,
-      connectionString: process.env.ORACLE_CONN_STR,
+      password: process.env.ORACLE_DB_SECRET,
+      connectionString: process.env.ORACLE_DB_CONN_STR,
     }
     const connection = await oracledb.getConnection(connAttibs);
     let resultadoConsulta = await connection.execute("SELECT * FROM CIDADES");
@@ -48,9 +50,9 @@ app.get("/listarCidades", async(req,res)=>{
 
 });
 
-app.put("/inserirCidade", async(req,res)=>{
+cidadeRouter.put("/inserirCidade", async(req,res)=>{
   
-  const nome = req.body.origem as string;
+  const nome = req.body.nome as string;
   
   let cr: CustomResponse = {
     status: "ERROR",
@@ -63,8 +65,8 @@ app.put("/inserirCidade", async(req,res)=>{
   try{
     conn = await oracledb.getConnection({
        user: process.env.ORACLE_DB_USER,
-       password: process.env.ORACLE_DB_PASSWORD,
-       connectionString: process.env.ORACLE_CONN_STR,
+       password: process.env.ORACLE_DB_SECRET,
+       connectionString: process.env.ORACLE_DB_CONN_STR,
     });
 
     const cmdInsertCidade = 'INSERT INTO CIDADES VALUES (SEQ_CIDADES.NEXTVAL, :1)';
@@ -94,7 +96,7 @@ app.put("/inserirCidade", async(req,res)=>{
   }
 });
 
-app.delete("/excluirCidade", async(req,res)=>{
+cidadeRouter.delete("/excluirCidade", async(req,res)=>{
   const codigo = req.body.codigo as number;
  
   let cr: CustomResponse = {
@@ -105,9 +107,9 @@ app.delete("/excluirCidade", async(req,res)=>{
 
   try{
     const connection = await oracledb.getConnection({
-       user: process.env.ORACLE_DB_USER,
-       password: process.env.ORACLE_DB_PASSWORD,
-       connectionString: process.env.ORACLE_CONN_STR,
+      user: process.env.ORACLE_DB_USER,
+      password: process.env.ORACLE_DB_SECRET,
+      connectionString: process.env.ORACLE_DB_CONN_STR,
     });
 
     const cmdDeleteCidade = `DELETE CIDADES WHERE ID_CIDADE = :1`
@@ -134,8 +136,4 @@ app.delete("/excluirCidade", async(req,res)=>{
   } finally {
     res.send(cr);  
   }
-});
-
-app.listen(port,()=>{
-  console.log("Servidor HTTP funcionando...");
 });

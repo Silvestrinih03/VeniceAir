@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "npx tsc && node build/voos.js && node build/trechos.js && node build/aeroportos.js && node build/aeronaves.js",
+    "env": "npm init && npm i express cors dotenv helmet morgan express-async-errors && npm i -D typescript ts-node @types/express @types/cors @types/helmet @types/dotenv @types/morgan",
+    "build": "npx tsc",
+    "startnat": "node ./build/server.js",
+    "start": "npx tsc && node build/voos.js && node build/trechos.js && node build/aeroportos.js && node build/aeronaves.js && node build/cidades.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -22,5 +25,6 @@
     "@types/node": "^20.8.5",
     "@types/oracledb": "^6.0.1",
     "typescript": "^5.2.2"
-  }
+  },
+  "description": ""
 }
