@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>VeniceAir - Cidades</title>
+    <link rel="stylesheet" href="../../../Geral/assets/css/header_page.css"/>
+    <link rel="stylesheet" href="../../assets/css/cadastrarAeronaves.css"/>
+  </head>
+  <body>
+    <!-- Cabeçalho da páginaa -->
+    <div id="header_page">
+      <div id="img_logo">
+        <img src="../../../Geral/assets/images/logo.png">
+      </div>
+      <div id="title_page">
+          <h1>VeniceAir <br> Cadastro de Cidades</h1>
+      </div>
+      <div id="button_padrao">
+          <button id="padrao_button"><a href="../cidades.html">Voltar</a></button>
+      </div>
+    </div>
+    <!-- Formulário de cadastro -->
+    <div class="container">
+      <p>Preencha todos os campos para cadastrar uma cidade.</p>
+        <label for="nomeCidade">Nome da cidade:</label>
+        <input type="text" id="nomeCidade" name="nomeCidade"/>
+
+        <button type="submit" id="btnCadastrar" name="btnCadastrar">Cadastrar</button>
+        <button type="reset">Limpar</button>
+      </form>
+      <p id="status" class="statusError"></p>
+    </div>
+  </body>
+</html>
