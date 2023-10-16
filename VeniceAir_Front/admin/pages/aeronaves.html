@@ -1,62 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VeniceAir Aeronaves</title>
-    <link href="../../Geral/assets/css/header_page.css" rel="stylesheet"/>
-    <link href="../assets/css/aeronaves.css" rel="stylesheet"/>
-</head>
-<body>
-    <script src="../../../VeniceAir_Back/src/aeronaves.ts"></script>
-    <div id="header_page">
-        <div id="img_logo">
-            <img src="../../Geral/assets/images/logo.png"> 
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>VeniceAir Aeronaves</title>
+        <link href="../../Geral/assets/css/header_page.css" rel="stylesheet"/>
+        <link href="../assets/css/aeronaves.css" rel="stylesheet"/>
+    </head>
+    <body>
+        <script src="../../../VeniceAir_Back/src/aeronaves.ts"></script>
+        <div id="header_page">
+            <div id="img_logo">
+                <img src="../../Geral/assets/images/logo.png"> 
+            </div>
+            <div id="title_page">
+                <h1>VeniceAir Aeronaves</h1>
+            </div>
+            <div id="button_padrao">
+                <button id="padrao_button"><a href="area_admin.html">Voltar</a></button>
+            </div>
         </div>
-        <div id="title_page">
-            <h1>VeniceAir Aeronaves</h1>
+        <div id="botao_cadastrar">
+            <button id="cadastrar"><a href="cadastrarAeronaves.html">Cadastrar Aeronave</a></button>
         </div>
-        <div id="button_padrao">
-            <button id="padrao_button"><a href="area_admin.html">Voltar</a></button>
-        </div>
-    </div>
-    <div id="botao_cadastrar">
-        <button id="cadastrar"><a href="cadastrarAeronaves.html">Cadastrar Aeronave</a></button>
-    </div>
-    <div>
-        <button onclick="listarAeronaves()">Listar Aeronaves</button>
-        <table id="aeronavesTable">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Fabricante</th>
-                    <th>Modelo</th>
-                    <th>Ano de Fabricação</th>
-                    <th>Número de Assentos</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Linhas da tabela serão adicionadas aqui -->
-            </tbody>
-        </table>
-    </div>
-    <script src="../../../VeniceAir_Back/src/aeronaves.ts"></script>
-    <!-- <div id="listagem">
-        <table>
-            <thead id="id_thead">
-                <tr>
-                    <th>ID</th>
-                    <th>Modelo</th>
-                    <th>Fabricante</th>
-                    <th>Ano de Fabricação</th>
-                    <th>Quantidade de assentos</th> 
-                </tr>
-            </thead>
-            <tbody id="id_tbody"></tbody>
-        </table>
         <div>
-            <button>Novo</button>
+            <button onclick="listarAeronaves()">Listar Aeronaves</button>
+            <table id="aeronavesTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Fabricante</th>
+                        <th>Modelo</th>
+                        <th>Ano de Fabricação</th>
+                        <th>Número de Assentos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Linhas da tabela serão adicionadas aqui -->
+                </tbody>
+            </table>
         </div>
-    </div> -->
-</body>
+        <script src="../../../VeniceAir_Back/src/aeronaves.ts"></script>
+        <!-- <div id="listagem">
+            <table>
+                <thead id="id_thead">
+                    <tr>
+                        <th>ID</th>
+                        <th>Modelo</th>
+                        <th>Fabricante</th>
+                        <th>Ano de Fabricação</th>
+                        <th>Quantidade de assentos</th> 
+                    </tr>
+                </thead>
+                <tbody id="id_tbody"></tbody>
+            </table>
+            <div>
+                <button>Novo</button>
+            </div>
+        </div> -->
+    </body>
 </html>
