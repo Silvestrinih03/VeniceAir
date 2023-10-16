@@ -50,9 +50,9 @@ cidadeRouter.get("/listarCidades", async(req,res)=>{
 
 });
 
-cidadeRouter.put("/inserirCidade", async(req,res)=>{
+cidadeRouter.post("/inserirCidade", async(req,res)=>{
   
-  const nome = req.body.nome as string;
+  const nomeCi = req.body.nome as string;
   
   let cr: CustomResponse = {
     status: "ERROR",
@@ -71,7 +71,7 @@ cidadeRouter.put("/inserirCidade", async(req,res)=>{
 
     const cmdInsertCidade = 'INSERT INTO CIDADES VALUES (SEQ_CIDADES.NEXTVAL, :1)';
 
-    const dados = [nome];
+    const dados = [nomeCi];
     let resInsert = await conn.execute(cmdInsertCidade, dados);
     await conn.commit();
   

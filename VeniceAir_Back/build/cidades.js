@@ -51,8 +51,8 @@ exports.cidadeRouter.get("/listarCidades", (req, res) => __awaiter(void 0, void 
         res.send(cr);
     }
 }));
-exports.cidadeRouter.put("/inserirCidade", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const nome = req.body.nome;
+exports.cidadeRouter.post("/inserirCidade", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const nomeCi = req.body.nome;
     let cr = {
         status: "ERROR",
         message: "",
@@ -66,7 +66,7 @@ exports.cidadeRouter.put("/inserirCidade", (req, res) => __awaiter(void 0, void 
             connectionString: process.env.ORACLE_DB_CONN_STR,
         });
         const cmdInsertCidade = 'INSERT INTO CIDADES VALUES (SEQ_CIDADES.NEXTVAL, :1)';
-        const dados = [nome];
+        const dados = [nomeCi];
         let resInsert = yield conn.execute(cmdInsertCidade, dados);
         yield conn.commit();
         const rowsInserted = resInsert.rowsAffected;

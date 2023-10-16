@@ -12,22 +12,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.aeronaveRouter = void 0;
 const express_1 = __importDefault(require("express"));
 const oracledb_1 = __importDefault(require("oracledb"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
-const app = (0, express_1.default)();
+// const app = express();
+exports.aeronaveRouter = express_1.default.Router();
 const port = 3000; //muda a porta se não for isso
-app.use(express_1.default.json());
-app.use((0, cors_1.default)());
+exports.aeronaveRouter.use(express_1.default.json());
+exports.aeronaveRouter.use((0, cors_1.default)());
 dotenv_1.default.config();
-app.get("/listarAeronaves", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.aeronaveRouter.get("/listarAeronaves", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let cr = { status: "ERROR", message: "", payload: undefined, };
     try {
         const connAttibs = {
             user: process.env.ORACLE_DB_USER,
-            password: process.env.ORACLE_DB_PASSWORD,
-            connectionString: process.env.ORACLE_CONN_STR,
+            password: process.env.ORACLE_DB_SECRET,
+            connectionString: process.env.ORACLE_DB_CONN_STR,
         };
         const connection = yield oracledb_1.default.getConnection(connAttibs);
         let resultadoConsulta = yield connection.execute("SELECT * FROM AERONAVES");
@@ -49,7 +51,7 @@ app.get("/listarAeronaves", (req, res) => __awaiter(void 0, void 0, void 0, func
         res.send(cr);
     }
 }));
-app.put("/inserirAeronave", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.aeronaveRouter.put("/inserirAeronave", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const fabricante = req.body.fabricante;
     const modelo = req.body.modelo;
     const anofab = req.body.anofab;
@@ -63,8 +65,8 @@ app.put("/inserirAeronave", (req, res) => __awaiter(void 0, void 0, void 0, func
     try {
         conn = yield oracledb_1.default.getConnection({
             user: process.env.ORACLE_DB_USER,
-            password: process.env.ORACLE_DB_PASSWORD,
-            connectionString: process.env.ORACLE_CONN_STR,
+            password: process.env.ORACLE_DB_SECRET,
+            connectionString: process.env.ORACLE_DB_CONN_STR,
         });
         const cmdInsertAero = `INSERT INTO AERONAVES 
     (ID_AERONAVE, FABRICANTE, MODELO, ANOFAB, MAPA_ASSENTOS)
@@ -95,7 +97,7 @@ app.put("/inserirAeronave", (req, res) => __awaiter(void 0, void 0, void 0, func
         res.send(cr);
     }
 }));
-app.delete("/excluirAeronave", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.aeronaveRouter.delete("/excluirAeronave", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const codigo = req.body.codigo;
     let cr = {
         status: "ERROR",
@@ -105,8 +107,8 @@ app.delete("/excluirAeronave", (req, res) => __awaiter(void 0, void 0, void 0, f
     try {
         const connection = yield oracledb_1.default.getConnection({
             user: process.env.ORACLE_DB_USER,
-            password: process.env.ORACLE_DB_PASSWORD,
-            connectionString: process.env.ORACLE_CONN_STR,
+            password: process.env.ORACLE_DB_SECRET,
+            connectionString: process.env.ORACLE_DB_CONN_STR,
         });
         const cmdDeleteAero = `DELETE AERONAVES WHERE ID_AERONAVE = :1`;
         const dados = [codigo];
@@ -135,6 +137,3 @@ app.delete("/excluirAeronave", (req, res) => __awaiter(void 0, void 0, void 0, f
         res.send(cr);
     }
 }));
-app.listen(port, () => {
-    console.log("Servidor HTTP funcionando...");
-});

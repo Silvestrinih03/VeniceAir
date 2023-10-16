@@ -1,6 +1,7 @@
 import express from "express";
 import oracledb, { Connection, ConnectionAttributes } from "oracledb";
 import dotenv from "dotenv";
+
 import cors from "cors";
 
 // const app = express();
@@ -10,7 +11,6 @@ aeronaveRouter.use(express.json());
 aeronaveRouter.use(cors());
 
 dotenv.config();
-
 type CustomResponse = {
   status: string,
   message: string,

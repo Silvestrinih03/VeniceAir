@@ -12,22 +12,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.voosRouter = void 0;
 const express_1 = __importDefault(require("express"));
 const oracledb_1 = __importDefault(require("oracledb"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
-const app = (0, express_1.default)();
+// const app = express();
+exports.voosRouter = express_1.default.Router();
 const port = 3000;
-app.use(express_1.default.json());
-app.use((0, cors_1.default)());
+exports.voosRouter.use(express_1.default.json());
+exports.voosRouter.use((0, cors_1.default)());
 dotenv_1.default.config();
-app.get("/listarVoos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.voosRouter.get("/listarVoos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let cr = { status: "ERROR", message: "", payload: undefined, };
     try {
         const connAttibs = {
             user: process.env.ORACLE_DB_USER,
-            password: process.env.ORACLE_DB_PASSWORD,
-            connectionString: process.env.ORACLE_CONN_STR,
+            password: process.env.ORACLE_DB_SECRET,
+            connectionString: process.env.ORACLE_DB_CONN_STR,
         };
         const connection = yield oracledb_1.default.getConnection(connAttibs);
         let resultadoConsulta = yield connection.execute("SELECT * FROM VOOS");
@@ -49,7 +51,7 @@ app.get("/listarVoos", (req, res) => __awaiter(void 0, void 0, void 0, function*
         res.send(cr);
     }
 }));
-app.put("/inserirVoo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.voosRouter.put("/inserirVoo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const voo = req.body.voo;
     const origem = req.body.origem;
     const destino = req.body.destino;
@@ -65,8 +67,8 @@ app.put("/inserirVoo", (req, res) => __awaiter(void 0, void 0, void 0, function*
     try {
         conn = yield oracledb_1.default.getConnection({
             user: process.env.ORACLE_DB_USER,
-            password: process.env.ORACLE_DB_PASSWORD,
-            connectionString: process.env.ORACLE_CONN_STR,
+            password: process.env.ORACLE_DB_SECRET,
+            connectionString: process.env.ORACLE_DB_CONN_STR,
         });
         const cmdInsertVoo = `INSERT INTO VOOS 
     (ID_VOO, VOO, ORIGEM, DESTINO, DIA, HORARIO, VALOR)
@@ -97,7 +99,7 @@ app.put("/inserirVoo", (req, res) => __awaiter(void 0, void 0, void 0, function*
         res.send(cr);
     }
 }));
-app.delete("/excluirVoo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.voosRouter.delete("/excluirVoo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const codigo = req.body.codigo;
     let cr = {
         status: "ERROR",
@@ -107,8 +109,8 @@ app.delete("/excluirVoo", (req, res) => __awaiter(void 0, void 0, void 0, functi
     try {
         const connection = yield oracledb_1.default.getConnection({
             user: process.env.ORACLE_DB_USER,
-            password: process.env.ORACLE_DB_PASSWORD,
-            connectionString: process.env.ORACLE_CONN_STR,
+            password: process.env.ORACLE_DB_SECRET,
+            connectionString: process.env.ORACLE_DB_CONN_STR,
         });
         const cmdDeleteVoo = `DELETE VOO WHERE ID_VOO = :1`;
         const dados = [codigo];
@@ -137,6 +139,3 @@ app.delete("/excluirVoo", (req, res) => __awaiter(void 0, void 0, void 0, functi
         res.send(cr);
     }
 }));
-app.listen(port, () => {
-    console.log("Servidor HTTP funcionando...");
-});

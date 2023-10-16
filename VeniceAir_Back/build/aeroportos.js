@@ -12,22 +12,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.aeroportoRouter = void 0;
 const express_1 = __importDefault(require("express"));
 const oracledb_1 = __importDefault(require("oracledb"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
-const app = (0, express_1.default)();
+// const app = express();
+exports.aeroportoRouter = express_1.default.Router();
 const port = 3000;
-app.use(express_1.default.json());
-app.use((0, cors_1.default)());
+exports.aeroportoRouter.use(express_1.default.json());
+exports.aeroportoRouter.use((0, cors_1.default)());
 dotenv_1.default.config();
-app.get("/listarAeroportos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.aeroportoRouter.get("/listarAeroportos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let cr = { status: "ERROR", message: "", payload: undefined, };
     try {
         const connAttibs = {
             user: process.env.ORACLE_DB_USER,
-            password: process.env.ORACLE_DB_PASSWORD,
-            connectionString: process.env.ORACLE_CONN_STR,
+            password: process.env.ORACLE_DB_SECRET,
+            connectionString: process.env.ORACLE_DB_CONN_STR,
         };
         const connection = yield oracledb_1.default.getConnection(connAttibs);
         let resultadoConsulta = yield connection.execute("SELECT * FROM AEROPORTOS");
@@ -49,7 +51,7 @@ app.get("/listarAeroportos", (req, res) => __awaiter(void 0, void 0, void 0, fun
         res.send(cr);
     }
 }));
-app.put("/inserirAeroporto", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.aeroportoRouter.put("/inserirAeroporto", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const aeroporto = req.body.aeroporto;
     const cidade = req.body.cidade;
     const pais = req.body.pais;
@@ -62,8 +64,8 @@ app.put("/inserirAeroporto", (req, res) => __awaiter(void 0, void 0, void 0, fun
     try {
         conn = yield oracledb_1.default.getConnection({
             user: process.env.ORACLE_DB_USER,
-            password: process.env.ORACLE_DB_PASSWORD,
-            connectionString: process.env.ORACLE_CONN_STR,
+            password: process.env.ORACLE_DB_SECRET,
+            connectionString: process.env.ORACLE_DB_CONN_STR,
         });
         const cmdInsertAeroporto = `INSERT INTO AEROPORTOS 
     (ID_AEROPORTO, NOME, CIDADE, PAIS)
@@ -94,7 +96,7 @@ app.put("/inserirAeroporto", (req, res) => __awaiter(void 0, void 0, void 0, fun
         res.send(cr);
     }
 }));
-app.delete("/excluirAeroporto", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.aeroportoRouter.delete("/excluirAeroporto", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const codigo = req.body.codigo;
     let cr = {
         status: "ERROR",
@@ -104,8 +106,8 @@ app.delete("/excluirAeroporto", (req, res) => __awaiter(void 0, void 0, void 0, 
     try {
         const connection = yield oracledb_1.default.getConnection({
             user: process.env.ORACLE_DB_USER,
-            password: process.env.ORACLE_DB_PASSWORD,
-            connectionString: process.env.ORACLE_CONN_STR,
+            password: process.env.ORACLE_DB_SECRET,
+            connectionString: process.env.ORACLE_DB_CONN_STR,
         });
         const cmdDeleteAeroporto = `DELETE AEROPORTOS WHERE ID_AEROPORTO = :1`;
         const dados = [codigo];
@@ -134,6 +136,3 @@ app.delete("/excluirAeroporto", (req, res) => __awaiter(void 0, void 0, void 0, 
         res.send(cr);
     }
 }));
-app.listen(port, () => {
-    console.log("Servidor HTTP funcionando...");
-});

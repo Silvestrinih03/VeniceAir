@@ -12,22 +12,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.trechosRouter = void 0;
 const express_1 = __importDefault(require("express"));
 const oracledb_1 = __importDefault(require("oracledb"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
-const app = (0, express_1.default)();
+// const app = express();
+exports.trechosRouter = express_1.default.Router();
 const port = 3000;
-app.use(express_1.default.json());
-app.use((0, cors_1.default)());
+exports.trechosRouter.use(express_1.default.json());
+exports.trechosRouter.use((0, cors_1.default)());
 dotenv_1.default.config();
-app.get("/listarTrechos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.trechosRouter.get("/listarTrechos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let cr = { status: "ERROR", message: "", payload: undefined, };
     try {
         const connAttibs = {
             user: process.env.ORACLE_DB_USER,
-            password: process.env.ORACLE_DB_PASSWORD,
-            connectionString: process.env.ORACLE_CONN_STR,
+            password: process.env.ORACLE_DB_SECRET,
+            connectionString: process.env.ORACLE_DB_CONN_STR,
         };
         const connection = yield oracledb_1.default.getConnection(connAttibs);
         let resultadoConsulta = yield connection.execute("SELECT * FROM TRECHOS");
@@ -49,7 +51,7 @@ app.get("/listarTrechos", (req, res) => __awaiter(void 0, void 0, void 0, functi
         res.send(cr);
     }
 }));
-app.put("/inserirTrecho", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.trechosRouter.put("/inserirTrecho", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const origem = req.body.origem;
     const destino = req.body.destino;
     let cr = {
@@ -61,8 +63,8 @@ app.put("/inserirTrecho", (req, res) => __awaiter(void 0, void 0, void 0, functi
     try {
         conn = yield oracledb_1.default.getConnection({
             user: process.env.ORACLE_DB_USER,
-            password: process.env.ORACLE_DB_PASSWORD,
-            connectionString: process.env.ORACLE_CONN_STR,
+            password: process.env.ORACLE_DB_SECRET,
+            connectionString: process.env.ORACLE_DB_CONN_STR,
         });
         const cmdInsertTrecho = `INSERT INTO TRECHOS 
     (ID_TRECHO, ORIGEM, DESTINO)
@@ -93,7 +95,7 @@ app.put("/inserirTrecho", (req, res) => __awaiter(void 0, void 0, void 0, functi
         res.send(cr);
     }
 }));
-app.delete("/excluirTrecho", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.trechosRouter.delete("/excluirTrecho", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const codigo = req.body.codigo;
     let cr = {
         status: "ERROR",
@@ -103,8 +105,8 @@ app.delete("/excluirTrecho", (req, res) => __awaiter(void 0, void 0, void 0, fun
     try {
         const connection = yield oracledb_1.default.getConnection({
             user: process.env.ORACLE_DB_USER,
-            password: process.env.ORACLE_DB_PASSWORD,
-            connectionString: process.env.ORACLE_CONN_STR,
+            password: process.env.ORACLE_DB_SECRET,
+            connectionString: process.env.ORACLE_DB_CONN_STR,
         });
         const cmdDeleteTrecho = `DELETE TRECHO WHERE ID_TRECHO = :1`;
         const dados = [codigo];
@@ -133,6 +135,3 @@ app.delete("/excluirTrecho", (req, res) => __awaiter(void 0, void 0, void 0, fun
         res.send(cr);
     }
 }));
-app.listen(port, () => {
-    console.log("Servidor HTTP funcionando...");
-});
