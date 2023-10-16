@@ -12,18 +12,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.aeronaveRouter = void 0;
+exports.aeronavesRouter = void 0;
 const express_1 = __importDefault(require("express"));
 const oracledb_1 = __importDefault(require("oracledb"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
 // const app = express();
-exports.aeronaveRouter = express_1.default.Router();
+exports.aeronavesRouter = express_1.default.Router();
 const port = 3000; //muda a porta se não for isso
-exports.aeronaveRouter.use(express_1.default.json());
-exports.aeronaveRouter.use((0, cors_1.default)());
+exports.aeronavesRouter.use(express_1.default.json());
+exports.aeronavesRouter.use((0, cors_1.default)());
 dotenv_1.default.config();
-exports.aeronaveRouter.get("/listarAeronaves", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.aeronavesRouter.get("/listarAeronaves", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let cr = { status: "ERROR", message: "", payload: undefined, };
     try {
         const connAttibs = {
@@ -32,11 +32,11 @@ exports.aeronaveRouter.get("/listarAeronaves", (req, res) => __awaiter(void 0, v
             connectionString: process.env.ORACLE_DB_CONN_STR,
         };
         const connection = yield oracledb_1.default.getConnection(connAttibs);
-        let resultadoConsulta = yield connection.execute("SELECT * FROM AERONAVES");
+        let CONSULTAS = yield connection.execute("SELECT * FROM AERONAVES");
         yield connection.close();
         cr.status = "SUCCESS";
         cr.message = "Dados obtidos";
-        cr.payload = resultadoConsulta.rows;
+        cr.payload = CONSULTAS.rows;
     }
     catch (e) {
         if (e instanceof Error) {
