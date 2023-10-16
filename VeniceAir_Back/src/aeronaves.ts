@@ -70,7 +70,7 @@ app.put("/inserirAeronave", async(req,res)=>{
     });
 
     const cmdInsertAero = `INSERT INTO AERONAVES 
-    (ID_AERONAVE, FABRICANTE, MODELO, ANOFAB, NUM_ASSENTOS)
+    (ID_AERONAVE, FABRICANTE, MODELO, ANOFAB, MAPA_ASSENTOS)
     VALUES
     (SEQ_AERONAVES.NEXTVAL, :1, :2, :3, :4)`
 

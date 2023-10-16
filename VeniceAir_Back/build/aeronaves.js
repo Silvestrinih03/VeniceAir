@@ -67,7 +67,7 @@ app.put("/inserirAeronave", (req, res) => __awaiter(void 0, void 0, void 0, func
             connectionString: process.env.ORACLE_CONN_STR,
         });
         const cmdInsertAero = `INSERT INTO AERONAVES 
-    (ID_AERONAVE, FABRICANTE, MODELO, ANOFAB, NUM_ASSENTOS)
+    (ID_AERONAVE, FABRICANTE, MODELO, ANOFAB, MAPA_ASSENTOS)
     VALUES
     (SEQ_AERONAVES.NEXTVAL, :1, :2, :3, :4)`;
         const dados = [fabricante, modelo, anofab, qtdeAssentos];
