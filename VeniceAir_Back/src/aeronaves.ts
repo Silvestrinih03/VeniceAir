@@ -3,10 +3,11 @@ import oracledb, { Connection, ConnectionAttributes } from "oracledb";
 import dotenv from "dotenv";
 import cors from "cors";
 
-const app = express();
+// const app = express();
+export const aeronaveRouter = express.Router();
 const port = 3000; //muda a porta se não for isso
-app.use(express.json());
-app.use(cors());
+aeronaveRouter.use(express.json());
+aeronaveRouter.use(cors());
 
 dotenv.config();
 
@@ -16,15 +17,15 @@ type CustomResponse = {
   payload: any
 };
 
-app.get("/listarAeronaves", async(req, res)=>{
+aeronaveRouter.get("/listarAeronaves", async(req, res)=>{
 
   let cr: CustomResponse = {status: "ERROR", message: "", payload: undefined,};
 
   try{
     const connAttibs: ConnectionAttributes = {
       user: process.env.ORACLE_DB_USER,
-      password: process.env.ORACLE_DB_PASSWORD,
-      connectionString: process.env.ORACLE_CONN_STR,
+      password: process.env.ORACLE_DB_SECRET,
+      connectionString: process.env.ORACLE_DB_CONN_STR,
     }
     const connection = await oracledb.getConnection(connAttibs);
     let resultadoConsulta = await connection.execute("SELECT * FROM AERONAVES");
@@ -47,7 +48,7 @@ app.get("/listarAeronaves", async(req, res)=>{
 
 });
 
-app.put("/inserirAeronave", async(req,res)=>{
+aeronaveRouter.put("/inserirAeronave", async(req,res)=>{
   
   const fabricante = req.body.fabricante as string;
   const modelo = req.body.modelo as string;
@@ -64,9 +65,9 @@ app.put("/inserirAeronave", async(req,res)=>{
 
   try{
     conn = await oracledb.getConnection({
-       user: process.env.ORACLE_DB_USER,
-       password: process.env.ORACLE_DB_PASSWORD,
-       connectionString: process.env.ORACLE_CONN_STR,
+      user: process.env.ORACLE_DB_USER,
+      password: process.env.ORACLE_DB_SECRET,
+      connectionString: process.env.ORACLE_DB_CONN_STR,
     });
 
     const cmdInsertAero = `INSERT INTO AERONAVES 
@@ -99,7 +100,7 @@ app.put("/inserirAeronave", async(req,res)=>{
   }
 });
 
-app.delete("/excluirAeronave", async(req,res)=>{
+aeronaveRouter.delete("/excluirAeronave", async(req,res)=>{
   const codigo = req.body.codigo as number;
  
     let cr: CustomResponse = {
@@ -110,9 +111,9 @@ app.delete("/excluirAeronave", async(req,res)=>{
 
   try{
     const connection = await oracledb.getConnection({
-       user: process.env.ORACLE_DB_USER,
-       password: process.env.ORACLE_DB_PASSWORD,
-       connectionString: process.env.ORACLE_CONN_STR,
+      user: process.env.ORACLE_DB_USER,
+      password: process.env.ORACLE_DB_SECRET,
+      connectionString: process.env.ORACLE_DB_CONN_STR,
     });
 
     const cmdDeleteAero = `DELETE AERONAVES WHERE ID_AERONAVE = :1`
@@ -140,8 +141,4 @@ app.delete("/excluirAeronave", async(req,res)=>{
   } finally {
     res.send(cr);  
   }
-});
-
-app.listen(port,()=>{
-  console.log("Servidor HTTP funcionando...");
 });

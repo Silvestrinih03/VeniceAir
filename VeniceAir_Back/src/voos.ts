@@ -4,10 +4,11 @@ import dotenv from "dotenv";
 
 import cors from "cors";
 
-const app = express();
+// const app = express();
+export const voosRouter = express.Router();
 const port = 3000;
-app.use(express.json());
-app.use(cors());
+voosRouter.use(express.json());
+voosRouter.use(cors());
 
 
 dotenv.config();
@@ -17,15 +18,15 @@ type CustomResponse = {
   payload: any
 };
 
-app.get("/listarVoos", async(req,res)=>{
+voosRouter.get("/listarVoos", async(req,res)=>{
 
   let cr: CustomResponse = {status: "ERROR", message: "", payload: undefined,};
 
   try{
     const connAttibs: ConnectionAttributes = {
       user: process.env.ORACLE_DB_USER,
-      password: process.env.ORACLE_DB_PASSWORD,
-      connectionString: process.env.ORACLE_CONN_STR,
+      password: process.env.ORACLE_DB_SECRET,
+      connectionString: process.env.ORACLE_DB_CONN_STR,
     }
     const connection = await oracledb.getConnection(connAttibs);
     let resultadoConsulta = await connection.execute("SELECT * FROM VOOS");
@@ -48,7 +49,7 @@ app.get("/listarVoos", async(req,res)=>{
 
 });
 
-app.put("/inserirVoo", async(req,res)=>{
+voosRouter.put("/inserirVoo", async(req,res)=>{
   
   const voo = req.body.voo as string;
   const origem = req.body.origem as string;
@@ -68,9 +69,9 @@ app.put("/inserirVoo", async(req,res)=>{
 
   try{
     conn = await oracledb.getConnection({
-       user: process.env.ORACLE_DB_USER,
-       password: process.env.ORACLE_DB_PASSWORD,
-       connectionString: process.env.ORACLE_CONN_STR,
+      user: process.env.ORACLE_DB_USER,
+      password: process.env.ORACLE_DB_SECRET,
+      connectionString: process.env.ORACLE_DB_CONN_STR,
     });
 
     const cmdInsertVoo = `INSERT INTO VOOS 
@@ -103,7 +104,7 @@ app.put("/inserirVoo", async(req,res)=>{
   }
 });
 
-app.delete("/excluirVoo", async(req,res)=>{
+voosRouter.delete("/excluirVoo", async(req,res)=>{
   const codigo = req.body.codigo as number;
  
   let cr: CustomResponse = {
@@ -114,9 +115,9 @@ app.delete("/excluirVoo", async(req,res)=>{
 
   try{
     const connection = await oracledb.getConnection({
-       user: process.env.ORACLE_DB_USER,
-       password: process.env.ORACLE_DB_PASSWORD,
-       connectionString: process.env.ORACLE_CONN_STR,
+      user: process.env.ORACLE_DB_USER,
+      password: process.env.ORACLE_DB_SECRET,
+      connectionString: process.env.ORACLE_DB_CONN_STR,
     });
 
     const cmdDeleteVoo = `DELETE VOO WHERE ID_VOO = :1`
@@ -143,8 +144,4 @@ app.delete("/excluirVoo", async(req,res)=>{
   } finally {
     res.send(cr);  
   }
-});
-
-app.listen(port,()=>{
-  console.log("Servidor HTTP funcionando...");
 });

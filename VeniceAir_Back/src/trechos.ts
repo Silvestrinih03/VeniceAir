@@ -4,10 +4,11 @@ import dotenv from "dotenv";
 
 import cors from "cors";
 
-const app = express();
+// const app = express();
+export const trechosRouter = express.Router();
 const port = 3000;
-app.use(express.json());
-app.use(cors());
+trechosRouter.use(express.json());
+trechosRouter.use(cors());
 
 dotenv.config();
 type CustomResponse = {
@@ -16,15 +17,15 @@ type CustomResponse = {
   payload: any
 };
 
-app.get("/listarTrechos", async(req,res)=>{
+trechosRouter.get("/listarTrechos", async(req,res)=>{
 
   let cr: CustomResponse = {status: "ERROR", message: "", payload: undefined,};
 
   try{
     const connAttibs: ConnectionAttributes = {
       user: process.env.ORACLE_DB_USER,
-      password: process.env.ORACLE_DB_PASSWORD,
-      connectionString: process.env.ORACLE_CONN_STR,
+      password: process.env.ORACLE_DB_SECRET,
+      connectionString: process.env.ORACLE_DB_CONN_STR,
     }
     const connection = await oracledb.getConnection(connAttibs);
     let resultadoConsulta = await connection.execute("SELECT * FROM TRECHOS");
@@ -47,7 +48,7 @@ app.get("/listarTrechos", async(req,res)=>{
 
 });
 
-app.put("/inserirTrecho", async(req,res)=>{
+trechosRouter.put("/inserirTrecho", async(req,res)=>{
   
   const origem = req.body.origem as string;
   const destino = req.body.destino as string;
@@ -62,9 +63,9 @@ app.put("/inserirTrecho", async(req,res)=>{
 
   try{
     conn = await oracledb.getConnection({
-       user: process.env.ORACLE_DB_USER,
-       password: process.env.ORACLE_DB_PASSWORD,
-       connectionString: process.env.ORACLE_CONN_STR,
+      user: process.env.ORACLE_DB_USER,
+      password: process.env.ORACLE_DB_SECRET,
+      connectionString: process.env.ORACLE_DB_CONN_STR,
     });
 
     const cmdInsertTrecho = `INSERT INTO TRECHOS 
@@ -97,7 +98,7 @@ app.put("/inserirTrecho", async(req,res)=>{
   }
 });
 
-app.delete("/excluirTrecho", async(req,res)=>{
+trechosRouter.delete("/excluirTrecho", async(req,res)=>{
   const codigo = req.body.codigo as number;
  
   let cr: CustomResponse = {
@@ -108,9 +109,9 @@ app.delete("/excluirTrecho", async(req,res)=>{
 
   try{
     const connection = await oracledb.getConnection({
-       user: process.env.ORACLE_DB_USER,
-       password: process.env.ORACLE_DB_PASSWORD,
-       connectionString: process.env.ORACLE_CONN_STR,
+      user: process.env.ORACLE_DB_USER,
+      password: process.env.ORACLE_DB_SECRET,
+      connectionString: process.env.ORACLE_DB_CONN_STR,
     });
 
     const cmdDeleteTrecho = `DELETE TRECHO WHERE ID_TRECHO = :1`
@@ -137,8 +138,4 @@ app.delete("/excluirTrecho", async(req,res)=>{
   } finally {
     res.send(cr);  
   }
-});
-
-app.listen(port,()=>{
-  console.log("Servidor HTTP funcionando...");
 });
