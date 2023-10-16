@@ -5,8 +5,146 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="../../../Geral/assets/css/header_page.css">
         <link rel="stylesheet" href="../../assets/css/cadastroVoos.css">
-        <script src="../../../VeniceAir_Back/build/voos.js"></script>
         <title>Cadastro de Voos - VeniceAir</title>
+        <script>
+            function preencheuVoo(){
+                let resultado = false;
+
+                const numero_voo = document.getElementById('numero_voo').value;
+                if(numero_voo.length > 0){
+                    resultado = true;
+                }
+                return resultado;
+            }
+
+            function preencheuOrigem(){
+                let resultado = false;
+
+                const origem = document.getElementById('origem').value;
+                if(origem.length > 0){
+                    resultado = true;
+                }
+                return resultado;
+            }
+
+            function preencheuDestino(){
+                let resultado = false;
+
+                const destino = document.getElementById('destino').value;
+                if(destino.length > 0){
+                    resultado = true;
+                }
+                return resultado;
+            }
+
+            function preencheuData(){
+                let resultado = false;
+
+                const data = document.getElementById('data').value;
+                if(data.length > 0){
+                    resultado = true;
+                }
+                return resultado;
+            }
+
+            function preencheuHorario(){
+                let resultado = false;
+
+                const horario = document.getElementById('horario').value;
+                if(horario.length > 0){
+                    resultado = true;
+                }
+                return resultado;
+            }
+
+            function preencheuValor(){
+                let resultado = false;
+
+                const valor = document.getElementById('valor').value;
+                if(valor.length > 0){
+                    resultado = true;
+                }
+                return resultado;
+            }
+
+
+
+            function MessageStatus(msg, error){
+                var pStatus = document.getElementById("status");
+
+                if(error === true){
+                    pStatus.className = " statusError";
+                }
+                else{
+                    pStatus.className = 'statusSucess'
+                }
+                pStatus.textContent = msg;
+            }
+
+            function fetchInserir(body){
+                const requestOptions = {
+                    method: 'PUT', headers: {'Content-Type' : "application/json"}, body: JSON.stringify(body)
+                };
+
+                return fetch('http://localhost:3000/inserirVoo', requestOptions).then(T => T.json())
+            }
+
+            function inserirVoo(){
+                if(!preencheuVoo()){
+                    MessageStatus("Preencha a identificação do voo!", true);
+                    return
+                }
+                if(!preencheuOrigem()){
+                    MessageStatus("preencha a origem!", true);
+                    return
+                }
+                
+                if(!preencheuDestino()){
+                    MessageStatus("Preencha o destino!", true);
+                    return
+                }
+
+                if(!preencheuData()){
+                    MessageStatus("Preencha a data!", true);
+                    return
+                }
+
+                if(!preencheuHorario()){
+                    MessageStatus("Preencha o horário!", true);
+                    return
+                }
+                if(!preencheuValor()){
+                    MessageStatus("Preencha o valor!", true);
+                    return
+                }
+
+                const Voo = document.getElementById("numero_voo").value;
+                const Origem = document.getElementById("origem").value;
+                const Destino = document.getElementById("data").value;
+                const Horario = document.getElementById("horario").value;
+                const Valor = document.getElementById("valor").value;
+
+                fetchInserir({
+                    Voo: numero_voo,
+                    Origem: origem,
+                    Destino: data,
+                    Horario: horario,
+                    Valor: valor
+                    })
+                    .then(customResponse => {
+                    if(customResponse.status === "SUCCESS"){
+                        MessageStatus("Aeronave cadastrada... ", false);
+                    }else{
+                        MessageStatus("Erro ao cadastrar aeronave...: " + customResponse.message, true);
+                        console.log(customResponse.message);
+                    }
+                    })
+                    .catch((e)=>{
+                        MessageStatus("Erro técnico ao cadastrar... Contate o suporte.", true);
+                        console.log("Falha grave ao cadastrar." + e)
+                    });
+            }
+        </script>
     </head>
     <body>
         <div id="header_page">
@@ -41,7 +179,7 @@
                 <label for="valor">Valor:</label>
                 <input type="text" id="valor" name="valor" required>
                 
-                <button type="submit">Cadastrar</button>
+                <button type="submit" onclick="cadastrarVoo()">Cadastrar</button>
                 <button type="reset">Limpar</button>
             </form>
         </div>
