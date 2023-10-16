@@ -12,18 +12,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.trechosRouter = void 0;
+exports.trechoRouter = void 0;
 const express_1 = __importDefault(require("express"));
 const oracledb_1 = __importDefault(require("oracledb"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
 // const app = express();
-exports.trechosRouter = express_1.default.Router();
+exports.trechoRouter = express_1.default.Router();
 const port = 3000;
-exports.trechosRouter.use(express_1.default.json());
-exports.trechosRouter.use((0, cors_1.default)());
+exports.trechoRouter.use(express_1.default.json());
+exports.trechoRouter.use((0, cors_1.default)());
 dotenv_1.default.config();
-exports.trechosRouter.get("/listarTrechos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.trechoRouter.get("/listarTrechos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let cr = { status: "ERROR", message: "", payload: undefined, };
     try {
         const connAttibs = {
@@ -51,7 +51,7 @@ exports.trechosRouter.get("/listarTrechos", (req, res) => __awaiter(void 0, void
         res.send(cr);
     }
 }));
-exports.trechosRouter.put("/inserirTrecho", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.trechoRouter.put("/inserirTrecho", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const origem = req.body.origem;
     const destino = req.body.destino;
     let cr = {
@@ -95,7 +95,7 @@ exports.trechosRouter.put("/inserirTrecho", (req, res) => __awaiter(void 0, void
         res.send(cr);
     }
 }));
-exports.trechosRouter.delete("/excluirTrecho", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.trechoRouter.delete("/excluirTrecho", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const codigo = req.body.codigo;
     let cr = {
         status: "ERROR",

@@ -24,7 +24,7 @@
                     method: 'GET', headers: {'Content-Type' : "application/json"}, body: JSON.stringify(body)
                 };
 
-                return fetch('http://localhost:3000/listaroAeroportos', requestOptions).then(T => T.json())
+                return fetch('http://localhost:3000/listarAeroportos', requestOptions).then(T => T.json())
             }
 
             function listarAeroportos(){
@@ -39,14 +39,20 @@
                         // Preenche a tabela com os dados da resposta
                         // Editar???
                         customResponse.payload.forEach(item => {
-                            const numero = item[0];
-                            const texto = item[1];
+                            const idaeroporto = item[0];
+                            const nome = item[1];
+                            const cidade = item[2];
+                            const pais = item[3];
 
                             const row = dataBody.insertRow();
                             const cell1 = row.insertCell(0);
                             const cell2 = row.insertCell(1);
-                            cell1.textContent = numero;
-                            cell2.textContent = texto;
+                            const cell3 = row.insertCell(2);
+                            const cell4 = row.insertCell(3);
+                            cell1.textContent = idaeroporto;
+                            cell2.textContent = nome;
+                            cell3.textContent = cidade;
+                            cell4.textContent = pais;
                         });
                     }else{
                         MessageStatus("Erro ao listar aeroportos...: " + customResponse.message, true);

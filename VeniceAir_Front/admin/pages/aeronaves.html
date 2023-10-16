@@ -27,46 +27,36 @@
                     return fetch('http://localhost:3000/listarAeronaves', requestOptions).then(T => T.json())
                 }
     
-                function listarAeronaves(){
-                            const dataBody = document.getElementById('dataBody');
-                    fetchListar()
-                        .then(customResponse => {
-                        if(customResponse.status === "SUCCESS"){
-                            
-                            // Limpa qualquer conteúdo anterior da tabela
-                            dataBody.innerHTML = '';
-    
-                            // Preenche a tabela com os dados da resposta
-                            // Editar???
-                            customResponse.payload.forEach(item => {
-                                const numero = item[0];
-                                const fabricante = item[1];
-                                const modelo = item[2];
-                                const anofabricacao = item[3];
-                                const qtdassentos= item[4];
-    
-                                const row = dataBody.insertRow();
-                                const cell1 = row.insertCell(0);
-                                const cell2 = row.insertCell(1);
-                                const cell3 = row.insertCell(2);
-                                const cell4 = row.insertCell(3);
-                                const cell5 = row.insertCell(4);
-                                cell1.textContent = numero;
-                                cell2.textContent = fabricante;
-                                cell3.textContent = modelo;
-                                cell4.textContent = anofabricacao;
-                                cell5.textContent = qtdassentos;
-                            });
-                        }else{
-                            MessageStatus("Erro ao listar Aeronaves...: " + customResponse.message, true);
-                            console.log(customResponse.message);
-                        }
-                        })
-                        .catch((e)=>{
-                            MessageStatus("Erro técnico ao listar... Contate o suporte.", true);
-                            console.log("Falha grave ao listar." + e)
+                function inserirAeronave(){
+                        const dataBody = document.getElementById('dataBody');
+                fetchListar()
+                    .then(customResponse => {
+                    if(customResponse.status === "SUCCESS"){
+                        
+                        // Limpa qualquer conteúdo anterior da tabela
+                        dataBody.innerHTML = '';
+
+                        // Preenche a tabela com os dados da resposta
+                        customResponse.payload.forEach(item => {
+                            const numero = item[0];
+                            const texto = item[1];
+
+                            const row = dataBody.insertRow();
+                            const cell1 = row.insertCell(0);
+                            const cell2 = row.insertCell(1);
+                            cell1.textContent = numero;
+                            cell2.textContent = texto;
                         });
-                }
+                    }else{
+                        MessageStatus("Erro ao listar Aeronave...: " + customResponse.message, true);
+                        console.log(customResponse.message);
+                    }
+                    })
+                    .catch((e)=>{
+                        MessageStatus("Erro técnico ao listar... Contate o suporte.", true);
+                        console.log("Falha grave ao listar." + e)
+                    });
+            }
                  
                 document.addEventListener("DOMContentLoaded", function() {
                     listarAeronaves();

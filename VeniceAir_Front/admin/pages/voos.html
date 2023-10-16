@@ -24,7 +24,7 @@
                         method: 'GET', headers: {'Content-Type' : "application/json"}, body: JSON.stringify(body)
                     };
     
-                    return fetch('http://localhost:3000/listaroVoos', requestOptions).then(T => T.json())
+                    return fetch('http://localhost:3000/listarVoos', requestOptions).then(T => T.json())
                 }
     
                 function listarVoos(){
@@ -39,14 +39,29 @@
                             // Preenche a tabela com os dados da resposta
                             // Editar???
                             customResponse.payload.forEach(item => {
-                                const numero = item[0];
-                                const texto = item[1];
+                                const idvoo = item[0];
+                                const voo = item[1];
+                                const origem = item[2];
+                                const destino = item[3];
+                                const dia = item[4];
+                                const horario = item[5];
+                                const valor = item[6];
     
                                 const row = dataBody.insertRow();
                                 const cell1 = row.insertCell(0);
                                 const cell2 = row.insertCell(1);
-                                cell1.textContent = numero;
-                                cell2.textContent = texto;
+                                const cell3 = row.insertCell(2);
+                                const cell4 = row.insertCell(3);
+                                const cell5 = row.insertCell(4);
+                                const cell6 = row.insertCell(5);
+                                const cell7 = row.insertCell(6);
+                                cell1.textContent = idvoo;
+                                cell2.textContent = voo;
+                                cell3.textContent = origem;
+                                cell4.textContent = destino;
+                                cell5.textContent = dia;
+                                cell6.textContent = horario;
+                                cell7.textContent = valor;
                             });
                         }else{
                             MessageStatus("Erro ao listar voos...: " + customResponse.message, true);

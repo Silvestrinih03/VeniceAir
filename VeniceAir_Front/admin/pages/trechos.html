@@ -39,14 +39,17 @@
                             // Preenche a tabela com os dados da resposta
                             // Editar???
                             customResponse.payload.forEach(item => {
-                                const numero = item[0];
-                                const texto = item[1];
+                                const idtrecho = item[0];
+                                const origem = item[1];
+                                const destino = item[2];
     
                                 const row = dataBody.insertRow();
                                 const cell1 = row.insertCell(0);
                                 const cell2 = row.insertCell(1);
-                                cell1.textContent = numero;
-                                cell2.textContent = texto;
+                                const cell3 = row.insertCell(2);
+                                cell1.textContent = idtrecho;
+                                cell2.textContent = origem;
+                                cell3.textContent = destino;
                             });
                         }else{
                             MessageStatus("Erro ao listar trechos...: " + customResponse.message, true);
@@ -60,7 +63,7 @@
                 }
                  
                 document.addEventListener("DOMContentLoaded", function() {
-                    listarTrecho();
+                    listarTrechos();
                 });
         </script>
     </head>

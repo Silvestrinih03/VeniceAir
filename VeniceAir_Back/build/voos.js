@@ -12,18 +12,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.voosRouter = void 0;
+exports.vooRouter = void 0;
 const express_1 = __importDefault(require("express"));
 const oracledb_1 = __importDefault(require("oracledb"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
 // const app = express();
-exports.voosRouter = express_1.default.Router();
+exports.vooRouter = express_1.default.Router();
 const port = 3000;
-exports.voosRouter.use(express_1.default.json());
-exports.voosRouter.use((0, cors_1.default)());
+exports.vooRouter.use(express_1.default.json());
+exports.vooRouter.use((0, cors_1.default)());
 dotenv_1.default.config();
-exports.voosRouter.get("/listarVoos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.vooRouter.get("/listarVoos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let cr = { status: "ERROR", message: "", payload: undefined, };
     try {
         const connAttibs = {
@@ -51,7 +51,7 @@ exports.voosRouter.get("/listarVoos", (req, res) => __awaiter(void 0, void 0, vo
         res.send(cr);
     }
 }));
-exports.voosRouter.put("/inserirVoo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.vooRouter.put("/inserirVoo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const voo = req.body.voo;
     const origem = req.body.origem;
     const destino = req.body.destino;
@@ -99,7 +99,7 @@ exports.voosRouter.put("/inserirVoo", (req, res) => __awaiter(void 0, void 0, vo
         res.send(cr);
     }
 }));
-exports.voosRouter.delete("/excluirVoo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.vooRouter.delete("/excluirVoo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const codigo = req.body.codigo;
     let cr = {
         status: "ERROR",

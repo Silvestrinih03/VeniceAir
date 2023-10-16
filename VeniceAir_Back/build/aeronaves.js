@@ -68,12 +68,12 @@ exports.aeronaveRouter.put("/inserirAeronave", (req, res) => __awaiter(void 0, v
             password: process.env.ORACLE_DB_SECRET,
             connectionString: process.env.ORACLE_DB_CONN_STR,
         });
-        const cmdInsertAero = `INSERT INTO AERONAVES 
+        const cmdInsertAeronave = `INSERT INTO AERONAVES 
     (ID_AERONAVE, FABRICANTE, MODELO, ANOFAB, MAPA_ASSENTOS)
     VALUES
     (SEQ_AERONAVES.NEXTVAL, :1, :2, :3, :4)`;
         const dados = [fabricante, modelo, anofab, qtdeAssentos];
-        let resInsert = yield conn.execute(cmdInsertAero, dados);
+        let resInsert = yield conn.execute(cmdInsertAeronave, dados);
         yield conn.commit();
         const rowsInserted = resInsert.rowsAffected;
         if (rowsInserted !== undefined && rowsInserted === 1) {
@@ -110,9 +110,9 @@ exports.aeronaveRouter.delete("/excluirAeronave", (req, res) => __awaiter(void 0
             password: process.env.ORACLE_DB_SECRET,
             connectionString: process.env.ORACLE_DB_CONN_STR,
         });
-        const cmdDeleteAero = `DELETE AERONAVES WHERE ID_AERONAVE = :1`;
+        const cmdDeleteAeronave = `DELETE AERONAVES WHERE ID_AERONAVE = :1`;
         const dados = [codigo];
-        let resDelete = yield connection.execute(cmdDeleteAero, dados);
+        let resDelete = yield connection.execute(cmdDeleteAeronave, dados);
         yield connection.commit();
         yield connection.close();
         const rowsDeleted = resDelete.rowsAffected;

@@ -10,15 +10,10 @@ const morgan_1 = __importDefault(require("morgan"));
 const helmet_1 = __importDefault(require("helmet"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const cidades_1 = require("./cidades");
-/*
-import { aeronaveRouter } from './routers/aeronave';
-import { aeroportoRouter } from './routers/aeroporto';
-import { companhiaAereaRouter } from './routers/companhiaAerea';
-import { mapaAssentoRouter } from './routers/mapaAssento';
-import { metodoPagamentoRouter } from './routers/metPagamento';
-import { trechoRouter } from './routers/trecho';
-import { vendaRouter } from './routers/venda';
-import { vooRouter } from './routers/voo';*/
+const aeronaves_1 = require("./aeronaves");
+const aeroportos_1 = require("./aeroportos");
+const trechos_1 = require("./trechos");
+const voos_1 = require("./voos");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use((0, morgan_1.default)('tiny'));
@@ -26,10 +21,9 @@ app.use((0, cors_1.default)());
 app.use((0, helmet_1.default)());
 app.use(express_1.default.json());
 app.use(cidades_1.cidadeRouter);
-/*
-app.use(aeronaveRouter);
-app.use(aeroportoRouter);
-app.use(trechoRouter);
-app.use(vooRouter);*/
+app.use(aeronaves_1.aeronaveRouter);
+app.use(aeroportos_1.aeroportoRouter);
+app.use(trechos_1.trechoRouter);
+app.use(voos_1.vooRouter);
 const PORT = parseInt(`${process.env.PORT || 3000}`);
 app.listen(PORT, () => console.log(`Server is running at ${PORT}.`));
