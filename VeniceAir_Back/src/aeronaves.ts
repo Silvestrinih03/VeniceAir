@@ -70,13 +70,13 @@ aeronaveRouter.put("/inserirAeronave", async(req,res)=>{
       connectionString: process.env.ORACLE_DB_CONN_STR,
     });
 
-    const cmdInsertAero = `INSERT INTO AERONAVES 
+    const cmdInsertAeronave = `INSERT INTO AERONAVES 
     (ID_AERONAVE, FABRICANTE, MODELO, ANOFAB, MAPA_ASSENTOS)
     VALUES
     (SEQ_AERONAVES.NEXTVAL, :1, :2, :3, :4)`
 
     const dados = [fabricante, modelo, anofab, qtdeAssentos];
-    let resInsert = await conn.execute(cmdInsertAero, dados);
+    let resInsert = await conn.execute(cmdInsertAeronave, dados);
     await conn.commit();
   
     const rowsInserted = resInsert.rowsAffected
@@ -116,10 +116,10 @@ aeronaveRouter.delete("/excluirAeronave", async(req,res)=>{
       connectionString: process.env.ORACLE_DB_CONN_STR,
     });
 
-    const cmdDeleteAero = `DELETE AERONAVES WHERE ID_AERONAVE = :1`
+    const cmdDeleteAeronave = `DELETE AERONAVES WHERE ID_AERONAVE = :1`
     const dados = [codigo];
 
-    let resDelete = await connection.execute(cmdDeleteAero, dados);
+    let resDelete = await connection.execute(cmdDeleteAeronave, dados);
     await connection.commit();
     await connection.close();
     
