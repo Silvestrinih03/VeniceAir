@@ -1,0 +1,15 @@
+1º Abrir o arquivo no VS Code
+
+2º Acessar VPN da PUC e abrir banco de dados oracle com o usuário cadastrado no arquivo .env
+    Usuário: bd190923125
+    Senha: Qwdad6
+    Conexão: 172.16.12.14/xe
+
+3º Abrir terminal no caminho "C:\Users\nsgar\OneDrive\Área de Trabalho\VeniceAir\VeniceAir_Back"
+
+4º Rodar o comando "npm run startnat"
+
+5º Abrir no Chrome o arquivo dashboard.html
+    Caminho: C:\Users\nsgar\OneDrive\Área de Trabalho\VeniceAir\VeniceAir_Front\Geral
+
+6º Escolher opção "Admin"
