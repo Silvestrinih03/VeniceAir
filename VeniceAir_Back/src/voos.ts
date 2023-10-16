@@ -5,10 +5,10 @@ import dotenv from "dotenv";
 import cors from "cors";
 
 // const app = express();
-export const voosRouter = express.Router();
+export const vooRouter = express.Router();
 const port = 3000;
-voosRouter.use(express.json());
-voosRouter.use(cors());
+vooRouter.use(express.json());
+vooRouter.use(cors());
 
 
 dotenv.config();
@@ -18,7 +18,7 @@ type CustomResponse = {
   payload: any
 };
 
-voosRouter.get("/listarVoos", async(req,res)=>{
+vooRouter.get("/listarVoos", async(req,res)=>{
 
   let cr: CustomResponse = {status: "ERROR", message: "", payload: undefined,};
 
@@ -49,7 +49,7 @@ voosRouter.get("/listarVoos", async(req,res)=>{
 
 });
 
-voosRouter.put("/inserirVoo", async(req,res)=>{
+vooRouter.put("/inserirVoo", async(req,res)=>{
   
   const voo = req.body.voo as string;
   const origem = req.body.origem as string;
@@ -104,7 +104,7 @@ voosRouter.put("/inserirVoo", async(req,res)=>{
   }
 });
 
-voosRouter.delete("/excluirVoo", async(req,res)=>{
+vooRouter.delete("/excluirVoo", async(req,res)=>{
   const codigo = req.body.codigo as number;
  
   let cr: CustomResponse = {

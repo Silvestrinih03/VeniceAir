@@ -6,15 +6,11 @@ import helmet from 'helmet';
 import dotenv from 'dotenv';
 
 import { cidadeRouter } from './cidades';
-/*
-import { aeronaveRouter } from './routers/aeronave';
-import { aeroportoRouter } from './routers/aeroporto';
-import { companhiaAereaRouter } from './routers/companhiaAerea';
-import { mapaAssentoRouter } from './routers/mapaAssento';
-import { metodoPagamentoRouter } from './routers/metPagamento';
-import { trechoRouter } from './routers/trecho';
-import { vendaRouter } from './routers/venda';
-import { vooRouter } from './routers/voo';*/
+import { aeronaveRouter } from './aeronaves';
+import { aeroportoRouter } from './aeroportos';
+import { trechoRouter } from './trechos';
+import { vooRouter } from './voos';
+
 
 dotenv.config();
 
@@ -25,11 +21,10 @@ app.use(cors());
 app.use(helmet());
 app.use(express.json());
 app.use(cidadeRouter);
-/*
 app.use(aeronaveRouter);
 app.use(aeroportoRouter);
 app.use(trechoRouter);
-app.use(vooRouter);*/
+app.use(vooRouter);
 
 const PORT = parseInt(`${process.env.PORT || 3000}`);
 app.listen(PORT, () => console.log(`Server is running at ${PORT}.`));

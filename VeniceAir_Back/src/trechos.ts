@@ -5,10 +5,10 @@ import dotenv from "dotenv";
 import cors from "cors";
 
 // const app = express();
-export const trechosRouter = express.Router();
+export const trechoRouter = express.Router();
 const port = 3000;
-trechosRouter.use(express.json());
-trechosRouter.use(cors());
+trechoRouter.use(express.json());
+trechoRouter.use(cors());
 
 dotenv.config();
 type CustomResponse = {
@@ -17,7 +17,7 @@ type CustomResponse = {
   payload: any
 };
 
-trechosRouter.get("/listarTrechos", async(req,res)=>{
+trechoRouter.get("/listarTrechos", async(req,res)=>{
 
   let cr: CustomResponse = {status: "ERROR", message: "", payload: undefined,};
 
@@ -48,7 +48,7 @@ trechosRouter.get("/listarTrechos", async(req,res)=>{
 
 });
 
-trechosRouter.put("/inserirTrecho", async(req,res)=>{
+trechoRouter.put("/inserirTrecho", async(req,res)=>{
   
   const origem = req.body.origem as string;
   const destino = req.body.destino as string;
@@ -98,7 +98,7 @@ trechosRouter.put("/inserirTrecho", async(req,res)=>{
   }
 });
 
-trechosRouter.delete("/excluirTrecho", async(req,res)=>{
+trechoRouter.delete("/excluirTrecho", async(req,res)=>{
   const codigo = req.body.codigo as number;
  
   let cr: CustomResponse = {
