@@ -6,7 +6,7 @@ import helmet from 'helmet';
 import dotenv from 'dotenv';
 
 import { cidadeRouter } from './cidades';
-import { aeronavesRouter } from './aeronaves';
+import { aeronaveRouter } from './aeronaves';
 import { aeroportoRouter } from './aeroportos';
 import { trechoRouter } from './trechos';
 import { vooRouter } from './voos';
@@ -21,7 +21,7 @@ app.use(cors());
 app.use(helmet());
 app.use(express.json());
 app.use(cidadeRouter);
-app.use(aeronavesRouter);
+app.use(aeronaveRouter);
 app.use(aeroportoRouter);
 app.use(trechoRouter);
 app.use(vooRouter);

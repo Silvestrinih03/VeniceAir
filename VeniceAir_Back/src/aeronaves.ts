@@ -5,10 +5,10 @@ import dotenv from "dotenv";
 import cors from "cors";
 
 // const app = express();
-export const aeronavesRouter = express.Router();
+export const aeronaveRouter = express.Router();
 const port = 3000; //muda a porta se não for isso
-aeronavesRouter.use(express.json());
-aeronavesRouter.use(cors());
+aeronaveRouter.use(express.json());
+aeronaveRouter.use(cors());
 
 dotenv.config();
 type CustomResponse = {
@@ -17,7 +17,7 @@ type CustomResponse = {
   payload: any
 };
 
-aeronavesRouter.get("/listarAeronaves", async(req,res)=>{
+aeronaveRouter.get("/listarAeronaves", async(req,res)=>{
 
   let cr: CustomResponse = {status: "ERROR", message: "", payload: undefined,};
 
@@ -48,7 +48,7 @@ aeronavesRouter.get("/listarAeronaves", async(req,res)=>{
 
 });
 
-aeronavesRouter.put("/inserirAeronave", async(req,res)=>{
+aeronaveRouter.put("/inserirAeronave", async(req,res)=>{
   
   const fabricante = req.body.fabricante as string;
   const modelo = req.body.modelo as string;
@@ -100,7 +100,7 @@ aeronavesRouter.put("/inserirAeronave", async(req,res)=>{
   }
 });
 
-aeronavesRouter.delete("/excluirAeronave", async(req,res)=>{
+aeronaveRouter.delete("/excluirAeronave", async(req,res)=>{
   const codigo = req.body.codigo as number;
  
     let cr: CustomResponse = {
