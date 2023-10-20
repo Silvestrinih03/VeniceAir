@@ -27,7 +27,7 @@
                     return fetch('http://localhost:3000/listarAeronaves', requestOptions).then(T => T.json())
                 }
     
-                function listarAeronaves(){
+                function listarAeronave(){
                         const dataBody = document.getElementById('dataBody');
                 fetchListar()
                     .then(customResponse => {
@@ -68,7 +68,7 @@
             }
                  
                 document.addEventListener("DOMContentLoaded", function() {
-                    listarAeronaves();
+                    listarAeronave();
                 });
         </script>
     </head>
