@@ -1,0 +1,36 @@
+body {
+    background-color: #b9cadc;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+#opcoes {
+    margin-top: 150px;
+    display: flex;
+    justify-content: center;
+}
+
+#opcao {
+    width: 150px;
+    height: 150px;
+    background-color: #e3e8ee;
+    color: #1f70b2;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 10px;
+    transition: background-color 0.3s;
+}
+
+#opcao a {
+    text-decoration: none;
+    color: #1f70b2;
+    font-weight: bold;
+}
+
+#opcao:hover {
+    background-color: #007bff;
+}
