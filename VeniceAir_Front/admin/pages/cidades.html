@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VeniceAir Cidades</title>
     <link href="../../Geral/assets/css/header_page.css" rel="stylesheet"/>
-    <link href="../assets/css/aeroportos.css" rel="stylesheet"/>
+    <link href="../assets/css/listagem.css" rel="stylesheet"/>
     <script>
         function MessageStatus(msg, error){
                 var pStatus = document.getElementById("status");
@@ -76,14 +76,15 @@
         </div>
     </div>
     <div id="botao_cadastrar">
-        <button id="cadastrar"><a href="exclusao/excluirCidades.html">Excluir</a></button>
-        <button id="cadastrar"><a href="edicao/editarCidades.html">Editar</a></button>
         <button id="cadastrar"><a href="cadastro/cadastroCidades.html">Cadastrar</a></button>
+        <button id="cadastrar"><a href="edicao/editarCidades.html">Editar</a></button>
+        <button id="cadastrar"><a href="exclusao/excluirCidades.html">Excluir</a></button>
+    </div>
         <table id="dataTable">
             <thead>
                 <tr>
-                    <th>ID Cidade</th>
-                    <th>Nome</th>
+                    <th>ID</th>
+                    <th>NOME</th>
                 </tr>
             </thead>
             <tbody id="dataBody"></tbody>

@@ -1,19 +1,17 @@
 #botao_cadastrar{
-    float: right;
-    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
     width: 100%;
 }
 
 #cadastrar{
+    flex: 1;
     height: 40px;
-    width: 150px;
     border-radius: 12px;
     border: none;
     background-color: #0073e6;
     transition: background-color 0.3s;
-    float: right;
-    margin-right: 10px;
-    margin-bottom: 20px;
+    margin: 10px 10px;
 }
 
 #cadastrar:hover{
@@ -24,10 +22,22 @@
     text-decoration: none;
     color: #fff;
 }
-th, th{
-    padding: 10px 15px;
+
+#dataTable{
+    width: 100%;
 }
 
-#aeronavesTable{
-    width: 100%;
+#dataBody{
+    text-align: center;
+}
+
+/* table{
+    background-color: pink;
+} */
+
+tr, th{
+    padding: 10px 15px;
+    background-color: #0073e669;
+    /*color: #dbd6d6; */
+    /* border:  2px dotted black; */
 }

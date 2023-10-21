@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>VeniceAir Voos</title>
         <link href="../../Geral/assets/css/header_page.css" rel="stylesheet"/>
-        <link href="../assets/css/voos.css" rel="stylesheet"/>
+        <link href="../assets/css/listagem.css" rel="stylesheet"/>
         <script>
             function MessageStatus(msg, error){
                     var pStatus = document.getElementById("status");
@@ -92,20 +92,20 @@
             </div>
         </div>
         <div id="botao_cadastrar">
-            <button id="cadastrar"><a href="exclusao/exlucirVoos.html">Excluir</a></button>
-            <button id="cadastrar"><a href="edicao/editarVoos.html">Editar</a></button>
             <button id="cadastrar"><a href="cadastro/cadastroVoos.html">Cadastrar</a></button>
+            <button id="cadastrar"><a href="edicao/editarVoos.html">Editar</a></button>
+            <button id="cadastrar"><a href="exclusao/exlucirVoos.html">Excluir</a></button>
         </div>
         <table id="dataTable">
             <thead>
                 <tr>
-                    <th>ID Voo</th>
-                    <th>Voo</th>
-                    <th>Origem</th>
-                    <th>Destino</th>
-                    <th>Data</th>
-                    <th>Horário</th>
-                    <th>Valor</th>
+                    <th>ID</th>
+                    <th>NÚMERO DE IDENTIFICAÇÃO</th>
+                    <th>ORIGEM</th>
+                    <th>DESTINO</th>
+                    <th>DATA</th>
+                    <th>HORÁRIO</th>
+                    <th>VALOR</th>
                 </tr>
             </thead>
             <tbody id="dataBody"></tbody>

@@ -19,12 +19,6 @@ body {
   margin-top: 20px;
 }
 
-
-/* h1 {
-  color: #000000;
-  text-align: center
-} */
-
 form {
   display: flex;
   flex-direction: column;
@@ -52,11 +46,15 @@ button {
   border-radius: 3px;
   cursor: pointer;
   transition: background-color 0.3s;
-  width: 100%;
   margin: 2px;
+  width: 100%;
 }
 
 button:hover {
+  background-color: #005bad;
+}
+
+/* button:hover {
   background-color: #005bad;
 }
 
@@ -68,4 +66,4 @@ button:hover {
 .statusSuccess {
   color: blue;
   margin-top: 10px;
-}
+} */
