@@ -51,7 +51,7 @@ exports.cidadeRouter.get("/listarCidades", (req, res) => __awaiter(void 0, void 
         res.send(cr);
     }
 }));
-exports.cidadeRouter.post("/inserirCidade", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.cidadeRouter.put("/inserirCidades", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const nomeCi = req.body.nome;
     let cr = {
         status: "ERROR",
@@ -92,6 +92,46 @@ exports.cidadeRouter.post("/inserirCidade", (req, res) => __awaiter(void 0, void
     }
 }));
 exports.cidadeRouter.delete("/excluirCidade", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const codigo = req.body.codigo;
+    let cr = {
+        status: "ERROR",
+        message: "",
+        payload: undefined,
+    };
+    try {
+        const connection = yield oracledb_1.default.getConnection({
+            user: process.env.ORACLE_DB_USER,
+            password: process.env.ORACLE_DB_SECRET,
+            connectionString: process.env.ORACLE_DB_CONN_STR,
+        });
+        const cmdDeleteCidade = `DELETE CIDADES WHERE ID_CIDADE = :1`;
+        const dados = [codigo];
+        let resDelete = yield connection.execute(cmdDeleteCidade, dados);
+        yield connection.commit();
+        yield connection.close();
+        const rowsDeleted = resDelete.rowsAffected;
+        if (rowsDeleted !== undefined && rowsDeleted === 1) {
+            cr.status = "SUCCESS";
+            cr.message = "Cidade excluída.";
+        }
+        else {
+            cr.message = "Cidade não excluída. Verifique se o código informado está correto.";
+        }
+    }
+    catch (e) {
+        if (e instanceof Error) {
+            cr.message = e.message;
+            console.log(e.message);
+        }
+        else {
+            cr.message = "Erro ao conectar ao oracle. Sem detalhes";
+        }
+    }
+    finally {
+        res.send(cr);
+    }
+}));
+exports.cidadeRouter.get("/excluirCidades", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const codigo = req.body.codigo;
     let cr = {
         status: "ERROR",

@@ -48,7 +48,7 @@ aeronaveRouter.get("/listarAeronaves", async(req,res)=>{
 
 });
 
-aeronaveRouter.put("/inserirAeronave", async(req,res)=>{
+aeronaveRouter.put("/inserirAeronaves", async(req,res)=>{
   
   const fabricante = req.body.fabricante as string;
   const modelo = req.body.modelo as string;
@@ -70,10 +70,7 @@ aeronaveRouter.put("/inserirAeronave", async(req,res)=>{
       connectionString: process.env.ORACLE_DB_CONN_STR,
     });
 
-    const cmdInsertAeronave = `INSERT INTO AERONAVES 
-    (ID_AERONAVE, FABRICANTE, MODELO, ANOFAB, MAPA_ASSENTOS)
-    VALUES
-    (SEQ_AERONAVES.NEXTVAL, :1, :2, :3, :4)`
+    const cmdInsertAeronave = 'INSERT INTO AERONAVES (ID_AERONAVE, FABRICANTE, MODELO, ANOFAB, MAPA_ASSENTOS) VALUES (SEQ_AERONAVES.NEXTVAL, :1, :2, :3, :4)';
 
     const dados = [fabricante, modelo, anofab, qtdeAssentos];
     let resInsert = await conn.execute(cmdInsertAeronave, dados);

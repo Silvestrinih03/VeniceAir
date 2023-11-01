@@ -50,7 +50,7 @@ cidadeRouter.get("/listarCidades", async(req,res)=>{
 
 });
 
-cidadeRouter.post("/inserirCidade", async(req,res)=>{
+cidadeRouter.put("/inserirCidades", async(req,res)=>{
   
   const nomeCi = req.body.nome as string;
   

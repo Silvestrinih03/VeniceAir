@@ -4,6 +4,70 @@
     <title>VeniceAir - Cidades</title>
     <link rel="stylesheet" href="../../../Geral/assets/css/header_page.css"/>
     <link rel="stylesheet" href="../../assets/css/tela_cadastro.css"/>
+
+    <script>
+      function preencheuID(){
+          let resultado = false;
+
+          const IDSelecionado = document.getElementById('IDCidade').value;
+          if(IDSelecionado.length > 0){
+              resultado = true;
+          }
+          return resultado;
+      }
+      function preencheuNomeCidade(){
+          let resultado = false;
+
+          const NomeSelecionado = document.getElementById('nomeCidade').value;
+          if(NomeSelecionado.length > 0){
+              resultado = true;
+          }
+          return resultado;
+      }
+      function MessageStatus(msg, error){
+          var pStatus = document.getElementById("status");
+
+          if(error === true){
+              pStatus.className = " statusError";
+          }
+          else{
+              pStatus.className = 'statusSucess'
+          }
+          pStatus.textContent = msg;
+      }
+      function fetchInserir(body){
+          const requestOptions = {
+              method: 'POST', headers: {'Content-Type' : "application/json"}, body: JSON.stringify(body)
+          };
+
+          return fetch('http://localhost:3000/inserirCidade', requestOptions).then(T => T.json())
+      }
+      function inserirCidade(){
+          if(!preencheuNomeCidade()){
+              MessageStatus("Preencha o nome da cidade!", true);
+              return
+          }
+          const nomeCidade = document.getElementById("nomeCidade").value;
+          console.log(nomeCidade);
+          
+          fetchInserir({ 
+              nomeCidade: nomeCidade
+              })
+              .then(customResponse => {
+              if(customResponse.status === "SUCCESS"){
+                  MessageStatus("Cidade cadastrada... ", false);
+              }else{
+                  MessageStatus("Erro ao cadastrar cidade...: " + customResponse.message, true);
+                  console.log(customResponse.message);
+              }
+              })
+              .catch((e)=>{
+                  MessageStatus("Erro técnico ao cadastrar... Contate o suporte.", true);
+                  console.log("Falha grave ao cadastrar." + e)
+              });
+      }
+  </script>
+
   </head>
   <body>
     <!-- Cabeçalho da páginaa -->
