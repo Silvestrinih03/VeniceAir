@@ -40,12 +40,13 @@
                             // Editar???
                             customResponse.payload.forEach(item => {
                                 const idvoo = item[0];
-                                const voo = item[1];
-                                const origem = item[2];
-                                const destino = item[3];
-                                const dia = item[4];
-                                const horario = item[5];
-                                const valor = item[6];
+                                const trecho = item[1];
+                                const data = item[2];
+                                const hora_partida = item[3];
+                                const hora_chegada = item[4];
+                                const aeroporto_partida = item[5];
+                                const aeroporto_chegada = item[6];
+                                const valor = item[7];
     
                                 const row = dataBody.insertRow();
                                 const cell1 = row.insertCell(0);
@@ -55,13 +56,15 @@
                                 const cell5 = row.insertCell(4);
                                 const cell6 = row.insertCell(5);
                                 const cell7 = row.insertCell(6);
+                                const cell8 = row.insertCell(7);
                                 cell1.textContent = idvoo;
-                                cell2.textContent = voo;
-                                cell3.textContent = origem;
-                                cell4.textContent = destino;
-                                cell5.textContent = dia;
-                                cell6.textContent = horario;
-                                cell7.textContent = valor;
+                                cell2.textContent = trecho;
+                                cell3.textContent = data;
+                                cell4.textContent = hora_partida;
+                                cell5.textContent = hora_chegada;
+                                cell6.textContent = aeroporto_partida;
+                                cell7.textContent = aeroporto_chegada;
+                                cell8.textContent = valor;
                             });
                         }else{
                             MessageStatus("Erro ao listar voos...: " + customResponse.message, true);
@@ -105,7 +108,6 @@
                     <th>DATA</th>
                     <th>HORA PARTIDA</th>
                     <th>HORA CHEGADA</th>
-                    <th>TOTAL DE HORAS</th>
                     <th>AEROPORTO DE PARTIDA</th>
                     <th>AEROPORTO DE CHEGADA</th>
                     <th>VALOR</th>
