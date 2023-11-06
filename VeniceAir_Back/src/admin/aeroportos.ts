@@ -5,10 +5,11 @@ import dotenv from "dotenv";
 import cors from "cors";
 
 // const app = express();
-export const aeronaveRouter = express.Router();
-const port = 3000; //muda a porta se não for isso
-aeronaveRouter.use(express.json());
-aeronaveRouter.use(cors());
+export const aeroportoRouter = express.Router();
+const port = 3000;
+aeroportoRouter.use(express.json());
+aeroportoRouter.use(cors());
+
 
 dotenv.config();
 type CustomResponse = {
@@ -17,7 +18,7 @@ type CustomResponse = {
   payload: any
 };
 
-aeronaveRouter.get("/listarAeronaves", async(req,res)=>{
+aeroportoRouter.get("/listarAeroportos", async(req,res)=>{
 
   let cr: CustomResponse = {status: "ERROR", message: "", payload: undefined,};
 
@@ -28,7 +29,7 @@ aeronaveRouter.get("/listarAeronaves", async(req,res)=>{
       connectionString: process.env.ORACLE_DB_CONN_STR,
     }
     const connection = await oracledb.getConnection(connAttibs);
-    let resultadoConsulta = await connection.execute("SELECT * FROM AERONAVES");
+    let resultadoConsulta = await connection.execute("SELECT * FROM AEROPORTOS");
   
     await connection.close();
     cr.status = "SUCCESS"; 
@@ -48,13 +49,13 @@ aeronaveRouter.get("/listarAeronaves", async(req,res)=>{
 
 });
 
-aeronaveRouter.put("/inserirAeronaves", async(req,res)=>{
+aeroportoRouter.put("/inserirAeroporto", async(req,res)=>{
   
-  const fabricante = req.body.fabricante as string;
-  const modelo = req.body.modelo as string;
-  const anofab = req.body.anofab as number;
-  const qtdeAssentos = req.body.qtdeAssentos as number;
+  const aeroporto = req.body.aeroporto as string;
+  const cidade = req.body.cidade as string;
+  // const pais = req.body.pais as string;
 
+  
   let cr: CustomResponse = {
     status: "ERROR",
     message: "",
@@ -70,16 +71,19 @@ aeronaveRouter.put("/inserirAeronaves", async(req,res)=>{
       connectionString: process.env.ORACLE_DB_CONN_STR,
     });
 
-    const cmdInsertAeronave = 'INSERT INTO AERONAVES (ID_AERONAVE, FABRICANTE, MODELO, ANOFAB, MAPA_ASSENTOS) VALUES (SEQ_AERONAVES.NEXTVAL, :1, :2, :3, :4)';
+    const cmdInsertAeroporto = `INSERT INTO AEROPORTOS 
+    (ID_AEROPORTO, NOME, CIDADE)
+    VALUES
+    (SEQ_AEROPORTOS.NEXTVAL, :1, :2)`
 
-    const dados = [fabricante, modelo, anofab, qtdeAssentos];
-    let resInsert = await conn.execute(cmdInsertAeronave, dados);
+    const dados = [aeroporto, cidade];
+    let resInsert = await conn.execute(cmdInsertAeroporto, dados);
     await conn.commit();
   
     const rowsInserted = resInsert.rowsAffected
     if(rowsInserted !== undefined &&  rowsInserted === 1) {
       cr.status = "SUCCESS"; 
-      cr.message = "Aeronave inserida.";
+      cr.message = "Aeroporto inserido.";
     }
 
   }catch(e){
@@ -97,10 +101,10 @@ aeronaveRouter.put("/inserirAeronaves", async(req,res)=>{
   }
 });
 
-aeronaveRouter.delete("/excluirAeronave", async(req,res)=>{
+aeroportoRouter.delete("/excluirAeroporto", async(req,res)=>{
   const codigo = req.body.codigo as number;
  
-    let cr: CustomResponse = {
+  let cr: CustomResponse = {
     status: "ERROR",
     message: "",
     payload: undefined,
@@ -113,19 +117,18 @@ aeronaveRouter.delete("/excluirAeronave", async(req,res)=>{
       connectionString: process.env.ORACLE_DB_CONN_STR,
     });
 
-    const cmdDeleteAeronave = `DELETE AERONAVES WHERE ID_AERONAVE = :1`
+    const cmdDeleteAeroporto = `DELETE AEROPORTOS WHERE ID_AEROPORTO = :1`
     const dados = [codigo];
-
-    let resDelete = await connection.execute(cmdDeleteAeronave, dados);
+    let resDelete = await connection.execute(cmdDeleteAeroporto, dados);
     await connection.commit();
     await connection.close();
-    
+
     const rowsDeleted = resDelete.rowsAffected
     if(rowsDeleted !== undefined &&  rowsDeleted === 1) {
       cr.status = "SUCCESS"; 
-      cr.message = "Aeronave excluída.";
+      cr.message = "Aeroporto excluído.";
     }else{
-      cr.message = "Aeronave não excluída. Verifique se o código informado está correto.";
+      cr.message = "Aeroporto não excluído. Verifique se o código informado está correto.";
     }
 
   }catch(e){

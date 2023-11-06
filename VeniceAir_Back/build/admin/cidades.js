@@ -12,18 +12,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.aeroportoRouter = void 0;
+exports.cidadeRouter = void 0;
 const express_1 = __importDefault(require("express"));
 const oracledb_1 = __importDefault(require("oracledb"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
-// const app = express();
-exports.aeroportoRouter = express_1.default.Router();
+exports.cidadeRouter = express_1.default.Router();
 const port = 3000;
-exports.aeroportoRouter.use(express_1.default.json());
-exports.aeroportoRouter.use((0, cors_1.default)());
+exports.cidadeRouter.use(express_1.default.json());
+exports.cidadeRouter.use((0, cors_1.default)());
 dotenv_1.default.config();
-exports.aeroportoRouter.get("/listarAeroportos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.cidadeRouter.get("/listarCidades", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let cr = { status: "ERROR", message: "", payload: undefined, };
     try {
         const connAttibs = {
@@ -32,7 +31,7 @@ exports.aeroportoRouter.get("/listarAeroportos", (req, res) => __awaiter(void 0,
             connectionString: process.env.ORACLE_DB_CONN_STR,
         };
         const connection = yield oracledb_1.default.getConnection(connAttibs);
-        let resultadoConsulta = yield connection.execute("SELECT * FROM AEROPORTOS");
+        let resultadoConsulta = yield connection.execute("SELECT * FROM CIDADES");
         yield connection.close();
         cr.status = "SUCCESS";
         cr.message = "Dados obtidos";
@@ -51,10 +50,8 @@ exports.aeroportoRouter.get("/listarAeroportos", (req, res) => __awaiter(void 0,
         res.send(cr);
     }
 }));
-exports.aeroportoRouter.put("/inserirAeroporto", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const aeroporto = req.body.aeroporto;
-    const cidade = req.body.cidade;
-    const pais = req.body.pais;
+exports.cidadeRouter.put("/inserirCidades", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const nomeCi = req.body.nome;
     let cr = {
         status: "ERROR",
         message: "",
@@ -67,17 +64,14 @@ exports.aeroportoRouter.put("/inserirAeroporto", (req, res) => __awaiter(void 0,
             password: process.env.ORACLE_DB_SECRET,
             connectionString: process.env.ORACLE_DB_CONN_STR,
         });
-        const cmdInsertAeroporto = `INSERT INTO AEROPORTOS 
-    (ID_AEROPORTO, NOME, CIDADE, PAIS)
-    VALUES
-    (SEQ_AEROPORTOS.NEXTVAL, :1, :2, :3)`;
-        const dados = [aeroporto, cidade, pais];
-        let resInsert = yield conn.execute(cmdInsertAeroporto, dados);
+        const cmdInsertCidade = 'INSERT INTO CIDADES VALUES (SEQ_CIDADES.NEXTVAL, :1)';
+        const dados = [nomeCi];
+        let resInsert = yield conn.execute(cmdInsertCidade, dados);
         yield conn.commit();
         const rowsInserted = resInsert.rowsAffected;
         if (rowsInserted !== undefined && rowsInserted === 1) {
             cr.status = "SUCCESS";
-            cr.message = "Aeroporto inserido.";
+            cr.message = "Cidade inserida.";
         }
     }
     catch (e) {
@@ -96,43 +90,39 @@ exports.aeroportoRouter.put("/inserirAeroporto", (req, res) => __awaiter(void 0,
         res.send(cr);
     }
 }));
-exports.aeroportoRouter.delete("/excluirAeroporto", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const codigo = req.body.codigo;
-    let cr = {
-        status: "ERROR",
-        message: "",
-        payload: undefined,
-    };
-    try {
-        const connection = yield oracledb_1.default.getConnection({
-            user: process.env.ORACLE_DB_USER,
-            password: process.env.ORACLE_DB_SECRET,
-            connectionString: process.env.ORACLE_DB_CONN_STR,
-        });
-        const cmdDeleteAeroporto = `DELETE AEROPORTOS WHERE ID_AEROPORTO = :1`;
-        const dados = [codigo];
-        let resDelete = yield connection.execute(cmdDeleteAeroporto, dados);
-        yield connection.commit();
-        yield connection.close();
-        const rowsDeleted = resDelete.rowsAffected;
-        if (rowsDeleted !== undefined && rowsDeleted === 1) {
-            cr.status = "SUCCESS";
-            cr.message = "Aeroporto excluído.";
-        }
-        else {
-            cr.message = "Aeroporto não excluído. Verifique se o código informado está correto.";
-        }
-    }
-    catch (e) {
-        if (e instanceof Error) {
-            cr.message = e.message;
-            console.log(e.message);
-        }
-        else {
-            cr.message = "Erro ao conectar ao oracle. Sem detalhes";
-        }
-    }
-    finally {
-        res.send(cr);
-    }
-}));
+// cidadeRouter.delete("/excluirCidade", async(req,res)=>{
+//   const codigo = req.body.codigo as number;
+//   let cr: CustomResponse = {
+//     status: "ERROR",
+//     message: "",
+//     payload: undefined,
+//   };
+//   try{
+//     const connection = await oracledb.getConnection({
+//       user: process.env.ORACLE_DB_USER,
+//       password: process.env.ORACLE_DB_SECRET,
+//       connectionString: process.env.ORACLE_DB_CONN_STR,
+//     });
+//     const cmdDeleteCidade = `DELETE CIDADES WHERE ID_CIDADE = :1`
+//     const dados = [codigo];
+//     let resDelete = await connection.execute(cmdDeleteCidade, dados);
+//     await connection.commit();
+//     await connection.close();
+//     const rowsDeleted = resDelete.rowsAffected
+//     if(rowsDeleted !== undefined &&  rowsDeleted === 1) {
+//       cr.status = "SUCCESS"; 
+//       cr.message = "Cidade excluída.";
+//     }else{
+//       cr.message = "Cidade não excluída. Verifique se o código informado está correto.";
+//     }
+//   }catch(e){
+//     if(e instanceof Error){
+//       cr.message = e.message;
+//       console.log(e.message);
+//     }else{
+//       cr.message = "Erro ao conectar ao oracle. Sem detalhes";
+//     }
+//   } finally {
+//     res.send(cr);  
+//   }
+// });

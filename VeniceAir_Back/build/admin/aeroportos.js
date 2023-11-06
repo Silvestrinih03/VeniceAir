@@ -12,18 +12,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.trechoRouter = void 0;
+exports.aeroportoRouter = void 0;
 const express_1 = __importDefault(require("express"));
 const oracledb_1 = __importDefault(require("oracledb"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
 // const app = express();
-exports.trechoRouter = express_1.default.Router();
+exports.aeroportoRouter = express_1.default.Router();
 const port = 3000;
-exports.trechoRouter.use(express_1.default.json());
-exports.trechoRouter.use((0, cors_1.default)());
+exports.aeroportoRouter.use(express_1.default.json());
+exports.aeroportoRouter.use((0, cors_1.default)());
 dotenv_1.default.config();
-exports.trechoRouter.get("/listarTrechos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.aeroportoRouter.get("/listarAeroportos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let cr = { status: "ERROR", message: "", payload: undefined, };
     try {
         const connAttibs = {
@@ -32,7 +32,7 @@ exports.trechoRouter.get("/listarTrechos", (req, res) => __awaiter(void 0, void 
             connectionString: process.env.ORACLE_DB_CONN_STR,
         };
         const connection = yield oracledb_1.default.getConnection(connAttibs);
-        let resultadoConsulta = yield connection.execute("SELECT * FROM TRECHOS");
+        let resultadoConsulta = yield connection.execute("SELECT * FROM AEROPORTOS");
         yield connection.close();
         cr.status = "SUCCESS";
         cr.message = "Dados obtidos";
@@ -51,9 +51,10 @@ exports.trechoRouter.get("/listarTrechos", (req, res) => __awaiter(void 0, void 
         res.send(cr);
     }
 }));
-exports.trechoRouter.put("/inserirTrecho", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const origem = req.body.origem;
-    const destino = req.body.destino;
+exports.aeroportoRouter.put("/inserirAeroporto", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const aeroporto = req.body.aeroporto;
+    const cidade = req.body.cidade;
+    // const pais = req.body.pais as string;
     let cr = {
         status: "ERROR",
         message: "",
@@ -66,17 +67,17 @@ exports.trechoRouter.put("/inserirTrecho", (req, res) => __awaiter(void 0, void 
             password: process.env.ORACLE_DB_SECRET,
             connectionString: process.env.ORACLE_DB_CONN_STR,
         });
-        const cmdInsertTrecho = `INSERT INTO TRECHOS 
-    (ID_TRECHO, ORIGEM, DESTINO)
+        const cmdInsertAeroporto = `INSERT INTO AEROPORTOS 
+    (ID_AEROPORTO, NOME, CIDADE)
     VALUES
-    (SEQ_TRECHOS.NEXTVAL, :1, :2)`;
-        const dados = [origem, destino];
-        let resInsert = yield conn.execute(cmdInsertTrecho, dados);
+    (SEQ_AEROPORTOS.NEXTVAL, :1, :2)`;
+        const dados = [aeroporto, cidade];
+        let resInsert = yield conn.execute(cmdInsertAeroporto, dados);
         yield conn.commit();
         const rowsInserted = resInsert.rowsAffected;
         if (rowsInserted !== undefined && rowsInserted === 1) {
             cr.status = "SUCCESS";
-            cr.message = "Trecho inserido.";
+            cr.message = "Aeroporto inserido.";
         }
     }
     catch (e) {
@@ -95,7 +96,7 @@ exports.trechoRouter.put("/inserirTrecho", (req, res) => __awaiter(void 0, void 
         res.send(cr);
     }
 }));
-exports.trechoRouter.delete("/excluirTrecho", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.aeroportoRouter.delete("/excluirAeroporto", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const codigo = req.body.codigo;
     let cr = {
         status: "ERROR",
@@ -108,18 +109,18 @@ exports.trechoRouter.delete("/excluirTrecho", (req, res) => __awaiter(void 0, vo
             password: process.env.ORACLE_DB_SECRET,
             connectionString: process.env.ORACLE_DB_CONN_STR,
         });
-        const cmdDeleteTrecho = `DELETE TRECHO WHERE ID_TRECHO = :1`;
+        const cmdDeleteAeroporto = `DELETE AEROPORTOS WHERE ID_AEROPORTO = :1`;
         const dados = [codigo];
-        let resDelete = yield connection.execute(cmdDeleteTrecho, dados);
+        let resDelete = yield connection.execute(cmdDeleteAeroporto, dados);
         yield connection.commit();
         yield connection.close();
         const rowsDeleted = resDelete.rowsAffected;
         if (rowsDeleted !== undefined && rowsDeleted === 1) {
             cr.status = "SUCCESS";
-            cr.message = "Trecho excluído.";
+            cr.message = "Aeroporto excluído.";
         }
         else {
-            cr.message = "Trecho não excluído. Verifique se o código informado está correto.";
+            cr.message = "Aeroporto não excluído. Verifique se o código informado está correto.";
         }
     }
     catch (e) {

@@ -1,13 +1,16 @@
 #botao_cadastrar{
     display: flex;
-    justify-content: space-between;
-    width: 100%;
+    /* justify-content: space-between; */
+    /* justify-content: center; */
+    /* width: 100%; */
+    /* background-color: #b9cadc; */
 }
 
 #cadastrar{
     flex: 1;
     height: 40px;
-    border-radius: 12px;
+    width: 100px;
+    border-radius: 15px;
     border: none;
     background-color: #0073e6;
     transition: background-color 0.3s;
@@ -38,6 +41,8 @@
 tr, th{
     padding: 10px 15px;
     background-color: #0073e669;
+    height: 35px;
+    border-radius: 5px;
     /*color: #dbd6d6; */
     /* border:  2px dotted black; */
 }

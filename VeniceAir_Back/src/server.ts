@@ -5,11 +5,11 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
 
-import { cidadeRouter } from './cidades';
-import { aeronaveRouter } from './aeronaves';
-import { aeroportoRouter } from './aeroportos';
-import { trechoRouter } from './trechos';
-import { vooRouter } from './voos';
+import { cidadeRouter } from './admin/cidades';
+import { aeronaveRouter } from './admin/aeronaves';
+import { aeroportoRouter } from './admin/aeroportos';
+import { trechoRouter } from './admin/trechos';
+import { vooRouter } from './admin/voos';
 
 
 dotenv.config();

@@ -1,13 +1,12 @@
 body {
     font-family: Arial, sans-serif;
-    /* background-color: #b9cadc; */
     margin: 0;
     padding: 0;
 }
 
 #header_page {
     width: 100%;
-    height: 115px;
+    height: 100px;
     text-align: center;
     background-color: #b9cadc;
     display: flex; /* Substituí inline-flex por flex para melhor controle */
@@ -19,12 +18,14 @@ body {
 #img_logo {
     flex: 1; /* Cresça com o espaço disponível */
     height: auto;
-    margin: 10px;
+    margin-left: 10px;
+    margin-bottom: 35px;
     text-align: left;
+    padding-left: 15px;
 }
 
 #img_logo img {
-    max-width: 100px;
+    max-width: 90px;
     height: auto;
 }
 
@@ -44,7 +45,8 @@ body {
 #padrao_button {
     border-radius: 1000px;
     border: none;
-    margin: 10px;
+    margin-bottom: 30px;
+    margin-right: 20px;
     height: 75px;
     width: 75px;
     background-color: #e3e8ee;

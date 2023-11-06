@@ -9,7 +9,7 @@
       function preencheuID(){
           let resultado = false;
 
-          const IDSelecionado = document.getElementById('IDCidade').value;
+          const IDSelecionado = document.getElementById('ID_CIDADE').value;
           if(IDSelecionado.length > 0){
               resultado = true;
           }
@@ -18,7 +18,7 @@
       function preencheuNomeCidade(){
           let resultado = false;
 
-          const NomeSelecionado = document.getElementById('nomeCidade').value;
+          const NomeSelecionado = document.getElementById('NOME').value;
           if(NomeSelecionado.length > 0){
               resultado = true;
           }
@@ -37,17 +37,17 @@
       }
       function fetchInserir(body){
           const requestOptions = {
-              method: 'POST', headers: {'Content-Type' : "application/json"}, body: JSON.stringify(body)
+              method: 'PUT', headers: {'Content-Type' : "application/json"}, body: JSON.stringify(body)
           };
 
-          return fetch('http://localhost:3000/inserirCidade', requestOptions).then(T => T.json())
+          return fetch('http://localhost:3000/inserirCidades', requestOptions).then(T => T.json())
       }
       function inserirCidade(){
           if(!preencheuNomeCidade()){
               MessageStatus("Preencha o nome da cidade!", true);
               return
           }
-          const nomeCidade = document.getElementById("nomeCidade").value;
+          const nomeCidade = document.getElementById("NOME").value;
           console.log(nomeCidade);
           
           fetchInserir({ 

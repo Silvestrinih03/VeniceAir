@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VeniceAir Aeroportos</title>
+    <title>VeniceAir Mapa de Assentos</title>
     <link href="../../Geral/assets/css/header_page.css" rel="stylesheet"/>
     <link href="../assets/css/listagem.css" rel="stylesheet"/>
     <script>
@@ -24,10 +24,10 @@
                     method: 'GET', headers: {'Content-Type' : "application/json"}, body: JSON.stringify(body)
                 };
 
-                return fetch('http://localhost:3000/listarAeroportos', requestOptions).then(T => T.json())
+                return fetch('http://localhost:3000/listarMapas', requestOptions).then(T => T.json())
             }
 
-            function listarAeroportos(){
+            function listarMapa(){
                         const dataBody = document.getElementById('dataBody');
                 fetchListar()
                     .then(customResponse => {
@@ -37,25 +37,21 @@
                         dataBody.innerHTML = '';
 
                         // Preenche a tabela com os dados da resposta
-                        // Editar???
                         customResponse.payload.forEach(item => {
-                            const idaeroporto = item[0];
-                            const nome = item[1];
-                            const cidade = item[2];
-                            const pais = item[3];
+                            const numero = item[0];
+                            const num_fileiras = item[1];
+                            const num_assentos_fileiras = item[2];
 
                             const row = dataBody.insertRow();
                             const cell1 = row.insertCell(0);
                             const cell2 = row.insertCell(1);
                             const cell3 = row.insertCell(2);
-                            const cell4 = row.insertCell(3);
-                            cell1.textContent = idaeroporto;
-                            cell2.textContent = nome;
-                            cell3.textContent = cidade;
-                            cell4.textContent = pais;
+                            cell1.textContent = numero;
+                            cell2.textContent = num_fileiras;
+                            cell3.textContent = num_assentos_fileiras;
                         });
                     }else{
-                        MessageStatus("Erro ao listar aeroportos...: " + customResponse.message, true);
+                        MessageStatus("Erro ao listar Mapas...: " + customResponse.message, true);
                         console.log(customResponse.message);
                     }
                     })
@@ -66,7 +62,7 @@
             }
              
             document.addEventListener("DOMContentLoaded", function() {
-                listarAeroportos();
+                listarMapa();
             });
     </script>
 </head>
@@ -76,26 +72,27 @@
             <img src="../../Geral/assets/images/logo.png"> 
         </div>
         <div id="title_page">
-            <h1>VeniceAir Aeroportos</h1>
+            <h1>VeniceAir <br> Mapa de Assento</h1>
         </div>
         <div id="button_padrao">
             <button id="padrao_button"><a href="area_admin.html">Voltar</a></button>
         </div>
     </div>
     <div id="botao_cadastrar">
-        <button id="cadastrar"><a href="cadastro/cadastroAeroportos.html">Cadastrar</a></button>
-        <button id="cadastrar"><a href="edicao/editarAeroportos.html">Editar</a></button>
-        <button id="cadastrar"><a href="exclusao/excluirAeroportos.html">Excluir</a></button>
+        <button id="cadastrar"><a href="">Cadastrar</a></button>
+        <button id="cadastrar"><a href="">Editar</a></button>
+        <button id="cadastrar"><a href="">Excluir</a></button>
     </div>
-    <table id="dataTable">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>NOME</th>
-                <th>CIDADE</th>
-            </tr>
-        </thead>
-        <tbody id="dataBody"></tbody>
-    </table>
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>QUANTIDADE DE FILEIRAS</th>
+                    <th>QUANTIDADE DE ASSENTOS POR FILEIRAS</th>
+                </tr>
+            </thead>
+            <tbody id="dataBody"></tbody>
+        </table>
+    </div>
 </body>
 </html>

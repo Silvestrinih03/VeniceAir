@@ -161,23 +161,41 @@
         <div class="container">
             <p>Preencha todos os campos para cadastrar voo.</p>
             <form action="/inserirVoos" method="put"></form>
-                <label for="numero_voo">Voo:</label>
-                <input type="text" id="numero_voo" name="numero_voo" required>
 
-                <label for="origem">Origem:</label>
-                <input type="text" id="origem" name="origem" required>
+                <label for="data">Trecho:</label>
+                <select name="comboFabricantes" id="comboFabricantes">
+                    <option value="0" selected>Selecione o trecho</option>
+                </select>
 
-                <label for="destino">Destino:</label>
-                <input type="text" id="destino" name="destino" required>
+                <div id="voos">
+                    <label for="data">Data:</label>
+                    <label for="horario">Total de horas do voo:</label>
+                </div>
+                <div id="voos">
+                    <input type="date" id="data" name="data" required>
+                    <input type="time" id="horario" name="horario" required>
+                </div>
 
-                <label for="data">Data:</label>
-                <input type="date" id="data" name="data" required>
+                <div id="voos">
+                    <label for="horario">Hora partida:</label>
+                    <label for="horario">Hora chegada:</label>
+                </div>
+                <div id="voos">
+                    <input type="text" id="horario" name="horario" placeholder="Ex: 11:00 (Cidade partida)" required>
+                    <input type="text" id="horario" name="horario" placeholder="Ex: 11:00 (Cidade chegada)" required>
+                </div>
 
-                <label for="horario">Horário:</label>
-                <input type="time" id="horario" name="horario" required>
+                <label for="data" id="voos" >Aeroporto partida:</label>
+                <select name="comboFabricantes" id="comboFabricantes">
+                    <option value="0" selected>Selecione o aeroporto</option>
+                </select>
+                <label for="data" id="voos" >Aeroporto chegada:</label>
+                <select name="comboFabricantes" id="comboFabricantes">
+                    <option value="0" selected>Selecione o aeroporto</option>
+                </select>
 
-                <label for="valor">Valor:</label>
-                <input type="text" id="valor" name="valor" required>
+                <label for="valor" id="voos">Valor:</label>
+                <input type="text" id="valor" name="valor" required placeholder="Ex: 2000.00">
                 
                 <button type="submit" onclick="cadastrarVoo()">Cadastrar</button>
                 <button type="reset">Limpar</button>

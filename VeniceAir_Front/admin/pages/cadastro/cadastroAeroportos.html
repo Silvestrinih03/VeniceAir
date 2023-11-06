@@ -22,16 +22,15 @@
         <p>Preencha todos os campos para cadastrar um aeroporto.</p>
         <form action="/inserirAeroporto" method="put">
             <div class="form-group">
-                <label for="aeroporto">Nome do Aeroporto:</label>
+                <label for="aeroporto">Sigla do Aeroporto:</label>
                 <input type="text" id="aeroporto" name="aeroporto" required>
             </div>
             <div class="form-group">
                 <label for="cadastro">Cidade do Aeroporto:</label>
-                <input type="text" id="cadastro" name="cadastro" required>
-            </div>
-            <div class="form-group">
-                <label for="pais">País:</label>
-                <input type="text" id="pais" name="pais" required>
+                <!-- <input type="text" id="cadastro" name="cadastro" required> -->
+                <select name="comboOrigem" id="comboOrigem">
+                    <option value="0" selected>Selecione a cidade</option>
+                </select>
             </div>
             <div class="form-group">
                 <button type="submit" id="btnCadastrar" name="btnCadastrar">Cadastrar</button>
