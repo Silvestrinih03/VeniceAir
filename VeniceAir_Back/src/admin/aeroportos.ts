@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 
 import cors from "cors";
 
-// const app = express(); oi
+// const app = express();
 export const aeroportoRouter = express.Router();
 const port = 3000;
 aeroportoRouter.use(express.json());
