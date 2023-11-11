@@ -40,7 +40,7 @@
                         // Editar???
                         customResponse.payload.forEach(item => {
                             const idaeroporto = item[0];
-                            const nome = item[1];
+                            const sigla = item[1];
                             const cidade = item[2];
 
                             const row = dataBody.insertRow();
@@ -48,7 +48,7 @@
                             const cell2 = row.insertCell(1);
                             const cell3 = row.insertCell(2);
                             cell1.textContent = idaeroporto;
-                            cell2.textContent = nome;
+                            cell2.textContent = sigla;
                             cell3.textContent = cidade;
                         });
                     }else{
@@ -88,7 +88,7 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>NOME</th>
+                <th>SIGLA</th>
                 <th>CIDADE</th>
             </tr>
         </thead>

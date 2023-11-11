@@ -1,31 +1,125 @@
 <!DOCTYPE html>
-<html>
-  <head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VeniceAir - TRECHOS</title>
     <link rel="stylesheet" href="../../../Geral/assets/css/header_page.css">
     <link rel="stylesheet" href="../../assets/css/tela_cadastro.css"/>
-    <script src="../../../VeniceAir_Back/build/trechos.js"></script>
-  </head>
-  <body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            carregarCidades('comboOrigem');
+            carregarCidades('comboDestino');
+        });
+
+        function carregarCidades(idSelect) {
+            fetch('http://localhost:3000/listarCidades')
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById(idSelect);
+                    data.payload.forEach(cidade => {
+                        const option = document.createElement('option');
+                        option.value = cidade.ID_CIDADE.toString();
+                        option.text = cidade.NOME;
+                        select.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar cidades:', error);
+                });
+        }
+
+        function preencheuOrigemDestino() {
+            const origemSelecionada = document.getElementById('comboOrigem').value;
+            const destinoSelecionado = document.getElementById('comboDestino').value;
+            return origemSelecionada !== '0' && destinoSelecionado !== '0';
+        }
+
+        function messageStatus(msg, error) {
+            const pStatus = document.getElementById('status');
+            if (error) {
+                pStatus.className = 'statusError';
+            } else {
+                pStatus.className = 'statusSuccess';
+            }
+            pStatus.textContent = msg;
+        }
+
+        function fetchInserirTrecho(origem, destino) {
+            const requestOptions = {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ origem, destino })
+            };
+
+            return fetch('http://localhost:3000/inserirTrecho', requestOptions).then(T => T.json());
+        }
+
+        function cadastrarTrecho() {
+            if (!preencheuOrigemDestino()) {
+                messageStatus('Selecione origem e destino!', true);
+                return;
+            }
+
+            const origem = document.getElementById('comboOrigem').value;
+            const destino = document.getElementById('comboDestino').value;
+
+            fetchInserirTrecho(origem, destino)
+                .then(customResponse => {
+                    if (customResponse.status === 'SUCCESS') {
+                        messageStatus('Trecho cadastrado...', false);
+                    } else {
+                        messageStatus('Erro ao cadastrar trecho: ' + customResponse.message, true);
+                        console.log(customResponse.message);
+                    }
+                })
+                .catch((e) => {
+                    messageStatus('Erro técnico ao cadastrar trecho. Contate o suporte.', true);
+                    console.log('Falha grave ao cadastrar trecho.' + e);
+                });
+        }
+    </script>
+</head>
+<body>
     <div id="header_page">
-      <div id="img_logo">
-          <img src="../../../Geral/assets/images/logo.png"> 
-      </div>
-      <div id="title_page">
-          <h1>VeniceAir <br> Cadastro de Trechos</h1>
-      </div>
-      <div id="button_padrao">
-          <button id="padrao_button"><a href="../trechos.html">Voltar</a></button>
-      </div>
+        <div id="img_logo">
+            <img src="../../../Geral/assets/images/logo.png"> 
+        </div>
+        <div id="title_page">
+            <h1>VeniceAir <br> Cadastro de Trechos</h1>
+        </div>
+        <div id="button_padrao">
+            <button id="padrao_button"><a href="../trechos.html">Voltar</a></button>
+        </div>
     </div>
     <div class="container">
-      <!-- <h1>Cadastro de Trechos</h1> -->
-      <p>Preencha todos os campos para cadastrar um trecho.</p>
-      <form action="/inserirTrecho" method="put"></form>
-        <div class="form-group">
-          <label for="comboOrigem">Origem:</label>
-          <select name="comboOrigem" id="comboOrigem">
-            <option value="0" selected>Selecione a origem</option>
+        <p>Preencha todos os campos para cadastrar um trecho.</p>
+        <form>
+            <div class="form-group">
+                <label for="comboOrigem">Origem:</label>
+                <select name="comboOrigem" id="comboOrigem">
+                    <option value="0" selected>Selecione a origem</option>
+                    <option value="1">Campinas</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="comboDestino">Destino:</label>
+                <select name="comboDestino" id="comboDestino">
+                    <option value="0" selected>Selecione o destino</option>
+                    <option value="1">Belo Horizonte</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="button" onclick="cadastrarTrecho();" id="btnCadastrar" name="btnCadastrar">Cadastrar</button>
+                <button type="reset">Limpar</button>
+            </div>
+        </form>
+        <p id="status" class="statusError"></p>
+    </div>
+</body>
+</html>
+
+<!--        <option value="0" selected>Selecione a origem</option>
             <option value="BeloHorizonte">Belo Horizonte</option>
             <option value="Brasilia">Brasília</option>
             <option value="Cancun">Cancun</option>
@@ -44,12 +138,10 @@
             <option value="Roma">Roma</option>
             <option value="Salvador">Salvador</option>
             <option value="SaoPaulo">São Paulo</option>
-            <option value="Toronto">Toronto</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="comboDestino">Destino:</label>
-          <select name="comboDestino" id="comboDestino">
+            <option value="Toronto">Toronto</option> -->
+
+<!-- 
+
             <option value="0" selected>Selecione o destino</option>
             <option value="Brasilia">Brasília</option>
             <option value="Cancun">Cancun</option>
@@ -69,15 +161,4 @@
             <option value="Roma">Roma</option>
             <option value="Salvador">Salvador</option>
             <option value="SaoPaulo">São Paulo</option>
-            <option value="Toronto">Toronto</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <button type="submit" onclick="cadastrarTrecho();" id="btnCadastrar" name="btnCadastrar">Cadastrar</button>
-          <button type="reset">Limpar</button>
-        </div>
-      </form>
-    </div>
-    </form>
-  </body>
-</html>
+            <option value="Toronto">Toronto</option> -->

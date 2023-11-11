@@ -1,97 +1,84 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title>VeniceAir - Cidades</title>
     <link rel="stylesheet" href="../../../Geral/assets/css/header_page.css"/>
     <link rel="stylesheet" href="../../assets/css/tela_cadastro.css"/>
-
     <script>
-      function preencheuID(){
-          let resultado = false;
+        function preencheuNomeCidade() {
+            let resultado = false;
+            const nomeSelecionado = document.getElementById('nomeCidade').value;
+            if (nomeSelecionado.length > 0) {
+                resultado = true;
+            }
+            return resultado;
+        }
 
-          const IDSelecionado = document.getElementById('ID_CIDADE').value;
-          if(IDSelecionado.length > 0){
-              resultado = true;
-          }
-          return resultado;
-      }
-      function preencheuNomeCidade(){
-          let resultado = false;
+        function messageStatus(msg, error) {
+            var pStatus = document.getElementById('status');
+            if (error === true) {
+                pStatus.className = 'statusError';
+            } else {
+                pStatus.className = 'statusSuccess';
+            }
+            pStatus.textContent = msg;
+        }
 
-          const NomeSelecionado = document.getElementById('NOME').value;
-          if(NomeSelecionado.length > 0){
-              resultado = true;
-          }
-          return resultado;
-      }
-      function MessageStatus(msg, error){
-          var pStatus = document.getElementById("status");
+        function fetchInserir(body) {
+            const requestOptions = {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            };
+            return fetch('http://localhost:3000/inserirCidades', requestOptions).then(T => T.json());
+        }
 
-          if(error === true){
-              pStatus.className = " statusError";
-          }
-          else{
-              pStatus.className = 'statusSucess'
-          }
-          pStatus.textContent = msg;
-      }
-      function fetchInserir(body){
-          const requestOptions = {
-              method: 'PUT', headers: {'Content-Type' : "application/json"}, body: JSON.stringify(body)
-          };
+        function inserirCidade() {
+            if (!preencheuNomeCidade()) {
+                messageStatus('Preencha o nome da cidade!', true);
+                return;
+            }
+            const nomeCidade = document.getElementById('nomeCidade').value;
 
-          return fetch('http://localhost:3000/inserirCidades', requestOptions).then(T => T.json())
-      }
-      function inserirCidade(){
-          if(!preencheuNomeCidade()){
-              MessageStatus("Preencha o nome da cidade!", true);
-              return
-          }
-          const nomeCidade = document.getElementById("NOME").value;
-          console.log(nomeCidade);
-          
-          fetchInserir({ 
-              nomeCidade: nomeCidade
-              })
-              .then(customResponse => {
-              if(customResponse.status === "SUCCESS"){
-                  MessageStatus("Cidade cadastrada... ", false);
-              }else{
-                  MessageStatus("Erro ao cadastrar cidade...: " + customResponse.message, true);
-                  console.log(customResponse.message);
-              }
-              })
-              .catch((e)=>{
-                  MessageStatus("Erro técnico ao cadastrar... Contate o suporte.", true);
-                  console.log("Falha grave ao cadastrar." + e)
-              });
-      }
-  </script>
-
-  </head>
-  <body>
-    <!-- Cabeçalho da páginaa -->
-    <div id="header_page">
-      <div id="img_logo">
-        <img src="../../../Geral/assets/images/logo.png">
+            fetchInserir({
+                nome: nomeCidade
+            })
+            .then(customResponse => {
+                if (customResponse.status === 'SUCCESS') {
+                    messageStatus('Cidade cadastrada...', false);
+                } else {
+                    messageStatus('Erro ao cadastrar cidade: ' + customResponse.message, true);
+                    console.log(customResponse.message);
+                }
+            })
+            .catch((e) => {
+                messageStatus('Erro técnico ao cadastrar. Contate o suporte.', true);
+                console.log('Falha grave ao cadastrar.' + e);
+            });
+        }
+    </script>
+</head>
+<body>
+     <!-- Cabeçalho da páginaa -->
+     <div id="header_page">
+        <div id="img_logo">
+          <img src="../../../Geral/assets/images/logo.png">
+        </div>
+        <div id="title_page">
+            <h1>VeniceAir <br> Cadastro de Cidades</h1>
+        </div>
+        <div id="button_padrao">
+            <button id="padrao_button"><a href="../cidades.html">Voltar</a></button>
+        </div>
       </div>
-      <div id="title_page">
-          <h1>VeniceAir <br> Cadastro de Cidades</h1>
-      </div>
-      <div id="button_padrao">
-          <button id="padrao_button"><a href="../cidades.html">Voltar</a></button>
-      </div>
-    </div>
-    <!-- Formulário de cadastro -->
+      <!-- Formulário de cadastro -->
     <div class="container">
-      <p>Preencha todos os campos para cadastrar uma cidade.</p>
+        <p>Preencha todos os campos para cadastrar uma cidade.</p>
         <label for="nomeCidade">Nome da cidade:</label>
         <input type="text" id="nomeCidade" name="nomeCidade"/>
-
-        <button type="submit" id="btnCadastrar" name="btnCadastrar">Cadastrar</button>
+        <button type="button" id="btnCadastrar" name="btnCadastrar" onclick="inserirCidade()">Cadastrar</button>
         <button type="reset">Limpar</button>
-      </form>
-      <p id="status" class="statusError"></p>
+        <p id="status" class="statusError"></p>
     </div>
-  </body>
+</body>
 </html>

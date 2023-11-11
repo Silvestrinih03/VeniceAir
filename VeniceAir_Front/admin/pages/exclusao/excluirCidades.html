@@ -1,11 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
+<!-- <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exclusão de Cidades</title>
     <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet"/>
     <link href="../../assets/css/tela_excluir.css" rel="stylesheet"/>
+    <script>
+        function messageStatus(msg, error) {
+            var pStatus = document.getElementById('status');
+            if (error === true) {
+                pStatus.className = 'statusError';
+            } else {
+                pStatus.className = 'statusSuccess';
+            }
+            pStatus.textContent = msg;
+        }
+
+        function fetchExcluir(id) {
+            const requestOptions = {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ codigo: id })
+            };
+            return fetch('http://localhost:3000/excluirCidade', requestOptions).then(T => T.json());
+        }
+
+        function excluirCidade() {
+            const idCidade = document.getElementById('id').value;
+
+            if (!idCidade) {
+                messageStatus('Preencha o ID da cidade!', true);
+                return;
+            }
+
+            fetchExcluir(idCidade)
+            .then(customResponse => {
+                if (customResponse.status === 'SUCCESS') {
+                    messageStatus('Cidade excluída...', false);
+                } else {
+                    messageStatus('Erro ao excluir cidade: ' + customResponse.message, true);
+                    console.log(customResponse.message);
+                }
+            })
+            .catch((e) => {
+                messageStatus('Erro técnico ao excluir. Contate o suporte.', true);
+                console.log('Falha grave ao excluir.' + e);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const btnExcluir = document.getElementById('excluir');
+            btnExcluir.addEventListener('click', excluirCidade);
+        });
+    </script>
 </head>
 <body>
     <div id="header_page">
@@ -20,9 +67,101 @@
         </div>
     </div>
     <div class="container">
-        <label for="id">ID da cidades:</label>
+        <label for="id">ID da cidade:</label>
         <input type="text" id="id" name="id"/>
-        <button type="submit" id="excluir" name="excluir">Excluir</button>
+        <button type="button" id="excluir" name="excluir"  onclick="excluirCidade()">Excluir</button>
+        <p id="status" class="statusError"></p>
+    </div>
+</body>
+</html> -->
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exclusão de Cidades</title>
+    <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet"/>
+    <link href="../../assets/css/tela_excluir.css" rel="stylesheet"/>
+    <script>
+        function preencheuID(){
+            let resultado = false;
+
+            const IDSelecionado = document.getElementById('id').value;
+            if(IDSelecionado.length > 0){
+                resultado = true;
+            }
+            return resultado;
+        }
+
+        function messageStatus(msg, error) {
+            var pStatus = document.getElementById('status');
+            if (error === true) {
+                pStatus.className = 'statusError';
+            } else {
+                pStatus.className = 'statusSuccess';
+            }
+            pStatus.textContent = msg;
+        }
+
+        function fetchExcluir(id) {
+            const requestOptions = {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ codigo: id })
+            };
+            return fetch('http://localhost:3000/excluirCidade', requestOptions).then(T => T.json());
+        }
+
+        function excluirCidade() {
+            const idCidade = document.getElementById('id').value;
+
+            if (!idCidade) {
+                messageStatus('Preencha o ID da cidade!', true);
+                return;
+            }
+
+            fetchExcluir(idCidade)
+            .then(customResponse => {
+                if (customResponse.status === 'SUCCESS') {
+                    messageStatus('Cidade excluída...', false);
+                } else {
+                    messageStatus('Erro ao excluir cidade: ' + customResponse.message, true);
+                    console.log(customResponse.message);
+                }
+            })
+            .catch((e) => {
+                messageStatus('Erro técnico ao excluir. Contate o suporte.', true);
+                console.log('Falha grave ao excluir.' + e);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const btnExcluir = document.getElementById('excluir');
+            btnExcluir.addEventListener('click', excluirCidade);
+        });
+    </script>
+</head>
+<body>
+    <div id="header_page">
+        <div id="img_logo">
+            <img src="../../../Geral/assets/images/logo.png"> 
+        </div>
+        <div id="title_page">
+            <h1>VeniceAir <br> Exclusão de Cidades</h1>
+        </div>
+        <div id="button_padrao">
+            <button id="padrao_button"><a href="../cidades.html">Voltar</a></button>
+        </div>
+    </div>
+    <div class="container">
+        <label for="id">ID da cidade:</label>
+        <input type="text" id="id" name="id"/>
+        <button type="button" id="excluir" name="excluir" onclick="excluirCidade()">Excluir</button>
+        <p id="status" class="statusError"></p>
     </div>
 </body>
 </html>
