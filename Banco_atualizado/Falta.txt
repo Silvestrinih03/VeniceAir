@@ -1,0 +1,7 @@
+Corrigir tabela AERONAVES
+
+Corrigir tabela ASSENTOS
+
+Corrigir tabela MAPA_ASSENTOS
+
+Corrigir tabela PASSAGENS
