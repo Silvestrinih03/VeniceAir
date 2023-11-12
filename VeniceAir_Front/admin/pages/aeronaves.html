@@ -42,8 +42,7 @@
                             const fabricante = item[1];
                             const modelo = item[2];
                             const anofab = item[3];
-                            const qnt_fileiras = item[4];
-                            const qnt_assentos_fileiras = item[5];
+                            const qtdeAssentos = item[4];
 
                             const row = dataBody.insertRow();
                             const cell1 = row.insertCell(0);
@@ -51,13 +50,11 @@
                             const cell3 = row.insertCell(2);
                             const cell4 = row.insertCell(3);
                             const cell5 = row.insertCell(4);
-                            const cell6 = row.insertCell(5);
                             cell1.textContent = idaeronave;
                             cell2.textContent = fabricante;
                             cell3.textContent = modelo;
                             cell4.textContent = anofab;
-                            cell5.textContent = qnt_fileiras;
-                            cell6.textContent = qnt_assentos_fileiras;
+                            cell5.textContent = qtdeAssentos;
                         });
                     }else{
                         MessageStatus("Erro ao listar Aeronave...: " + customResponse.message, true);
@@ -100,8 +97,7 @@
                     <th>FABRICANTE</th>
                     <th>MODELO</th>
                     <th>ANO FAB</th>
-                    <th>QUANTIDADE DE FILEIRAS <br> (VERTICAL)</th>
-                    <th>QUANTIDADE ASSENTOS <br> POR FILEIRAS</th>
+                    <th>Quantidade de assentos</th>
                 </tr>
             </thead>
             <tbody id="dataBody"></tbody>

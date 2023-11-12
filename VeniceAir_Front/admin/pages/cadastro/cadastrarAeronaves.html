@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html>
-  <head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VeniceAir - AERONAVES</title>
     <link rel="stylesheet" href="../../../Geral/assets/css/header_page.css"/>
     <link rel="stylesheet" href="../../assets/css/tela_cadastro.css"/>
-  </head>
-  <body>
-    <!-- Cabeçalho da páginaa -->
+</head>
+<body>
+    <!-- Cabeçalho da página -->
     <div id="header_page">
       <div id="img_logo">
         <img src="../../../Geral/assets/images/logo.png">
@@ -18,59 +20,118 @@
           <button id="padrao_button"><a href="../aeronaves.html">Voltar</a></button>
       </div>
     </div>
+
     <!-- Formulário de cadastro -->
     <div class="container">
-      <p>Preencha todos os campos para cadastrar uma aeronave.</p>
-      <form action="/inserirAeronave" method="put">
-        <label for="comboFabricantes">Fabricante da aeronave:</label>
-        <select name="comboFabricantes" id="comboFabricantes">
-          <option value="0" selected>Selecione o fabricante</option>
-          <option value="1">AirBus</option>
-          <option value="2">Boeing</option>
-          <option value="3">EMBRAER</option>
-        </select>
+        <p>Preencha todos os campos para cadastrar uma aeronave.</p>
+        <form id="inserirAeronaveForm">
+            <label for="fabricante">Fabricante da aeronave:</label>
+            <select name="fabricante" id="fabricante">
+                <option value="0" selected>Selecione o fabricante</option>
+                <option value="AirBus">AirBus</option>
+                <option value="Boeing">Boeing</option>
+                <option value="EMBRAER">EMBRAER</option>
+            </select>
 
-        <label for="modelo">Modelo da aeronave:</label>
-        <input type="text" id="modelo" name="modelo"/>
+            <label for="modelo">Modelo da aeronave:</label>
+            <input type="text" id="modelo" name="modelo"/>
 
-        <label for="anoFab">Ano de fabricação:</label>
-        <input type="number" id="anoFab" name="anoFab" maxlength="4" size="5"/>
-        
-        <div id="mapa_assentos">
-          <label for="qtdeAssentos">Quantidade de fileiras na vertical:</label>
-          <label for="qtdeAssentos">Quantidade de assentos por fileira: </label>
-        </div>
-        <div id="mapa_assentos">
-          <input type="number" id="totalAssentos" name="totalAssentos" maxlength="4" size="5"/>
-          <input type="number" id="totalAssentos" name="totalAssentos" maxlength="4" size="5"/>
-        </div>
+            <label for="anofab">Ano de fabricação:</label>
+            <input type="number" id="anofab" name="anofab" maxlength="4" size="5"/>
+            
+            <label for="qtdeAssentos">Quantidade de assentos:</label>
+            <input type="number" id="qtdeAssentos" name="qtdeAssentos" maxlength="4" size="5"/>
 
-        <button type="submit" id="btnCadastrar" name="btnCadastrar">Cadastrar</button>
-        <button type="reset">Limpar</button>
-      </form>
-      <p id="status" class="statusError"></p>
+            <button type="button" id="btnCadastrar" name="btnCadastrar" onclick="inserirAeronaves()">Salvar</button>
+            <button type="reset">Limpar</button>
+        </form>
+        <p id="status" class="statusError"></p>
     </div>
 
-    <!-- <script>
-      // Adicione o código JavaScript aqui
-      document.getElementById("inserirAeronaveForm").addEventListener("submit", function(event) {
-        event.preventDefault(); // Evita o envio do formulário por padrão
-        var comboFabricantes = document.getElementById("comboFabricantes");
-        var modelo = document.getElementById("modelo");
-        var anoFab = document.getElementById("anoFab");
-        var totalAssentos = document.getElementById("totalAssentos");
-        var status = document.getElementById("status");
+    <script>
+        function preencheuFabricante() {
+          let resultado = false;
+          const fabricanteSelecionado = document.getElementById('fabricante').value;
+          if (fabricanteSelecionado.length > 0) {
+              resultado = true;
+          }
+          return resultado;
+      }
+      function preencheuModelo() {
+          let resultado = false;
+          const modeloSelecionado = document.getElementById('modelo').value;
+          if (modeloSelecionado.length > 0) {
+              resultado = true;
+          }
+          return resultado;
+      }
+      function preencheuAnofab() {
+          let resultado = false;
+          const anofabSelecionado = document.getElementById('anofab').value;
+          if (anofabSelecionado.length > 0) {
+              resultado = true;
+          }
+          return resultado;
+      }
+      function preencheuQntAssentos() {
+          let resultado = false;
+          const qtdeAssentosSelecionado = document.getElementById('qtdeAssentos').value;
+          if (qtdeAssentosSelecionado.length > 0) {
+              resultado = true;
+          }
+          return resultado;
+      }
 
-        if (comboFabricantes.value === "0" || modelo.value === "" || anoFab.value === "" || totalAssentos.value === "") {
-          status.innerText = "Por favor, preencha todos os campos.";
-          status.className = "statusError";
-        } else {
-          // Aqui você pode adicionar código para enviar os dados do formulário para o servidor
-          status.innerText = "Aeronave cadastrada com sucesso!";
-          status.className = "statusSuccess";
-          // Você pode redirecionar o usuário ou realizar outras ações necessárias após o cadastro.
+      function messageStatus(msg, error) {
+          var pStatus = document.getElementById('status');
+          if (error === true) {
+              pStatus.className = 'statusError';
+          } else {
+              pStatus.className = 'statusSuccess';
+          }
+          pStatus.textContent = msg;
+      }
+
+      function fetchInserir(body) {
+          const requestOptions = {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(body)
+          };
+          return fetch('http://localhost:3000/inserirAeronaves', requestOptions).then(T => T.json());
+      }
+
+        function inserirAeronaves() {
+            if (!preencheuFabricante() || !preencheuModelo() || !preencheuAnofab() || !preencheuQntAssentos()) {
+                messageStatus('Preencha todos os campos antes de cadastrar.', true);
+                return;
+            }
+
+            const fabricante = document.getElementById('fabricante').value;
+            const modelo = document.getElementById('modelo').value;
+            const anofab = document.getElementById('anofab').value;
+            const qtdeAssentos = document.getElementById('qtdeAssentos').value;
+
+            fetchInserir({
+                fabricante: fabricante,
+                modelo: modelo,
+                anofab: anofab,
+                qtdeAssentos: qtdeAssentos
+            })
+            .then(customResponse => {
+                if (customResponse.status === 'SUCCESS') {
+                    messageStatus('Aeronave cadastrada com sucesso.', false);
+                    // Limpar campos ou fazer outras ações após o sucesso
+                } else {
+                    messageStatus('Erro ao cadastrar aeronave: ' + customResponse.message, true);
+                    console.log(customResponse.message);
+                }
+            })
+            .catch((e) => {
+                messageStatus('Erro técnico ao cadastrar. Contate o suporte.', true);
+                console.log('Falha grave ao cadastrar.' + e);
+            });
         }
-      });
-    </script> -->
-  </body>
+    </script>
+</body>
 </html>

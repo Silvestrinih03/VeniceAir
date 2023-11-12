@@ -18,6 +18,7 @@ type CustomResponse = {
   payload: any
 };
 
+// Função OK
 cidadeRouter.get("/listarCidades", async(req,res)=>{
 
   let cr: CustomResponse = {status: "ERROR", message: "", payload: undefined,};
@@ -49,6 +50,7 @@ cidadeRouter.get("/listarCidades", async(req,res)=>{
 
 });
 
+// Função OK
 cidadeRouter.put("/inserirCidades", async(req,res)=>{
   
   const nome = req.body.nome as string;
@@ -95,6 +97,7 @@ cidadeRouter.put("/inserirCidades", async(req,res)=>{
   }
 });
 
+// Função OK
 cidadeRouter.delete("/excluirCidade", async(req,res)=>{
   const codigo = req.body.codigo as number;
  

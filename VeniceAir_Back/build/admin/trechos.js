@@ -22,6 +22,7 @@ const port = 3000;
 exports.trechoRouter.use(express_1.default.json());
 exports.trechoRouter.use((0, cors_1.default)());
 dotenv_1.default.config();
+// Função para listar trechos cadastrados - OK
 exports.trechoRouter.get("/listarTrechos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let cr = { status: "ERROR", message: "", payload: undefined, };
     try {
@@ -50,6 +51,7 @@ exports.trechoRouter.get("/listarTrechos", (req, res) => __awaiter(void 0, void 
         res.send(cr);
     }
 }));
+// Função para inserir trecho - OK
 exports.trechoRouter.put("/inserirTrecho", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const origem = req.body.origem;
     const destino = req.body.destino;
@@ -94,42 +96,7 @@ exports.trechoRouter.put("/inserirTrecho", (req, res) => __awaiter(void 0, void 
         res.send(cr);
     }
 }));
-// trechoRouter.delete("/excluirTrecho", async(req,res)=>{
-//   const codigo = req.body.codigo as number;
-//   let cr: CustomResponse = {
-//     status: "ERROR",
-//     message: "",
-//     payload: undefined,
-//   };
-//   try{
-//     const connection = await oracledb.getConnection({
-//       user: process.env.ORACLE_DB_USER,
-//       password: process.env.ORACLE_DB_SECRET,
-//       connectionString: process.env.ORACLE_DB_CONN_STR,
-//     });
-//     const cmdDeleteTrecho = `DELETE TRECHO WHERE ID_TRECHO = :1`
-//     const dados = [codigo];
-//     let resDelete = await connection.execute(cmdDeleteTrecho, dados);
-//     await connection.commit();
-//     await connection.close();
-//     const rowsDeleted = resDelete.rowsAffected
-//     if(rowsDeleted !== undefined &&  rowsDeleted === 1) {
-//       cr.status = "SUCCESS"; 
-//       cr.message = "Trecho excluído.";
-//     }else{
-//       cr.message = "Trecho não excluído. Verifique se o código informado está correto.";
-//     }
-//   }catch(e){
-//     if(e instanceof Error){
-//       cr.message = e.message;
-//       console.log(e.message);
-//     }else{
-//       cr.message = "Erro ao conectar ao oracle. Sem detalhes";
-//     }
-//   } finally {
-//     res.send(cr);  
-//   }
-// });
+// Função para excluir trecho
 exports.trechoRouter.delete("/excluirTrecho", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const codigo = req.body.codigo;
     let cr = {

@@ -22,6 +22,7 @@ const port = 3000;
 exports.cidadeRouter.use(express_1.default.json());
 exports.cidadeRouter.use((0, cors_1.default)());
 dotenv_1.default.config();
+// Função OK
 exports.cidadeRouter.get("/listarCidades", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let cr = { status: "ERROR", message: "", payload: undefined, };
     try {
@@ -50,6 +51,7 @@ exports.cidadeRouter.get("/listarCidades", (req, res) => __awaiter(void 0, void 
         res.send(cr);
     }
 }));
+// Função OK
 exports.cidadeRouter.put("/inserirCidades", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const nome = req.body.nome;
     let cr = {
@@ -90,6 +92,7 @@ exports.cidadeRouter.put("/inserirCidades", (req, res) => __awaiter(void 0, void
         res.send(cr);
     }
 }));
+// Função OK
 exports.cidadeRouter.delete("/excluirCidade", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const codigo = req.body.codigo;
     let cr = {
