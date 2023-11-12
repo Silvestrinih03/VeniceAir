@@ -30,7 +30,8 @@
                 <!-- <input type="text" id="cadastro" name="cadastro" required> -->
                 <select name="comboOrigem" id="comboOrigem">
                     <option value="0" selected>Selecione a cidade</option>
-                </select>
+                    
+                </select>   
             </div>
             <div class="form-group">
                 <button type="submit" id="btnCadastrar" name="btnCadastrar">Cadastrar</button>
@@ -38,5 +39,23 @@
             </div>
         </form>
     </div>
+    <!-- <script>
+        ISSO AQUI VAI FAZER APARECER AS CIDADES QUANDO CLICA PRA SELECIONAR UMA CIDADE, NA HORA DE CADASTRAR UM AEROPORTO
+        O NOME DA FUNÇÃO PODE SER ALTERADO-- NAO SEI SE VAI SER USADO O listarCidades PQ ELE É UM SELECT ALL FROM CIDADES MAS N SEI AAA
+        // Preencher o combobox usando JavaScript
+        fetch('/getCidades')
+            .then(response => response.json())
+            .then(cidades => {
+                const select = document.getElementById('comboOrigem');
+
+                cidades.forEach(cidade => {
+                    const option = document.createElement('option');
+                    option.value = cidade;
+                    option.text = cidade;
+                    select.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Erro ao obter cidades:', error));
+    </script> -->
 </body>
 </html>
