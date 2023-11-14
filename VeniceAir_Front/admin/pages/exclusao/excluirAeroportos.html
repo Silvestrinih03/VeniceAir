@@ -6,6 +6,77 @@
     <title>Exclusão de Aeroportos</title>
     <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet"/>
     <link href="../../assets/css/tela_excluir.css" rel="stylesheet"/>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            carregarAeroportos('aeroportos');
+        });
+
+        function carregarAeroportos(idSelect) {
+            fetch('http://localhost:3000/listarAeroportos')
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById(idSelect);
+                    data.payload.forEach(aeroporto => {
+                        const option = document.createElement('option');
+                        option.value = aeroporto[0];
+                        option.text = aeroporto[1];
+                        select.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar aeroportos:', error);
+                });
+        }
+
+
+        function preencheuAeroporto() {
+            const aeroportoSelecionado = document.getElementById('aeroportos').value;
+            return aeroportoSelecionado !== '0';
+        }
+
+        function messageStatus(msg, error) {
+            const pStatus = document.getElementById('status');
+            if (error) {
+                pStatus.className = 'statusError';
+            } else {
+                pStatus.className = 'statusSuccess';
+            }
+            pStatus.textContent = msg;
+        }
+
+        function fetchExcluir(aeroporto) {
+            const requestOptions = {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+            };
+
+            return fetch(`http://localhost:3000/excluirAeroporto/${aeroporto}`, requestOptions).then(T => T.json());
+        }
+
+
+        function excluirAeroporto() {
+            if (!preencheuAeroporto()) {
+                messageStatus('Selecione o aeroporto que deseja excluir!', true);
+                return;
+            }
+
+            const aeroporto = document.getElementById('aeroportos').value;
+
+            fetchExcluir(aeroporto)
+                .then(customResponse => {
+                    if (customResponse.status === 'SUCCESS') {
+                        messageStatus('Aeroporto excluído com sucesso!', false);
+                    } else {
+                        messageStatus('Erro ao excluir aeroporto: ' + customResponse.message, true);
+                        console.log(customResponse.message);
+                    }
+                })
+                .catch((e) => {
+                    messageStatus('Erro técnico ao excluir aeroporto. Contate o suporte.', true);
+                    console.log('Falha grave ao excluir aeroporto.' + e);
+                });
+        }
+    </script>
 </head>
 <body>
     <div id="header_page">
@@ -21,8 +92,10 @@
     </div>
     <div class="container">
         <label for="id">ID do aeroporto:</label>
-        <input type="text" id="id" name="id"/>
-        <button type="submit" id="excluir" name="excluir">Excluir</button>
+        <select name="aeroportos" id="aeroportos">
+            <option value="0" selected>Selecione o aeroporto</option>
+        </select>        
+        <button type="submit" id="excluir" name="excluir" onclick="excluirAeroporto()">Excluir</button>
     </div>
 </body>
 </html>

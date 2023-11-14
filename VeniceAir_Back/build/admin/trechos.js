@@ -96,7 +96,7 @@ exports.trechoRouter.put("/inserirTrecho", (req, res) => __awaiter(void 0, void 
         res.send(cr);
     }
 }));
-// Função para excluir trecho
+// Função para excluir trecho - OK
 exports.trechoRouter.delete("/excluirTrecho", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const codigo = req.body.codigo;
     let cr = {

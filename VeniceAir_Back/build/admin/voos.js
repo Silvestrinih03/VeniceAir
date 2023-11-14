@@ -22,6 +22,7 @@ const port = 3000;
 exports.vooRouter.use(express_1.default.json());
 exports.vooRouter.use((0, cors_1.default)());
 dotenv_1.default.config();
+// Função OK
 exports.vooRouter.get("/listarVoos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let cr = { status: "ERROR", message: "", payload: undefined, };
     try {

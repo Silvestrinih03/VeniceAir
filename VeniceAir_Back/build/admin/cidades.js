@@ -92,9 +92,9 @@ exports.cidadeRouter.put("/inserirCidades", (req, res) => __awaiter(void 0, void
         res.send(cr);
     }
 }));
-// Função OK
-exports.cidadeRouter.delete("/excluirCidade", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const codigo = req.body.codigo;
+// // Função OK
+exports.cidadeRouter.delete("/excluirCidade/:codigo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const codigo = req.params.codigo;
     let cr = {
         status: "ERROR",
         message: "",
@@ -126,7 +126,7 @@ exports.cidadeRouter.delete("/excluirCidade", (req, res) => __awaiter(void 0, vo
             console.log(e.message);
         }
         else {
-            cr.message = "Erro ao conectar ao oracle. Sem detalhes";
+            cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
         }
     }
     finally {

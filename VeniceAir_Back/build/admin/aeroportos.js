@@ -95,8 +95,8 @@ exports.aeroportoRouter.put("/inserirAeroportos", (req, res) => __awaiter(void 0
     }
 }));
 // Função OK
-exports.aeroportoRouter.delete("/excluirAeroporto", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const codigo = req.body.codigo;
+exports.aeroportoRouter.delete("/excluirAeroporto/:codigo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const codigo = req.params.codigo;
     let cr = {
         status: "ERROR",
         message: "",
@@ -128,7 +128,7 @@ exports.aeroportoRouter.delete("/excluirAeroporto", (req, res) => __awaiter(void
             console.log(e.message);
         }
         else {
-            cr.message = "Erro ao conectar ao oracle. Sem detalhes";
+            cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
         }
     }
     finally {
