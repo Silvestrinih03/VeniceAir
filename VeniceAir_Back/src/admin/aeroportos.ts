@@ -81,7 +81,7 @@ aeroportoRouter.get("/listarAeroportos", async(req,res)=>{
 aeroportoRouter.put("/inserirAeroporto", async(req,res)=>{
   
   const aeroporto = req.body.aeroporto as string;
-  const cidade = req.body.cidade as string;
+  const cidade = req.body.cidade as number;
   // const pais = req.body.pais as string;
 
   

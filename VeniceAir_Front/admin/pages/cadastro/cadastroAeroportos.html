@@ -38,6 +38,7 @@
                 <button type="reset">Limpar</button>
             </div>
         </form>
+        <p id="status" class="statusError"></p>
     </div>
 
     <script>
@@ -103,8 +104,8 @@
 
             
         function cadastrarAeroporto() {
-            if (!preencheuSiglaCidade()) {
-                messageStatus('Preencha a Sigla ou Selecione a cidade!', true);
+            if (!preencheuSigla()) {
+                messageStatus('Preencha a Sigla!', true);
                 return;
             }
 
