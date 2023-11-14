@@ -96,6 +96,7 @@ exports.aeronaveRouter.put("/inserirAeronaves", (req, res) => __awaiter(void 0, 
         res.send(cr);
     }
 }));
+// Função OK
 exports.aeronaveRouter.delete("/excluirAeronave", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const codigo = req.body.codigo;
     let cr = {

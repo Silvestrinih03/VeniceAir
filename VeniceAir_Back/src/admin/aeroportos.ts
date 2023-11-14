@@ -101,7 +101,7 @@ aeroportoRouter.put("/inserirAeroporto", async(req,res)=>{
     });
 
     const cmdInsertAeroporto = `INSERT INTO AEROPORTOS 
-    (ID_AEROPORTO, NOME, CIDADE)
+    (ID_AEROPORTO, SIGLA, CIDADE)
     VALUES
     (SEQ_AEROPORTOS.NEXTVAL, :1, :2)`
 

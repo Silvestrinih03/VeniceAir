@@ -23,7 +23,6 @@ const port = 3000;
 exports.aeroportoRouter.use(express_1.default.json());
 exports.aeroportoRouter.use((0, cors_1.default)());
 dotenv_1.default.config();
-
 exports.aeroportoRouter.get("/listarAeroportos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let cr = { status: "ERROR", message: "", payload: undefined, };
     try {
@@ -52,8 +51,27 @@ exports.aeroportoRouter.get("/listarAeroportos", (req, res) => __awaiter(void 0,
         res.send(cr);
     }
 }));
-
-
+// TESTE
+// exports.aeroportoRouter.get('/getCidades', async (req: Request, res: Response) => {
+//     let connection: Connection | undefined;
+//     try {
+//       connection = await oracledb.getConnection(dbConfig);
+//       const result = await connection.execute('SELECT nome FROM CIDADES');
+//       const cidades = result.rows.map((row: any) => row[0]);
+//       res.json(cidades);
+//     } catch (err) {
+//       console.error(err.message);
+//       res.status(500).send('Erro ao obter cidades');
+//     } finally {
+//       if (connection) {
+//         try {
+//           await connection.close();
+//         } catch (err) {
+//           console.error(err.message);
+//         }
+//       }
+//     }
+//   });
 exports.aeroportoRouter.put("/inserirAeroporto", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const aeroporto = req.body.aeroporto;
     const cidade = req.body.cidade;
@@ -71,7 +89,7 @@ exports.aeroportoRouter.put("/inserirAeroporto", (req, res) => __awaiter(void 0,
             connectionString: process.env.ORACLE_DB_CONN_STR,
         });
         const cmdInsertAeroporto = `INSERT INTO AEROPORTOS 
-    (ID_AEROPORTO, NOME, CIDADE)
+    (ID_AEROPORTO, SIGLA, CIDADE)
     VALUES
     (SEQ_AEROPORTOS.NEXTVAL, :1, :2)`;
         const dados = [aeroporto, cidade];
