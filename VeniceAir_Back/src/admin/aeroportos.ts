@@ -49,6 +49,35 @@ aeroportoRouter.get("/listarAeroportos", async(req,res)=>{
 
 });
 
+
+
+// TESTE
+// exports.aeroportoRouter.get('/getCidades', async (req: Request, res: Response) => {
+//     let connection: Connection | undefined;
+  
+//     try {
+//       connection = await oracledb.getConnection(dbConfig);
+  
+//       const result = await connection.execute('SELECT nome FROM CIDADES');
+  
+//       const cidades = result.rows.map((row: any) => row[0]);
+//       res.json(cidades);
+//     } catch (err) {
+//       console.error(err.message);
+//       res.status(500).send('Erro ao obter cidades');
+//     } finally {
+//       if (connection) {
+//         try {
+//           await connection.close();
+//         } catch (err) {
+//           console.error(err.message);
+//         }
+//       }
+//     }
+//   });
+
+
+
 aeroportoRouter.put("/inserirAeroporto", async(req,res)=>{
   
   const aeroporto = req.body.aeroporto as string;

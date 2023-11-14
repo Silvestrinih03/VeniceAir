@@ -19,8 +19,8 @@
                     const select = document.getElementById(idSelect);
                     data.payload.forEach(cidade => {
                         const option = document.createElement('option');
-                        option.value = cidade.ID_CIDADE.toString();
-                        option.text = cidade.NOME;
+                        option.value = cidade[0];
+                        option.text = cidade[1];
                         select.appendChild(option);
                     });
                 })
