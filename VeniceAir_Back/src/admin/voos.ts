@@ -18,6 +18,7 @@ type CustomResponse = {
   payload: any
 };
 
+// Função OK
 vooRouter.get("/listarVoos", async(req,res)=>{
 
   let cr: CustomResponse = {status: "ERROR", message: "", payload: undefined,};

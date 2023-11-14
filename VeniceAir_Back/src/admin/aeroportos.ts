@@ -18,6 +18,7 @@ type CustomResponse = {
   payload: any
 };
 
+// Função OK
 aeroportoRouter.get("/listarAeroportos", async(req,res)=>{
 
   let cr: CustomResponse = {status: "ERROR", message: "", payload: undefined,};
@@ -29,7 +30,7 @@ aeroportoRouter.get("/listarAeroportos", async(req,res)=>{
       connectionString: process.env.ORACLE_DB_CONN_STR,
     }
     const connection = await oracledb.getConnection(connAttibs);
-    let resultadoConsulta = await connection.execute("SELECT * FROM AEROPORTOS");
+    let resultadoConsulta = await connection.execute("select ID_AEROPORTO,SIGLA, (select c.NOME from CIDADES c where c.ID_CIDADE = CIDADE) from AEROPORTOS");
   
     await connection.close();
     cr.status = "SUCCESS"; 
@@ -49,42 +50,12 @@ aeroportoRouter.get("/listarAeroportos", async(req,res)=>{
 
 });
 
+// Função OK
+aeroportoRouter.put("/inserirAeroportos", async(req,res)=>{
 
-
-// TESTE
-// exports.aeroportoRouter.get('/getCidades', async (req: Request, res: Response) => {
-//     let connection: Connection | undefined;
-  
-//     try {
-//       connection = await oracledb.getConnection(dbConfig);
-  
-//       const result = await connection.execute('SELECT nome FROM CIDADES');
-  
-//       const cidades = result.rows.map((row: any) => row[0]);
-//       res.json(cidades);
-//     } catch (err) {
-//       console.error(err.message);
-//       res.status(500).send('Erro ao obter cidades');
-//     } finally {
-//       if (connection) {
-//         try {
-//           await connection.close();
-//         } catch (err) {
-//           console.error(err.message);
-//         }
-//       }
-//     }
-//   });
-
-
-
-aeroportoRouter.put("/inserirAeroporto", async(req,res)=>{
-  
-  const aeroporto = req.body.aeroporto as string;
+  const sigla = req.body.sigla as string;
   const cidade = req.body.cidade as number;
-  // const pais = req.body.pais as string;
 
-  
   let cr: CustomResponse = {
     status: "ERROR",
     message: "",
@@ -95,22 +66,19 @@ aeroportoRouter.put("/inserirAeroporto", async(req,res)=>{
 
   try{
     conn = await oracledb.getConnection({
-      user: process.env.ORACLE_DB_USER,
-      password: process.env.ORACLE_DB_SECRET,
-      connectionString: process.env.ORACLE_DB_CONN_STR,
+       user: process.env.ORACLE_DB_USER,
+       password: process.env.ORACLE_DB_SECRET,
+       connectionString: process.env.ORACLE_DB_CONN_STR,
     });
 
-    const cmdInsertAeroporto = `INSERT INTO AEROPORTOS 
-    (ID_AEROPORTO, SIGLA, CIDADE)
-    VALUES
-    (SEQ_AEROPORTOS.NEXTVAL, :1, :2)`
+    const cmdInsertAeroporto = 'INSERT INTO AEROPORTOS(SIGLA, CIDADE) VALUES (:1, :2)';
 
-    const dados = [aeroporto, cidade];
+    const dados = [sigla, cidade];
     let resInsert = await conn.execute(cmdInsertAeroporto, dados);
     await conn.commit();
   
-    const rowsInserted = resInsert.rowsAffected
-    if(rowsInserted !== undefined &&  rowsInserted === 1) {
+    const rowsInserted = resInsert.rowsAffected;
+    if (rowsInserted !== undefined &&  rowsInserted === 1) {
       cr.status = "SUCCESS"; 
       cr.message = "Aeroporto inserido.";
     }
@@ -130,6 +98,7 @@ aeroportoRouter.put("/inserirAeroporto", async(req,res)=>{
   }
 });
 
+// Função OK
 aeroportoRouter.delete("/excluirAeroporto", async(req,res)=>{
   const codigo = req.body.codigo as number;
  

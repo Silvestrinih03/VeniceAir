@@ -4,45 +4,7 @@
     <title>Cadastro de Aeroportos</title>
     <link rel="stylesheet" href="../../../Geral/assets/css/header_page.css">
     <link rel="stylesheet" href="../../assets/css/tela_cadastro.css">
-</head>
-<body>
-    <div id="header_page">
-        <div id="img_logo">
-            <img src="../../../Geral/assets/images/logo.png"> 
-        </div>
-        <div id="title_page">
-            <h1>VeniceAir <br> Cadastro de Aeroportos</h1>
-        </div>
-        <div id="button_padrao">
-            <button id="padrao_button"><a href="../aeroportos.html">Voltar</a></button>
-        </div>
-    </div>
-    <div class="container">
-        <!-- <h1>CADASTRO DE AEROPORTO</h1> -->
-        <p>Preencha todos os campos para cadastrar um aeroporto.</p>
-        <form action="/inserirAeroporto" method="put">
-            <div class="form-group">
-                <label for="aeroporto">Sigla do Aeroporto:</label>
-                <input type="text" id="aeroporto" name="aeroporto" required>
-            </div>
-            <div class="form-group">
-                <label for="cadastro">Cidade do Aeroporto:</label>
-                <!-- <input type="text" id="cadastro" name="cadastro" required> -->
-                <select name="comboOrigem" id="comboOrigem">
-                    <option value="0" selected>Selecione a cidade</option>
-                    
-                </select>   
-            </div>
-            <div class="form-group">
-                <button type="button" id="btnCadastrar" name="btnCadastrar" onclick="cadastrarAeroporto()">Salvar</button>
-                <button type="reset">Limpar</button>
-            </div>
-        </form>
-        <p id="status" class="statusError"></p>
-    </div>
-
     <script>
-        
         document.addEventListener('DOMContentLoaded', function () {
             carregarCidades('comboOrigem');
         });
@@ -63,20 +25,17 @@
                     console.error('Erro ao carregar cidades:', error);
                 });
         }
-
-        function preencheuSigla() {
-
-            let resultado = false;
-            const siglaAeroporto = document.getElementById('aeroporto').value;
-            if (siglaAeroporto.length > 0) {
-                resultado = true;
-            }
-            return resultado;
-        }
-
         function preencheuCidade(){
             const cidadeSelecionada = document.getElementById('comboOrigem').value;
             return cidadeSelecionada !== '0';
+        }
+        function preencheuSigla() {
+            let resultado = false;
+            const sigla = document.getElementById('sigla').value;
+            if (sigla.length > 0) {
+                resultado = true;
+            }
+            return resultado;
         }
 
         function messageStatus(msg, error) {
@@ -90,33 +49,29 @@
         }
 
 
-        function fetchInserirAeroporto(sigla, cidade) {
+        function fetchInserir(sigla, cidade) {
             const requestOptions = {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ sigla, cidade })
             };
 
-            return fetch('http://localhost:3000/inserirAeroporto', requestOptions).then(T => T.json());
-        }
-
-
-
-            
-        function cadastrarAeroporto() {
+            return fetch('http://localhost:3000/inserirAeroportos', requestOptions).then(T => T.json());
+        }            
+        function inserirAeroporto() {
             if (!preencheuSigla()) {
                 messageStatus('Preencha a Sigla!', true);
                 return;
             }
-            if (!preencheuCidade()) {
+            else if (!preencheuCidade()) {
                 messageStatus('Selecione a Cidade!', true);
                 return;
             }
 
+            const sigla = document.getElementById('sigla').value;
             const cidade = document.getElementById('comboOrigem').value;
-            const sigla = document.getElementById('aeroporto').value;
 
-            fetchInserirAeroporto(sigla, cidade)
+            fetchInserir(sigla, cidade)
                 .then(customResponse => {
                     if (customResponse.status === 'SUCCESS') {
                         messageStatus('Aeroporto cadastrado...', false);
@@ -131,5 +86,41 @@
                 });
         }
     </script>
+</head>
+<body>
+    <div id="header_page">
+        <div id="img_logo">
+            <img src="../../../Geral/assets/images/logo.png"> 
+        </div>
+        <div id="title_page">
+            <h1>VeniceAir <br> Cadastro de Aeroportos</h1>
+        </div>
+        <div id="button_padrao">
+            <button id="padrao_button"><a href="../aeroportos.html">Voltar</a></button>
+        </div>
+    </div>
+    <div class="container">
+        <!-- <h1>CADASTRO DE AEROPORTO</h1> -->
+        <p>Preencha todos os campos para cadastrar um aeroporto.</p>
+        <form action="/inserirAeroporto" method="put">
+            <div class="form-group">
+                <label for="sigla">Sigla do Aeroporto:</label>
+                <input type="text" id="sigla" name="sigla" required>
+            </div>
+            <div class="form-group">
+                <label for="cadastro">Cidade do Aeroporto:</label>
+                <!-- <input type="text" id="cadastro" name="cadastro" required> -->
+                <select name="comboOrigem" id="comboOrigem">
+                    <option value="0" selected>Selecione a cidade</option>
+                    
+                </select>   
+            </div>
+            <div class="form-group">
+                <button type="button" id="btnCadastrar" name="btnCadastrar" onclick="inserirAeroporto()">Salvar</button>
+                <button type="reset">Limpar</button>
+            </div>
+        </form>
+        <p id="status" class="statusError"></p>
+    </div>
 </body>
 </html>

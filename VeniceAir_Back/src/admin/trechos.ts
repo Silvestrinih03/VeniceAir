@@ -99,7 +99,7 @@ trechoRouter.put("/inserirTrecho", async(req,res)=>{
   }
 });
 
-// Função para excluir trecho
+// Função para excluir trecho - OK
 trechoRouter.delete("/excluirTrecho", async(req,res)=>{
   const codigo = req.body.codigo as number;
  
@@ -116,7 +116,7 @@ trechoRouter.delete("/excluirTrecho", async(req,res)=>{
       connectionString: process.env.ORACLE_DB_CONN_STR,
     });
 
-    const cmdDeleteTrecho = `DELETE TRECHO WHERE ID_TRECHO = :1`
+    const cmdDeleteTrecho = `DELETE TRECHOS WHERE ID_TRECHO = :1`
     const dados = [codigo];
     let resDelete = await connection.execute(cmdDeleteTrecho, dados);
     await connection.commit();

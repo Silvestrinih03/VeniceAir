@@ -110,7 +110,7 @@ exports.trechoRouter.delete("/excluirTrecho", (req, res) => __awaiter(void 0, vo
             password: process.env.ORACLE_DB_SECRET,
             connectionString: process.env.ORACLE_DB_CONN_STR,
         });
-        const cmdDeleteTrecho = `DELETE TRECHO WHERE ID_TRECHO = :1`;
+        const cmdDeleteTrecho = `DELETE TRECHOS WHERE ID_TRECHO = :1`;
         const dados = [codigo];
         let resDelete = yield connection.execute(cmdDeleteTrecho, dados);
         yield connection.commit();
