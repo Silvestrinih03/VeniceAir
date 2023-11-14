@@ -108,6 +108,10 @@
                 messageStatus('Preencha a Sigla!', true);
                 return;
             }
+            if (!preencheuCidade()) {
+                messageStatus('Selecione a Cidade!', true);
+                return;
+            }
 
             const cidade = document.getElementById('comboOrigem').value;
             const sigla = document.getElementById('aeroporto').value;
