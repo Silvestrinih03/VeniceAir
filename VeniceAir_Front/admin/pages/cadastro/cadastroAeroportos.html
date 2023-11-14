@@ -34,28 +34,97 @@
                 </select>   
             </div>
             <div class="form-group">
-                <button type="submit" id="btnCadastrar" name="btnCadastrar">Salvar</button>
+                <button type="button" id="btnCadastrar" name="btnCadastrar" onclick="cadastrarAeroporto()">Salvar</button>
                 <button type="reset">Limpar</button>
             </div>
         </form>
     </div>
-    <!-- <script>
-        ISSO AQUI VAI FAZER APARECER AS CIDADES QUANDO CLICA PRA SELECIONAR UMA CIDADE, NA HORA DE CADASTRAR UM AEROPORTO
-        O NOME DA FUNÇÃO PODE SER ALTERADO-- NAO SEI SE VAI SER USADO O listarCidades PQ ELE É UM SELECT ALL FROM CIDADES MAS N SEI AAA
-        // Preencher o combobox usando JavaScript
-        fetch('/getCidades')
-            .then(response => response.json())
-            .then(cidades => {
-                const select = document.getElementById('comboOrigem');
 
-                cidades.forEach(cidade => {
-                    const option = document.createElement('option');
-                    option.value = cidade;
-                    option.text = cidade;
-                    select.appendChild(option);
+    <script>
+        
+        document.addEventListener('DOMContentLoaded', function () {
+            carregarCidades('comboOrigem');
+        });
+
+            function carregarCidades(idSelect) {
+            fetch('http://localhost:3000/listarCidades')
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById(idSelect);
+                    data.payload.forEach(cidade => {
+                        const option = document.createElement('option');
+                        option.value = cidade[0];
+                        option.text = cidade[1];
+                        select.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar cidades:', error);
                 });
-            })
-            .catch(error => console.error('Erro ao obter cidades:', error));
-    </script> -->
+        }
+
+        function preencheuSigla() {
+
+            let resultado = false;
+            const siglaAeroporto = document.getElementById('aeroporto').value;
+            if (siglaAeroporto.length > 0) {
+                resultado = true;
+            }
+            return resultado;
+        }
+
+        function preencheuCidade(){
+            const cidadeSelecionada = document.getElementById('comboOrigem').value;
+            return cidadeSelecionada !== '0';
+        }
+
+        function messageStatus(msg, error) {
+            const pStatus = document.getElementById('status');
+            if (error) {
+                pStatus.className = 'statusError';
+            } else {
+                pStatus.className = 'statusSuccess';
+            }
+            pStatus.textContent = msg;
+        }
+
+
+        function fetchInserirAeroporto(sigla, cidade) {
+            const requestOptions = {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ sigla, cidade })
+            };
+
+            return fetch('http://localhost:3000/inserirAeroporto', requestOptions).then(T => T.json());
+        }
+
+
+
+            
+        function cadastrarAeroporto() {
+            if (!preencheuSiglaCidade()) {
+                messageStatus('Preencha a Sigla ou Selecione a cidade!', true);
+                return;
+            }
+
+            const cidade = document.getElementById('comboOrigem').value;
+            const sigla = document.getElementById('aeroporto').value;
+
+            fetchInserirAeroporto(sigla, cidade)
+                .then(customResponse => {
+                    if (customResponse.status === 'SUCCESS') {
+                        messageStatus('Aeroporto cadastrado...', false);
+                    } else {
+                        messageStatus('Erro ao cadastrar aeroporto: ' + customResponse.message, true);
+                        console.log(customResponse.message);
+                    }
+                })
+                .catch((e) => {
+                    messageStatus('Erro técnico ao cadastrar aeroporto. Contate o suporte.', true);
+                    console.log('Falha grave ao cadastrar aeroporto.' + e);
+                });
+        }
+    </script>
 </body>
 </html>
