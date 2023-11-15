@@ -6,6 +6,76 @@
     <title>Exclusão de Aeronaves</title>
     <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet"/>
     <link href="../../assets/css/tela_excluir.css" rel="stylesheet"/>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            carregarAeronaves('aeronaves');
+        });
+
+        function carregarAeronaves(idSelect) {
+            fetch('http://localhost:3000/listarAeronaves')
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById(idSelect);
+                    data.payload.forEach(aeronave => {
+                    const option = document.createElement('option');
+                    option.value = aeronave[0];
+                    option.text = aeronave[0];
+                    select.appendChild(option);
+                });
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar aeronaves:', error);
+                });
+        }
+
+        function preencheuAeronave() {
+            const aeronaveSelecionada = document.getElementById('aeronaves').value;
+            return aeronaveSelecionada !== '0';
+        }
+
+        function messageStatus(msg, error) {
+            const pStatus = document.getElementById('status');
+            if (error) {
+                pStatus.className = 'statusError';
+            } else {
+                pStatus.className = 'statusSuccess';
+            }
+            pStatus.textContent = msg;
+        }
+
+        function fetchExcluir(aeronave) {
+            const requestOptions = {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+            };
+
+            return fetch(`http://localhost:3000/excluirAeronave/${aeronave}`, requestOptions).then(T => T.json());
+        }
+
+
+        function excluirAeronave() {
+            if (!preencheuAeronave()) {
+                messageStatus('Selecione a aeronave que deseja excluir!', true);
+                return;
+            }
+
+            const aeronave = document.getElementById('aeronaves').value;
+
+            fetchExcluir(aeronave)
+                .then(customResponse => {
+                    if (customResponse.status === 'SUCCESS') {
+                        messageStatus('Aeronave excluída...', false);
+                    } else {
+                        messageStatus('Erro ao excluir aeronave: ' + customResponse.message, true);
+                        console.log(customResponse.message);
+                    }
+                })
+                .catch((e) => {
+                    messageStatus('Erro técnico ao excluir aeronave. Contate o suporte.', true);
+                    console.log('Falha grave ao excluir aeronave.' + e);
+                });
+        }
+    </script>
 </head>
 <body>
     <div id="header_page">
@@ -20,9 +90,13 @@
         </div>
     </div>
     <div class="container">
-        <label for="id">ID da aeronave:</label>
-        <input type="text" id="id" name="id"/>
-        <button type="submit" id="excluir" name="excluir">Excluir</button>
+        <!-- <label for="id">ID da aeronave:</label> -->
+        <p>Para selecionar o ID da aeronave, não esqueça de olhar a listagem de registros da aba anterior!</p>
+        <p>Esta ação não poderá ser revertida!</p>
+        <select name="aeronaves" id="aeronaves">
+            <option value="0" selected>Selecione o ID da aeronave que deseja excluir</option>
+        </select>
+        <button type="submit" id="excluir" name="excluir" onclick="excluirAeronave()">Excluir</button>
     </div>
 </body>
 </html>

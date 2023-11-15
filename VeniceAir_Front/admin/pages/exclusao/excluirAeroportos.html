@@ -65,7 +65,7 @@
             fetchExcluir(aeroporto)
                 .then(customResponse => {
                     if (customResponse.status === 'SUCCESS') {
-                        messageStatus('Aeroporto excluído com sucesso!', false);
+                        messageStatus('Aeroporto excluído...', false);
                     } else {
                         messageStatus('Erro ao excluir aeroporto: ' + customResponse.message, true);
                         console.log(customResponse.message);
@@ -91,9 +91,10 @@
         </div>
     </div>
     <div class="container">
-        <label for="id">ID do aeroporto:</label>
+        <!-- <label for="id">Aroporto que será exluído:</label> -->
+        <p>Esta ação não poderá ser revertida!</p>
         <select name="aeroportos" id="aeroportos">
-            <option value="0" selected>Selecione o aeroporto</option>
+            <option value="0" selected>Selecione o aeroporto que deseja excluir</option>
         </select>        
         <button type="submit" id="excluir" name="excluir" onclick="excluirAeroporto()">Excluir</button>
     </div>

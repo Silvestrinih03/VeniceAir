@@ -97,8 +97,8 @@ exports.trechoRouter.put("/inserirTrecho", (req, res) => __awaiter(void 0, void 
     }
 }));
 // Função para excluir trecho - OK
-exports.trechoRouter.delete("/excluirTrecho", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const codigo = req.body.codigo;
+exports.trechoRouter.delete("/excluirTrecho/:codigo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const codigo = req.params.codigo;
     let cr = {
         status: "ERROR",
         message: "",
@@ -130,7 +130,7 @@ exports.trechoRouter.delete("/excluirTrecho", (req, res) => __awaiter(void 0, vo
             console.log(e.message);
         }
         else {
-            cr.message = "Erro ao conectar ao oracle. Sem detalhes";
+            cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
         }
     }
     finally {

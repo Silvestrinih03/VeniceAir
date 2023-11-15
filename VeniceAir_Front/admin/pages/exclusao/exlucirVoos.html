@@ -6,6 +6,81 @@
     <title>Exclusão de Voos</title>
     <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet"/>
     <link href="../../assets/css/tela_excluir.css" rel="stylesheet"/>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            carregarVoos('voos');
+        });
+
+        function carregarVoos(idSelect) {
+            fetch('http://localhost:3000/listarVoos')
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById(idSelect);
+                    data.payload.forEach(voo => {
+                        const option = document.createElement('option');
+                        option.value = voo[0];
+                        option.text = voo[0];
+                        select.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar voos:', error);
+                });
+        }
+
+        function preencheuVoo() {
+            const vooSelecionado = document.getElementById('voos').value;
+            return vooSelecionado !== '0';
+        }
+
+        function messageStatus(msg, error) {
+            const pStatus = document.getElementById('status');
+            if (error) {
+                pStatus.className = 'statusError';
+            } else {
+                pStatus.className = 'statusSuccess';
+            }
+            pStatus.textContent = msg;
+        }
+
+        fetchExcluir(voo)
+            .then(customResponse => {
+                if (customResponse.status === 'SUCCESS') {
+                    messageStatus('Voo excluído com sucesso!', false);
+                } else {
+                    messageStatus('Erro ao excluir Voo: ' + customResponse.message, true);
+                    console.log(customResponse.message);
+                }
+            })
+            .catch((e) => {
+                messageStatus('Erro técnico ao excluir voo. Contate o suporte.', true);
+                console.log('Falha grave ao excluir voo.' + e);
+            });
+
+
+        function excluirVoo() {
+            if (!preencheuVoo()) {
+                messageStatus('Selecione o voo que deseja excluir!', true);
+                return;
+            }
+
+            const trecho = document.getElementById('voos').value;
+
+            fetchExcluir(voo)
+                .then(customResponse => {
+                    if (customResponse.status === 'SUCCESS') {
+                        messageStatus('Voo excluído...', false);
+                    } else {
+                        messageStatus('Erro ao excluir Voo: ' + customResponse.message, true);
+                        console.log(customResponse.message);
+                    }
+                })
+                .catch((e) => {
+                    messageStatus('Erro técnico ao excluir voo. Contate o suporte.', true);
+                    console.log('Falha grave ao excluir voo.' + e);
+                });
+        }
+    </script>
 </head>
 <body>
     <div id="header_page">
@@ -20,9 +95,14 @@
         </div>
     </div>
     <div class="container">
-        <label for="id">ID do voo:</label>
-        <input type="text" id="id" name="id"/>
-        <button type="submit" id="excluir" name="excluir">Excluir</button>
+        <!-- <label for="id">ID do voo:</label> -->
+        <p>Para selecionar o ID do voo, não esqueça de olhar a listagem de registros da aba anterior!</p>
+        <p>Esta ação não poderá ser revertida!</p>
+        <select name="voos" id="voos">
+            <option value="0" selected>Selecione o ID voo que deseja excluir</option>
+        </select>
+        
+        <button type="button" id="excluir" name="excluir" onclick="excluirVoo()">Excluir</button>
     </div>
 </body>
 </html>

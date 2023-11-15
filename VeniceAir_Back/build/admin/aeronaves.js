@@ -97,8 +97,44 @@ exports.aeronaveRouter.put("/inserirAeronaves", (req, res) => __awaiter(void 0, 
     }
 }));
 // Função OK
-exports.aeronaveRouter.delete("/excluirAeronave", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const codigo = req.body.codigo;
+// aeronaveRouter.delete("/excluirAeronave", async(req,res)=>{
+//   const codigo = req.body.codigo as number;
+//     let cr: CustomResponse = {
+//     status: "ERROR",
+//     message: "",
+//     payload: undefined,
+//   };
+//   try{
+//     const connection = await oracledb.getConnection({
+//       user: process.env.ORACLE_DB_USER,
+//       password: process.env.ORACLE_DB_SECRET,
+//       connectionString: process.env.ORACLE_DB_CONN_STR,
+//     });
+//     const cmdDeleteAeronave = `DELETE AERONAVES WHERE ID_AERONAVE = :1`
+//     const dados = [codigo];
+//     let resDelete = await connection.execute(cmdDeleteAeronave, dados);
+//     await connection.commit();
+//     await connection.close();
+//     const rowsDeleted = resDelete.rowsAffected
+//     if(rowsDeleted !== undefined &&  rowsDeleted === 1) {
+//       cr.status = "SUCCESS"; 
+//       cr.message = "Aeronave excluída.";
+//     }else{
+//       cr.message = "Aeronave não excluída. Verifique se o código informado está correto.";
+//     }
+//   }catch(e){
+//     if(e instanceof Error){
+//       cr.message = e.message;
+//       console.log(e.message);
+//     }else{
+//       cr.message = "Erro ao conectar ao oracle. Sem detalhes";
+//     }
+//   } finally {
+//     res.send(cr);  
+//   }
+// });
+exports.aeronaveRouter.delete("/excluirAeronave/:codigo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const codigo = req.params.codigo;
     let cr = {
         status: "ERROR",
         message: "",
@@ -110,9 +146,9 @@ exports.aeronaveRouter.delete("/excluirAeronave", (req, res) => __awaiter(void 0
             password: process.env.ORACLE_DB_SECRET,
             connectionString: process.env.ORACLE_DB_CONN_STR,
         });
-        const cmdDeleteAeronave = `DELETE AERONAVES WHERE ID_AERONAVE = :1`;
+        const cmdDeleteTrecho = `DELETE AERONAVES WHERE ID_AERONAVE = :1`;
         const dados = [codigo];
-        let resDelete = yield connection.execute(cmdDeleteAeronave, dados);
+        let resDelete = yield connection.execute(cmdDeleteTrecho, dados);
         yield connection.commit();
         yield connection.close();
         const rowsDeleted = resDelete.rowsAffected;
@@ -130,7 +166,7 @@ exports.aeronaveRouter.delete("/excluirAeronave", (req, res) => __awaiter(void 0
             console.log(e.message);
         }
         else {
-            cr.message = "Erro ao conectar ao oracle. Sem detalhes";
+            cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
         }
     }
     finally {

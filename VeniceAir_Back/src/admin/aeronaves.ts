@@ -100,45 +100,89 @@ aeronaveRouter.put("/inserirAeronaves", async(req,res)=>{
 });
 
 // Função OK
-aeronaveRouter.delete("/excluirAeronave", async(req,res)=>{
-  const codigo = req.body.codigo as number;
+// aeronaveRouter.delete("/excluirAeronave", async(req,res)=>{
+//   const codigo = req.body.codigo as number;
  
-    let cr: CustomResponse = {
-    status: "ERROR",
-    message: "",
-    payload: undefined,
+//     let cr: CustomResponse = {
+//     status: "ERROR",
+//     message: "",
+//     payload: undefined,
+//   };
+
+//   try{
+//     const connection = await oracledb.getConnection({
+//       user: process.env.ORACLE_DB_USER,
+//       password: process.env.ORACLE_DB_SECRET,
+//       connectionString: process.env.ORACLE_DB_CONN_STR,
+//     });
+
+//     const cmdDeleteAeronave = `DELETE AERONAVES WHERE ID_AERONAVE = :1`
+//     const dados = [codigo];
+
+//     let resDelete = await connection.execute(cmdDeleteAeronave, dados);
+//     await connection.commit();
+//     await connection.close();
+    
+//     const rowsDeleted = resDelete.rowsAffected
+//     if(rowsDeleted !== undefined &&  rowsDeleted === 1) {
+//       cr.status = "SUCCESS"; 
+//       cr.message = "Aeronave excluída.";
+//     }else{
+//       cr.message = "Aeronave não excluída. Verifique se o código informado está correto.";
+//     }
+
+//   }catch(e){
+//     if(e instanceof Error){
+//       cr.message = e.message;
+//       console.log(e.message);
+//     }else{
+//       cr.message = "Erro ao conectar ao oracle. Sem detalhes";
+//     }
+//   } finally {
+//     res.send(cr);  
+//   }
+// });
+
+
+
+
+aeronaveRouter.delete("/excluirAeronave/:codigo", async (req, res) => {
+  const codigo = req.params.codigo;
+
+  let cr = {
+      status: "ERROR",
+      message: "",
+      payload: undefined,
   };
 
-  try{
-    const connection = await oracledb.getConnection({
-      user: process.env.ORACLE_DB_USER,
-      password: process.env.ORACLE_DB_SECRET,
-      connectionString: process.env.ORACLE_DB_CONN_STR,
-    });
+  try {
+      const connection = await oracledb.getConnection({
+          user: process.env.ORACLE_DB_USER,
+          password: process.env.ORACLE_DB_SECRET,
+          connectionString: process.env.ORACLE_DB_CONN_STR,
+      });
 
-    const cmdDeleteAeronave = `DELETE AERONAVES WHERE ID_AERONAVE = :1`
-    const dados = [codigo];
+      const cmdDeleteTrecho = `DELETE AERONAVES WHERE ID_AERONAVE = :1`;
+      const dados = [codigo];
+      let resDelete = await connection.execute(cmdDeleteTrecho, dados);
+      await connection.commit();
+      await connection.close();
 
-    let resDelete = await connection.execute(cmdDeleteAeronave, dados);
-    await connection.commit();
-    await connection.close();
-    
-    const rowsDeleted = resDelete.rowsAffected
-    if(rowsDeleted !== undefined &&  rowsDeleted === 1) {
-      cr.status = "SUCCESS"; 
-      cr.message = "Aeronave excluída.";
-    }else{
-      cr.message = "Aeronave não excluída. Verifique se o código informado está correto.";
-    }
-
-  }catch(e){
-    if(e instanceof Error){
-      cr.message = e.message;
-      console.log(e.message);
-    }else{
-      cr.message = "Erro ao conectar ao oracle. Sem detalhes";
-    }
+      const rowsDeleted = resDelete.rowsAffected;
+      if (rowsDeleted !== undefined && rowsDeleted === 1) {
+          cr.status = "SUCCESS";
+          cr.message = "Aeronave excluída.";
+      } else {
+          cr.message = "Aeronave não excluída. Verifique se o código informado está correto.";
+      }
+  } catch (e) {
+      if (e instanceof Error) {
+          cr.message = e.message;
+          console.log(e.message);
+      } else {
+          cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
+      }
   } finally {
-    res.send(cr);  
+      res.send(cr);
   }
 });
