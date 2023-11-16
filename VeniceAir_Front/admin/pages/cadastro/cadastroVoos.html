@@ -162,15 +162,24 @@
                 pStatus.textContent = msg;
             }
 
-            function fetchInserirVoo(trecho, data, horapartida, horachegada, aeroportopartida, aeroportochegada, valor){
+            // verificar metodo (é put)
+            function fetchInserirVoo(trecho, data, horapartida, horachegada, aeroportopartida, aeroportochegada, valor) {
                 const requestOptions = {
-                    method: 'PUT',
-                    headers: {'Content-Type' : "application/json"},
-                    body: JSON.stringify(trecho, data, horapartida, horachegada, aeroportopartida, aeroportochegada, valor)
+                    method: 'PUT', 
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        Trecho: trecho,
+                        Data: data,
+                        Horario1: horapartida,
+                        Horario2: horachegada,
+                        AeroportoPartida: aeroportopartida,
+                        AeroportoChegada: aeroportochegada,
+                        Valor: valor
+                    })
                 };
-
-                return fetch('http://localhost:3000/inserirVoo', requestOptions).then(T => T.json())
+                return fetch('http://localhost:3000/inserirVoo', requestOptions).then(response => response.json());
             }
+
 
             function cadastrarVoo(){
                 if(!preencheuTrecho()){
@@ -211,14 +220,18 @@
                 const AeroportoChegada = document.getElementById("comboAeroportoDois").value;
                 const Valor = document.getElementById("valor").value;
 
-                fetchInserir({
-                    Trecho: trecho,
-                    Data: data,
-                    Horario1: horapartida,
-                    Horario2: horachegada,
-                    AeroportoPartida: aeroportopartida,
-                    AeroportoChegada: aeroportochegada,
-                    Valor: valor
+                fetchInserirVoo(
+                    Trecho,
+                    Data,
+                    Horario1,
+                    Horario2,
+                    AeroportoPartida,
+                    AeroportoChegada,
+                    Valor
+                )
+                    .then(response => {
+                        console.log(response); // Adicione esta linha para imprimir a resposta no console
+                        return response.json();
                     })
 
                     .then(customResponse => {
@@ -233,6 +246,7 @@
                         MessageStatus("Erro técnico ao cadastrar... Contate o suporte.", true);
                         console.log("Falha grave ao cadastrar." + e)
                     });
+                    
             }
 
         </script>
