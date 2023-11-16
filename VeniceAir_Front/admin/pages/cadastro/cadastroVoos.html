@@ -54,35 +54,45 @@
                     });
             }
 
-            function preencheuVoo(){
-                let resultado = false;
+            // function preencheuVoo(){
+            //     let resultado = false;
 
-                const numero_voo = document.getElementById('numero_voo').value;
-                if(numero_voo.length > 0){
-                    resultado = true;
-                }
-                return resultado;
+            //     const numero_voo = document.getElementById('numero_voo').value;
+            //     if(numero_voo.length > 0){
+            //         resultado = true;
+            //     }
+            //     return resultado;
+            // }
+
+            function preencheuTrecho(){
+                let resultado = false
+
+                const trechoSelecionado = document.getElementById('comboTrechos').value;
+                return trechoSelecionado !== '0';
             }
 
-            function preencheuOrigem(){
-                let resultado = false;
 
-                const origem = document.getElementById('origem').value;
-                if(origem.length > 0){
-                    resultado = true;
-                }
-                return resultado;
-            }
+            // FUNCOES PRA APAGAR DPS
 
-            function preencheuDestino(){
-                let resultado = false;
+            // function preencheuOrigem(){
+            //     let resultado = false;
 
-                const destino = document.getElementById('destino').value;
-                if(destino.length > 0){
-                    resultado = true;
-                }
-                return resultado;
-            }
+            //     const origem= document.getElementById('origem').value;
+            //     if(origem.length > 0){
+            //         resultado = true;
+            //     }
+            //     return resultado;
+            // }
+
+            // function preencheuDestino(){
+            //     let resultado = false;
+
+            //     const destino = document.getElementById('destino').value;
+            //     if(destino.length > 0){
+            //         resultado = true;
+            //     }
+            //     return resultado;
+            // }
 
             function preencheuData(){
                 let resultado = false;
@@ -97,12 +107,36 @@
             function preencheuHorario(){
                 let resultado = false;
 
-                const horario = document.getElementById('horario').value;
-                if(horario.length > 0){
+                const horario1 = document.getElementById('horarioUm').value;
+                const horario2 = document.getElementById('horarioDois').value;
+
+                if(horario1.length > 0 && horario2.lenght >0 ){
                     resultado = true;
                 }
                 return resultado;
             }
+
+            function preencheuAeroportoPartida(){
+                let resultado = false;
+
+                const aeroPARTIDASelecionado = document.getElementById('comboAeroportoUm').value;
+                return aeroPARTIDASelecionado !== '0';
+        
+            }
+
+            function preencheuAeroportoChegada(){
+                let resultado = false;
+
+                const aeroCHEGADASelecionado = document.getElementById('comboAeroportoDois').value;
+                return aeroCHEGADASelecionado !== '0';
+            }
+
+            
+        //     function preencheuOrigemDestino() {
+        //     const origemSelecionada = document.getElementById('comboOrigem').value;
+        //     const destinoSelecionado = document.getElementById('comboDestino').value;
+        //     return origemSelecionada !== '0' && destinoSelecionado !== '0';
+        // }
 
             function preencheuValor(){
                 let resultado = false;
@@ -128,29 +162,22 @@
                 pStatus.textContent = msg;
             }
 
-            function fetchInserir(body){
+            function fetchInserirVoo(trecho, data, horapartida, horachegada, aeroportopartida, aeroportochegada, valor){
                 const requestOptions = {
-                    method: 'PUT', headers: {'Content-Type' : "application/json"}, body: JSON.stringify(body)
+                    method: 'PUT',
+                    headers: {'Content-Type' : "application/json"},
+                    body: JSON.stringify(trecho, data, horapartida, horachegada, aeroportopartida, aeroportochegada, valor)
                 };
 
                 return fetch('http://localhost:3000/inserirVoo', requestOptions).then(T => T.json())
             }
 
             function cadastrarVoo(){
-                if(!preencheuVoo()){
-                    MessageStatus("Preencha a identificação do voo!", true);
+                if(!preencheuTrecho()){
+                    MessageStatus("Selecione um trecho!", true);
                     return
                 }
-                if(!preencheuOrigem()){
-                    MessageStatus("preencha a origem!", true);
-                    return
-                }
-                
-                if(!preencheuDestino()){
-                    MessageStatus("Preencha o destino!", true);
-                    return
-                }
-
+            
                 if(!preencheuData()){
                     MessageStatus("Preencha a data!", true);
                     return
@@ -160,24 +187,40 @@
                     MessageStatus("Preencha o horário!", true);
                     return
                 }
+
+                if (!preencheuAeroportoPartida()){
+                    MessageStatus("Preencha o aeroporto de partida!", true)
+                }
+
+                if (!preencheuAeroportoChegada()){
+                    MessageStatus("Preencha o aeroporto de chegada!", true)
+                }
+
                 if(!preencheuValor()){
                     MessageStatus("Preencha o valor!", true);
                     return
                 }
 
-                const Voo = document.getElementById("numero_voo").value;
-                const Origem = document.getElementById("origem").value;
-                const Destino = document.getElementById("data").value;
-                const Horario = document.getElementById("horario").value;
+                // trecho, data, horapartida, horachegada, aeroportopartida, aeroportochegada, valor
+
+                const Trecho = document.getElementById("comboTrechos").value;
+                const Data = document.getElementById("data").value;
+                const Horario1 = document.getElementById("horarioUm").value;
+                const Horario2 = document.getElementById("horarioDois").value;
+                const AeroportoPartida = document.getElementById("comboAeroportoUm").value;
+                const AeroportoChegada = document.getElementById("comboAeroportoDois").value;
                 const Valor = document.getElementById("valor").value;
 
                 fetchInserir({
-                    Voo: numero_voo,
-                    Origem: origem,
-                    Destino: data,
-                    Horario: horario,
+                    Trecho: trecho,
+                    Data: data,
+                    Horario1: horapartida,
+                    Horario2: horachegada,
+                    AeroportoPartida: aeroportopartida,
+                    AeroportoChegada: aeroportochegada,
                     Valor: valor
                     })
+
                     .then(customResponse => {
                     if(customResponse.status === "SUCCESS"){
                         MessageStatus("Aeronave cadastrada... ", false);
@@ -223,12 +266,12 @@
                 </div>
 
                 <div id="voos">
-                    <label for="horario">Hora partida:</label>
-                    <label for="horario">Hora chegada:</label>
+                    <label for="horarioUm">Hora partida:</label>
+                    <label for="horarioDois">Hora chegada:</label>
                 </div>
                 <div id="voos">
-                    <input type="text" id="horario" name="horario" placeholder="Ex: 11:00 (Cidade partida)" required>
-                    <input type="text" id="horario" name="horario" placeholder="Ex: 11:00 (Cidade chegada)" required>
+                    <input type="text" id="horarioUm" name="horarioUm" placeholder="Ex: 11:00 (Cidade partida)" required>
+                    <input type="text" id="horarioDois" name="horarioDois" placeholder="Ex: 11:00 (Cidade chegada)" required>
                 </div>
 
                 <label for="data" id="voos" >Aeroporto partida:</label>
