@@ -7,6 +7,58 @@
         <link rel="stylesheet" href="../../assets/css/tela_cadastro.css">
         <title>Cadastro de Voos - VeniceAir</title>
         <script>
+
+            // carregar TRECHO e AEROPORTOS (2x) em 3 combobox
+            document.addEventListener('DOMContentLoaded', function () {
+                carregarTrechos('comboTrechos');
+                carregarAeroportos('comboAeroportoUm');
+                carregarAeroportos('comboAeroportoDois');
+            });
+
+            // funcao carregar TRECHOS -- ARRUMAR: APARECE APENAS A CIDADE DE ORIGEM (ACHO Q É ORIGEM)
+            function carregarTrechos(idSelect) {
+                fetch('http://localhost:3000/listarTrechos')
+                    .then(response => response.json())
+                    .then(data => {
+                        const select = document.getElementById(idSelect);
+                        data.payload.forEach(trecho => {
+                            const option = document.createElement('option');
+                            option.value = trecho[0];
+                            option.text = trecho[1];
+                            option.text = trecho[2];
+                            select.appendChild(option);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Erro ao carregar trechos:', error);
+                    });
+            }
+
+            // funcao carregar AEROPORTOS
+            function carregarAeroportos(idSelect) {
+                fetch('http://localhost:3000/listarAeroportos')
+                    .then(response => response.json())
+                    .then(data => {
+                        const select = document.getElementById(idSelect);
+                        data.payload.forEach(aeroporto => {
+                            const option = document.createElement('option');
+                            option.value = aeroporto[0];
+                            option.text = aeroporto[1];
+                            select.appendChild(option);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Erro ao carregar aeroportos:', error);
+                    });
+            }
+
+
+
+
+
+
+
+
             function preencheuVoo(){
                 let resultado = false;
 
@@ -164,7 +216,7 @@
             <form action="/inserirVoos" method="put"></form>
 
                 <label for="data">Trecho:</label>
-                <select name="comboFabricantes" id="comboFabricantes">
+                <select name="comboTrechos" id="comboTrechos">
                     <option value="0" selected>Selecione o trecho</option>
                 </select>
 
@@ -185,11 +237,11 @@
                 </div>
 
                 <label for="data" id="voos" >Aeroporto partida:</label>
-                <select name="comboFabricantes" id="comboFabricantes">
+                <select name="comboAeroportoUm" id="comboAeroportoUm">
                     <option value="0" selected>Selecione o aeroporto</option>
                 </select>
                 <label for="data" id="voos" >Aeroporto chegada:</label>
-                <select name="comboFabricantes" id="comboFabricantes">
+                <select name="comboAeroportoDois" id="comboAeroportoDois">
                     <option value="0" selected>Selecione o aeroporto</option>
                 </select>
 
