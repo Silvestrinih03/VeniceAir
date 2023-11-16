@@ -89,7 +89,7 @@
                 return fetch('http://localhost:3000/inserirVoo', requestOptions).then(T => T.json())
             }
 
-            function inserirVoo(){
+            function cadastrarVoo(){
                 if(!preencheuVoo()){
                     MessageStatus("Preencha a identificação do voo!", true);
                     return
@@ -144,6 +144,7 @@
                         console.log("Falha grave ao cadastrar." + e)
                     });
             }
+            // falta: funcao carregar trechos, funcao carregar aeroportos (2x) !!!!!!!!!!
         </script>
     </head>
     <body>
