@@ -12,21 +12,24 @@
         });
 
         function carregarTrechos(idSelect) {
-            fetch('http://localhost:3000/listarTrechos')
-                .then(response => response.json())
-                .then(data => {
-                    const select = document.getElementById(idSelect);
-                    data.payload.forEach(trecho => {
-                    const option = document.createElement('option');
-                    option.value = trecho[0];
-                    option.text = trecho[0];
-                    select.appendChild(option);
-                });
-                })
-                .catch(error => {
-                    console.error('Erro ao carregar trechos:', error);
-                });
-        }
+                fetch('http://localhost:3000/listarTrechos')
+                    .then(response => response.json())
+                    .then(data => {
+                        const select = document.getElementById(idSelect);
+                        data.payload.forEach(trecho => {
+                            const option = document.createElement('option');
+                            // CONCATENAR (origem e destino na mesma opcaooo)
+                            const optionText = `${trecho[1]}  ->  ${trecho[2]}`; 
+
+                            option.value = trecho[0];
+                            option.text = optionText;
+                            select.appendChild(option);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Erro ao carregar trechos:', error);
+                    });
+            }
 
         function preencheuTrecho() {
             const trechoSelecionado = document.getElementById('trechos').value;
@@ -91,10 +94,10 @@
     </div>
     <div class="container">
         <!-- <label for="id">ID do trecho:</label> -->
-        <p>Para selecionar o ID do trecho, não esqueça de olhar a listagem de registros da aba anterior!</p>
+        <p>Selecione um trecho para excluí-lo.</p>
         <p>Esta ação não poderá ser revertida!</p>
         <select name="trechos" id="trechos">
-            <option value="0" selected>Selecione o ID do trecho que deseja excluir</option>
+            <option value="0" selected>Selecione o trecho que deseja excluir</option>
         </select>
         <button type="submit" id="excluir" name="excluir" onclick="excluirTrecho()">Excluir</button>
     </div>
