@@ -163,9 +163,26 @@
             }
 
             // verificar metodo (é put)
+            // function fetchInserirVoo(trecho, data, horapartida, horachegada, aeroportopartida, aeroportochegada, valor) {
+            //     const requestOptions = {
+            //         method: 'PUT', 
+            //         headers: { 'Content-Type': 'application/json' },
+            //         body: JSON.stringify({
+            //             Trecho: trecho,
+            //             Data: data,
+            //             Horario1: horapartida,
+            //             Horario2: horachegada,
+            //             AeroportoPartida: aeroportopartida,
+            //             AeroportoChegada: aeroportochegada,
+            //             Valor: valor
+            //         })
+            //     };
+            //     return fetch('http://localhost:3000/inserirVoo', requestOptions).then(response => response.json());
+            // }
+
             function fetchInserirVoo(trecho, data, horapartida, horachegada, aeroportopartida, aeroportochegada, valor) {
                 const requestOptions = {
-                    method: 'PUT', 
+                    method: 'PUT', // ou 'PUT' dependendo da sua lógica no servidor
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         Trecho: trecho,
@@ -230,7 +247,7 @@
                     Valor
                 )
                     .then(response => {
-                        console.log(response); // Adicione esta linha para imprimir a resposta no console
+                        console.log(response); // VER QUAL O ERRO NO CONSOLE
                         return response.json();
                     })
 
@@ -265,7 +282,7 @@
         </div>
         <div class="container">
             <p>Preencha todos os campos para cadastrar voo.</p>
-            <form action="/inserirVoos" method="put"></form>
+            <form action="/inserirVoo" method="put" enctype="application/json"></form>
 
                 <label for="data">Trecho:</label>
                 <select name="comboTrechos" id="comboTrechos">
@@ -304,6 +321,7 @@
                 <button type="reset">Limpar</button>
             </form>
             <p id="status" class="statusError"></p>
+            <!-- TA PODENDO SELECIONAR O MESMO AEROPORTO 2X -->
         </div>
     </body>
 </html>
