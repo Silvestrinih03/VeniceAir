@@ -8,14 +8,14 @@
         <title>Cadastro de Voos - VeniceAir</title>
         <script>
 
-            // carregar TRECHO e AEROPORTOS (2x) em 3 combobox
+            // carregar TRECHO e AEROPORTOS
             document.addEventListener('DOMContentLoaded', function () {
                 carregarTrechos('comboTrechos');
                 carregarAeroportos('comboAeroportoUm');
                 carregarAeroportos('comboAeroportoDois');
             });
 
-            // funcao carregar TRECHOS -- ARRUMAR: APARECE APENAS A CIDADE DE ORIGEM (ACHO Q É ORIGEM)
+            // funcao carregar TRECHOS
             function carregarTrechos(idSelect) {
                 fetch('http://localhost:3000/listarTrechos')
                     .then(response => response.json())
@@ -23,9 +23,11 @@
                         const select = document.getElementById(idSelect);
                         data.payload.forEach(trecho => {
                             const option = document.createElement('option');
+                            // CONCATENAR (origem e destino na mesma opcaooo)
+                            const optionText = `${trecho[1]}  ->  ${trecho[2]}`; 
+
                             option.value = trecho[0];
-                            option.text = trecho[1];
-                            option.text = trecho[2];
+                            option.text = optionText;
                             select.appendChild(option);
                         });
                     })
@@ -51,13 +53,6 @@
                         console.error('Erro ao carregar aeroportos:', error);
                     });
             }
-
-
-
-
-
-
-
 
             function preencheuVoo(){
                 let resultado = false;
@@ -196,7 +191,7 @@
                         console.log("Falha grave ao cadastrar." + e)
                     });
             }
-            // falta: funcao carregar trechos, funcao carregar aeroportos (2x) !!!!!!!!!!
+
         </script>
     </head>
     <body>
