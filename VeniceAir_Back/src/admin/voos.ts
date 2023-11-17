@@ -52,13 +52,14 @@ vooRouter.get("/listarVoos", async(req,res)=>{
 
 vooRouter.put("/inserirVoo", async(req,res)=>{
   
-  const trecho = req.body.trecho as number;
-  const data_partida = req.body.data_partida as string;
-  const hora_partida = req.body.hora_partida as string;
-  const hora_chegada = req.body.hora_chegada as string;
-  const aeroporto_partida = req.body.aeroporto_partida as number;
-  const aeroporto_chegada = req.body.aeroporto_chegada as number;
-  const valor = req.body.valor as number;
+  // meu deus era só colocar letra maiuscula
+  const trecho = req.body.Trecho as number;
+  const data_partida = req.body.Data as string;
+  const hora_partida = req.body.HorarioPartida as string;
+  const hora_chegada = req.body.HorarioChegada as string;
+  const aeroporto_partida = req.body.AeroportoPartida as number;
+  const aeroporto_chegada = req.body.AeroportoChegada as number;
+  const valor = req.body.Valor as number;
 
 
   let cr: CustomResponse = {

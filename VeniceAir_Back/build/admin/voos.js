@@ -52,13 +52,13 @@ exports.vooRouter.get("/listarVoos", (req, res) => __awaiter(void 0, void 0, voi
     }
 }));
 exports.vooRouter.put("/inserirVoo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const trecho = req.body.trecho;
-    const data_partida = req.body.data_partida;
-    const hora_partida = req.body.hora_partida;
-    const hora_chegada = req.body.hora_chegada;
-    const aeroporto_partida = req.body.aeroporto_partida;
-    const aeroporto_chegada = req.body.aeroporto_chegada;
-    const valor = req.body.valor;
+    const trecho = req.body.Trecho;
+    const data_partida = req.body.Data;
+    const hora_partida = req.body.HorarioPartida;
+    const hora_chegada = req.body.HorarioChegada;
+    const aeroporto_partida = req.body.AeroportoPartida;
+    const aeroporto_chegada = req.body.AeroportoChegada;
+    const valor = req.body.Valor;
     let cr = {
         status: "ERROR",
         message: "",
