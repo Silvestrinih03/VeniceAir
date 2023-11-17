@@ -54,45 +54,12 @@
                     });
             }
 
-            // function preencheuVoo(){
-            //     let resultado = false;
-
-            //     const numero_voo = document.getElementById('numero_voo').value;
-            //     if(numero_voo.length > 0){
-            //         resultado = true;
-            //     }
-            //     return resultado;
-            // }
-
             function preencheuTrecho(){
                 let resultado = false
 
                 const trechoSelecionado = document.getElementById('comboTrechos').value;
                 return trechoSelecionado !== '0';
             }
-
-
-            // FUNCOES PRA APAGAR DPS
-
-            // function preencheuOrigem(){
-            //     let resultado = false;
-
-            //     const origem= document.getElementById('origem').value;
-            //     if(origem.length > 0){
-            //         resultado = true;
-            //     }
-            //     return resultado;
-            // }
-
-            // function preencheuDestino(){
-            //     let resultado = false;
-
-            //     const destino = document.getElementById('destino').value;
-            //     if(destino.length > 0){
-            //         resultado = true;
-            //     }
-            //     return resultado;
-            // }
 
             function preencheuData(){
                 let resultado = false;
@@ -131,13 +98,6 @@
                 return aeroCHEGADASelecionado !== '0';
             }
 
-            
-        //     function preencheuOrigemDestino() {
-        //     const origemSelecionada = document.getElementById('comboOrigem').value;
-        //     const destinoSelecionado = document.getElementById('comboDestino').value;
-        //     return origemSelecionada !== '0' && destinoSelecionado !== '0';
-        // }
-
             function preencheuValor(){
                 let resultado = false;
 
@@ -147,8 +107,6 @@
                 }
                 return resultado;
             }
-
-
 
             function MessageStatus(msg, error){
                 var pStatus = document.getElementById("status");
@@ -162,27 +120,15 @@
                 pStatus.textContent = msg;
             }
 
-            // verificar metodo (é put)
-            // function fetchInserirVoo(trecho, data, horapartida, horachegada, aeroportopartida, aeroportochegada, valor) {
-            //     const requestOptions = {
-            //         method: 'PUT', 
-            //         headers: { 'Content-Type': 'application/json' },
-            //         body: JSON.stringify({
-            //             Trecho: trecho,
-            //             Data: data,
-            //             Horario1: horapartida,
-            //             Horario2: horachegada,
-            //             AeroportoPartida: aeroportopartida,
-            //             AeroportoChegada: aeroportochegada,
-            //             Valor: valor
-            //         })
-            //     };
-            //     return fetch('http://localhost:3000/inserirVoo', requestOptions).then(response => response.json());
-            // }
 
             function fetchInserirVoo(trecho, data, horapartida, horachegada, aeroportopartida, aeroportochegada, valor) {
+
+                // Formatar a data para o formato "DD/MM/RR"
+                //const dataFormatada = new Date(data).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: '2-digit' }).replace(/\//g, '');
+                //const dataFormatada = new Date(data).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: '2-digit' });
+
                 const requestOptions = {
-                    method: 'PUT', // ou 'PUT' dependendo da sua lógica no servidor
+                    method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         Trecho: trecho,
@@ -238,7 +184,8 @@
                 const Valor = document.getElementById("valor").value;
 
                 // MENSAGEM NO CONSOLE PRA SABER QUAL TRECHO Q FOI SELECIONADO (CAMPINAS-PORTOALEGRE=42)
-                // MAIS CONSOLE LOG PRA SABER DE TUDO
+                // MAIS CONSOLE LOG PRA SABER DE TUDO ====== DATA ESTA RETORNANDO INVALIDO!
+                // sql aceita: DD/MM/RR e aqui envia YYYY/MM/DD
                 console.log("Trecho:", Trecho);
                 console.log("Data:", Data);
                 console.log("horario partida:", HorarioPartida);

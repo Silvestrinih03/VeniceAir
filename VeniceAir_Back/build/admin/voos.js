@@ -52,6 +52,7 @@ exports.vooRouter.get("/listarVoos", (req, res) => __awaiter(void 0, void 0, voi
     }
 }));
 exports.vooRouter.put("/inserirVoo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // meu deus era só colocar letra maiuscula
     const trecho = req.body.Trecho;
     const data_partida = req.body.Data;
     const hora_partida = req.body.HorarioPartida;
