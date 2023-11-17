@@ -76,6 +76,17 @@ vooRouter.put("/inserirVoo", async(req,res)=>{
       connectionString: process.env.ORACLE_DB_CONN_STR,
     });
 
+    console.log("Dados para inserção:", {
+      trecho,
+      data_partida,
+      hora_partida,
+      hora_chegada,
+      aeroporto_partida,
+      aeroporto_chegada,
+      valor,
+    });
+
+
     const cmdInsertVoo = `INSERT INTO VOOS VALUES (SEQ_TRECHOS.NEXTVAL, :1, :2, :3, :4, :5, :6, :7)`
 
     const dados = [trecho, data_partida, hora_partida, hora_chegada, aeroporto_partida, aeroporto_chegada, valor];

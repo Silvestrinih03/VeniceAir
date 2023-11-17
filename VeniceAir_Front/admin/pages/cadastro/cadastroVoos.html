@@ -231,21 +231,32 @@
 
                 const Trecho = document.getElementById("comboTrechos").value;
                 const Data = document.getElementById("data").value;
-                const Horario1 = document.getElementById("horarioUm").value;
-                const Horario2 = document.getElementById("horarioDois").value;
+                const HorarioPartida = document.getElementById("horarioUm").value;
+                const HorarioChegada = document.getElementById("horarioDois").value;
                 const AeroportoPartida = document.getElementById("comboAeroportoUm").value;
                 const AeroportoChegada = document.getElementById("comboAeroportoDois").value;
                 const Valor = document.getElementById("valor").value;
 
+                // MENSAGEM NO CONSOLE PRA SABER QUAL TRECHO Q FOI SELECIONADO (CAMPINAS-PORTOALEGRE=42)
+                // MAIS CONSOLE LOG PRA SABER DE TUDO
+                console.log("Trecho:", Trecho);
+                console.log("Data:", Data);
+                console.log("horario partida:", HorarioPartida);
+                console.log("horario chegada:", HorarioChegada);
+                console.log("aeroporto partida:", AeroportoPartida);
+                console.log("aeroporto chegada:", AeroportoChegada);
+                console.log("valor:", Valor);
+
+
                 fetchInserirVoo(
                     Trecho,
                     Data,
-                    Horario1,
-                    Horario2,
+                    HorarioPartida,
+                    HorarioChegada,
                     AeroportoPartida,
                     AeroportoChegada,
                     Valor
-                )
+                )   
                     .then(response => {
                         console.log(response); // VER QUAL O ERRO NO CONSOLE
                         return response.json();
@@ -284,7 +295,7 @@
             <p>Preencha todos os campos para cadastrar voo.</p>
             <form action="/inserirVoo" method="put" enctype="application/json"></form>
 
-                <label for="data">Trecho:</label>
+                <label for="trecho">Trecho:</label>
                 <select name="comboTrechos" id="comboTrechos">
                     <option value="0" selected>Selecione o trecho</option>
                 </select>
