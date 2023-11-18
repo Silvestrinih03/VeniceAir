@@ -104,7 +104,7 @@ vooRouter.put("/inserirVoo", async (req, res) => {
 
 
 
-// Função ???
+// Função OK
 vooRouter.delete("/excluirVoo/:codigo", async (req, res) => {
   const codigo = req.params.codigo;
 
@@ -121,9 +121,9 @@ vooRouter.delete("/excluirVoo/:codigo", async (req, res) => {
           connectionString: process.env.ORACLE_DB_CONN_STR,
       });
 
-      const cmdDeleteVoo = `DELETE VOOS WHERE ID_VOO = :1`;
+      const cmdDeleteTrecho = `DELETE VOOS WHERE ID_VOO = :1`;
       const dados = [codigo];
-      let resDelete = await connection.execute(cmdDeleteVoo, dados);
+      let resDelete = await connection.execute(cmdDeleteTrecho, dados);
       await connection.commit();
       await connection.close();
 
@@ -131,8 +131,6 @@ vooRouter.delete("/excluirVoo/:codigo", async (req, res) => {
       if (rowsDeleted !== undefined && rowsDeleted === 1) {
           cr.status = "SUCCESS";
           cr.message = "Voo excluído.";
-      } else {
-          cr.message = "Voo não excluído. Verifique se o código informado está correto.";
       }
   } catch (e) {
       if (e instanceof Error) {

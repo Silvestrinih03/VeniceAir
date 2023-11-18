@@ -51,50 +51,7 @@ exports.vooRouter.get("/listarVoos", (req, res) => __awaiter(void 0, void 0, voi
         res.send(cr);
     }
 }));
-// // Inserir voos
-// vooRouter.put("/inserirVoo", async(req,res)=>{
-//   const trecho = req.body.trecho as number;
-//   const data_partida = req.body.data_partida as Date;
-//   const hora_partida = req.body.hora_partida as string;
-//   const hora_chegada = req.body.hora_chegada as string;
-//   const aeroporto_partida = req.body.aeroporto_partida as number;
-//   const aeroporto_chegada = req.body.aeroporto_chegada as number;
-//   const valor = req.body.valor as number;
-//   let cr: CustomResponse = {
-//     status: "ERROR",
-//     message: "",
-//     payload: undefined,
-//   };
-//   let conn;
-//   try{
-//     conn = await oracledb.getConnection({
-//        user: process.env.ORACLE_DB_USER,
-//        password: process.env.ORACLE_DB_SECRET,
-//        connectionString: process.env.ORACLE_DB_CONN_STR,
-//     });
-//     const cmdInsertVoo = 'INSERT INTO VOOS (TRECHO, DATA_PARTIDA, HORA_PARTIDA, HORA_CHEGADA, AEROPORTO_PARTIDA, AEROPORTO_CHEGADA, VALOR) VALUES (:1, :2, :3, :4, :5, :6, :7)';
-//     const dados = [trecho, data_partida, hora_partida, hora_chegada, aeroporto_partida, aeroporto_chegada, valor];
-//     let resInsert = await conn.execute(cmdInsertVoo, dados);
-//     await conn.commit();
-//     const rowsInserted = resInsert.rowsAffected
-//     if(rowsInserted !== undefined &&  rowsInserted === 1) {
-//       cr.status = "SUCCESS"; 
-//       cr.message = "Voo inserido.";
-//     }
-//   }catch(e){
-//     if(e instanceof Error){
-//       cr.message = e.message;
-//       console.log(e.message);
-//     }else{
-//       cr.message = "Erro ao conectar ao oracle. Sem detalhes";
-//     }
-//   } finally {
-//     if(conn!== undefined){
-//       await conn.close();
-//     }
-//     res.send(cr);  
-//   }
-// });
+// Função OK
 exports.vooRouter.put("/inserirVoo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const trecho = req.body.trecho;
     const data_partida = new Date(req.body.data_partida);
@@ -155,18 +112,15 @@ exports.vooRouter.delete("/excluirVoo/:codigo", (req, res) => __awaiter(void 0, 
             password: process.env.ORACLE_DB_SECRET,
             connectionString: process.env.ORACLE_DB_CONN_STR,
         });
-        const cmdDeleteVoo = `DELETE VOOS WHERE ID_VOO = :1`;
+        const cmdDeleteTrecho = `DELETE VOOS WHERE ID_VOO = :1`;
         const dados = [codigo];
-        let resDelete = yield connection.execute(cmdDeleteVoo, dados);
+        let resDelete = yield connection.execute(cmdDeleteTrecho, dados);
         yield connection.commit();
         yield connection.close();
         const rowsDeleted = resDelete.rowsAffected;
         if (rowsDeleted !== undefined && rowsDeleted === 1) {
             cr.status = "SUCCESS";
             cr.message = "Voo excluído.";
-        }
-        else {
-            cr.message = "Voo não excluído. Verifique se o código informado está correto.";
         }
     }
     catch (e) {
