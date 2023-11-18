@@ -28,6 +28,14 @@
                 });
         }
 
+        async function fetchExcluir(codigo) {
+            const response = await fetch(`http://localhost:3000/excluirVoo/${codigo}`, {
+                method: 'DELETE'
+            });
+
+            return response.json();
+        }
+
         function preencheuVoo() {
             const vooSelecionado = document.getElementById('voos').value;
             return vooSelecionado !== '0';
@@ -43,33 +51,18 @@
             pStatus.textContent = msg;
         }
 
-        fetchExcluir(voo)
-            .then(customResponse => {
-                if (customResponse.status === 'SUCCESS') {
-                    messageStatus('Voo excluído com sucesso!', false);
-                } else {
-                    messageStatus('Erro ao excluir Voo: ' + customResponse.message, true);
-                    console.log(customResponse.message);
-                }
-            })
-            .catch((e) => {
-                messageStatus('Erro técnico ao excluir voo. Contate o suporte.', true);
-                console.log('Falha grave ao excluir voo.' + e);
-            });
-
-
         function excluirVoo() {
             if (!preencheuVoo()) {
                 messageStatus('Selecione o voo que deseja excluir!', true);
                 return;
             }
 
-            const trecho = document.getElementById('voos').value;
+            const codigo = document.getElementById('voos').value;
 
-            fetchExcluir(voo)
+            fetchExcluir(codigo)
                 .then(customResponse => {
                     if (customResponse.status === 'SUCCESS') {
-                        messageStatus('Voo excluído...', false);
+                        messageStatus('Voo excluído com sucesso!', false);
                     } else {
                         messageStatus('Erro ao excluir Voo: ' + customResponse.message, true);
                         console.log(customResponse.message);
