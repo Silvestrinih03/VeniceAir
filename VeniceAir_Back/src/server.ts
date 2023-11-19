@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
 
+import { buscaRouter } from './cliente/busca';
 import { cidadeRouter } from './admin/cidades';
 import { aeronaveRouter } from './admin/aeronaves';
 import { aeroportoRouter } from './admin/aeroportos';
@@ -27,6 +28,7 @@ app.use(aeroportoRouter);
 app.use(trechoRouter);
 app.use(vooRouter);
 app.use(avaliacaoRouter);
+app.use(buscaRouter);
 
 const PORT = parseInt(`${process.env.PORT || 3000}`);
 app.listen(PORT, () => console.log(`Server is running at ${PORT}.`));
