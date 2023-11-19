@@ -35,73 +35,95 @@ buscaRouter.post("/buscarVoo", async(req,res)=>{
       connectionString: process.env.ORACLE_DB_CONN_STR,
     }
     const connection = await oracledb.getConnection(connAttibs);
-    //const cmdInsertAeroporto = 'INSERT INTO AEROPORTOS(SIGLA, CIDADE) VALUES (:1, :2)';
-    let resultadoConsulta = await connection.execute("SELECT * FROM AERONAVES");
-  
+    let query =
+      "SELECT V.* FROM VOOS V " +
+      "JOIN TRECHOS T ON V.TRECHO = T.ID_TRECHO " +
+      "WHERE ";
+
+    const params = [];
+
+    if (tipopassagem === "1") {
+      // Tipo de passagem: Ida
+      query += "V.DATA_PARTIDA = :dataIda AND ";
+      params.push(dataIda);
+    } else if (tipopassagem === "2") {
+      // Tipo de passagem: Ida e volta
+      query += "V.DATA_PARTIDA = :dataIda AND ";
+      //query += "V.DATA_VOLTA = :dataVolta AND ";
+      params.push(dataIda);
+      params.push(new Date(req.body.data_volta));
+    }
+
+    query += "T.CIDADE_ORIGEM = :partidaDe AND ";
+    query += "T.CIDADE_DESTINO = :chegadaA";
+
+    params.push(partidaDe);
+    params.push(chegadaA);
+
+    let resultadoConsulta = await connection.execute(query, params);
+
     await connection.close();
-    cr.status = "SUCCESS"; 
+
+    cr.status = "SUCCESS";
     cr.message = "Dados obtidos";
     cr.payload = resultadoConsulta.rows;
-
-  }catch(e){
-    if(e instanceof Error){
+  } catch (e) {
+    if (e instanceof Error) {
       cr.message = e.message;
       console.log(e.message);
-    }else{
+    } else {
       cr.message = "Erro ao conectar ao oracle. Sem detalhes";
     }
   } finally {
-    res.send(cr);  
+    res.send(cr);
   }
-
 });
 
-
 // Função OK
-aeroportoRouter.put("/inserirAeroportos", async(req,res)=>{
+// aeroportoRouter.put("/inserirAeroportos", async(req,res)=>{
 
-    const sigla = req.body.sigla as string;
-    const cidade = req.body.cidade as number;
+//     const sigla = req.body.sigla as string;
+//     const cidade = req.body.cidade as number;
   
-    let cr: CustomResponse = {
-      status: "ERROR",
-      message: "",
-      payload: undefined,
-    };
+//     let cr: CustomResponse = {
+//       status: "ERROR",
+//       message: "",
+//       payload: undefined,
+//     };
   
-    let conn;
+//     let conn;
   
-    try{
-      conn = await oracledb.getConnection({
-         user: process.env.ORACLE_DB_USER,
-         password: process.env.ORACLE_DB_SECRET,
-         connectionString: process.env.ORACLE_DB_CONN_STR,
-      });
+//     try{
+//       conn = await oracledb.getConnection({
+//          user: process.env.ORACLE_DB_USER,
+//          password: process.env.ORACLE_DB_SECRET,
+//          connectionString: process.env.ORACLE_DB_CONN_STR,
+//       });
   
-      const cmdInsertAeroporto = 'INSERT INTO AEROPORTOS(SIGLA, CIDADE) VALUES (:1, :2)';
+//       const cmdInsertAeroporto = 'INSERT INTO AEROPORTOS(SIGLA, CIDADE) VALUES (:1, :2)';
   
-      const dados = [sigla, cidade];
-      let resInsert = await conn.execute(cmdInsertAeroporto, dados);
-      await conn.commit();
+//       const dados = [sigla, cidade];
+//       let resInsert = await conn.execute(cmdInsertAeroporto, dados);
+//       await conn.commit();
     
-      const rowsInserted = resInsert.rowsAffected;
-      if (rowsInserted !== undefined &&  rowsInserted === 1) {
-        cr.status = "SUCCESS"; 
-        cr.message = "Aeroporto inserido.";
-      }
+//       const rowsInserted = resInsert.rowsAffected;
+//       if (rowsInserted !== undefined &&  rowsInserted === 1) {
+//         cr.status = "SUCCESS"; 
+//         cr.message = "Aeroporto inserido.";
+//       }
   
-    }catch(e){
-      if(e instanceof Error){
-        cr.message = e.message;
-        console.log(e.message);
-      }else{
-        cr.message = "Erro ao conectar ao oracle. Sem detalhes";
-      }
-    } finally {
-      if(conn!== undefined){
-        await conn.close();
-      }
-      res.send(cr);  
-    }
-  });
+//     }catch(e){
+//       if(e instanceof Error){
+//         cr.message = e.message;
+//         console.log(e.message);
+//       }else{
+//         cr.message = "Erro ao conectar ao oracle. Sem detalhes";
+//       }
+//     } finally {
+//       if(conn!== undefined){
+//         await conn.close();
+//       }
+//       res.send(cr);  
+//     }
+//   });
   
