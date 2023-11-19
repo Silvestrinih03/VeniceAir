@@ -1,13 +1,103 @@
+<!-- Descrição do documento HTML -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Configuração do conjunto de caracteres e escala de visualização -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard VeniceAir</title>
+    <!-- Título da página -->
+    <title>Área Cliente VeniceAir</title>
+    <!-- Link CSS - Cabeçalho padrão da página -->
     <link href="../../Geral/assets/css/header_page.css" rel="stylesheet"/>
+    <!-- Link CSS - Desing da página -->
     <link href="../assets/area_cliente.css" rel="stylesheet"/>
+    <script>
+      // Script 1 - Envia avaliação do usuário
+      // Função para verificar se o campo de "Nome" foi preenchido
+      function preencheuNome() {
+          const nomeSelecionado = document.getElementById('nome').value;
+          return nomeSelecionado.length > 0;
+      }
+      // Função para verificar se o campo de "E-mail" foi preenchido
+      function preencheuEmail() {
+          const emailSelecionado = document.getElementById('email').value;
+          return emailSelecionado.length > 0;
+      }
+      // Função para verificar se o campo de "Nota" foi selecionado
+      function preencheuNota() {
+          const notaSelecionada = document.getElementById('avaliacao').value;
+          return notaSelecionada !== '0';
+      }
+      // Função para verificar se o campo de "Descrição" foi preenchido
+      function preencheuDescricao() {
+          const descricaoSelecionado = document.getElementById('descricao').value;
+          return descricaoSelecionado.length > 0;
+      }
+      // Função que exibe as mensagens de status (sucesso ou erro)
+      function messageStatus(msg, error) {
+          const pStatus = document.getElementById('status');
+          pStatus.className = error ? 'statusError' : 'statusSuccess';
+          pStatus.textContent = msg;
+      }
+      // Função que realiza a requisição para inserir a avaliação no banco de dados
+      function fetchInserir(body) {
+        const requestOptions = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        };
+        // Realiza a requisição e retorna a resposta convertida para JSON
+        return fetch('http://localhost:3000/inserirAvaliacao', requestOptions).then(T => T.json());
+      }
+      // Função que envia a avaliação para o banco
+      function inserirAvaliacao() {
+          if (!preencheuNome()) {
+              messageStatus('Preencha o campo nome!', true);
+              return;
+          } else if (!preencheuEmail()) {
+              messageStatus('Preencha o campo e-mail!', true);
+              return;
+          } else if (!preencheuNota()) {
+              messageStatus('Preencha a avaliação!', true);
+              return;
+          } else if (!preencheuDescricao()) {
+              messageStatus('Preencha a descrição!', true);
+              return;
+          }
+          // Obtém os valores dos campos
+          const nome = document.getElementById('nome').value;
+          const email = document.getElementById('email').value;
+          const avaliacao = document.getElementById('avaliacao').value;
+          const descricao = document.getElementById('descricao').value;
+          // Envia os valores o banco
+          fetchInserir({
+              nome: nome,
+              email: email,
+              avaliacao: avaliacao,
+              descricao: descricao
+          })
+          // Verifica se os dados forma enviados ou não e retorna uma mensagem ao usuário
+          .then(customResponse => {
+              if (customResponse.status === 'SUCCESS') {
+                  messageStatus('Avaliação enviada com sucesso! Obrigada pelo Feedback!', false);
+              } else {
+                  messageStatus('Erro ao enviar avaliação: ' + customResponse.message, true);
+                  console.log(customResponse.message);
+              }
+          })
+          .catch((e) => {
+            // Verifica erros técnicos e solicita que o usuário contate o suporte
+            messageStatus('Erro técnico ao enviar. Contate o suporte.', true);
+            console.log('Falha grave ao enviar.' + e);
+          });
+      }
+
+      //Script 2 - Realiza busca dos voos de acordo com o que foi solicitado pelo cliente
+      //FAZER
+    </script>
 </head>
 <body>
+    <!-- Cabecalho padrão da página -->
     <div id="header_page">
         <div id="img_logo">
             <img src="../../Geral/assets/images/logo.png"> 
@@ -19,56 +109,65 @@
             <button id="padrao_button"><a href="../../Geral/dashboard.html">Home</a></button>
         </div>
     </div>
+    <!-- Slogan da companhia aérea -->
     <div id="slogan">
       <p>THE BRIGHTNESS ON THE SKY</p>
     </div>
+    <!-- Organização das DIVs e formulários necessários para que o usuário busque o voo que deseja -->
     <div id="busca_div">
       <p>BUSCA DE VOOS</p>
       <form id="busca_form">
         <div id="div_campos" class="mb-3">
+          <!-- select de ida/ida e volta -->
           <select id="campo_select" class="form-select" aria-label="Default select example">
             <option selected>Tipo de passagem</option>
             <option value="1">Ida</option>
             <option value="2">Ida e volta</option>
           </select>
-          <!-- <input id="campo_cidade" type="text" class="input_cidade" id="partida" placeholder="Partida de "> -->
+          <!-- select de cidade origem - Dados enviados pelo banco-->
           <select id="campo_select" class="campo_cidade" aria-label="Default select example">
             <option value="0">Partida de </option>
           </select>
-          <!-- <input id="campo_cidade" type="text" class="input_cidade" id="partida" placeholder="Chegada a"> -->
+          <!-- select de cidade destino - Dados enviados pelo banco-->
           <select id="campo_select" class="campo_cidade" aria-label="Default select example">
             <option value="0">Chegada a </option>
           </select>
         </div>
+        <!-- Títulos dos campos de data -->
         <div id="div_campos" class="div_data">
           <label id="label_calendario" for="data_ida" class="data_ida">Data de Ida</label>
           <label id="label_calendario" for="data_volta" class="data_volta">Data retorno</label>
         </div>
+        <!-- Campos de data ida e volta -->
         <div id="div_campos" class="div_data">
           <input id="campo_data" type="date" class="form-control" id="exampleInputPassword1" placeholder="Data">
           <input id="campo_data" type="date" class="form-control" id="exampleInputPassword1" placeholder="Data">
         </div>
+        <!-- Botões de ação buscar (chama o script) e limpar (apaga os dados preenchidos pelo usuário) -->
         <div id="div_botao" class="mb-3">
           <button id="buscar"><a href="resultado_busca.html">Buscar</a></button>
           <button type="reset" id="buscar">Limpar</button>
         </div>
       </form>
     </div>
+    <!-- Informações adicionais da página -->
     <div id="informacoes">
+      <!-- Informações sobre a central de ajuda da companhia aérea -->
       <div id="central-ajuda">
         <h3>Precisa de ajuda com a sua reserva?</h3>
         <p>Central de atendimento VeniceAir: <strong>+55 19 98756-2511</strong></p>
         <p><strong>Idiomas falados:</strong> Português - Francês - Inglês</p>
         <p><strong>Horário de funcionamento:</strong> 08:00 até 20:00</p>
       </div>
+      <!-- Envio de feedback dos clientes -->
       <div id="feedback">
         <h3>Avaliação e sugestões sobre a VeniceAir: </h3>
-        <label id="feedback_label">Nome</label>
-        <input type="text" placeholder="Insira seu nome aqui" id="campos_feedback">
-        <label id="feedback_label">E-mail</label>
-        <input type="email" placeholder="Insira seu endereço de e-mail" id="campos_feedback">
-        <label id="feedback_label">Deixe sua avalidação</label>
-        <select id="campos_feedback">
+        <label for="nome" name="feedback_label">Nome</label>
+        <input type="text" placeholder="Insira seu nome aqui" id="nome" name="campos_feedback">
+        <label for="email" name="feedback_label">E-mail</label>
+        <input type="email" placeholder="Insira seu endereço de e-mail" id="email" name="campos_feedback">
+        <label for="avaliacao" name="feedback_label">Deixe sua avaliação</label>
+        <select id="avaliacao" name="campos_feedback">
           <option value="0">Nota</option>
           <option value="1">1</option>
           <option value="2">2</option>
@@ -76,9 +175,11 @@
           <option value="4">4</option>
           <option value="5">5</option>
         </select>
-        <label id="feedback_label">Conte sobre sua experiência com a VeniceAir e/ou suas sugestões de melhoria</label>
-        <input type="text" id="campos_feedback" placeholder="Descrição">
-      </div>
+        <label for="descricao" name="feedback_label">Conte sobre sua experiência com a VeniceAir e/ou suas sugestões de melhoria</label>
+        <input type="text" id="descricao" name="campos_feedback" placeholder="Descrição">
+        <button id="enviar" onclick="inserirAvaliacao()">Enviar</button>
+        <p id="status" class="statusError"></p>
+    </div>
     </div>
 </body>
 </html>
