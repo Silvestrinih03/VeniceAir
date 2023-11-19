@@ -9,11 +9,9 @@
 
 4º Abrir terminal no caminho "C:\Users\nsgar\OneDrive\Área de Trabalho\VeniceAir\VeniceAir_Back"
 
-5º Rodar o comando "npm run build"
+5º Rodar o comando "npm run start"
 
-6º Rodar o comando "npm run startnat"
-
-7º Abrir no Chrome o arquivo dashboard.html
+6º Abrir no Chrome o arquivo dashboard.html
     Caminho: C:\Users\nsgar\OneDrive\Área de Trabalho\VeniceAir\VeniceAir_Front\Geral
 
-8º Escolher opção "Admin"
+7º Escolher opção "Admin"
