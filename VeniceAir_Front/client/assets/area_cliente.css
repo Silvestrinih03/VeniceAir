@@ -147,11 +147,11 @@
     text-align: center;
 }
 
-#feedback_label{
+[name="feedback_label"]{
     font-weight: bold;
 }
 
-#campos_feedback{
+[name="campos_feedback"]{
     margin: 10px 0px;
     width: 100%;
     padding: 8px;
@@ -165,4 +165,17 @@
     padding: 8px;
     border-radius: 5px;
     border: 1px solid #ccc;
+}
+
+#enviar{
+    float: right;
+    width: 100px;
+    height: 35px;
+    border-radius: 5px;
+    border: none;
+    background-color: #0073e6;
+    transition: background-color 0.3s;
+    margin-bottom: 15px;
+    cursor: pointer;
+    color: white;
 }
