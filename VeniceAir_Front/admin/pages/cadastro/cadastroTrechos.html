@@ -29,12 +29,19 @@
                 });
         }
 
-        function preencheuOrigemDestino() {
+        function preencheuOrigem() {
             const origemSelecionada = document.getElementById('comboOrigem').value;
-            const destinoSelecionado = document.getElementById('comboDestino').value;
-            return origemSelecionada !== '0' && destinoSelecionado !== '0';
+            return origemSelecionada !== '0';
         }
 
+        function preencheuDestino() {
+            const destinoSelecionado = document.getElementById('comboDestino').value;
+            return destinoSelecionado !== '0';
+        }
+
+        function verificarOrigemDestinoIguais(origem, destino) {
+        return origem === destino;
+    }
         function messageStatus(msg, error) {
             const pStatus = document.getElementById('status');
             if (error) {
@@ -56,14 +63,22 @@
         }
 
         function cadastrarTrecho() {
-            if (!preencheuOrigemDestino()) {
-                messageStatus('Selecione origem e destino!', true);
+            if (!preencheuOrigem()) {
+                messageStatus('Selecione a origem!', true);
+                return;
+            }
+            if (!preencheuDestino()) {
+                messageStatus('Selecione o destino!', true);
                 return;
             }
 
             const origem = document.getElementById('comboOrigem').value;
             const destino = document.getElementById('comboDestino').value;
-
+            
+            if (verificarOrigemDestinoIguais(origem, destino)) {
+            messageStatus('A origem e o destino não podem ser iguais!', true);
+            return;
+        }
             fetchInserirTrecho(origem, destino)
                 .then(customResponse => {
                     if (customResponse.status === 'SUCCESS') {
