@@ -98,12 +98,10 @@
         });
         // Função para carregar as cidades do banco nos campos de seleção
         function carregarCidades(idSelect) {
-            // Requisição para obter as cidades cadastradas
             fetch('http://localhost:3000/listarCidades')
                 .then(response => response.json())
                 .then(data => {
                     const select = document.getElementById(idSelect);
-                    // Adiciona as opções ao campo de seleção
                     data.payload.forEach(cidade => {
                         const option = document.createElement('option');
                         option.value = cidade[0];
@@ -147,12 +145,12 @@
                 return resultado;
             }
         // Função para exibir mensagens de status da busca
-        function messageStatus(msg, error) {
-            const pStatus = document.getElementById('status_busca');
+        function messageStatusBUSCA(msg, error) {
+            const pStatus = document.getElementById('statusBUSCA');
             if (error) {
-                pStatus.className = 'statusError_busca';
+                pStatus.className = 'statusErrorBUSCA';
             } else {
-                pStatus.className = 'statusSuccess_busca';
+                pStatus.className = 'statusSuccessBUSCA';
             }
             pStatus.textContent = msg;
         }
@@ -169,19 +167,19 @@
         // Função que verifica se os campos obrigatórios foram preenchidos e retorna um alerta para o usuário
         function BuscarVoo() {
             if (!preencheuPartida()) {
-                messageStatus('Selecione a cidade de partida!', true);
+              messageStatusBUSCA('Selecione a cidade de partida!', true);
                 return;
             }
             if (!preencheuChegada()) {
-                messageStatus('Selecione a cidade de chegada!', true);
+              messageStatusBUSCA('Selecione a cidade de chegada!', true);
                 return;
             }
             if (!preencheuTipoPassagem()) {
-                messageStatus('Selecione o tipo de passagem!', true);
+              messageStatusBUSCA('Selecione o tipo de passagem!', true);
                 return;
             }
             if (!preencheuDataIda()) {
-                messageStatus('Selecione a data de ida!', true);
+              messageStatusBUSCA('Selecione a data de ida!', true);
                 return;
             }
             // Obter os valores dos campos selecionados
@@ -190,7 +188,7 @@
             if (tipoPassagem === '2') {
                 // se for igual a 2 entao ele chama a funcao de verificar se o usuario preencheu a data de retorno
                 if (!preencheuDataVolta()) {
-                    messageStatus('Selecione a data de volta!', true);
+                  messageStatusBUSCA('Selecione a data de volta!', true);
                     return;
                 }
             }
@@ -204,16 +202,16 @@
             // if para volta para fetch?
             // Realiza a requisição para buscar voos - FAZEEEEEEEEEEEER
             fetchBuscarVoo(campoPartida, campoChegada, dataDeIda)
-              .then(customResponse => {
-                  if (customResponse.status === 'SUCCESS') {
-                      messageStatus('Voos encontrados!', false);
+              .then(customResponse2 => {
+                  if (customResponse2.status === 'SUCCESS') {
+                    messageStatusBUSCA('Voos encontrados!', false);
                   } else {
-                      messageStatus('Erro ao buscar voos: ' + customResponse.message, true);
-                      console.log(customResponse.message);
+                    messageStatusBUSCA('Erro ao buscar voos: ' + customResponse2.message, true);
+                      console.log(customResponse2.message);
                   }
               })
               .catch((e) => {
-                  messageStatus('Erro técnico ao buscar voos. Contate o suporte.', true);
+                messageStatusBUSCA('Erro técnico ao buscar voos. Contate o suporte.', true);
                   console.log('Falha grave ao buscar voos.' + e);
               });
       }
@@ -248,11 +246,11 @@
             <option value="2">Ida e volta</option>
           </select>
           <!-- <input id="campo_cidade" type="text" class="input_cidade" id="partida" placeholder="Partida de "> -->
-          <select id="campo_select" class="campo_cidade" aria-label="Default select example">
+          <select id="campo_select2" class="campo_cidade" aria-label="Default select example">
             <option value="0">Partida de </option>
           </select>
           <!-- <input id="campo_cidade" type="text" class="input_cidade" id="partida" placeholder="Chegada a"> -->
-          <select id="campo_select" class="campo_cidade" aria-label="Default select example">
+          <select id="campo_select3" class="campo_cidade" aria-label="Default select example">
             <option value="0">Chegada a </option>
           </select>
         </div>
@@ -267,9 +265,11 @@
           <input id="campo_data" type="date" class="form-control" id="exampleInputPassword1" placeholder="Data">
         </div>
         <!-- Exibe mensagem de erro ou sucesso do campo de busca PRECISA ARRUMAR POR CONTA DA AVALIAÇÃO-->
-        <!-- <p id="status_busca" class="statusError_busca"></p> -->
+        <p id="statusBUSCA" class="statusErrorBUSCA"></p>
         <!-- Botões de ação buscar (chama o script) e limpar (apaga os dados preenchidos pelo usuário) -->
         <div id="div_botao" class="mb-3">
+          <!--  onclick="cadastrarTrecho();"  name="btnCadastrar"> -->
+          <!-- <button !!!!!!!!!type="button"!!!!!!!! id="buscar" href="resultado_busca.html" onclick="BuscarVoo()">Buscar</a></button> -->
           <button id="buscar"><a href="resultado_busca.html" onclick="BuscarVoo()">Buscar</a></button>
           <button type="reset" id="buscar">Limpar</button>
           <p id="status" class="statusError"></p>

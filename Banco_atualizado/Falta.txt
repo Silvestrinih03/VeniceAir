@@ -19,3 +19,6 @@ Quando cadastrar um TRECHO, verificar se ele já existe e, se sim, retorna uma m
 
 Quando cadastrar um AEROPORTO, verificar se ele já existe e, se sim, retorna uma mensagem de aviso
     Isso já acontece, pq no banco o campo é UNIQUE, da um erro e impede a inserção, mas a mensagem é muito feia!! vem da oracle
+
+SELECT da BUSCA DE VOOS não está correta
+é pra aparecer: ID (do voo), TRECHO, DATA , HORA PARTIDA, HORA CHEGADA, TOTAL DE HORAS, AEROPORTO DE PARTIDA, AEROPORTO DE CHEGADA, VALOR
