@@ -80,7 +80,7 @@
 }
 
 
-#label_calendario{
+#label_calendarioIDA{
     height: 5px;
     color: black;
     margin-bottom: 0;
@@ -88,7 +88,21 @@
     text-align: center;
 }
 
-#campo_data{
+#label_calendarioVOLTA{
+    height: 5px;
+    color: black;
+    margin-bottom: 0;
+    flex-grow: 3;
+    text-align: center;
+}
+
+#campo_data_ida{
+    height: 40px;
+    margin: 0 10px;
+    flex-grow: 4;
+}
+
+#campo_data_volta{
     height: 40px;
     margin: 0 10px;
     flex-grow: 4;

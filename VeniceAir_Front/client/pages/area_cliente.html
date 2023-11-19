@@ -113,6 +113,7 @@
                     console.error('Erro ao carregar cidades:', error);
                 });
         }
+
         // Funções para verificar se todos campos foram preenchidos
         function preencheuTipoPassagem() {
             const tipoSelecionado = document.getElementById('campo_select').value;
@@ -135,7 +136,7 @@
                 }
                 return resultado;
             }
-            function preencheuDataVolta(){
+        function preencheuDataVolta(){
                 let resultado = false;
 
                 const dataVolta = document.getElementById('campo_data_volta').value;
@@ -145,15 +146,27 @@
                 return resultado;
             }
         // Função para exibir mensagens de status da busca
+        // function messageStatusBUSCA(msg, error) {
+        //     const pStatusBusca = document.getElementById('statusBUSCA');
+        //     if (error) {
+        //         pStatusBusca.className = 'statusErrorBUSCA';
+        //     } else {
+        //         pStatusBusca.className = 'statusSuccessBUSCA';
+        //     }
+        //     pStatusBusca.textContent = msg;
+        // }
+
         function messageStatusBUSCA(msg, error) {
-            const pStatus = document.getElementById('statusBUSCA');
-            if (error) {
-                pStatus.className = 'statusErrorBUSCA';
-            } else {
-                pStatus.className = 'statusSuccessBUSCA';
-            }
-            pStatus.textContent = msg;
-        }
+          const pStatusBUSCA = document.getElementById('statusBUSCA');
+          pStatusBUSCA.className = error ? 'statusErrorBUSCA' : 'statusSuccessBUSCA';
+          pStatusBUSCA.textContent = msg;
+      }
+
+      const campoPartida = document.getElementById('campo_select2').value;
+      const campoChegada = document.getElementById('campo_select3').value;
+      const dataDeIda = document.getElementById('data_ida').value;
+
+
         // Função para buscar voos
         function fetchBuscarVoo(campoPartida, campoChegada, dataDeIda) {
             const requestOptions = {
@@ -182,6 +195,7 @@
               messageStatusBUSCA('Selecione a data de ida!', true);
                 return;
             }
+
             // Obter os valores dos campos selecionados
             const tipoPassagem = document.getElementById('campo_select').value;
             // pra verificar se foi selecionada a data de retorno, verifica de o tipo de passagem é ida e volta (opcao 2)
@@ -189,7 +203,7 @@
                 // se for igual a 2 entao ele chama a funcao de verificar se o usuario preencheu a data de retorno
                 if (!preencheuDataVolta()) {
                   messageStatusBUSCA('Selecione a data de volta!', true);
-                    return;
+                    return ;
                 }
             }
             // BACK!!!!!!!!!!!!!!!!
@@ -256,13 +270,13 @@
         </div>
         <!-- Títulos dos campos de data -->
         <div id="div_campos" class="div_data">
-          <label id="label_calendario" for="data_ida" class="data_ida">Data de Ida</label>
-          <label id="label_calendario" for="data_volta" class="data_volta">Data retorno</label>
+          <label id="label_calendarioIDA" for="data_ida" class="data_ida">Data de Ida</label>
+          <label id="label_calendarioVOLTA" for="data_volta" class="data_volta">Data retorno</label>
         </div>
         <!-- Campos de data ida e volta -->
         <div id="div_campos" class="div_data">
-          <input id="campo_data" type="date" class="form-control" id="exampleInputPassword1" placeholder="Data">
-          <input id="campo_data" type="date" class="form-control" id="exampleInputPassword1" placeholder="Data">
+          <input id="campo_data_ida" type="date" class="form-control" id="exampleInputPassword1" placeholder="Data">
+          <input id="campo_data_volta" type="date" class="form-control" id="exampleInputPassword1" placeholder="Data">
         </div>
         <!-- Exibe mensagem de erro ou sucesso do campo de busca PRECISA ARRUMAR POR CONTA DA AVALIAÇÃO-->
         <p id="statusBUSCA" class="statusErrorBUSCA"></p>
