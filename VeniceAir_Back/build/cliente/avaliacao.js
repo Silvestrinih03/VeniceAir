@@ -13,27 +13,32 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.avaliacaoRouter = void 0;
+// Importações dos módulos necessários para que o sistema funcione
 const express_1 = __importDefault(require("express"));
 const oracledb_1 = __importDefault(require("oracledb"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
-// const app = express();
+// Cria as rotas para o express e definir a porta onde serão realizadas as requisições
 exports.avaliacaoRouter = express_1.default.Router();
 const port = 3000;
 exports.avaliacaoRouter.use(express_1.default.json());
 exports.avaliacaoRouter.use((0, cors_1.default)());
+// Chama o dotenv para receber os dados do banco
 dotenv_1.default.config();
-// Função OK
+// Definir rota da requisição "Inserir avaliação"
 exports.avaliacaoRouter.put("/inserirAvaliacao", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // Extrair os dados necessários para a requisição
     const nome = req.body.nome;
     const email = req.body.email;
     const avaliacao = req.body.avaliacao;
     const descricao = req.body.descricao;
+    // Iniciar resposta padrão
     let cr = {
         status: "ERROR",
         message: "",
         payload: undefined,
     };
+    // Conectar com o banco de dados
     let conn;
     try {
         conn = yield oracledb_1.default.getConnection({
@@ -41,10 +46,14 @@ exports.avaliacaoRouter.put("/inserirAvaliacao", (req, res) => __awaiter(void 0,
             password: process.env.ORACLE_DB_SECRET,
             connectionString: process.env.ORACLE_DB_CONN_STR,
         });
+        // Comando SQL que insere os dados no banco
         const cmdInsertAvaliacao = 'INSERT INTO AVALIACOES(NOME, EMAIL, AVALIACAO, DESCRICAO) VALUES (:1, :2, :3, :4)';
+        // Array dos dados que serão inseridos no banco
         const dados = [nome, email, avaliacao, descricao];
+        // Executa o comando SQL no banco de dados e salva a ação
         let resInsert = yield conn.execute(cmdInsertAvaliacao, dados);
         yield conn.commit();
+        // Verifica se a inserção foi bem sucedida
         const rowsInserted = resInsert.rowsAffected;
         if (rowsInserted !== undefined && rowsInserted === 1) {
             cr.status = "SUCCESS";
@@ -52,6 +61,7 @@ exports.avaliacaoRouter.put("/inserirAvaliacao", (req, res) => __awaiter(void 0,
         }
     }
     catch (e) {
+        // Tratamente de erros que podem ocorrer durante a execução
         if (e instanceof Error) {
             cr.message = e.message;
             console.log(e.message);
@@ -61,9 +71,11 @@ exports.avaliacaoRouter.put("/inserirAvaliacao", (req, res) => __awaiter(void 0,
         }
     }
     finally {
+        // Finaliza a conexão com o banco de dados
         if (conn !== undefined) {
             yield conn.close();
         }
+        // Envia resposta para o cliente
         res.send(cr);
     }
 }));

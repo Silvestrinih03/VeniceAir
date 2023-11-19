@@ -5,3 +5,17 @@ Corrigir tabela ASSENTOS
 Corrigir tabela MAPA_ASSENTOS
 
 Corrigir tabela PASSAGENS
+
+
+
+
+
+
+Quando cadastrar uma cidade no banco, verificar se ela já existe e, se sim, retorna uma mensagem de aviso
+    Isso já acontece, pq no banco o campo é UNIQUE, da um erro e impede a inserção, mas a mensagem é muito feia!! vem da oracle
+
+Quando cadastrar um TRECHO, verificar se ele já existe e, se sim, retorna uma mensagem de aviso
+    Ele tá cadastrando trechos iguais
+
+Quando cadastrar um AEROPORTO, verificar se ele já existe e, se sim, retorna uma mensagem de aviso
+    Isso já acontece, pq no banco o campo é UNIQUE, da um erro e impede a inserção, mas a mensagem é muito feia!! vem da oracle
