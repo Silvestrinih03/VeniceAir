@@ -91,7 +91,128 @@
       }
 
       //Script 2 - Realiza busca dos voos de acordo com o que foi solicitado pelo cliente
-      //FAZER
+      // Chama a função de carregar cidades nos campos de seleção para exibir as cidades cadastradas no banco
+      document.addEventListener('DOMContentLoaded', function () {
+            carregarCidades('campo_select2');
+            carregarCidades('campo_select3');
+        });
+        // Função para carregar as cidades do banco nos campos de seleção
+        function carregarCidades(idSelect) {
+            // Requisição para obter as cidades cadastradas
+            fetch('http://localhost:3000/listarCidades')
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById(idSelect);
+                    // Adiciona as opções ao campo de seleção
+                    data.payload.forEach(cidade => {
+                        const option = document.createElement('option');
+                        option.value = cidade[0];
+                        option.text = cidade[1];
+                        select.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar cidades:', error);
+                });
+        }
+        // Funções para verificar se todos campos foram preenchidos
+        function preencheuTipoPassagem() {
+            const tipoSelecionado = document.getElementById('campo_select').value;
+            return tipoSelecionado !== '0';
+        }
+        function preencheuPartida() {
+            const partidaSelecionada = document.getElementById('campo_select2').value;
+            return partidaSelecionada !== '0';
+        }
+        function preencheuChegada() {
+            const chegadaSelecionada = document.getElementById('campo_select3').value;
+            return chegadaSelecionada !== '0';
+        }
+        function preencheuDataIda(){
+                let resultado = false;
+
+                const dataIda = document.getElementById('data_ida').value;
+                if(data.length > 0){
+                    resultado = true;
+                }
+                return resultado;
+            }
+            function preencheuDataVolta(){
+                let resultado = false;
+
+                const dataIda = document.getElementById('data_volta').value;
+                if(data.length > 0){
+                    resultado = true;
+                }
+                return resultado;
+            }
+        // Função para exibir mensagens de status da busca
+        function messageStatus(msg, error) {
+            const pStatus = document.getElementById('status_busca');
+            if (error) {
+                pStatus.className = 'statusError_busca';
+            } else {
+                pStatus.className = 'statusSuccess_busca';
+            }
+            pStatus.textContent = msg;
+        }
+        // Função para buscar voos
+        function fetchBuscarVoo(AAAAAAAAAAAAAAAAAA) {
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ AAAAAAAAAAAAAAAAAAAAA})
+            };
+            return fetch('http://localhost:3000/buscarVoo', requestOptions).then(T => T.json());
+        }
+        // E SE O USUARIO ESCOLHER A MESMA CIDADE NA PARTIDA E NA CHEGADA?????????? VERIFICAR!!!!!!!!
+        // Função que verifica se os campos obrigatórios foram preenchidos e retorna um alerta para o usuário
+        function BuscarVoo() {
+            if (!preencheuPartida()) {
+                messageStatus('Selecione a cidade de partida!', true);
+                return;
+            }
+            if (!preencheuChegada()) {
+                messageStatus('Selecione a cidade de chegada!', true);
+                return;
+            }
+            if (!preencheuTipoPassagem()) {
+                messageStatus('Selecione o tipo de passagem!', true);
+                return;
+            }
+            if (!preencheuDataIda()) {
+                messageStatus('Selecione a data de ida!', true);
+                return;
+            }
+            // Obter os valores dos campos selecionados
+            const tipoPassagem = document.getElementById('campo_select').value;
+            // pra verificar se foi selecionada a data de retorno, verifica de o tipo de passagem é ida e volta (opcao 2)
+            if (tipoPassagem === '2') {
+                // se for igual a 2 entao ele chama a funcao de verificar se o usuario preencheu a data de retorno
+                if (!preencheuDataVolta()) {
+                    messageStatus('Selecione a data de volta!', true);
+                    return;
+                }
+            }
+            // BACK!!!!!!!!!!!!!!!!
+            // Obtém os valores dos campos de cidade origem e cidade destino
+            const origem = document.getElementById('comboOrigem').value;
+            const destino = document.getElementById('comboDestino').value;
+            // Realiza a requisição para buscar voos - FAZEEEEEEEEEEEER
+            fetchBuscarVoo({ origem, destino })
+              .then(customResponse => {
+                  if (customResponse.status === 'SUCCESS') {
+                      messageStatus('Voos encontrados!', false);
+                  } else {
+                      messageStatus('Erro ao buscar voos: ' + customResponse.message, true);
+                      console.log(customResponse.message);
+                  }
+              })
+              .catch((e) => {
+                  messageStatus('Erro técnico ao buscar voos. Contate o suporte.', true);
+                  console.log('Falha grave ao buscar voos.' + e);
+              });
+      }
     </script>
 </head>
 <body>
@@ -141,6 +262,8 @@
           <input id="campo_data" type="date" class="form-control" id="exampleInputPassword1" placeholder="Data">
           <input id="campo_data" type="date" class="form-control" id="exampleInputPassword1" placeholder="Data">
         </div>
+        <!-- Exibe mensagem de erro ou sucesso do campo de busca PRECISA ARRUMAR POR CONTA DA AVALIAÇÃO-->
+        <!-- <p id="status_busca" class="statusError_busca"></p> -->
         <!-- Botões de ação buscar (chama o script) e limpar (apaga os dados preenchidos pelo usuário) -->
         <div id="div_botao" class="mb-3">
           <button id="buscar"><a href="resultado_busca.html">Buscar</a></button>
