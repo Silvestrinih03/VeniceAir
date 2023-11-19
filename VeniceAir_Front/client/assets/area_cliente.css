@@ -57,6 +57,22 @@
     margin-left: 15px;
 }
 
+#campo_select2 {
+    flex-grow: 1;
+    height: 45px;
+    border-radius: 3px;
+    margin-right: 15px;
+    margin-left: 15px;
+}
+
+#campo_select3 {
+    flex-grow: 1;
+    height: 45px;
+    border-radius: 3px;
+    margin-right: 15px;
+    margin-left: 15px;
+}
+
 #campo_cidade {
     flex-grow: 2;
     height: 40px;
