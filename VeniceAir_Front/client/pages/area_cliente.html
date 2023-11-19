@@ -32,9 +32,9 @@
           return descricaoSelecionado.length > 0;
       }
       // Função que exibe as mensagens de status (sucesso ou erro)
-      function messageStatus(msg, error) {
-          const pStatus = document.getElementById('status');
-          pStatus.className = error ? 'statusError' : 'statusSuccess';
+      function messageStatusAvaliacao(msg, error) {
+          const pStatus = document.getElementById('statusAvaliacao');
+          pStatus.className = error ? 'statusErrorAvaliacao' : 'statusSuccessAvaliacao';
           pStatus.textContent = msg;
       }
       // Função que realiza a requisição para inserir a avaliação no banco de dados
@@ -50,16 +50,16 @@
       // Função que envia a avaliação para o banco
       function inserirAvaliacao() {
           if (!preencheuNome()) {
-              messageStatus('Preencha o campo nome!', true);
+            messageStatusAvaliacao('Preencha o campo nome!', true);
               return;
           } else if (!preencheuEmail()) {
-              messageStatus('Preencha o campo e-mail!', true);
+            messageStatusAvaliacao('Preencha o campo e-mail!', true);
               return;
           } else if (!preencheuNota()) {
-              messageStatus('Preencha a avaliação!', true);
+            messageStatusAvaliacao('Preencha a avaliação!', true);
               return;
           } else if (!preencheuDescricao()) {
-              messageStatus('Preencha a descrição!', true);
+            messageStatusAvaliacao('Preencha a descrição!', true);
               return;
           }
           // Obtém os valores dos campos
@@ -77,15 +77,15 @@
           // Verifica se os dados forma enviados ou não e retorna uma mensagem ao usuário
           .then(customResponse => {
               if (customResponse.status === 'SUCCESS') {
-                  messageStatus('Avaliação enviada com sucesso! Obrigada pelo Feedback!', false);
+                messageStatusAvaliacao('Avaliação enviada com sucesso! Obrigada pelo Feedback!', false);
               } else {
-                  messageStatus('Erro ao enviar avaliação: ' + customResponse.message, true);
+                messageStatusAvaliacao('Erro ao enviar avaliação: ' + customResponse.message, true);
                   console.log(customResponse.message);
               }
           })
           .catch((e) => {
             // Verifica erros técnicos e solicita que o usuário contate o suporte
-            messageStatus('Erro técnico ao enviar. Contate o suporte.', true);
+            messageStatusAvaliacao('Erro técnico ao enviar. Contate o suporte.', true);
             console.log('Falha grave ao enviar.' + e);
           });
       }
@@ -131,8 +131,8 @@
         function preencheuDataIda(){
                 let resultado = false;
 
-                const dataIda = document.getElementById('data_ida').value;
-                if(data.length > 0){
+                const dataIda = document.getElementById('campo_data_ida').value;
+                if(dataIda.length > 0){
                     resultado = true;
                 }
                 return resultado;
@@ -140,8 +140,8 @@
             function preencheuDataVolta(){
                 let resultado = false;
 
-                const dataIda = document.getElementById('data_volta').value;
-                if(data.length > 0){
+                const dataVolta = document.getElementById('campo_data_volta').value;
+                if(dataVolta.length > 0){
                     resultado = true;
                 }
                 return resultado;
@@ -157,11 +157,11 @@
             pStatus.textContent = msg;
         }
         // Função para buscar voos
-        function fetchBuscarVoo(AAAAAAAAAAAAAAAAAA) {
+        function fetchBuscarVoo(campoPartida, campoChegada, dataDeIda) {
             const requestOptions = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ AAAAAAAAAAAAAAAAAAAAA})
+                body: JSON.stringify({ campoPartida, campoChegada, dataDeIda})
             };
             return fetch('http://localhost:3000/buscarVoo', requestOptions).then(T => T.json());
         }
@@ -196,10 +196,14 @@
             }
             // BACK!!!!!!!!!!!!!!!!
             // Obtém os valores dos campos de cidade origem e cidade destino
-            const origem = document.getElementById('comboOrigem').value;
-            const destino = document.getElementById('comboDestino').value;
+            const tipoDePassagem = document.getElementById('campo_select').value;
+            const campoPartida= document.getElementById('campo_select2').value;
+            const campoChegada = document.getElementById('campo_select3').value;
+            const dataDeIda = document.getElementById('data_ida').value;
+            //const dataDeVolta = document.getElementById('data_volta').value;
+            // if para volta para fetch?
             // Realiza a requisição para buscar voos - FAZEEEEEEEEEEEER
-            fetchBuscarVoo({ origem, destino })
+            fetchBuscarVoo(campoPartida, campoChegada, dataDeIda)
               .then(customResponse => {
                   if (customResponse.status === 'SUCCESS') {
                       messageStatus('Voos encontrados!', false);
@@ -266,8 +270,9 @@
         <!-- <p id="status_busca" class="statusError_busca"></p> -->
         <!-- Botões de ação buscar (chama o script) e limpar (apaga os dados preenchidos pelo usuário) -->
         <div id="div_botao" class="mb-3">
-          <button id="buscar"><a href="resultado_busca.html">Buscar</a></button>
+          <button id="buscar"><a href="resultado_busca.html" onclick="BuscarVoo()">Buscar</a></button>
           <button type="reset" id="buscar">Limpar</button>
+          <p id="status" class="statusError"></p>
         </div>
       </form>
     </div>
@@ -299,7 +304,7 @@
         <label for="descricao" name="feedback_label">Conte sobre sua experiência com a VeniceAir e/ou suas sugestões de melhoria</label>
         <input type="text" id="descricao" name="campos_feedback" placeholder="Descrição">
         <button id="enviar" onclick="inserirAvaliacao()">Enviar</button>
-        <p id="status" class="statusError"></p>
+        <p id="statusAvaliacao" class="statusErrorAvaliacao"></p>
     </div>
     </div>
 </body>
