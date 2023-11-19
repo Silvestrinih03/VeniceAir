@@ -4,6 +4,137 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard VeniceAir</title>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+            carregarCidades('campo_select2');
+            carregarCidades('campo_select3');
+      // GAMBIARRA COM CSS
+        });
+
+        function carregarCidades(idSelect) {
+            fetch('http://localhost:3000/listarCidades')
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById(idSelect);
+                    data.payload.forEach(cidade => {
+                        const option = document.createElement('option');
+                        option.value = cidade[0];
+                        option.text = cidade[1];
+                        select.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar cidades:', error);
+                });
+        }
+
+        function preencheuTipoPassagem() {
+            const tipoSelecionado = document.getElementById('campo_select').value;
+            return tipoSelecionado !== '0';
+        }
+
+        function preencheuPartida() {
+            const partidaSelecionada = document.getElementById('campo_select2').value;
+            return partidaSelecionada !== '0';
+        }
+
+        function preencheuChegada() {
+            const chegadaSelecionada = document.getElementById('campo_select3').value;
+            return chegadaSelecionada !== '0';
+        }
+
+        function preencheuDataIda(){
+                let resultado = false;
+
+                const dataIda = document.getElementById('data_ida').value;
+                if(data.length > 0){
+                    resultado = true;
+                }
+                return resultado;
+            }
+
+            function preencheuDataVolta(){
+                let resultado = false;
+
+                const dataIda = document.getElementById('data_volta').value;
+                if(data.length > 0){
+                    resultado = true;
+                }
+                return resultado;
+            }
+
+
+        function messageStatus(msg, error) {
+            const pStatus = document.getElementById('status');
+            if (error) {
+                pStatus.className = 'statusError';
+            } else {
+                pStatus.className = 'statusSuccess';
+            }
+            pStatus.textContent = msg;
+        }
+
+        // BACK
+        function fetchBuscarVoo(AAAAAAAAAAAAAAAAAA) {
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ AAAAAAAAAAAAAAAAAAAAA})
+            };
+
+            return fetch('http://localhost:3000/buscarVoo', requestOptions).then(T => T.json());
+        }
+
+        // E SE O USUARIO ESCOLHER A MESMA CIDADE NA PARTIDA E NA CHEGADA?????????? VERIFICAR!!!!!!!!
+        function BuscarVoo() {
+            if (!preencheuPartida()) {
+                messageStatus('Selecione a cidade de partida!', true);
+                return;
+            }
+            if (!preencheuChegada()) {
+                messageStatus('Selecione a cidade de chegada!', true);
+                return;
+            }
+            if (!preencheuTipoPassagem()) {
+                messageStatus('Selecione o tipo de passagem!', true);
+                return;
+            }
+            if (!preencheuDataIda()) {
+                messageStatus('Selecione a data de ida!', true);
+                return;
+            }
+            
+            const tipoPassagem = document.getElementById('campo_select').value;
+            // pra verificar se foi selecionada a data de retorno, verifica de o tipo de passagem é ida e volta (opcao 2)
+            if (tipoPassagem === '2') {
+                // se for igual a 2 entao ele chama a funcao de verificar se o usuario preencheu a data de retorno
+                if (!preencheuDataVolta()) {
+                    messageStatus('Selecione a data de volta!', true);
+                    return;
+                }
+            }
+
+            // BACK!!!!!!!!!!!!!!!!
+            const origem = document.getElementById('comboOrigem').value;
+            const destino = document.getElementById('comboDestino').value;
+
+            fetchInserirTrecho(origem, destino)
+                .then(customResponse => {
+                    if (customResponse.status === 'SUCCESS') {
+                        messageStatus('Trecho cadastrado...', false);
+                    } else {
+                        messageStatus('Erro ao cadastrar trecho: ' + customResponse.message, true);
+                        console.log(customResponse.message);
+                    }
+                })
+                .catch((e) => {
+                    messageStatus('Erro técnico ao cadastrar trecho. Contate o suporte.', true);
+                    console.log('Falha grave ao cadastrar trecho.' + e);
+                });
+        }
+    </script>
+
+
     <link href="../../Geral/assets/css/header_page.css" rel="stylesheet"/>
     <link href="../assets/area_cliente.css" rel="stylesheet"/>
 </head>
@@ -32,11 +163,11 @@
             <option value="2">Ida e volta</option>
           </select>
           <!-- <input id="campo_cidade" type="text" class="input_cidade" id="partida" placeholder="Partida de "> -->
-          <select id="campo_select" class="campo_cidade" aria-label="Default select example">
+          <select id="campo_select2" class="campo_cidade" aria-label="Default select example">
             <option value="0">Partida de </option>
           </select>
           <!-- <input id="campo_cidade" type="text" class="input_cidade" id="partida" placeholder="Chegada a"> -->
-          <select id="campo_select" class="campo_cidade" aria-label="Default select example">
+          <select id="campo_select3" class="campo_cidade" aria-label="Default select example">
             <option value="0">Chegada a </option>
           </select>
         </div>
