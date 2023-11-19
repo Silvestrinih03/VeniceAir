@@ -31,8 +31,14 @@
             <option value="1">Ida</option>
             <option value="2">Ida e volta</option>
           </select>
-          <input id="campo_cidade" type="text" class="input_cidade" id="partida" placeholder="Partida de ">
-          <input id="campo_cidade" type="text" class="input_cidade" id="partida" placeholder="Chegada a">
+          <!-- <input id="campo_cidade" type="text" class="input_cidade" id="partida" placeholder="Partida de "> -->
+          <select id="campo_select" class="campo_cidade" aria-label="Default select example">
+            <option value="0">Partida de </option>
+          </select>
+          <!-- <input id="campo_cidade" type="text" class="input_cidade" id="partida" placeholder="Chegada a"> -->
+          <select id="campo_select" class="campo_cidade" aria-label="Default select example">
+            <option value="0">Chegada a </option>
+          </select>
         </div>
         <div id="div_campos" class="div_data">
           <label id="label_calendario" for="data_ida" class="data_ida">Data de Ida</label>
@@ -47,6 +53,32 @@
           <button type="reset" id="buscar">Limpar</button>
         </div>
       </form>
+    </div>
+    <div id="informacoes">
+      <div id="central-ajuda">
+        <h3>Precisa de ajuda com a sua reserva?</h3>
+        <p>Central de atendimento VeniceAir: <strong>+55 19 98756-2511</strong></p>
+        <p><strong>Idiomas falados:</strong> Português - Francês - Inglês</p>
+        <p><strong>Horário de funcionamento:</strong> 08:00 até 20:00</p>
+      </div>
+      <div id="feedback">
+        <h3>Avaliação e sugestões sobre a VeniceAir: </h3>
+        <label id="feedback_label">Nome</label>
+        <input type="text" placeholder="Insira seu nome aqui" id="campos_feedback">
+        <label id="feedback_label">E-mail</label>
+        <input type="email" placeholder="Insira seu endereço de e-mail" id="campos_feedback">
+        <label id="feedback_label">Deixe sua avalidação</label>
+        <select id="campos_feedback">
+          <option value="0">Nota</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+        <label id="feedback_label">Conte sobre sua experiência com a VeniceAir e/ou suas sugestões de melhoria</label>
+        <input type="text" id="campos_feedback" placeholder="Descrição">
+      </div>
     </div>
 </body>
 </html>

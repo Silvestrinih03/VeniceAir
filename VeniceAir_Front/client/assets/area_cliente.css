@@ -17,6 +17,7 @@
     /* margin-top: 10px; */
     color: #fff;
     padding: 20px;
+    background-size: cover;
 }
 
 #busca_form {
@@ -102,4 +103,50 @@
 
 #buscar:hover{
    background-color: #005bad; 
+}
+
+#informacoes {
+    display: flex; /* Use Flexbox to arrange divs side by side */
+    justify-content: center; /* Distribute space between the two divs */
+}
+
+#informacoes h3 {
+    color: #1f70b2;
+}
+
+#central-ajuda {
+    width: 48%; /* Define a largura das divs para ocupar quase metade do espaço disponível */
+    padding: 20px;
+    text-align: center;
+}
+
+#feedback {
+    flex-direction: column; /* Organiza os elementos em coluna dentro da div feedback */
+    width: 48%; /* Define a largura das divs para ocupar quase metade do espaço disponível */
+    padding: 20px;
+}
+
+#feedback h3 {
+    color: #1f70b2;
+    text-align: center;
+}
+
+#feedback_label{
+    font-weight: bold;
+}
+
+#campos_feedback{
+    margin: 10px 0px;
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+#feedback select {
+    width: 100px;
+    margin-right: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
 }
