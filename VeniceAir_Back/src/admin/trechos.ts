@@ -49,7 +49,7 @@ trechoRouter.get("/listarTrechos", async(req,res)=>{
 });
 
 // Função para inserir trecho - OK
-trechoRouter.put("/inserirTrecho", async(req,res)=>{
+trechoRouter.post("/inserirTrecho", async(req,res)=>{
   
   const origem = req.body.origem as number;
   const destino = req.body.destino as number;

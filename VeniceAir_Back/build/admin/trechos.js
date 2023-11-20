@@ -52,7 +52,7 @@ exports.trechoRouter.get("/listarTrechos", (req, res) => __awaiter(void 0, void 
     }
 }));
 // Função para inserir trecho - OK
-exports.trechoRouter.put("/inserirTrecho", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.trechoRouter.post("/inserirTrecho", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const origem = req.body.origem;
     const destino = req.body.destino;
     let cr = {

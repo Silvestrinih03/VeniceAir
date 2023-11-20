@@ -52,7 +52,7 @@ exports.vooRouter.get("/listarVoos", (req, res) => __awaiter(void 0, void 0, voi
     }
 }));
 // Função OK
-exports.vooRouter.put("/inserirVoo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.vooRouter.post("/inserirVoo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const trecho = req.body.trecho;
     const data_partida = new Date(req.body.data_partida);
     const hora_partida = req.body.hora_partida;

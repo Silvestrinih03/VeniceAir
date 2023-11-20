@@ -53,7 +53,7 @@ exports.aeroportoRouter.get("/listarAeroportos", (req, res) => __awaiter(void 0,
     }
 }));
 // Função OK
-exports.aeroportoRouter.put("/inserirAeroportos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.aeroportoRouter.post("/inserirAeroportos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const sigla = req.body.sigla;
     const cidade = req.body.cidade;
     let cr = {

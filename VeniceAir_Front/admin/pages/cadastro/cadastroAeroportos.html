@@ -51,7 +51,7 @@
 
         function fetchInserir(sigla, cidade) {
             const requestOptions = {
-                method: 'PUT',
+                method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ sigla, cidade })
             };

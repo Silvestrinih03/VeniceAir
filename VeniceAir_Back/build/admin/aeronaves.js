@@ -53,7 +53,7 @@ exports.aeronaveRouter.get("/listarAeronaves", (req, res) => __awaiter(void 0, v
     }
 }));
 // Função OK
-exports.aeronaveRouter.put("/inserirAeronaves", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.aeronaveRouter.post("/inserirAeronaves", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const fabricante = req.body.fabricante;
     const modelo = req.body.modelo;
     const anofab = req.body.anofab;

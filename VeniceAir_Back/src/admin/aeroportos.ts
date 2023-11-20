@@ -51,7 +51,7 @@ aeroportoRouter.get("/listarAeroportos", async(req,res)=>{
 });
 
 // Função OK
-aeroportoRouter.put("/inserirAeroportos", async(req,res)=>{
+aeroportoRouter.post("/inserirAeroportos", async(req,res)=>{
 
   const sigla = req.body.sigla as string;
   const cidade = req.body.cidade as number;

@@ -50,7 +50,7 @@ aeronaveRouter.get("/listarAeronaves", async(req,res)=>{
 });
 
 // Função OK
-aeronaveRouter.put("/inserirAeronaves", async(req,res)=>{
+aeronaveRouter.post("/inserirAeronaves", async(req,res)=>{
   
   const fabricante = req.body.fabricante as Selection;
   const modelo = req.body.modelo as string;

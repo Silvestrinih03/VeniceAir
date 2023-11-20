@@ -136,7 +136,7 @@ exports.cidadeRouter.delete("/excluirCidade/:codigo", (req, res) => __awaiter(vo
         res.send(cr);
     }
 }));
-// Definir rota da requisição "Atualizar cidade"
+// Definir rota da requisição "Atualizar cidade" ---> NÃO ESTÁ FUNCIONANDO
 exports.cidadeRouter.put("/atualizarCidade/:codigo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const codigo = req.params.codigo;
     const novoNome = req.body;

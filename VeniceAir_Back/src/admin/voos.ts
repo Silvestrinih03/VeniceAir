@@ -51,7 +51,7 @@ vooRouter.get("/listarVoos", async(req,res)=>{
 });
 
 // Função OK
-vooRouter.put("/inserirVoo", async (req, res) => {
+vooRouter.post("/inserirVoo", async (req, res) => {
   const trecho = req.body.trecho as number;
   const data_partida = new Date(req.body.data_partida);
   const hora_partida = req.body.hora_partida as string;

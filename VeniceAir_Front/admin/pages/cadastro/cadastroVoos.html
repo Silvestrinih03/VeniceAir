@@ -44,8 +44,9 @@
                         const select = document.getElementById(idSelect);
                         data.payload.forEach(aeroporto => {
                             const option = document.createElement('option');
+                            const optionText = `${aeroporto[1]}  ->  ${aeroporto[2]}`; 
                             option.value = aeroporto[0];
-                            option.text = aeroporto[1];
+                            option.text = optionText;
                             select.appendChild(option);
                         });
                     })
@@ -122,27 +123,21 @@
 
 
             function fetchInserirVoo(trecho, data, horapartida, horachegada, aeroportopartida, aeroportochegada, valor) {
-
-                // Formatar a data para o formato "DD/MM/RR"
-                //const dataFormatada = new Date(data).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: '2-digit' }).replace(/\//g, '');
-                //const dataFormatada = new Date(data).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: '2-digit' });
-
                 const requestOptions = {
-                    method: 'PUT',
+                    method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        Trecho: trecho,
-                        Data: data,
-                        HorarioPartida: horapartida,
-                        HorarioChegada: horachegada,
-                        AeroportoPartida: aeroportopartida,
-                        AeroportoChegada: aeroportochegada,
-                        Valor: valor
+                        trecho: trecho,
+                        data_partida: data,
+                        hora_partida: horapartida,
+                        hora_chegada: horachegada,
+                        aeroporto_partida: aeroportopartida,
+                        aeroporto_chegada: aeroportochegada,
+                        valor: valor
                     })
                 };
                 return fetch('http://localhost:3000/inserirVoo', requestOptions).then(response => response.json());
             }
-
 
             function cadastrarVoo(){
                 if(!preencheuTrecho()){
@@ -203,26 +198,28 @@
                     AeroportoPartida,
                     AeroportoChegada,
                     Valor
-                )   
-                    .then(response => {
-                        console.log(response); // VER QUAL O ERRO NO CONSOLE
-                        return response.json();
-                    })
-
-                    .then(customResponse => {
-                    if(customResponse.status === "SUCCESS"){
-                        MessageStatus("Aeronave cadastrada... ", false);
-                    }else{
-                        MessageStatus("Erro ao cadastrar aeronave...: " + customResponse.message, true);
+                )
+                .then(customResponse => {
+                    if (customResponse.status === "SUCCESS") {
+                        MessageStatus("Voo cadastrado com sucesso! ", false);
+                        // Limpar campos após o sucesso
+                        document.getElementById("comboTrechos").value = "0";
+                        document.getElementById("data").value = "";
+                        document.getElementById("horarioUm").value = "";
+                        document.getElementById("horarioDois").value = "";
+                        document.getElementById("comboAeroportoUm").value = "0";
+                        document.getElementById("comboAeroportoDois").value = "0";
+                        document.getElementById("valor").value = "";
+                    } else {
+                        MessageStatus("Erro ao cadastrar voo...: " + customResponse.message, true);
                         console.log(customResponse.message);
                     }
-                    })
-                    .catch((e)=>{
-                        MessageStatus("Erro técnico ao cadastrar... Contate o suporte.", true);
-                        console.log("Falha grave ao cadastrar." + e)
-                    });
-                    
-            }
+                })
+                .catch((e) => {
+                    MessageStatus("Erro técnico ao cadastrar... Contate o suporte.", true);
+                    console.log("Falha grave ao cadastrar." + e);
+                });
+        }
 
         </script>
     </head>
@@ -240,44 +237,44 @@
         </div>
         <div class="container">
             <p>Preencha todos os campos para cadastrar voo.</p>
-            <form action="/inserirVoo" method="put" enctype="application/json"></form>
-
+            <form action="/inserirVoo" method="post" enctype="application/json">
                 <label for="trecho">Trecho:</label>
                 <select name="comboTrechos" id="comboTrechos">
                     <option value="0" selected>Selecione o trecho</option>
                 </select>
-
+            
                 <div id="voos">
                     <label for="data">Data:</label>
-                </div>
-                <div id="voos">
                     <input type="date" id="data" name="data" required>
                 </div>
-
+            
                 <div id="voos">
                     <label for="horarioUm">Hora partida:</label>
                     <label for="horarioDois">Hora chegada:</label>
                 </div>
+            
                 <div id="voos">
                     <input type="text" id="horarioUm" name="horarioUm" placeholder="Ex: 11:00 (Cidade partida)" required>
                     <input type="text" id="horarioDois" name="horarioDois" placeholder="Ex: 11:00 (Cidade chegada)" required>
                 </div>
-
-                <label for="data" id="voos" >Aeroporto partida:</label>
+            
+                <label for="data" id="voos">Aeroporto partida:</label>
                 <select name="comboAeroportoUm" id="comboAeroportoUm">
                     <option value="0" selected>Selecione o aeroporto</option>
                 </select>
-                <label for="data" id="voos" >Aeroporto chegada:</label>
+            
+                <label for="data" id="voos">Aeroporto chegada:</label>
                 <select name="comboAeroportoDois" id="comboAeroportoDois">
                     <option value="0" selected>Selecione o aeroporto</option>
                 </select>
-
+            
                 <label for="valor" id="voos">Valor:</label>
                 <input type="text" id="valor" name="valor" required placeholder="Ex: 2000.00">
                 
-                <button type="submit" onclick="cadastrarVoo()">Salvar</button>
+                <button type="button" onclick="cadastrarVoo()">Salvar</button>
                 <button type="reset">Limpar</button>
             </form>
+            
             <p id="status" class="statusError"></p>
             <!-- TA PODENDO SELECIONAR O MESMO AEROPORTO 2X -->
         </div>
