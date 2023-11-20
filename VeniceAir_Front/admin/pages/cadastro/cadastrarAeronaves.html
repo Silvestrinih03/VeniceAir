@@ -121,7 +121,12 @@
             .then(customResponse => {
                 if (customResponse.status === 'SUCCESS') {
                     messageStatus('Aeronave cadastrada com sucesso.', false);
-                    // Limpar campos ou fazer outras ações após o sucesso
+                    // Limpar campos após o sucesso
+                    document.getElementById("fabricante").value = "0";
+                    document.getElementById("modelo").value = "";
+                    document.getElementById("anofab").value = "";
+                    document.getElementById("qtdeAssentos").value = "";
+                    
                 } else {
                     messageStatus('Erro ao cadastrar aeronave: ' + customResponse.message, true);
                     console.log(customResponse.message);

@@ -65,6 +65,8 @@
                 .then(customResponse => {
                     if (customResponse.status === 'SUCCESS') {
                         messageStatus('Aeronave excluída...', false);
+                        // Limpar campos após o sucesso
+                        document.getElementById("aeronaves").value = "";
                     } else {
                         messageStatus('Erro ao excluir aeronave: ' + customResponse.message, true);
                         console.log(customResponse.message);

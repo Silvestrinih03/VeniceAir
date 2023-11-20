@@ -63,6 +63,8 @@
                 .then(customResponse => {
                     if (customResponse.status === 'SUCCESS') {
                         messageStatus('Voo excluído com sucesso!', false);
+                        // Limpar campos após o sucesso
+                        document.getElementById("voos").value = "";
                     } else {
                         messageStatus('Erro ao excluir Voo: ' + customResponse.message, true);
                         console.log(customResponse.message);

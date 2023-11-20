@@ -24,7 +24,7 @@
                         data.payload.forEach(trecho => {
                             const option = document.createElement('option');
                             // CONCATENAR (origem e destino na mesma opcaooo)
-                            const optionText = `${trecho[1]}  ->  ${trecho[2]}`; 
+                            const optionText = `${trecho[1]}  ➡️  ${trecho[2]}`; 
 
                             option.value = trecho[0];
                             option.text = optionText;
@@ -44,7 +44,7 @@
                         const select = document.getElementById(idSelect);
                         data.payload.forEach(aeroporto => {
                             const option = document.createElement('option');
-                            const optionText = `${aeroporto[1]}  ->  ${aeroporto[2]}`; 
+                            const optionText = `${aeroporto[1]}  ➡️  ${aeroporto[2]}`; 
                             option.value = aeroporto[0];
                             option.text = optionText;
                             select.appendChild(option);

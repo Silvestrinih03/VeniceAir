@@ -46,6 +46,8 @@
             .then(customResponse => {
                 if (customResponse.status === 'SUCCESS') {
                     messageStatus('Cidade cadastrada...', false);
+                    // Limpar campos após o sucesso
+                    document.getElementById("nomeCidade").value = "";
                 } else {
                     messageStatus('Erro ao cadastrar cidade: ' + customResponse.message, true);
                     console.log(customResponse.message);

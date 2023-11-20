@@ -19,7 +19,7 @@
                         data.payload.forEach(trecho => {
                             const option = document.createElement('option');
                             // CONCATENAR (origem e destino na mesma opcaooo)
-                            const optionText = `${trecho[1]}  ->  ${trecho[2]}`; 
+                            const optionText = `${trecho[1]}  ➡️  ${trecho[2]}`; 
 
                             option.value = trecho[0];
                             option.text = optionText;
@@ -68,6 +68,8 @@
                 .then(customResponse => {
                     if (customResponse.status === 'SUCCESS') {
                         messageStatus('Trecho excluído...', false);
+                        // Limpar campos após o sucesso
+                        document.getElementById("trechos").value = "";
                     } else {
                         messageStatus('Erro ao excluir trecho: ' + customResponse.message, true);
                         console.log(customResponse.message);

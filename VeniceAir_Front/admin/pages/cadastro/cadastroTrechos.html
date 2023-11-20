@@ -83,6 +83,9 @@
                 .then(customResponse => {
                     if (customResponse.status === 'SUCCESS') {
                         messageStatus('Trecho cadastrado...', false);
+                        // Limpar campos após o sucesso
+                        document.getElementById("comboOrigem").value = "0";
+                        document.getElementById("comboDestino").value = "0";
                     } else {
                         messageStatus('Erro ao cadastrar trecho: ' + customResponse.message, true);
                         console.log(customResponse.message);

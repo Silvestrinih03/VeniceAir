@@ -75,6 +75,9 @@
                 .then(customResponse => {
                     if (customResponse.status === 'SUCCESS') {
                         messageStatus('Aeroporto cadastrado...', false);
+                        // Limpar campos após o sucesso
+                        document.getElementById("sigla").value = "";
+                        document.getElementById("comboOrigem").value = "0";
                     } else {
                         messageStatus('Erro ao cadastrar aeroporto: ' + customResponse.message, true);
                         console.log(customResponse.message);

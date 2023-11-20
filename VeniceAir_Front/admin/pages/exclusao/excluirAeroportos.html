@@ -18,8 +18,9 @@
                     const select = document.getElementById(idSelect);
                     data.payload.forEach(aeroporto => {
                         const option = document.createElement('option');
+                        const optionText = `${aeroporto[1]}  ➡️  ${aeroporto[2]}`; 
                         option.value = aeroporto[0];
-                        option.text = aeroporto[1];
+                        option.text = optionText;
                         select.appendChild(option);
                     });
                 })
@@ -66,6 +67,8 @@
                 .then(customResponse => {
                     if (customResponse.status === 'SUCCESS') {
                         messageStatus('Aeroporto excluído...', false);
+                        // Limpar campos após o sucesso
+                        document.getElementById("aeroportos").value = "";
                     } else {
                         messageStatus('Erro ao excluir aeroporto: ' + customResponse.message, true);
                         console.log(customResponse.message);

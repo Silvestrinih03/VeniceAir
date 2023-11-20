@@ -65,6 +65,8 @@
                 .then(customResponse => {
                     if (customResponse.status === 'SUCCESS') {
                         messageStatus('Cidade excluída...', false);
+                        // Limpar campos após o sucesso
+                        document.getElementById("cidades").value = "";
                     } else {
                         messageStatus('Erro ao excluir cidade: ' + customResponse.message, true);
                         console.log(customResponse.message);
