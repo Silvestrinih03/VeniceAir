@@ -116,8 +116,8 @@
 
         // Funções para verificar se todos campos foram preenchidos
         function preencheuTipoPassagem() {
-            const tipoSelecionado = document.getElementById('campo_select').value;
-            return tipoSelecionado !== '0';
+          const tipoSelecionado = document.getElementById('campo_select').value;
+            return tipoSelecionado !== 'selecioneTipo';
         }
         function preencheuPartida() {
             const partidaSelecionada = document.getElementById('campo_select2').value;
@@ -145,10 +145,57 @@
                 }
                 return resultado;
             }
+
+            // function PartidaIgualChegada() {
+            //     const partida = document.getElementById('campo_select2').value;
+            //     const chegada = document.getElementById('campo_select3').value;
+
+            //     return partida === chegada;
+            // }
+
+        
+
         // Função para exibir mensagens de status da busca
         // function messageStatusBUSCA(msg, error) {
         //     const pStatusBusca = document.getElementById('statusBUSCA');
         //     if (error) {
+
+        function Verificar(){
+          const tipoPassagem = document.getElementById('campo_select').value;
+          if (!preencheuTipoPassagem()) {
+              messageStatusBUSCA('Selecione o tipo de passagem!', true);
+                return; }
+          if (!preencheuPartida()) {
+              messageStatusBUSCA('Selecione a cidade de partida!', true);
+                return;
+            }
+          else if (!preencheuChegada()) {
+              messageStatusBUSCA('Selecione a cidade de chegada!', true);
+                return;
+            }
+          else if (!preencheuDataIda()) {
+              messageStatusBUSCA('Selecione a data de ida!', true);
+                return;
+          }
+          else if (tipoPassagem === '2') {
+                if (!preencheuDataVolta()) {
+                  messageStatusBUSCA('Selecione a data de volta!', true);
+                    return ;
+                } else window.location.href = 'resultado_busca.html';
+            }
+          
+          else {
+            
+            window.location.href = 'resultado_busca.html';
+            // É NA PAGINAAAAAA BuscarVoo();
+          }
+        }
+    
+
+
+
+
+
         //         pStatusBusca.className = 'statusErrorBUSCA';
         //     } else {
         //         pStatusBusca.className = 'statusSuccessBUSCA';
@@ -179,33 +226,33 @@
         // E SE O USUARIO ESCOLHER A MESMA CIDADE NA PARTIDA E NA CHEGADA?????????? VERIFICAR!!!!!!!!
         // Função que verifica se os campos obrigatórios foram preenchidos e retorna um alerta para o usuário
         function BuscarVoo() {
-            if (!preencheuPartida()) {
-              messageStatusBUSCA('Selecione a cidade de partida!', true);
-                return;
-            }
-            if (!preencheuChegada()) {
-              messageStatusBUSCA('Selecione a cidade de chegada!', true);
-                return;
-            }
-            if (!preencheuTipoPassagem()) {
-              messageStatusBUSCA('Selecione o tipo de passagem!', true);
-                return;
-            }
-            if (!preencheuDataIda()) {
-              messageStatusBUSCA('Selecione a data de ida!', true);
-                return;
-            }
+            // if (!preencheuPartida()) {
+            //   messageStatusBUSCA('Selecione a cidade de partida!', true);
+            //     return;
+            // }
+            // if (!preencheuChegada()) {
+            //   messageStatusBUSCA('Selecione a cidade de chegada!', true);
+            //     return;
+            // }
+            // if (!preencheuTipoPassagem()) {
+            //   messageStatusBUSCA('Selecione o tipo de passagem!', true);
+            //     return;
+            // }
+            // if (!preencheuDataIda()) {
+            //   messageStatusBUSCA('Selecione a data de ida!', true);
+            //     return;
+            // }
 
             // Obter os valores dos campos selecionados
-            const tipoPassagem = document.getElementById('campo_select').value;
-            // pra verificar se foi selecionada a data de retorno, verifica de o tipo de passagem é ida e volta (opcao 2)
-            if (tipoPassagem === '2') {
-                // se for igual a 2 entao ele chama a funcao de verificar se o usuario preencheu a data de retorno
-                if (!preencheuDataVolta()) {
-                  messageStatusBUSCA('Selecione a data de volta!', true);
-                    return ;
-                }
-            }
+            // const tipoPassagem = document.getElementById('campo_select').value;
+            // // pra verificar se foi selecionada a data de retorno, verifica de o tipo de passagem é ida e volta (opcao 2)
+            // if (tipoPassagem === '2') {
+            //     // se for igual a 2 entao ele chama a funcao de verificar se o usuario preencheu a data de retorno
+            //     if (!preencheuDataVolta()) {
+            //       messageStatusBUSCA('Selecione a data de volta!', true);
+            //         return ;
+            //     }
+            // }
             // BACK!!!!!!!!!!!!!!!!
             // Obtém os valores dos campos de cidade origem e cidade destino
             const tipoDePassagem = document.getElementById('campo_select').value;
@@ -255,7 +302,7 @@
         <div id="div_campos" class="mb-3">
           <!-- select de ida/ida e volta -->
           <select id="campo_select" class="form-select" aria-label="Default select example">
-            <option selected>Tipo de passagem</option>
+            <option value="selecioneTipo" selected>Tipo de passagem</option>
             <option value="1">Ida</option>
             <option value="2">Ida e volta</option>
           </select>
@@ -284,8 +331,11 @@
         <div id="div_botao" class="mb-3">
           <!--  onclick="cadastrarTrecho();"  name="btnCadastrar"> -->
           <!-- <button !!!!!!!!!type="button"!!!!!!!! id="buscar" href="resultado_busca.html" onclick="BuscarVoo()">Buscar</a></button> -->
-          <button id="buscar"><a href="resultado_busca.html" onclick="BuscarVoo()">Buscar</a></button>
-          <button type="reset" id="buscar">Limpar</button>
+          <!-- <button id="buscar"><a href="resultado_busca.html" onclick="BuscarVoo()">Buscar</a></button> -->
+          <button type="button" id="buscar" onclick="Verificar()">Buscar</a></button>
+          <!-- <button id="buscar" onclick="validarCampos()">Buscar</button> -->
+
+          <button type="reset" id="limpar">Limpar</button>
           <p id="statusBUSCA" class="statusErrorBUSCA"></p>
         </div>
       </form>

@@ -126,7 +126,24 @@
     color: white;
 }
 
+#limpar{
+    width: 100px;
+    height: 35px;
+    border-radius: 5px;
+    border: none;
+    background-color: #0073e6;
+    transition: background-color 0.3s;
+    margin-bottom: 15px;
+    cursor: pointer;
+    color: white;
+}
+
 #buscar a{
+    color: white;
+    text-decoration: none;
+}
+
+#limpar a{
     color: white;
     text-decoration: none;
 }
@@ -134,6 +151,10 @@
 #buscar:hover{
    background-color: #005bad; 
 }
+
+#limpar:hover{
+    background-color: #005bad; 
+ }
 
 #informacoes {
     display: flex; /* Use Flexbox to arrange divs side by side */
