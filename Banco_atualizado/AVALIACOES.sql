@@ -4,11 +4,11 @@ create table AVALIACOES(
     NOME varchar(51) not null,
     EMAIL varchar(51) not null,
     AVALIACAO integer not null,
-    DESCRICAO varchar(300) not null
+    DESCRICAO varchar(1000) not null
 );
 
 -- SEQUENCE ID AVALIACOES
-CREATE SEQUENCE SEQ_AVALIACOES START WITH 1 INCREMENT BY 1;
+create sequence SEQ_AVALIACOES minvalue 1 maxvalue 1000 increment by 1;
 
 -- TRIGGER ID AVALIACOES
 create or replace trigger PREENCHER_ID_AVALIACOES before insert ON AVALIACOES FOR EACH ROW BEGIN :NEW.ID_AVALIACAO:=SEQ_AVALIACOES.nextval;END;
