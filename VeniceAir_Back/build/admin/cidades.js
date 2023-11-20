@@ -13,16 +13,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.cidadeRouter = void 0;
+// Importações dos módulos necessários para que o sistema funcione
 const express_1 = __importDefault(require("express"));
 const oracledb_1 = __importDefault(require("oracledb"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
+// Rotas necessárias para o funcionamento do express e definição da porta onde serão realizadas as requisições
 exports.cidadeRouter = express_1.default.Router();
 const port = 3000;
 exports.cidadeRouter.use(express_1.default.json());
 exports.cidadeRouter.use((0, cors_1.default)());
+// Chama o dotenv para receber os dados do banco
 dotenv_1.default.config();
-// Função OK
+// Definir rota da requisição "Listar cidades" ---> OK
 exports.cidadeRouter.get("/listarCidades", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let cr = { status: "ERROR", message: "", payload: undefined, };
     try {
@@ -51,8 +54,8 @@ exports.cidadeRouter.get("/listarCidades", (req, res) => __awaiter(void 0, void 
         res.send(cr);
     }
 }));
-// Função OK
-exports.cidadeRouter.put("/inserirCidades", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+// Definir rota da requisição "Inserir cidades" ---> OK
+exports.cidadeRouter.post("/inserirCidades", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const nome = req.body.nome;
     let cr = {
         status: "ERROR",
@@ -92,7 +95,7 @@ exports.cidadeRouter.put("/inserirCidades", (req, res) => __awaiter(void 0, void
         res.send(cr);
     }
 }));
-// // Função OK
+// Definir rota da requisição "Excluir cidades" ---> OK
 exports.cidadeRouter.delete("/excluirCidade/:codigo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const codigo = req.params.codigo;
     let cr = {
@@ -130,6 +133,58 @@ exports.cidadeRouter.delete("/excluirCidade/:codigo", (req, res) => __awaiter(vo
         }
     }
     finally {
+        res.send(cr);
+    }
+}));
+// Definir rota da requisição "Atualizar cidade"
+exports.cidadeRouter.put("/atualizarCidade/:codigo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const codigo = req.params.codigo;
+    const novoNome = req.body;
+    let cr = {
+        status: "ERROR",
+        message: "",
+        payload: undefined,
+    };
+    let conn;
+    try {
+        conn = yield oracledb_1.default.getConnection({
+            user: process.env.ORACLE_DB_USER,
+            password: process.env.ORACLE_DB_SECRET,
+            connectionString: process.env.ORACLE_DB_CONN_STR,
+        });
+        const cmdUpdateCidade = `
+      UPDATE CIDADES
+      SET NOME = :novoNome
+      WHERE ID_CIDADE = :codigo
+    `;
+        const dados = {
+            novoNome,
+            codigo,
+        };
+        let resUpdate = yield conn.execute(cmdUpdateCidade, dados);
+        yield conn.commit();
+        const rowsUpdated = resUpdate.rowsAffected;
+        if (rowsUpdated !== undefined && rowsUpdated === 1) {
+            cr.status = "SUCCESS";
+            cr.message = "Dados da cidade atualizados.";
+        }
+        else {
+            cr.message = "Dados da cidade não atualizados. Verifique se o código informado está correto.";
+        }
+    }
+    catch (e) {
+        if (e instanceof Error) {
+            cr.message = e.message;
+            console.log(e.message);
+        }
+        else {
+            cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
+        }
+    }
+    finally {
+        if (conn !== undefined) {
+            yield conn.close();
+        }
         res.send(cr);
     }
 }));

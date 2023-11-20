@@ -18,7 +18,7 @@ const express_1 = __importDefault(require("express"));
 const oracledb_1 = __importDefault(require("oracledb"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
-// Cria as rotas para o express e definir a porta onde serão realizadas as requisições
+// Rotas necessárias para o funcionamento do express e definição da porta onde serão realizadas as requisições
 exports.avaliacaoRouter = express_1.default.Router();
 const port = 3000;
 exports.avaliacaoRouter.use(express_1.default.json());

@@ -20,7 +20,7 @@ type CustomResponse = {
   payload: any
 };
 
-// Definir rota da requisição "Listar cidades" OK
+// Definir rota da requisição "Listar cidades" ---> OK
 cidadeRouter.get("/listarCidades", async(req,res)=>{
 
   let cr: CustomResponse = {status: "ERROR", message: "", payload: undefined,};
@@ -52,8 +52,8 @@ cidadeRouter.get("/listarCidades", async(req,res)=>{
 
 });
 
-// Função OK
-cidadeRouter.put("/inserirCidades", async(req,res)=>{
+// Definir rota da requisição "Inserir cidades" ---> OK
+cidadeRouter.post("/inserirCidades", async(req,res)=>{
   
   const nome = req.body.nome as string;
   
@@ -99,7 +99,7 @@ cidadeRouter.put("/inserirCidades", async(req,res)=>{
   }
 });
 
-// // Função OK
+// Definir rota da requisição "Excluir cidades" ---> OK
 cidadeRouter.delete("/excluirCidade/:codigo", async (req, res) => {
   const codigo = req.params.codigo;
 
@@ -138,5 +138,61 @@ cidadeRouter.delete("/excluirCidade/:codigo", async (req, res) => {
       }
   } finally {
       res.send(cr);
+  }
+});
+
+// Definir rota da requisição "Atualizar cidade" ---> NÃO ESTÁ FUNCIONANDO
+cidadeRouter.put("/atualizarCidade/:codigo", async (req, res) => {
+  const codigo = req.params.codigo;
+  const novoNome = req.body as string;
+
+  let cr: CustomResponse = {
+    status: "ERROR",
+    message: "",
+    payload: undefined,
+  };
+
+  let conn;
+
+  try {
+    conn = await oracledb.getConnection({
+      user: process.env.ORACLE_DB_USER,
+      password: process.env.ORACLE_DB_SECRET,
+      connectionString: process.env.ORACLE_DB_CONN_STR,
+    });
+
+    const cmdUpdateCidade = `
+      UPDATE CIDADES
+      SET NOME = :novoNome
+      WHERE ID_CIDADE = :codigo
+    `;
+
+    const dados = {
+      novoNome,
+      codigo,
+    };
+
+    let resUpdate = await conn.execute(cmdUpdateCidade, dados);
+    await conn.commit();
+
+    const rowsUpdated = resUpdate.rowsAffected;
+    if (rowsUpdated !== undefined && rowsUpdated === 1) {
+      cr.status = "SUCCESS";
+      cr.message = "Dados da cidade atualizados.";
+    } else {
+      cr.message = "Dados da cidade não atualizados. Verifique se o código informado está correto.";
+    }
+  } catch (e) {
+    if (e instanceof Error) {
+      cr.message = e.message;
+      console.log(e.message);
+    } else {
+      cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
+    }
+  } finally {
+    if (conn !== undefined) {
+      await conn.close();
+    }
+    res.send(cr);
   }
 });
