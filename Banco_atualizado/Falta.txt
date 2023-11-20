@@ -24,5 +24,4 @@ SELECT da BUSCA DE VOOS não está correta
 é pra aparecer: ID (do voo), TRECHO, DATA , HORA PARTIDA, HORA CHEGADA, TOTAL DE HORAS, AEROPORTO DE PARTIDA, AEROPORTO DE CHEGADA, VALOR
 
 fazeeeeeeeeeeer
-BUSCA: comparar se a partida e a chegada não são iguais!!!!!
 BUSCA: se for SÓ IDA, tem que dar erro/mensagem se uma data de retorno for selecionada!!!

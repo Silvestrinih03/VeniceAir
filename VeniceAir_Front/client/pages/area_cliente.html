@@ -114,52 +114,62 @@
                 });
         }
 
-        // Funções para verificar se todos campos foram preenchidos
+        // Funções para verificar o preenchimento de cada campo da busca
+
+        // Função para verificar se o campo de "Tipo de Passagem" foi selecionado
         function preencheuTipoPassagem() {
           const tipoSelecionado = document.getElementById('campo_select').value;
             return tipoSelecionado !== 'selecioneTipo';
         }
+
+        // Função para verificar se o campo de "Partida" foi selecionado
         function preencheuPartida() {
             const partidaSelecionada = document.getElementById('campo_select2').value;
             return partidaSelecionada !== '0';
         }
+
+        // Função para verificar se o campo de "Chegada" foi selecionado
         function preencheuChegada() {
             const chegadaSelecionada = document.getElementById('campo_select3').value;
             return chegadaSelecionada !== '0';
         }
+
+        // Função para verificar se o campo de "Data Ida" foi selecionado
         function preencheuDataIda(){
-                let resultado = false;
+              let resultado = false;
 
                 const dataIda = document.getElementById('campo_data_ida').value;
                 if(dataIda.length > 0){
                     resultado = true;
                 }
                 return resultado;
-            }
+        }
+
+        // Função para verificar se o campo de "Data Volta" foi selecionado
         function preencheuDataVolta(){
-                let resultado = false;
+              let resultado = false;
 
                 const dataVolta = document.getElementById('campo_data_volta').value;
                 if(dataVolta.length > 0){
                     resultado = true;
                 }
                 return resultado;
-            }
+        }
 
-            // function PartidaIgualChegada() {
-            //     const partida = document.getElementById('campo_select2').value;
-            //     const chegada = document.getElementById('campo_select3').value;
+        // Função que verifica se a cidade de PARTIDA é IGUAL a cidade de CHEGADA (não é válido)
+        function PartidaIgualChegada() {
+              let resultado = false;
 
-            //     return partida === chegada;
-            // }
+                 const partida = document.getElementById('campo_select2').value;
+                 const chegada = document.getElementById('campo_select3').value;
 
-        
+                 if(partida === chegada){
+                    resultado = true;
+                }
+                return resultado;
+             }
 
-        // Função para exibir mensagens de status da busca
-        // function messageStatusBUSCA(msg, error) {
-        //     const pStatusBusca = document.getElementById('statusBUSCA');
-        //     if (error) {
-
+        // Função que verifica se todos os campos necessários foram preenchidos e mensagens correspondentes
         function Verificar(){
           const tipoPassagem = document.getElementById('campo_select').value;
           if (!preencheuTipoPassagem()) {
@@ -177,32 +187,25 @@
               messageStatusBUSCA('Selecione a data de ida!', true);
                 return;
           }
+          // Se o tipo da passagem for 2 (Ida e Volta), é cobrado o preenchimento do campo de Data Retorno
+          else if (PartidaIgualChegada()) {
+              messageStatusBUSCA('As cidades de partida e chegada não podem ser iguais!', true);
+                return;
+              }
           else if (tipoPassagem === '2') {
                 if (!preencheuDataVolta()) {
                   messageStatusBUSCA('Selecione a data de volta!', true);
                     return ;
                 } else window.location.href = 'resultado_busca.html';
             }
-          
           else {
             
             window.location.href = 'resultado_busca.html';
-            // É NA PAGINAAAAAA BuscarVoo();
+            // Redirecionamento para a página de resultado da busca
           }
         }
-    
 
-
-
-
-
-        //         pStatusBusca.className = 'statusErrorBUSCA';
-        //     } else {
-        //         pStatusBusca.className = 'statusSuccessBUSCA';
-        //     }
-        //     pStatusBusca.textContent = msg;
-        // }
-
+        // Função que exibe as mensagens de status (sucesso ou erro)
         function messageStatusBUSCA(msg, error) {
           const pStatusBUSCA = document.getElementById('statusBUSCA');
           pStatusBUSCA.className = error ? 'statusErrorBUSCA' : 'statusSuccessBUSCA';
@@ -223,36 +226,10 @@
             };
             return fetch('http://localhost:3000/buscarVoo', requestOptions).then(T => T.json());
         }
-        // E SE O USUARIO ESCOLHER A MESMA CIDADE NA PARTIDA E NA CHEGADA?????????? VERIFICAR!!!!!!!!
+
         // Função que verifica se os campos obrigatórios foram preenchidos e retorna um alerta para o usuário
         function BuscarVoo() {
-            // if (!preencheuPartida()) {
-            //   messageStatusBUSCA('Selecione a cidade de partida!', true);
-            //     return;
-            // }
-            // if (!preencheuChegada()) {
-            //   messageStatusBUSCA('Selecione a cidade de chegada!', true);
-            //     return;
-            // }
-            // if (!preencheuTipoPassagem()) {
-            //   messageStatusBUSCA('Selecione o tipo de passagem!', true);
-            //     return;
-            // }
-            // if (!preencheuDataIda()) {
-            //   messageStatusBUSCA('Selecione a data de ida!', true);
-            //     return;
-            // }
-
-            // Obter os valores dos campos selecionados
-            // const tipoPassagem = document.getElementById('campo_select').value;
-            // // pra verificar se foi selecionada a data de retorno, verifica de o tipo de passagem é ida e volta (opcao 2)
-            // if (tipoPassagem === '2') {
-            //     // se for igual a 2 entao ele chama a funcao de verificar se o usuario preencheu a data de retorno
-            //     if (!preencheuDataVolta()) {
-            //       messageStatusBUSCA('Selecione a data de volta!', true);
-            //         return ;
-            //     }
-            // }
+            
             // BACK!!!!!!!!!!!!!!!!
             // Obtém os valores dos campos de cidade origem e cidade destino
             const tipoDePassagem = document.getElementById('campo_select').value;
@@ -329,12 +306,7 @@
         <p id="statusBUSCA" class="statusErrorBUSCA"></p>
         <!-- Botões de ação buscar (chama o script) e limpar (apaga os dados preenchidos pelo usuário) -->
         <div id="div_botao" class="mb-3">
-          <!--  onclick="cadastrarTrecho();"  name="btnCadastrar"> -->
-          <!-- <button !!!!!!!!!type="button"!!!!!!!! id="buscar" href="resultado_busca.html" onclick="BuscarVoo()">Buscar</a></button> -->
-          <!-- <button id="buscar"><a href="resultado_busca.html" onclick="BuscarVoo()">Buscar</a></button> -->
           <button type="button" id="buscar" onclick="Verificar()">Buscar</a></button>
-          <!-- <button id="buscar" onclick="validarCampos()">Buscar</button> -->
-
           <button type="reset" id="limpar">Limpar</button>
           <p id="statusBUSCA" class="statusErrorBUSCA"></p>
         </div>
