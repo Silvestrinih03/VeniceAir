@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VeniceAir Pagamento</title>
+    <link href="../../Geral/assets/css/header_page.css" rel="stylesheet"/>
+    <link href="../assets/pagamento.css" rel="stylesheet"/>
+</head>
+<body>
+    <div id="header_page">
+        <div id="img_logo">
+            <img src="../../Geral/assets/images/logo.png"> 
+        </div>
+        <div id="title_page">
+            <h1>VeniceAir <br> Página de pagamento</h1>
+        </div>
+        <div id="button_padrao">
+            <button id="padrao_button"><a href="area_cliente.html">Voltar</a></button>
+        </div>
+    </div>
+    <div class="container">
+        <p>Preencha todos os campos para finalizar a compra.</p>
+        <form id="finaliza_pagamento">
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" name="nome"/>
+
+            <label for="email">E-mail de contato</label>
+            <input type="text" id="email" name="email"/>
+
+            <label for="anofab">Forma de pagamento</label>
+            <select id="forma_pagamento">
+                <option value="0">Selecione a forma de pagamento</option>
+                <option value="1">Cartão</option>
+                <option value="2">Pix</option>
+            </select>
+            <button type="button">Continuar</button>
+            <button type="reset">Limpar</button>
+        </form>
+        <p id="status" class="statusError"></p>
+    </div>
+</body>
+</html>

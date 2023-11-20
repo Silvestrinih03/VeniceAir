@@ -78,6 +78,11 @@
           .then(customResponse => {
               if (customResponse.status === 'SUCCESS') {
                 messageStatusAvaliacao('Avaliação enviada com sucesso! Obrigada pelo Feedback!', false);
+                // Limpar campos após o sucesso
+                document.getElementById("nome").value = "";
+                document.getElementById("email").value = "";
+                document.getElementById("avaliacao").value = "0";
+                document.getElementById("descricao").value = "";
               } else {
                 messageStatusAvaliacao('Erro ao enviar avaliação: ' + customResponse.message, true);
                   console.log(customResponse.message);

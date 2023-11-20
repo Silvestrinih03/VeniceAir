@@ -6,47 +6,6 @@
     <title>VeniceAir - AERONAVES</title>
     <link rel="stylesheet" href="../../../Geral/assets/css/header_page.css"/>
     <link rel="stylesheet" href="../../assets/css/tela_cadastro.css"/>
-</head>
-<body>
-    <!-- Cabeçalho da página -->
-    <div id="header_page">
-      <div id="img_logo">
-        <img src="../../../Geral/assets/images/logo.png">
-      </div>
-      <div id="title_page">
-          <h1>VeniceAir <br> Cadastro de Aeronaves</h1>
-      </div>
-      <div id="button_padrao">
-          <button id="padrao_button"><a href="../aeronaves.html">Voltar</a></button>
-      </div>
-    </div>
-
-    <!-- Formulário de cadastro -->
-    <div class="container">
-        <p>Preencha todos os campos para cadastrar uma aeronave.</p>
-        <form id="inserirAeronaveForm">
-            <label for="fabricante">Fabricante da aeronave:</label>
-            <select name="fabricante" id="fabricante">
-                <option value="0" selected>Selecione o fabricante</option>
-                <option value="AirBus">AirBus</option>
-                <option value="Boeing">Boeing</option>
-                <option value="EMBRAER">EMBRAER</option>
-            </select>
-
-            <label for="modelo">Modelo da aeronave:</label>
-            <input type="text" id="modelo" name="modelo"/>
-
-            <label for="anofab">Ano de fabricação:</label>
-            <input type="number" id="anofab" name="anofab" maxlength="4" size="5"/>
-            
-            <label for="qtdeAssentos">Quantidade de assentos:</label>
-            <input type="number" id="qtdeAssentos" name="qtdeAssentos" maxlength="4" size="5"/>
-
-            <button type="button" id="btnCadastrar" name="btnCadastrar" onclick="inserirAeronaves()">Salvar</button>
-            <button type="reset">Limpar</button>
-        </form>
-        <p id="status" class="statusError"></p>
-    </div>
 
     <script>
         function preencheuFabricante() {
@@ -138,5 +97,46 @@
             });
         }
     </script>
+</head>
+<body>
+    <!-- Cabeçalho da página -->
+    <div id="header_page">
+      <div id="img_logo">
+        <img src="../../../Geral/assets/images/logo.png">
+      </div>
+      <div id="title_page">
+          <h1>VeniceAir <br> Cadastro de Aeronaves</h1>
+      </div>
+      <div id="button_padrao">
+          <button id="padrao_button"><a href="../aeronaves.html">Voltar</a></button>
+      </div>
+    </div>
+
+    <!-- Formulário de cadastro -->
+    <div class="container">
+        <p>Preencha todos os campos para cadastrar uma aeronave.</p>
+        <form id="inserirAeronaveForm">
+            <label for="fabricante">Fabricante da aeronave:</label>
+            <select name="fabricante" id="fabricante">
+                <option value="0" selected>Selecione o fabricante</option>
+                <option value="AirBus">AirBus</option>
+                <option value="Boeing">Boeing</option>
+                <option value="EMBRAER">EMBRAER</option>
+            </select>
+
+            <label for="modelo">Modelo da aeronave:</label>
+            <input type="text" id="modelo" name="modelo"/>
+
+            <label for="anofab">Ano de fabricação:</label>
+            <input type="number" id="anofab" name="anofab" maxlength="4" size="5"/>
+            
+            <label for="qtdeAssentos">Quantidade de assentos:</label>
+            <input type="number" id="qtdeAssentos" name="qtdeAssentos" maxlength="4" size="5"/>
+
+            <button type="button" id="btnCadastrar" name="btnCadastrar" onclick="inserirAeronaves()">Salvar</button>
+            <button type="reset">Limpar</button>
+        </form>
+        <p id="status" class="statusError"></p>
+    </div>
 </body>
 </html>
