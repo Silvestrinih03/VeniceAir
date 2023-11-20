@@ -5,13 +5,13 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
 
-import { buscaRouter } from './cliente/busca';
 import { cidadeRouter } from './admin/cidades';
 import { aeronaveRouter } from './admin/aeronaves';
 import { aeroportoRouter } from './admin/aeroportos';
 import { trechoRouter } from './admin/trechos';
 import { vooRouter } from './admin/voos';
 import { avaliacaoRouter } from './cliente/avaliacao';
+import { buscaRouter } from './cliente/busca';
 
 
 dotenv.config();

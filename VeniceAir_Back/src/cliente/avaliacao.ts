@@ -4,7 +4,7 @@ import oracledb, { Connection, ConnectionAttributes } from "oracledb";
 import dotenv from "dotenv";
 import cors from "cors";
 
-// Cria as rotas para o express e definir a porta onde serão realizadas as requisições
+// Rotas necessárias para o funcionamento do express e definição da porta onde serão realizadas as requisições
 export const avaliacaoRouter = express.Router();
 const port = 3000;
 avaliacaoRouter.use(express.json());

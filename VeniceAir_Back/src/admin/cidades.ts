@@ -1,24 +1,26 @@
+// Importações dos módulos necessários para que o sistema funcione
 import express from "express";
 import oracledb, { Connection, ConnectionAttributes } from "oracledb";
 import dotenv from "dotenv";
-
 import cors from "cors";
 
+// Rotas necessárias para o funcionamento do express e definição da porta onde serão realizadas as requisições
 export const cidadeRouter = express.Router();
-
 const port = 3000;
 cidadeRouter.use(express.json());
 cidadeRouter.use(cors());
 
-
+// Chama o dotenv para receber os dados do banco
 dotenv.config();
+
+// Padronizar respostas do servidor
 type CustomResponse = {
   status: string,
   message: string,
   payload: any
 };
 
-// Função OK
+// Definir rota da requisição "Listar cidades" OK
 cidadeRouter.get("/listarCidades", async(req,res)=>{
 
   let cr: CustomResponse = {status: "ERROR", message: "", payload: undefined,};
