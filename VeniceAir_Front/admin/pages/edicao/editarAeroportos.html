@@ -114,7 +114,7 @@
             document.getElementById('status').style.display = 'none';
         }
 
-        // Função para buscar voos
+        // Função para mandar pro back os parâmetros
         function fetchEditarAeroporto(sigla, cidade) {
             const requestOptions = {
                 method: 'POST',
@@ -148,7 +148,7 @@
             fetchEditarAeroporto(sigla, cidade)
             .then(customResponse => {
                     if (customResponse.status === 'SUCCESS') {
-                        messageStatusALTERAR('Aeroporto cadastrado...', false);
+                        messageStatusALTERAR('Aeroporto alterado...', false);
                         // Limpar campos após o sucesso
                         document.getElementById("sigla").value = "";
                         document.getElementById("comboOrigem").value = "0";

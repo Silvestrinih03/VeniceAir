@@ -6,6 +6,137 @@
     <title>Edição de Cidades</title>
     <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet"/>
     <link href="../../assets/css/tela_excluir.css" rel="stylesheet"/>
+    <script>
+
+        // Carrega as Cidades no Combo box
+        document.addEventListener('DOMContentLoaded', function () {
+            carregarCidades('cidade');   
+        });
+
+
+        // Função para carregar as cidades do banco no campo de seleção
+        function carregarCidades(idSelect) {
+            fetch('http://localhost:3000/listarCidades')
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById(idSelect);
+                    data.payload.forEach(cidade => {
+                        const option = document.createElement('option');
+                        option.value = cidade[0];
+                        option.text = cidade[1];
+                        select.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar cidades:', error);
+                });
+        }
+
+        // Função que exibe as mensagens de status (sucesso ou erro) da parte de ESCOLHER uma cidade para edição!
+        function messageStatus(msg, error) {
+            const pStatus = document.getElementById('status');
+            if (error) {
+                pStatus.className = 'statusError';
+            } else {
+                pStatus.className = 'statusSuccess';
+            }
+            pStatus.textContent = msg;
+        }
+
+        // Função que exibe as mensagens de status (sucesso ou erro) da parte de ALTERAR os dados de uma cidade!
+        function messageStatusALTERAR(msg, error) {
+            const pStatusALTERAR = document.getElementById('statusALTERAR');
+            if (error) {
+                pStatusALTERAR.className = 'statusErrorALTERAR';
+            } else {
+                pStatusALTERAR.className = 'statusSuccessALTERAR';
+            }
+            pStatusALTERAR.textContent = msg;
+        }
+
+        // Função para verificar se o campo de "Cidade" foi selecionado
+        function selecionouCidade(){
+            const cidadeSelecionada = document.getElementById('cidade').value;
+            return cidadeSelecionada !== '0';
+        }
+
+        // Função para verificar se o campo de "ALTERAR NOME" foi preenchido
+        function preencheuNomeCidade() {
+            let resultado = false;
+            const nomedacidade = document.getElementById('nomeAlterado').value;
+            if (nomedacidade.length > 0) {
+                resultado = true;
+            }
+            return resultado;
+        }
+        // Variável de controle para verificar se o segundo container está visível
+        let segundoContainerVisivel = false;
+
+        // Função que verifica se todos os campos necessários foram preenchidos e mensagens correspondentes
+        function acessarCidade(){
+            if (!selecionouCidade()) {
+                messageStatus('Selecione uma cidade!', true);
+                return;
+            }
+
+            // Se a ação foi verificada e o usuário selecionou o Aeroporto, o segundo container é revelado
+            document.querySelector('.containerInvisivel').style.display = 'block';
+
+            // Atualiza a variável de controle
+            segundoContainerVisivel = true;
+
+            // Faz com que a mensagem de status suma após o segundo container aparecer
+            document.getElementById('status').style.display = 'none';
+        }
+
+        // Função para mandar pro back os parâmetros
+        function fetchEditarCidade(nome) {
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({nome})
+            };
+            return fetch('http://localhost:3000/editarCidade', requestOptions).then(T => T.json());
+        }
+
+        // Função para alterar as informações da cidade
+        function editarCidade(){
+            // Verifica se o segundo container está visível
+            if (!segundoContainerVisivel) {
+                return;
+            }
+            // Verifica se o usuário preencheu o novo nome da cidade
+            if (!preencheuNomeCidade()) {
+                messageStatusALTERAR('Preencha o novo nome!', true);
+                return;
+            }
+
+            // Obtém os valores do campo do novo nome da cidade
+            const nomeDaCidade = document.getElementById('nomeAlterado').value;
+    
+        // Chama fetch para verificar se a ação foi realizada com sucesso
+        fetchEditarCidade(nomeDaCidade)
+            .then(customResponse => {
+                    if (customResponse.status === 'SUCCESS') {
+                        messageStatusALTERAR('Cidade alterada...', false);
+                        // Limpar campos após o sucesso
+                        document.getElementById("nomeAlterado").value = "";
+                    } else {
+                        messageStatusALTERAR('Erro ao editar cidade: ' + customResponse.message, true);
+                        console.log(customResponse.message);
+                    }
+                })
+                .catch((e) => {
+                    messageStatusALTERAR('Erro técnico ao editar cidade. Contate o suporte.', true);
+                    console.log('Falha grave ao editar cidade.' + e);
+                });
+
+            // FUNÇÃO ALTERAAAAAAAAAAAR
+
+            messageStatusALTERAR('Cidade alterada com sucesso!', false);
+            
+            }
+    </script>
 </head>
 <body>
     <div id="header_page">
@@ -20,9 +151,25 @@
         </div>
     </div>
     <div class="container">
-        <label for="id">ID da cidade:</label>
-        <input type="text" id="id" name="id"/>
-        <button type="submit" id="Alterar" name="Alterar">Alterar</button>
+        <select name="cidade" id="cidade">
+            <option value="0" selected>Selecione a cidade que deseja alterar</option>
+        </select>
+        <button type="submit" id="Alterar" name="Alterar" onclick="acessarCidade()">Acessar cidade</button>
+        <!-- Mensagem de Status da função que verifica se o usuário selecionou o aeroporto para edição -->
+        <p id="status" class="statusError"></p>
     </div>
+
+    <div class="containerInvisivel">
+        <form class="form-group">
+                <label for="sigla">Alterar NOME:</label>
+                <input type="text" id="nomeAlterado" name="nomeAlterado" required>
+    <div class="form-group">
+        <button type="button" id="btnCadastrar" name="btnCadastrar" onclick="editarCidade()">Alterar</button>
+        <!-- <button type="reset">Limpar</button> -->
+    </div>
+    <!-- Mensagem de Status da função ALTERAR dados do aeroporto -->
+    <p id="statusALTERAR" class="statusErrorALTERAR"></p>      
+</div>
+
 </body>
 </html>

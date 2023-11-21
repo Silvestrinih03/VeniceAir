@@ -25,3 +25,9 @@ SELECT da BUSCA DE VOOS não está correta
 
 fazeeeeeeeeeeer
 BUSCA: se for SÓ IDA, tem que dar erro/mensagem se uma data de retorno for selecionada!!!
+
+
+IMPORTANTE: FUNÇÃO ALTERAR
+    mudar para também mandar como parâmetro O CÓDIGO (ID) da cidade (ou aeroporto etc)
+    pois ele precisa do ID para saber ONDE vai alterar!
+    mas como mandar o ID? select? 
