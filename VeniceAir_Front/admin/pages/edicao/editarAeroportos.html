@@ -6,6 +6,167 @@
     <title>Edição de Aeroportos</title>
     <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet"/>
     <link href="../../assets/css/tela_excluir.css" rel="stylesheet"/>
+    <script>
+        // Carrega os Aeroportos dentro da Combo box para seleção e as Cidades no Combo box de alteração
+        document.addEventListener('DOMContentLoaded', function () {
+            carregarAeroportos('aeroportos');
+            carregarCidades('comboOrigem');   
+        });
+
+        // Função para carregar os aeroportos do banco nos campos de seleção
+        function carregarAeroportos(idSelect) {
+            fetch('http://localhost:3000/listarAeroportos')
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById(idSelect);
+                    data.payload.forEach(aeroporto => {
+                        const option = document.createElement('option');
+                        const optionText = `${aeroporto[1]}  ➡️  ${aeroporto[2]}`; 
+                        option.value = aeroporto[0];
+                        option.text = optionText;
+                        select.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar aeroportos:', error);
+                });
+        }
+
+        // Função para verificar se o campo de "Aeroporto" foi selecionado
+        function selecionouAeroporto(){
+            const aeroportoSelecionado = document.getElementById('aeroportos').value;
+            return aeroportoSelecionado !== '0';
+        }
+
+        // Função para verificar se o campo de "Cidade" foi selecionado
+        function selecionouCidade(){
+            const cidadeSelecionada = document.getElementById('comboOrigem').value;
+            return cidadeSelecionada !== '0';
+        }
+
+        // Função para verificar se o campo de "Sigla" foi preenchido
+        function preencheuSigla() {
+            let resultado = false;
+            const sigla = document.getElementById('sigla').value;
+            if (sigla.length > 0) {
+                resultado = true;
+            }
+            return resultado;
+        }
+        
+        // Função para carregar as cidades do banco nos campos de seleção
+        function carregarCidades(idSelect) {
+            fetch('http://localhost:3000/listarCidades')
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById(idSelect);
+                    data.payload.forEach(cidade => {
+                        const option = document.createElement('option');
+                        option.value = cidade[0];
+                        option.text = cidade[1];
+                        select.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar cidades:', error);
+                });
+        }
+        
+        // Função que exibe as mensagens de status (sucesso ou erro) da parte de ESCOLHER um aeroporto para edição!
+        function messageStatus(msg, error) {
+            const pStatus = document.getElementById('status');
+            if (error) {
+                pStatus.className = 'statusError';
+            } else {
+                pStatus.className = 'statusSuccess';
+            }
+            pStatus.textContent = msg;
+        }
+
+        // Função que exibe as mensagens de status (sucesso ou erro) da parte de ALTERAR os dados de um aeroporto!
+        function messageStatusALTERAR(msg, error) {
+            const pStatusALTERAR = document.getElementById('statusALTERAR');
+            if (error) {
+                pStatusALTERAR.className = 'statusErrorALTERAR';
+            } else {
+                pStatusALTERAR.className = 'statusSuccessALTERAR';
+            }
+            pStatusALTERAR.textContent = msg;
+        }
+
+        // Variável de controle para verificar se o segundo container está visível
+        let segundoContainerVisivel = false;
+
+        // Função que verifica se todos os campos necessários foram preenchidos e mensagens correspondentes
+        function acessarDados(){
+            if (!selecionouAeroporto()) {
+                messageStatus('Selecione um aeroporto!', true);
+                return;
+            }
+
+            // Se a ação foi verificada e o usuário selecionou o Aeroporto, o segundo container é revelado
+            document.querySelector('.containerInvisivel').style.display = 'block';
+
+            // Atualiza a variável de controle
+            segundoContainerVisivel = true;
+
+            // Faz com que a mensagem de status suma após o segundo container aparecer
+            document.getElementById('status').style.display = 'none';
+        }
+
+        // Função para buscar voos
+        function fetchEditarAeroporto(sigla, cidade) {
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ sigla, cidade})
+            };
+            return fetch('http://localhost:3000/editarAeroporto', requestOptions).then(T => T.json());
+        }
+
+        // Função para alterar as informações do aeroporto
+        function alterarAeroporto(){
+            // Verifica se o segundo container está visível
+            if (!segundoContainerVisivel) {
+                return;
+            }
+            // Verifica se o usuário preencheu a sigla
+            if (!preencheuSigla()) {
+                messageStatusALTERAR('Preencha a Sigla!', true);
+                return;
+            }
+            // Verifica se o usuário selecionou a cidade
+            else if (!selecionouCidade()) {
+                messageStatusALTERAR('Selecione a Cidade!', true);
+                return;
+            }
+            
+            // Obtém os valores dos campos sigla e cidade
+            const sigla = document.getElementById('sigla').value;
+            const cidade = document.getElementById('comboOrigem').value;
+
+            fetchEditarAeroporto(sigla, cidade)
+            .then(customResponse => {
+                    if (customResponse.status === 'SUCCESS') {
+                        messageStatusALTERAR('Aeroporto cadastrado...', false);
+                        // Limpar campos após o sucesso
+                        document.getElementById("sigla").value = "";
+                        document.getElementById("comboOrigem").value = "0";
+                    } else {
+                        messageStatusALTERAR('Erro ao editar aeroporto: ' + customResponse.message, true);
+                        console.log(customResponse.message);
+                    }
+                })
+                .catch((e) => {
+                    messageStatusALTERAR('Erro técnico ao editar aeroporto. Contate o suporte.', true);
+                    console.log('Falha grave ao editar aeroporto.' + e);
+                });
+
+            // FUNÇÃO ALTERAAAAAAAAAAAR
+
+            messageStatusALTERAR('Aeroporto alterado com sucesso!', false);
+        }
+    </script>
 </head>
 <body>
     <div id="header_page">
@@ -20,9 +181,36 @@
         </div>
     </div>
     <div class="container">
-        <label for="id">ID do aeroporto:</label>
-        <input type="text" id="id" name="id"/>
-        <button type="submit" id="Alterar" name="Alterar">Alterar</button>
+        <select name="aeroportos" id="aeroportos">
+            <option value="0" selected>Selecione o aeroporto que deseja alterar</option>
+        </select>
+        <button type="submit" id="Alterar" name="Alterar" onclick="acessarDados()">Acessar dados</button>
+        <!-- Mensagem de Status da função que verifica se o usuário selecionou o aeroporto para edição -->
+        <p id="status" class="statusError"></p>
+    </div>
+    
+    <div class="containerInvisivel">
+        <form class="form-group">
+                <label for="sigla">Alterar SIGLA:</label>
+                <input type="text" id="sigla" name="sigla" required>
+                <p></p>
+                <div class="form-group">
+                    <label for="cadastro">Alterar CIDADE:</label>
+                    <!-- <input type="text" id="cadastro" name="cadastro" required> -->
+                    <select name="comboOrigem" id="comboOrigem">
+                        <option value="0" selected>Selecione a cidade</option>
+                        
+                    </select>   
+                </div>
+            
+    <div class="form-group">
+        <button type="button" id="btnCadastrar" name="btnCadastrar" onclick="alterarAeroporto()">Alterar</button>
+        <!-- <button type="reset">Limpar</button> -->
+    </div>
+    <!-- Mensagem de Status da função ALTERAR dados do aeroporto -->
+    <p id="statusALTERAR" class="statusErrorALTERAR"></p>      
+</div>
+
     </div>
 </body>
 </html>

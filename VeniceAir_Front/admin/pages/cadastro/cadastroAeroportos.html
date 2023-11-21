@@ -5,10 +5,12 @@
     <link rel="stylesheet" href="../../../Geral/assets/css/header_page.css">
     <link rel="stylesheet" href="../../assets/css/tela_cadastro.css">
     <script>
+        // Chama a função de carregar cidades nos campos de seleção para exibir as cidades cadastradas no banco
         document.addEventListener('DOMContentLoaded', function () {
             carregarCidades('comboOrigem');
         });
 
+        // Função para carregar as cidades do banco nos campos de seleção
             function carregarCidades(idSelect) {
             fetch('http://localhost:3000/listarCidades')
                 .then(response => response.json())
@@ -25,10 +27,14 @@
                     console.error('Erro ao carregar cidades:', error);
                 });
         }
+
+        // Função para verificar se o campo de "Cidade" foi selecionado
         function preencheuCidade(){
             const cidadeSelecionada = document.getElementById('comboOrigem').value;
             return cidadeSelecionada !== '0';
         }
+
+        // Função para verificar se o campo de "Sigla" foi preenchido
         function preencheuSigla() {
             let resultado = false;
             const sigla = document.getElementById('sigla').value;
@@ -38,6 +44,7 @@
             return resultado;
         }
 
+        // Função que exibe as mensagens de status (sucesso ou erro)
         function messageStatus(msg, error) {
             const pStatus = document.getElementById('status');
             if (error) {
@@ -48,7 +55,7 @@
             pStatus.textContent = msg;
         }
 
-
+        // Função para definir como parâmetro os valores obtidos em sigla e cidade
         function fetchInserir(sigla, cidade) {
             const requestOptions = {
                 method: 'POST',
@@ -57,20 +64,26 @@
             };
 
             return fetch('http://localhost:3000/inserirAeroportos', requestOptions).then(T => T.json());
-        }            
+        }
+
+        // Função Inserir um Aeroporto no banco de dados
         function inserirAeroporto() {
+            // Verifica se o usuário preencheu a sigla
             if (!preencheuSigla()) {
                 messageStatus('Preencha a Sigla!', true);
                 return;
             }
+            // Verifica se o usuário selecionou a cidade
             else if (!preencheuCidade()) {
                 messageStatus('Selecione a Cidade!', true);
                 return;
             }
 
+            // Obtém os valores dos campos sigla e cidade
             const sigla = document.getElementById('sigla').value;
             const cidade = document.getElementById('comboOrigem').value;
 
+            // Chama a função que manda os valores para o banco através de POST, no back-end
             fetchInserir(sigla, cidade)
                 .then(customResponse => {
                     if (customResponse.status === 'SUCCESS') {
@@ -103,7 +116,7 @@
         </div>
     </div>
     <div class="container">
-        <!-- <h1>CADASTRO DE AEROPORTO</h1> -->
+        <!-- <h1>CADASTRO DE AEROPORTO</h1>  PUT???? -->
         <p>Preencha todos os campos para cadastrar um aeroporto.</p>
         <form action="/inserirAeroporto" method="put">
             <div class="form-group">
@@ -123,6 +136,7 @@
                 <button type="reset">Limpar</button>
             </div>
         </form>
+        <!-- Mensagem de Status da função InserirAeroporto -->
         <p id="status" class="statusError"></p>
     </div>
 </body>
