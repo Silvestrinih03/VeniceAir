@@ -137,9 +137,10 @@ exports.cidadeRouter.delete("/excluirCidade/:codigo", (req, res) => __awaiter(vo
     }
 }));
 // Definir rota da requisição "Atualizar cidade" ---> NÃO ESTÁ FUNCIONANDO
+// cidadeRouter.put("/atualizarCidade/:codigo", async (req, res) => {
 exports.cidadeRouter.put("/atualizarCidade/:codigo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const codigo = req.params.codigo;
-    const novoNome = req.body;
+    const novoNome = req.body.nome;
     let cr = {
         status: "ERROR",
         message: "",
@@ -153,16 +154,18 @@ exports.cidadeRouter.put("/atualizarCidade/:codigo", (req, res) => __awaiter(voi
             connectionString: process.env.ORACLE_DB_CONN_STR,
         });
         const cmdUpdateCidade = `
-      UPDATE CIDADES
-      SET NOME = :novoNome
-      WHERE ID_CIDADE = :codigo
-    `;
-        const dados = {
-            novoNome,
-            codigo,
+            UPDATE CIDADES
+            SET NOME = :novoNome
+            WHERE ID_CIDADE = :codigo
+        `;
+        const bindVariables = {
+            codigo: { val: Number(codigo), type: oracledb_1.default.NUMBER, dir: oracledb_1.default.BIND_IN },
+            novoNome: { val: novoNome, type: oracledb_1.default.STRING, dir: oracledb_1.default.BIND_IN },
         };
-        let resUpdate = yield conn.execute(cmdUpdateCidade, dados);
-        yield conn.commit();
+        const options = {
+            autoCommit: true,
+        };
+        let resUpdate = yield conn.execute(cmdUpdateCidade, bindVariables, options);
         const rowsUpdated = resUpdate.rowsAffected;
         if (rowsUpdated !== undefined && rowsUpdated === 1) {
             cr.status = "SUCCESS";
@@ -175,7 +178,7 @@ exports.cidadeRouter.put("/atualizarCidade/:codigo", (req, res) => __awaiter(voi
     catch (e) {
         if (e instanceof Error) {
             cr.message = e.message;
-            console.log(e.message);
+            console.error(e.message);
         }
         else {
             cr.message = "Erro ao conectar ao Oracle. Sem detalhes";

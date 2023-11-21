@@ -24,6 +24,7 @@
                         const option = document.createElement('option');
                         option.value = cidade[0];
                         option.text = cidade[1];
+                        option.setAttribute('data-id', cidade[0]); // Armazena o ID como um atributo de dados
                         select.appendChild(option);
                     });
                 })
@@ -71,9 +72,15 @@
         }
         // Variável de controle para verificar se o segundo container está visível
         let segundoContainerVisivel = false;
+        let cidadeId;  // Declarando cidadeId no escopo global
 
         // Função que verifica se todos os campos necessários foram preenchidos e mensagens correspondentes
         function acessarCidade(){
+            const select = document.getElementById('cidade');
+            const cidadeSelecionada = select.value;
+            // Pega o ID da cidade selecionada pra depois enviar como parâmetro
+            const cidadeId = select.options[select.selectedIndex].getAttribute('data-id');
+
             if (!selecionouCidade()) {
                 messageStatus('Selecione uma cidade!', true);
                 return;
@@ -90,13 +97,14 @@
         }
 
         // Função para mandar pro back os parâmetros
-        function fetchEditarCidade(nome) {
+        function fetchEditarCidade(id, nome) {
+            const url = `http://localhost:3000/atualizarCidade/${id}`; // Adicionando o id à URL
             const requestOptions = {
-                method: 'POST',
+                method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({nome})
             };
-            return fetch('http://localhost:3000/editarCidade', requestOptions).then(T => T.json());
+            return fetch(url, requestOptions).then(T => T.json());
         }
 
         // Função para alterar as informações da cidade
@@ -115,7 +123,7 @@
             const nomeDaCidade = document.getElementById('nomeAlterado').value;
     
         // Chama fetch para verificar se a ação foi realizada com sucesso
-        fetchEditarCidade(nomeDaCidade)
+        fetchEditarCidade(cidadeId, nomeDaCidade)
             .then(customResponse => {
                     if (customResponse.status === 'SUCCESS') {
                         messageStatusALTERAR('Cidade alterada...', false);
