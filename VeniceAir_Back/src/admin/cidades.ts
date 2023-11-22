@@ -147,6 +147,9 @@ cidadeRouter.put("/atualizarCidade/:codigo", async (req, res) => {
   const codigo = req.params.codigo;
   const novoNome = req.body.nome as string;
 
+  console.log(codigo);
+  console.log(novoNome);
+  
   let cr: CustomResponse = {
     status: "ERROR",
     message: "",

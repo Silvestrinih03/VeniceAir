@@ -14,24 +14,35 @@
         });
 
 
-        // Função para carregar as cidades do banco no campo de seleção
-        function carregarCidades(idSelect) {
-            fetch('http://localhost:3000/listarCidades')
-                .then(response => response.json())
-                .then(data => {
-                    const select = document.getElementById(idSelect);
-                    data.payload.forEach(cidade => {
-                        const option = document.createElement('option');
-                        option.value = cidade[0];
-                        option.text = cidade[1];
-                        option.setAttribute('data-id', cidade[0]); // Armazena o ID como um atributo de dados
-                        select.appendChild(option);
-                    });
-                })
-                .catch(error => {
-                    console.error('Erro ao carregar cidades:', error);
-                });
-        }
+        // Variável para armazenar o ID da cidade selecionada
+let cidadeSelecionadaId;
+
+// Função para carregar as cidades do banco no campo de seleção
+function carregarCidades(idSelect) {
+    fetch('http://localhost:3000/listarCidades')
+        .then(response => response.json())
+        .then(data => {
+            const select = document.getElementById(idSelect);
+
+            // Adiciona um ouvinte de evento para capturar a seleção
+            select.addEventListener('change', function () {
+                // Obtém o ID da cidade selecionada
+                cidadeSelecionadaId = select.value;
+                console.log('ID da cidade selecionada:', cidadeSelecionadaId);
+                // Chama outras funções ou realiza outras ações necessárias
+            });
+
+            data.payload.forEach(cidade => {
+                const option = document.createElement('option');
+                option.value = cidade[0];
+                option.text = cidade[1];
+                select.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error('Erro ao carregar cidades:', error);
+        });
+}
 
         // Função que exibe as mensagens de status (sucesso ou erro) da parte de ESCOLHER uma cidade para edição!
         function messageStatus(msg, error) {
@@ -72,7 +83,7 @@
         }
         // Variável de controle para verificar se o segundo container está visível
         let segundoContainerVisivel = false;
-        let cidadeId;  // Declarando cidadeId no escopo global
+        //let cidadeId;  // Declarando cidadeId no escopo global
 
         // Função que verifica se todos os campos necessários foram preenchidos e mensagens correspondentes
         function acessarCidade(){
@@ -123,7 +134,7 @@
             const nomeDaCidade = document.getElementById('nomeAlterado').value;
     
         // Chama fetch para verificar se a ação foi realizada com sucesso
-        fetchEditarCidade(cidadeId, nomeDaCidade)
+        fetchEditarCidade(cidadeSelecionadaId, nomeDaCidade)
             .then(customResponse => {
                     if (customResponse.status === 'SUCCESS') {
                         messageStatusALTERAR('Cidade alterada...', false);

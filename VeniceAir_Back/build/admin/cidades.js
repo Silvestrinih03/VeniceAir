@@ -141,6 +141,8 @@ exports.cidadeRouter.delete("/excluirCidade/:codigo", (req, res) => __awaiter(vo
 exports.cidadeRouter.put("/atualizarCidade/:codigo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const codigo = req.params.codigo;
     const novoNome = req.body.nome;
+    console.log(codigo);
+    console.log(novoNome);
     let cr = {
         status: "ERROR",
         message: "",
