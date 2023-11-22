@@ -13,12 +13,23 @@
             carregarCidades('comboOrigem');   
         });
 
+        let aeroportoSelecionadoID;
+
         // Função para carregar os aeroportos do banco nos campos de seleção
         function carregarAeroportos(idSelect) {
             fetch('http://localhost:3000/listarAeroportos')
                 .then(response => response.json())
                 .then(data => {
                     const select = document.getElementById(idSelect);
+
+                    // Adiciona um ouvinte de evento para capturar a seleção
+            select.addEventListener('change', function () {
+                // Obtém o ID da cidade selecionada
+                aeroportoSelecionadoID = select.value;
+                console.log('ID do aeroporto selecionada:', aeroportoSelecionadoID);
+                // Chama outras funções ou realiza outras ações necessárias
+            });
+
                     data.payload.forEach(aeroporto => {
                         const option = document.createElement('option');
                         const optionText = `${aeroporto[1]}  ➡️  ${aeroporto[2]}`; 
@@ -114,14 +125,15 @@
             document.getElementById('status').style.display = 'none';
         }
 
-        // Função para mandar pro back os parâmetros
-        function fetchEditarAeroporto(sigla, cidade) {
+        // Função para mandar pro back os parâmetros /editarAeroporto/:codigo
+        function fetchEditarAeroporto(id, sigla, cidade) {
+            const url = `http://localhost:3000/editarAeroporto/${id}`; // Adicionando o id à URL
             const requestOptions = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ sigla, cidade})
+                body: JSON.stringify({sigla, cidade})
             };
-            return fetch('http://localhost:3000/editarAeroporto', requestOptions).then(T => T.json());
+            return fetch(url , requestOptions).then(T => T.json());
         }
 
         // Função para alterar as informações do aeroporto
@@ -145,10 +157,15 @@
             const sigla = document.getElementById('sigla').value;
             const cidade = document.getElementById('comboOrigem').value;
 
-            fetchEditarAeroporto(sigla, cidade)
+
+            console.log(sigla);
+            console.log(cidade);
+            console.log(aeroportoSelecionadoID);
+
+            fetchEditarAeroporto(aeroportoSelecionadoID, sigla, cidade)
             .then(customResponse => {
                     if (customResponse.status === 'SUCCESS') {
-                        messageStatusALTERAR('Aeroporto alterado...', false);
+                        messageStatusALTERAR('Aeroporto alterado com sucesso!', false);
                         // Limpar campos após o sucesso
                         document.getElementById("sigla").value = "";
                         document.getElementById("comboOrigem").value = "0";
@@ -162,9 +179,6 @@
                     console.log('Falha grave ao editar aeroporto.' + e);
                 });
 
-            // FUNÇÃO ALTERAAAAAAAAAAAR
-
-            messageStatusALTERAR('Aeroporto alterado com sucesso!', false);
         }
     </script>
 </head>

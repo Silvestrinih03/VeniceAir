@@ -137,7 +137,7 @@ function carregarCidades(idSelect) {
         fetchEditarCidade(cidadeSelecionadaId, nomeDaCidade)
             .then(customResponse => {
                     if (customResponse.status === 'SUCCESS') {
-                        messageStatusALTERAR('Cidade alterada...', false);
+                        messageStatusALTERAR('Cidade alterada com sucesso!', false);
                         // Limpar campos após o sucesso
                         document.getElementById("nomeAlterado").value = "";
                     } else {
@@ -152,7 +152,7 @@ function carregarCidades(idSelect) {
 
             // FUNÇÃO ALTERAAAAAAAAAAAR
 
-            messageStatusALTERAR('Cidade alterada com sucesso!', false);
+            //messageStatusALTERAR('Cidade alterada com sucesso!', false);
             
             }
     </script>

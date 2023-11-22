@@ -139,3 +139,68 @@ aeroportoRouter.delete("/excluirAeroporto/:codigo", async (req, res) => {
       res.send(cr);
   }
 });
+
+// ALTERAR FUNCIONADO
+aeroportoRouter.post("/editarAeroporto/:codigo", async (req, res) => {
+  const codigo = req.params.codigo;
+  const novaSigla = req.body.sigla as string;
+  const novaCidade = req.body.cidade as number;
+
+  console.log(codigo);
+  console.log(novaSigla);
+  console.log(novaCidade);
+  
+  let cr: CustomResponse = {
+    status: "ERROR",
+    message: "",
+    payload: undefined,
+  };
+
+  let conn;
+
+  try {
+    conn = await oracledb.getConnection({
+      user: process.env.ORACLE_DB_USER,
+      password: process.env.ORACLE_DB_SECRET,
+      connectionString: process.env.ORACLE_DB_CONN_STR,
+    });
+
+    const cmdUpdateAeroporto = `
+            UPDATE AEROPORTOS
+            SET SIGLA = :novaSigla, CIDADE = :novaCidade
+            WHERE ID_AEROPORTO = :codigo
+        `;
+
+        const bindVariables = {
+          codigo: { val: Number(codigo), type: oracledb.NUMBER, dir: oracledb.BIND_IN },
+          novaSigla: { val: novaSigla, type: oracledb.STRING, dir: oracledb.BIND_IN },
+          novaCidade: { val: Number(novaCidade), type: oracledb.NUMBER, dir: oracledb.BIND_IN },
+        };
+    
+        const options = {
+          autoCommit: true,
+        };
+    
+        let resUpdate = await conn.execute(cmdUpdateAeroporto, bindVariables, options);
+    
+        const rowsUpdated = resUpdate.rowsAffected;
+        if (rowsUpdated !== undefined && rowsUpdated === 1) {
+          cr.status = "SUCCESS";
+          cr.message = "Dados do aeroporto atualizados.";
+        } else {
+          cr.message = "Dados do aeroporto não atualizados.";
+        }
+      } catch (e) {
+        if (e instanceof Error) {
+          cr.message = e.message;
+          console.error(e.message);
+        } else {
+          cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
+        }
+      } finally {
+        if (conn !== undefined) {
+          await conn.close();
+        }
+        res.send(cr);
+      }
+    });
