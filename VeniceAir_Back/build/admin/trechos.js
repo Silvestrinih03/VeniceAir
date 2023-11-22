@@ -137,3 +137,62 @@ exports.trechoRouter.delete("/excluirTrecho/:codigo", (req, res) => __awaiter(vo
         res.send(cr);
     }
 }));
+// FUNCAO ALTERAR
+exports.trechoRouter.post("/editarTrecho/:codigo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const codigo = req.params.codigo;
+    const novaOrigem = req.body.origem;
+    const novoDestino = req.body.destino;
+    console.log(codigo);
+    console.log(novaOrigem);
+    console.log(novoDestino);
+    let cr = {
+        status: "ERROR",
+        message: "",
+        payload: undefined,
+    };
+    let conn;
+    try {
+        conn = yield oracledb_1.default.getConnection({
+            user: process.env.ORACLE_DB_USER,
+            password: process.env.ORACLE_DB_SECRET,
+            connectionString: process.env.ORACLE_DB_CONN_STR,
+        });
+        const cmdUpdateAeroporto = `
+            UPDATE TRECHOS
+            SET CIDADE_ORIGEM = :novaOrigem, CIDADE_DESTINO = :novoDestino
+            WHERE ID_TRECHO = :codigo
+        `;
+        const bindVariables = {
+            codigo: { val: Number(codigo), type: oracledb_1.default.NUMBER, dir: oracledb_1.default.BIND_IN },
+            novaOrigem: { val: Number(novaOrigem), type: oracledb_1.default.NUMBER, dir: oracledb_1.default.BIND_IN },
+            novoDestino: { val: Number(novoDestino), type: oracledb_1.default.NUMBER, dir: oracledb_1.default.BIND_IN },
+        };
+        const options = {
+            autoCommit: true,
+        };
+        let resUpdate = yield conn.execute(cmdUpdateAeroporto, bindVariables, options);
+        const rowsUpdated = resUpdate.rowsAffected;
+        if (rowsUpdated !== undefined && rowsUpdated === 1) {
+            cr.status = "SUCCESS";
+            cr.message = "Dados do trecho atualizados.";
+        }
+        else {
+            cr.message = "Dados do trecho não atualizados.";
+        }
+    }
+    catch (e) {
+        if (e instanceof Error) {
+            cr.message = e.message;
+            console.error(e.message);
+        }
+        else {
+            cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
+        }
+    }
+    finally {
+        if (conn !== undefined) {
+            yield conn.close();
+        }
+        res.send(cr);
+    }
+}));

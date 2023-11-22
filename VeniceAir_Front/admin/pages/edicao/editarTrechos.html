@@ -129,7 +129,7 @@
         function fetchEditarTrecho(id, origem, destino) {
             const url = `http://localhost:3000/editarTrecho/${id}`; // Adicionando o id à URL
             const requestOptions = {
-                method: 'PUT',
+                method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({origem, destino})
             };
