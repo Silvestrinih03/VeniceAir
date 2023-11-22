@@ -6,6 +6,179 @@
     <title>Edição de Trechos</title>
     <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet"/>
     <link href="../../assets/css/tela_excluir.css" rel="stylesheet"/>
+    <script>
+        
+        document.addEventListener('DOMContentLoaded', function () {
+            carregarTrechos('trechos');
+            carregarCidades('cidadeORIGEM'); 
+            carregarCidades('cidadeDESTINO'); 
+        });
+
+        let trechoSelecionadoID;
+
+        // Função para carregar os trechos do banco nos campos de seleção
+        function carregarTrechos(idSelect) {
+            fetch('http://localhost:3000/listarTrechos')
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById(idSelect);
+
+                    // Adiciona um ouvinte de evento para capturar a seleção
+            select.addEventListener('change', function () {
+                // Obtém o ID da cidade selecionada
+                trechoSelecionadoID = select.value;
+                console.log('ID do trecho selecionado:', trechoSelecionadoID);
+                // Chama outras funções ou realiza outras ações necessárias
+            });
+
+                    data.payload.forEach(trecho => {
+                        const option = document.createElement('option');
+                        const optionText = `${trecho[1]}  ➡️  ${trecho[2]}`; 
+                        option.value = trecho[0];
+                        option.text = optionText;
+                        select.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar trechos:', error);
+                });
+        }
+
+
+
+
+
+    function carregarCidades(idSelect) {
+    fetch('http://localhost:3000/listarCidades')
+        .then(response => response.json())
+        .then(data => {
+            const select = document.getElementById(idSelect);
+
+            // Adiciona um ouvinte de evento para capturar a seleção
+            select.addEventListener('change', function () {
+                // Obtém o ID da cidade selecionada
+                cidadeSelecionadaId = select.value;
+                console.log('ID da cidade selecionada:', cidadeSelecionadaId);
+                // Chama outras funções ou realiza outras ações necessárias
+            });
+
+            data.payload.forEach(cidade => {
+                const option = document.createElement('option');
+                option.value = cidade[0];
+                option.text = cidade[1];
+                select.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error('Erro ao carregar cidades:', error);
+        });
+}
+
+        function preencheuTrecho() {
+            const trechoSelecionado = document.getElementById('trechos').value;
+            return trechoSelecionado !== '0';
+        }
+
+        function messageStatus(msg, error) {
+            const pStatus = document.getElementById('status');
+            if (error) {
+                pStatus.className = 'statusError';
+            } else {
+                pStatus.className = 'statusSuccess';
+            }
+            pStatus.textContent = msg;
+        }
+
+        function messageStatusALTERAR(msg, error) {
+            const pStatusALTERAR = document.getElementById('statusALTERAR');
+            if (error) {
+                pStatusALTERAR.className = 'statusErrorALTERAR';
+            } else {
+                pStatusALTERAR.className = 'statusSuccessALTERAR';
+            }
+            pStatusALTERAR.textContent = msg;
+        }
+
+
+        function preencheuOrigem(){
+            const origemSelecionada = document.getElementById('cidadeORIGEM').value;
+            return origemSelecionada !== '0';
+        }
+
+        function preencheuDestino(){
+            const destinoSelecionado = document.getElementById('cidadeDESTINO').value;
+            return destinoSelecionado !== '0';
+        }
+
+        function verificarOrigemDestinoIguais(origem, destino) {
+        return origem === destino;
+    }
+        let segundoContainerVisivel = false;
+
+        function acessarTrecho(){
+            if (!preencheuTrecho()) {
+                messageStatus('Selecione um trecho!', true);
+                return;
+            }
+            document.querySelector('.containerInvisivel').style.display = 'block';
+            segundoContainerVisivel = true;
+            document.getElementById('status').style.display = 'none';
+        }
+
+
+        function fetchEditarTrecho(id, origem, destino) {
+            const url = `http://localhost:3000/editarTrecho/${id}`; // Adicionando o id à URL
+            const requestOptions = {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({origem, destino})
+            };
+            return fetch(url, requestOptions).then(T => T.json());
+        }
+
+        function editarTrecho(){
+            if (!segundoContainerVisivel) {
+                return;
+            }
+            if (!preencheuOrigem()) {
+                messageStatusALTERAR('Selecione uma origem!', true);
+                return;
+            }
+
+            if (!preencheuDestino()) {
+                messageStatusALTERAR('Selecione um destino!', true);
+                return;
+            }
+
+            const cidadeOrigem = document.getElementById('cidadeORIGEM').value;
+            const cidadeDestino = document.getElementById('cidadeDESTINO').value;
+
+            if (verificarOrigemDestinoIguais(cidadeOrigem, cidadeDestino)) {
+            messageStatusALTERAR('A origem e o destino não podem ser iguais!', true);
+            return;
+        }
+            console.log(trechoSelecionadoID);
+            console.log(cidadeOrigem);
+            console.log(cidadeDestino);
+
+            fetchEditarTrecho(trechoSelecionadoID, cidadeOrigem, cidadeDestino)
+            .then(customResponse => {
+                    if (customResponse.status === 'SUCCESS') {
+                        messageStatusALTERAR('Trecho alterado com sucesso!', false);
+                        // Limpar campos após o sucesso
+                        document.getElementById("cidadeORIGEM").value = "";
+                        document.getElementById("cidadeDESTINO").value = "0";
+                    } else {
+                        messageStatusALTERAR('Erro ao editar trecho: ' + customResponse.message, true);
+                        console.log(customResponse.message);
+                    }
+                })
+                .catch((e) => {
+                    messageStatusALTERAR('Erro técnico ao editar trecho. Contate o suporte.', true);
+                    console.log('Falha grave ao editar trecho.' + e);
+                });
+        }
+</script>
 </head>
 <body>
     <div id="header_page">
@@ -20,9 +193,29 @@
         </div>
     </div>
     <div class="container">
-        <label for="id">ID do trecho:</label>
-        <input type="text" id="id" name="id"/>
-        <button type="submit" id="alterar" name="alterar">Alterar</button>
+        <p>Selecione um trecho para alterá-lo.</p>
+        <select name="trechos" id="trechos">
+            <option value="0" selected>Selecione o trecho que deseja alterar</option>
+        </select>
+        <button type="submit" id="excluir" name="excluir" onclick="acessarTrecho()">Acessar dados</button>
+        <p id="status" class="statusError"></p>
     </div>
+    <div class="containerInvisivel">
+        <form class="form-group">
+            <p>Selecione a ORIGEM</p>
+            <select name="cidadeORIGEM" id="cidadeORIGEM">
+                <option value="0" selected>Origem</option>
+            </select>
+            <p>Selecione o DESTINO</p>
+            <select name="cidadeDESTINO" id="cidadeDESTINO">
+                <option value="0" selected>Destino</option>
+            </select>
+    <div class="form-group">
+        <button type="button" id="btnCadastrar" name="btnCadastrar" onclick="editarTrecho()">Alterar</button>
+        <!-- <button type="reset">Limpar</button> -->
+    </div>
+    <!-- Mensagem de Status da função ALTERAR dados do aeroporto -->
+    <p id="statusALTERAR" class="statusErrorALTERAR"></p>      
+</div>
 </body>
 </html>
