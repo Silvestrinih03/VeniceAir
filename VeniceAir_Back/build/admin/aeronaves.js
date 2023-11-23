@@ -97,6 +97,37 @@ exports.aeronaveRouter.post("/inserirAeronaves", (req, res) => __awaiter(void 0,
     }
 }));
 // Função OK
+exports.aeronaveRouter.get("/listarAeronave/:codigo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const codigo = req.params.codigo;
+    let cr = { status: "ERROR", message: "", payload: undefined, };
+    try {
+        const connAttibs = {
+            user: process.env.ORACLE_DB_USER,
+            password: process.env.ORACLE_DB_SECRET,
+            connectionString: process.env.ORACLE_DB_CONN_STR,
+        };
+        const connection = yield oracledb_1.default.getConnection(connAttibs);
+        const resultadoConsulta = yield connection.execute("SELECT ID_AERONAVE, FABRICANTE, MODELO, ANOFAB, QNT_ASSENTOS FROM AERONAVES WHERE ID_AERONAVE = :1", [codigo]);
+        //let resultadoConsulta = await connection.execute("SELECT FROM AERONAVES WHERE ID_AERONAVE = :1");
+        yield connection.close();
+        cr.status = "SUCCESS";
+        cr.message = "Dados obtidos";
+        cr.payload = resultadoConsulta.rows;
+    }
+    catch (e) {
+        if (e instanceof Error) {
+            cr.message = e.message;
+            console.log(e.message);
+        }
+        else {
+            cr.message = "Erro ao conectar ao oracle. Sem detalhes";
+        }
+    }
+    finally {
+        res.send(cr);
+    }
+}));
+// Função OK
 // aeronaveRouter.delete("/excluirAeronave", async(req,res)=>{
 //   const codigo = req.body.codigo as number;
 //     let cr: CustomResponse = {
