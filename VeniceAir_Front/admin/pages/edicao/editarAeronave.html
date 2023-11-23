@@ -254,7 +254,7 @@ function validarNumero2(elementId) {
                 const requestOptions = {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ fabricante: fab, modelo, anofab, qtd })       
+                    body: JSON.stringify({fabricante: fab, modelo, anofab, qtd})       
                 };
 
                 return fetch(url, requestOptions).then(T => T.json());
@@ -285,7 +285,7 @@ function validarNumero2(elementId) {
             fetchEditarAeronave(aeronaveSelecionadaId, fabricante, modelo, anofab, qtd)
             .then(customResponse => {
                     if (customResponse.status === 'SUCCESS') {
-                        messageStatusALTERAR('Aeronave alterado com sucesso!', false);
+                        messageStatusALTERAR('Aeronave alterada com sucesso!', false);
                         // Limpar campos após o sucesso
                         // document.getElementById("cidadeORIGEM").value = "";
                         // document.getElementById("cidadeDESTINO").value = "0";

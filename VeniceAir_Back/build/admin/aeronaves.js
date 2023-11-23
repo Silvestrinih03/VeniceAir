@@ -174,7 +174,7 @@ exports.aeronaveRouter.post("/editarAeronave/:codigo", (req, res) => __awaiter(v
     const fabricante = req.body.fabricante;
     const modelo = req.body.modelo;
     const anofab = req.body.anofab;
-    const qtdAssentos = req.body.qtdAssentos;
+    const qtdAssentos = req.body.qtd;
     console.log(codigo);
     console.log(fabricante);
     console.log(modelo);
@@ -199,7 +199,7 @@ exports.aeronaveRouter.post("/editarAeronave/:codigo", (req, res) => __awaiter(v
         `;
         const bindVariables = {
             codigo: { val: Number(codigo), type: oracledb_1.default.NUMBER, dir: oracledb_1.default.BIND_IN },
-            fabricante: { val: Number(fabricante), type: oracledb_1.default.NUMBER, dir: oracledb_1.default.BIND_IN },
+            fabricante: { val: fabricante, type: oracledb_1.default.STRING, dir: oracledb_1.default.BIND_IN },
             modelo: { val: modelo, type: oracledb_1.default.STRING, dir: oracledb_1.default.BIND_IN },
             anofab: { val: Number(anofab), type: oracledb_1.default.NUMBER, dir: oracledb_1.default.BIND_IN },
             qtdAssentos: { val: Number(qtdAssentos), type: oracledb_1.default.NUMBER, dir: oracledb_1.default.BIND_IN },
