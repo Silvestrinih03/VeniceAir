@@ -171,11 +171,10 @@ exports.aeronaveRouter.delete("/excluirAeronave/:codigo", (req, res) => __awaite
 // ALTERAR TO FAZENDO
 exports.aeronaveRouter.post("/editarAeronave/:codigo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const codigo = req.params.codigo;
-    // id (codigo) ,,,, fabricante(string de combo box), modelo (input text string), anofab(numero integer), qnt_assentos(numero integer) 
-    const fabricante = req.body.sigla;
-    const modelo = req.body.cidade;
-    const anofab = req.body._;
-    const qtdAssentos = req.body._;
+    const fabricante = req.body.fabricante;
+    const modelo = req.body.modelo;
+    const anofab = req.body.anofab;
+    const qtdAssentos = req.body.qtdAssentos;
     console.log(codigo);
     console.log(fabricante);
     console.log(modelo);

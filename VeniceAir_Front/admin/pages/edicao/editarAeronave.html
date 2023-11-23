@@ -252,8 +252,9 @@ function validarNumero2(elementId) {
         function fetchEditarAeronave(id, fab, modelo, anofab, qtd){
             const url = `http://localhost:3000/editarAeronave/${id}`;
                 const requestOptions = {
-                    method: 'GET',
-                    headers: {'Content-Type': 'application/json'}
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ fabricante: fab, modelo, anofab, qtd })       
                 };
 
                 return fetch(url, requestOptions).then(T => T.json());
@@ -270,28 +271,33 @@ function validarNumero2(elementId) {
                 return;
             }
         
-            // como vou pegar os
-
-
-
-
-
-
-            // const fabricanteElement = document.getElementById(fabricanteId);
-            // const fabricanteValue = fabricanteElement.value;
-            // console.log('FABRICANTE SELECIONADOO:', fabricanteValue)
             const fabricante = document.getElementById('fabricanteInput').value;
             const modelo = document.getElementById('modeloInput').value;
             const anofab = document.getElementById('anofabInput').value;
             const qtd = document.getElementById('qtdeAssentosInput').value;
 
+            console.log('ID pra mandar pro banco:', aeronaveSelecionadaId);
             console.log('FBRICANTE ===', fabricante);
             console.log('MODEEELO ===', modelo);
             console.log('ANOOOO ===', anofab);
             console.log('QUANTIADEE ===', qtd);
 
-
-            //const aeronaveSelecionadaId = document.getElementById('sigla').value;
+            fetchEditarAeronave(aeronaveSelecionadaId, fabricante, modelo, anofab, qtd)
+            .then(customResponse => {
+                    if (customResponse.status === 'SUCCESS') {
+                        messageStatusALTERAR('Aeronave alterado com sucesso!', false);
+                        // Limpar campos após o sucesso
+                        // document.getElementById("cidadeORIGEM").value = "";
+                        // document.getElementById("cidadeDESTINO").value = "0";
+                    } else {
+                        messageStatusALTERAR('Erro ao editar aeronave: ' + customResponse.message, true);
+                        console.log(customResponse.message);
+                    }
+                })
+                .catch((e) => {
+                    messageStatusALTERAR('Erro técnico ao editar aeronave. Contate o suporte.', true);
+                    console.log('Falha grave ao editar aeronave.' + e);
+                });
             
         }
     </script>

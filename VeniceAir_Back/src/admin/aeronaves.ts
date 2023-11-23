@@ -185,11 +185,10 @@ aeronaveRouter.delete("/excluirAeronave/:codigo", async (req, res) => {
 
 aeronaveRouter.post("/editarAeronave/:codigo", async (req, res) => {
   const codigo = req.params.codigo;
-  // id (codigo) ,,,, fabricante(string de combo box), modelo (input text string), anofab(numero integer), qnt_assentos(numero integer) 
-  const fabricante = req.body.sigla as number;
-  const modelo = req.body.cidade as string;
-  const anofab = req.body._ as number;
-  const qtdAssentos = req.body._ as number;
+  const fabricante = req.body.fabricante as string;
+  const modelo = req.body.modelo as string;
+  const anofab = req.body.anofab as number;
+  const qtdAssentos = req.body.qtdAssentos as number;
 
   console.log(codigo);
   console.log(fabricante);
