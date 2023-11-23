@@ -79,6 +79,40 @@
             pStatusALTERAR.textContent = msg;
         }
 
+        // VERIFICA SE O USUARIO DEIXOU UM CAMPO VAZIO
+        function verificarCamposVazios() {
+            let resultado = false;
+            const rows = document.querySelectorAll('#aeronavesTable tbody tr');
+
+            rows.forEach(row => {
+                const cells = row.cells;
+
+                for (let i = 1; i < cells.length; i++) {
+                    const cellValue = obterValorCelula(cells[i]);
+
+                    if (cellValue === '') {
+                        console.log(`Campo vazio encontrado na linha ${row.rowIndex}, coluna ${i + 1}`);
+                        resultado = true;
+                    }
+                }
+            });
+
+            return resultado;
+        }
+
+function obterValorCelula(cell) {
+    const inputElement = cell.querySelector('input');
+    const selectElement = cell.querySelector('select');
+
+    if (inputElement) {
+        return inputElement.value.trim();
+    } else if (selectElement) {
+        return selectElement.value.trim();
+    } else {
+        return cell.textContent.trim();
+    }
+}
+
         function fetchListar(id) {
                 const url = `http://localhost:3000/listarAeronave/${id}`;
                 const requestOptions = {
@@ -103,11 +137,8 @@
     fetchListar(aeronaveSelecionadaId)
         .then(customResponse => {
             if (customResponse.status === "SUCCESS") {
-
-                // Limpa qualquer conteúdo anterior da tabela
                 dataBody.innerHTML = '';
 
-                // Preenche a tabela com os dados da resposta
                 customResponse.payload.forEach(item => {
                     const idaeronave = item[0];
                     const fabricante = item[1];
@@ -122,35 +153,68 @@
                     const cell4 = row.insertCell(3);
                     const cell5 = row.insertCell(4);
 
-                    // Adiciona o atributo contenteditable às células para torná-las editáveis
-                    //cell1.contentEditable = true; -- ID NÃO É ALTERÁVEL
-                    cell2.contentEditable = true;
-                    cell3.contentEditable = true;
-                    cell4.contentEditable = true;
-                    cell5.contentEditable = true;
-
-                    // Adiciona o evento de clique para tornar as células editáveis quando clicadas
-                    cell1.addEventListener('click', function () {
-                        cell1.focus();
-                    });
-                    cell2.addEventListener('click', function () {
-                        cell2.focus();
-                    });
-                    cell3.addEventListener('click', function () {
-                        cell3.focus();
-                    });
-                    cell4.addEventListener('click', function () {
-                        cell4.focus();
-                    });
-                    cell5.addEventListener('click', function () {
-                        cell5.focus();
-                    });
+                    // cell3.contentEditable = true;
+                    // cell4.contentEditable = true;
+                    // cell5.contentEditable = true;
 
                     cell1.textContent = idaeronave;
-                    cell2.textContent = fabricante;
-                    cell3.textContent = modelo;
-                    cell4.textContent = anofab;
-                    cell5.textContent = qtdeAssentos;
+                    // cell3.textContent = modelo;
+                    // cell4.textContent = anofab;
+                    // cell5.textContent = qtdeAssentos;
+
+                    const fabricanteCombo = document.createElement('select');
+                    const fabricanteId = `fabricante_${idaeronave}`;
+                    fabricanteCombo.id = fabricanteId;
+
+                    const fabricantes = ['AirBus', 'Boeing', 'EMBRAER'];
+                    fabricantes.forEach(fabricante => {
+                        const option = document.createElement('option');
+                        option.value = fabricante;
+                        option.text = fabricante;
+                        fabricanteCombo.appendChild(option);
+                    });
+
+                    cell2.appendChild(fabricanteCombo);
+                    fabricanteCombo.value = fabricante;
+                    
+                    const fabricanteElement = document.getElementById(fabricanteId);
+                    fabricanteElement.id = 'fabricanteInput'; // Adicione um ID para identificação
+                    fabricanteElement.addEventListener('change', function () {
+                        const fabricanteValue = fabricanteElement.value;
+                        console.log('FABRICANTE SELECIONADO:', fabricanteValue);
+                    });
+
+                    const modeloElement = document.createElement('input');
+                    modeloElement.type = 'text';
+                    modeloElement.value = modelo;
+                    modeloElement.id = 'modeloInput'; // Adicione um ID para identificação
+                    cell3.appendChild(modeloElement);
+                    modeloElement.addEventListener('change', function () {
+                        const modeloValue = modeloElement.value;
+                        console.log('MODELO ALTERADO:', modeloValue);
+                    });
+
+                    const anofabElement = document.createElement('input');
+                    anofabElement.type = 'text';
+                    anofabElement.value = anofab;
+                    anofabElement.id = 'anofabInput'; // Adicione um ID para identificação
+                    cell4.appendChild(anofabElement);
+                    anofabElement.addEventListener('change', function () {
+                        const anofabValue = anofabElement.value;
+                        validarNumero1('anofabInput');
+                        console.log('ANO DE FABRICAÇÃO ALTERADO:', anofabValue);
+                    });
+
+                    const qtdeAssentosElement = document.createElement('input');
+                    qtdeAssentosElement.type = 'text';
+                    qtdeAssentosElement.value = qtdeAssentos;
+                    qtdeAssentosElement.id = 'qtdeAssentosInput'; // Adicione um ID para identificação
+                    cell5.appendChild(qtdeAssentosElement);
+                    qtdeAssentosElement.addEventListener('change', function () {
+                        const qtdeAssentosValue = qtdeAssentosElement.value;
+                        validarNumero2('qtdeAssentosInput');
+                        console.log('QTDE DE ASSENTOS ALTERADA:', qtdeAssentosValue);
+                    });
                 });
             } else {
                 messageStatus2("Erro ao listar Aeronave...: " + customResponse.message, true);
@@ -159,12 +223,77 @@
         })
         .catch((e) => {
             messageStatus2("Erro técnico ao listar... Contate o suporte.", true);
-            console.log("Falha grave ao listar." + e)
+            console.log("Falha grave ao listar." + e);
         });
 }
 
+function validarNumero1(elementId) {
+    const inputElement = document.getElementById(elementId);
+    const valor = inputElement.value.trim();
+
+    if (!/^\d+$/.test(valor)) {
+        messageStatusALTERAR(`O campo de ano de fabricação deve conter apenas números!`, true);
+    }
+}
+
+function validarNumero2(elementId) {
+    const inputElement = document.getElementById(elementId);
+    const valor = inputElement.value.trim();
+
+    if (!/^\d+$/.test(valor)) {
+        messageStatusALTERAR(`O campo de quantidade de assentos deve conter apenas números!`, true);
+    }
+}
         let segundoContainerVisivel = false;
 
+        //"/editarAeronave/:codigo" --- mudar parametros
+        // adicionar dps de headers:  body: JSON.stringify({sigla, cidade})
+
+        function fetchEditarAeronave(id, fab, modelo, anofab, qtd){
+            const url = `http://localhost:3000/editarAeronave/${id}`;
+                const requestOptions = {
+                    method: 'GET',
+                    headers: {'Content-Type': 'application/json'}
+                };
+
+                return fetch(url, requestOptions).then(T => T.json());
+            }
+        
+        function editarAeronave(){
+            if (!segundoContainerVisivel) {
+                return;
+            }
+
+            // Verifique campos vazios quando o botão Alterar for clicado
+            if (verificarCamposVazios()) {
+                messageStatusALTERAR('Um campo está vazio!', true);
+                return;
+            }
+        
+            // como vou pegar os
+
+
+
+
+
+
+            // const fabricanteElement = document.getElementById(fabricanteId);
+            // const fabricanteValue = fabricanteElement.value;
+            // console.log('FABRICANTE SELECIONADOO:', fabricanteValue)
+            const fabricante = document.getElementById('fabricanteInput').value;
+            const modelo = document.getElementById('modeloInput').value;
+            const anofab = document.getElementById('anofabInput').value;
+            const qtd = document.getElementById('qtdeAssentosInput').value;
+
+            console.log('FBRICANTE ===', fabricante);
+            console.log('MODEEELO ===', modelo);
+            console.log('ANOOOO ===', anofab);
+            console.log('QUANTIADEE ===', qtd);
+
+
+            //const aeronaveSelecionadaId = document.getElementById('sigla').value;
+            
+        }
     </script>
 </head>
 <body>
@@ -206,7 +335,7 @@
    
             <div class="form-group">
                 <p></p>
-                <button type="button" id="btnCadastrar" name="btnCadastrar" onclick="editarAeroporto()">Alterar</button>
+                <button type="button" id="btnCadastrar" name="btnCadastrar" onclick="editarAeronave()">Alterar</button>
             </div>
         <p id="statusALTERAR" class="statusErrorALTERAR"></p>      
     </div>

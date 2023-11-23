@@ -127,43 +127,7 @@ exports.aeronaveRouter.get("/listarAeronave/:codigo", (req, res) => __awaiter(vo
         res.send(cr);
     }
 }));
-// Função OK
-// aeronaveRouter.delete("/excluirAeronave", async(req,res)=>{
-//   const codigo = req.body.codigo as number;
-//     let cr: CustomResponse = {
-//     status: "ERROR",
-//     message: "",
-//     payload: undefined,
-//   };
-//   try{
-//     const connection = await oracledb.getConnection({
-//       user: process.env.ORACLE_DB_USER,
-//       password: process.env.ORACLE_DB_SECRET,
-//       connectionString: process.env.ORACLE_DB_CONN_STR,
-//     });
-//     const cmdDeleteAeronave = `DELETE AERONAVES WHERE ID_AERONAVE = :1`
-//     const dados = [codigo];
-//     let resDelete = await connection.execute(cmdDeleteAeronave, dados);
-//     await connection.commit();
-//     await connection.close();
-//     const rowsDeleted = resDelete.rowsAffected
-//     if(rowsDeleted !== undefined &&  rowsDeleted === 1) {
-//       cr.status = "SUCCESS"; 
-//       cr.message = "Aeronave excluída.";
-//     }else{
-//       cr.message = "Aeronave não excluída. Verifique se o código informado está correto.";
-//     }
-//   }catch(e){
-//     if(e instanceof Error){
-//       cr.message = e.message;
-//       console.log(e.message);
-//     }else{
-//       cr.message = "Erro ao conectar ao oracle. Sem detalhes";
-//     }
-//   } finally {
-//     res.send(cr);  
-//   }
-// });
+// DELETAR AERONAVE DO BANCO
 exports.aeronaveRouter.delete("/excluirAeronave/:codigo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const codigo = req.params.codigo;
     let cr = {
@@ -201,6 +165,72 @@ exports.aeronaveRouter.delete("/excluirAeronave/:codigo", (req, res) => __awaite
         }
     }
     finally {
+        res.send(cr);
+    }
+}));
+// ALTERAR TO FAZENDO
+exports.aeronaveRouter.post("/editarAeronave/:codigo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const codigo = req.params.codigo;
+    // id (codigo) ,,,, fabricante(string de combo box), modelo (input text string), anofab(numero integer), qnt_assentos(numero integer) 
+    const fabricante = req.body.sigla;
+    const modelo = req.body.cidade;
+    const anofab = req.body._;
+    const qtdAssentos = req.body._;
+    console.log(codigo);
+    console.log(fabricante);
+    console.log(modelo);
+    console.log(anofab);
+    console.log(qtdAssentos);
+    let cr = {
+        status: "ERROR",
+        message: "",
+        payload: undefined,
+    };
+    let conn;
+    try {
+        conn = yield oracledb_1.default.getConnection({
+            user: process.env.ORACLE_DB_USER,
+            password: process.env.ORACLE_DB_SECRET,
+            connectionString: process.env.ORACLE_DB_CONN_STR,
+        });
+        const cmdUpdateAeronave = `
+            UPDATE AERONAVES
+            SET FABRICANTE = :fabricante, MODELO = :modelo, ANOFAB = :anofab, QNT_ASSENTOS = :qtdAssentos
+            WHERE ID_AERONAVE = :codigo
+        `;
+        const bindVariables = {
+            codigo: { val: Number(codigo), type: oracledb_1.default.NUMBER, dir: oracledb_1.default.BIND_IN },
+            fabricante: { val: Number(fabricante), type: oracledb_1.default.NUMBER, dir: oracledb_1.default.BIND_IN },
+            modelo: { val: modelo, type: oracledb_1.default.STRING, dir: oracledb_1.default.BIND_IN },
+            anofab: { val: Number(anofab), type: oracledb_1.default.NUMBER, dir: oracledb_1.default.BIND_IN },
+            qtdAssentos: { val: Number(qtdAssentos), type: oracledb_1.default.NUMBER, dir: oracledb_1.default.BIND_IN },
+        };
+        const options = {
+            autoCommit: true,
+        };
+        let resUpdate = yield conn.execute(cmdUpdateAeronave, bindVariables, options);
+        const rowsUpdated = resUpdate.rowsAffected;
+        if (rowsUpdated !== undefined && rowsUpdated === 1) {
+            cr.status = "SUCCESS";
+            cr.message = "Dados da aeronave atualizados.";
+        }
+        else {
+            cr.message = "Dados da aeronave não atualizados.";
+        }
+    }
+    catch (e) {
+        if (e instanceof Error) {
+            cr.message = e.message;
+            console.error(e.message);
+        }
+        else {
+            cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
+        }
+    }
+    finally {
+        if (conn !== undefined) {
+            yield conn.close();
+        }
         res.send(cr);
     }
 }));
