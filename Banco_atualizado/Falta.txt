@@ -28,3 +28,11 @@ BUSCA: se for SÓ IDA, tem que dar erro/mensagem se uma data de retorno for sele
 
 
 IMPORTANTE: ALTERAR AERONAVE: fazer validações das entradas dos dados!
+
+-- FAZER ( cadastro de voo )
+criar funções e verificações, select com where?
+bloqueie o campo de selecionar aeroporto de partida e de chegada enquanto o campo de trecho não for selecionado!
+alem disso, armazenar o ID do trecho (e suas cidades?)
+para que, depois, nas combo box de aeroportos, apareçam SOMENTE os aeroportos disponíveis nas cidades correspondentes (partida-chegada)
+pois atualmente é possível cadastrar, por exemplo, trecho brasilia - campinas e aeroporto de partida JFK (Nova Iorque) e de chegada MAD (Madri)
+baita inconsistencia

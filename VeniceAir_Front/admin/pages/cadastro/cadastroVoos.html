@@ -7,7 +7,8 @@
         <link rel="stylesheet" href="../../assets/css/tela_cadastro.css">
         <title>Cadastro de Voos - VeniceAir</title>
         <script>
-
+            
+            let trechoSelecionadoId;
             // carregar TRECHO e AEROPORTOS
             document.addEventListener('DOMContentLoaded', function () {
                 carregarTrechos('comboTrechos');
@@ -21,6 +22,18 @@
                     .then(response => response.json())
                     .then(data => {
                         const select = document.getElementById(idSelect);
+
+                // Adiciona um ouvinte de evento para capturar a seleção
+                select.addEventListener('change', function () {
+                // Obtém o ID do trecho selecionada
+                trechoSelecionadoId = select.value;
+                console.log('ID do trecho selecionado:', trechoSelecionadoId);
+                // Chama outras funções ou realiza outras ações necessárias
+            });
+
+
+
+
                         data.payload.forEach(trecho => {
                             const option = document.createElement('option');
                             // CONCATENAR (origem e destino na mesma opcaooo)
@@ -42,6 +55,7 @@
                     .then(response => response.json())
                     .then(data => {
                         const select = document.getElementById(idSelect);
+
                         data.payload.forEach(aeroporto => {
                             const option = document.createElement('option');
                             const optionText = `${aeroporto[1]}  ➡️  ${aeroporto[2]}`; 
