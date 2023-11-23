@@ -57,8 +57,6 @@
             pStatus.textContent = msg;
         }
 
-        // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA ATÉ AQUI TA FUNCIONANDO
-
         // ESSA É PRA LISTAGEM DA AERONAVE ESCOLHIDA
         function messageStatus2(msg, error) {
             const pStatus = document.getElementById('status');
@@ -81,17 +79,6 @@
             pStatusALTERAR.textContent = msg;
         }
 
-
-        // function fetchCarregarUmaAeronave(id){
-        //     const url = `http://localhost:3000/listarAeronave/${id}`; // Adicionando o id à URL
-        //     const requestOptions = {
-        //         method: 'GET',
-        //         headers: { 'Content-Type': 'application/json' },
-        //         body: JSON.stringify({id})
-        //     };
-        //     return fetch(url, requestOptions).then(T => T.json());
-        // }
-
         function fetchListar(id) {
                 const url = `http://localhost:3000/listarAeronave/${id}`;
                 const requestOptions = {
@@ -103,93 +90,80 @@
             }
 
 
-        function acessarAeronave(){
-            if (!selecionouAeronave()) {
-                messageStatus('Selecione uma aeronave!', true);
-                return;
-            }
-            document.querySelector('.containerInvisivel').style.display = 'block';
-             segundoContainerVisivel = true;
-             document.getElementById('status').style.display = 'none';
+            function acessarAeronave() {
+    if (!selecionouAeronave()) {
+        messageStatus('Selecione uma aeronave!', true);
+        return;
+    }
 
-             // listaraeronave();
-             fetchListar(aeronaveSelecionadaId)
-                    .then(customResponse => {
-                    if(customResponse.status === "SUCCESS"){
-                        
-                        // Limpa qualquer conteúdo anterior da tabela
-                        dataBody.innerHTML = '';
+    document.querySelector('.containerInvisivel').style.display = 'block';
+    segundoContainerVisivel = true;
+    document.getElementById('status').style.display = 'none';
 
-                        // Preenche a tabela com os dados da resposta
-                        customResponse.payload.forEach(item => {
-                            const idaeronave = item[0];
-                            const fabricante = item[1];
-                            const modelo = item[2];
-                            const anofab = item[3];
-                            const qtdeAssentos = item[4];
+    fetchListar(aeronaveSelecionadaId)
+        .then(customResponse => {
+            if (customResponse.status === "SUCCESS") {
 
-                            const row = dataBody.insertRow();
-                            const cell1 = row.insertCell(0);
-                            const cell2 = row.insertCell(1);
-                            const cell3 = row.insertCell(2);
-                            const cell4 = row.insertCell(3);
-                            const cell5 = row.insertCell(4);
-                            cell1.textContent = idaeronave;
-                            cell2.textContent = fabricante;
-                            cell3.textContent = modelo;
-                            cell4.textContent = anofab;
-                            cell5.textContent = qtdeAssentos;
-                        });
-                    }else{
-                        messageStatus2("Erro ao listar Aeronave...: " + customResponse.message, true);
-                        console.log(customResponse.message);
-                    }
-                    })
-                    .catch((e)=>{
-                        messageStatus2("Erro técnico ao listar... Contate o suporte.", true);
-                        console.log("Falha grave ao listar." + e)
+                // Limpa qualquer conteúdo anterior da tabela
+                dataBody.innerHTML = '';
+
+                // Preenche a tabela com os dados da resposta
+                customResponse.payload.forEach(item => {
+                    const idaeronave = item[0];
+                    const fabricante = item[1];
+                    const modelo = item[2];
+                    const anofab = item[3];
+                    const qtdeAssentos = item[4];
+
+                    const row = dataBody.insertRow();
+                    const cell1 = row.insertCell(0);
+                    const cell2 = row.insertCell(1);
+                    const cell3 = row.insertCell(2);
+                    const cell4 = row.insertCell(3);
+                    const cell5 = row.insertCell(4);
+
+                    // Adiciona o atributo contenteditable às células para torná-las editáveis
+                    //cell1.contentEditable = true; -- ID NÃO É ALTERÁVEL
+                    cell2.contentEditable = true;
+                    cell3.contentEditable = true;
+                    cell4.contentEditable = true;
+                    cell5.contentEditable = true;
+
+                    // Adiciona o evento de clique para tornar as células editáveis quando clicadas
+                    cell1.addEventListener('click', function () {
+                        cell1.focus();
                     });
+                    cell2.addEventListener('click', function () {
+                        cell2.focus();
+                    });
+                    cell3.addEventListener('click', function () {
+                        cell3.focus();
+                    });
+                    cell4.addEventListener('click', function () {
+                        cell4.focus();
+                    });
+                    cell5.addEventListener('click', function () {
+                        cell5.focus();
+                    });
+
+                    cell1.textContent = idaeronave;
+                    cell2.textContent = fabricante;
+                    cell3.textContent = modelo;
+                    cell4.textContent = anofab;
+                    cell5.textContent = qtdeAssentos;
+                });
+            } else {
+                messageStatus2("Erro ao listar Aeronave...: " + customResponse.message, true);
+                console.log(customResponse.message);
             }
-
-        
-
-        //     fetchCarregarUmaAeronave(aeronaveSelecionadaId)
-        //     .then(customResponse => {
-        //             if (customResponse.status === 'SUCCESS') {
-        //                 messageStatusALTERAR('Aeronave carregada com sucesso!', false);
-        //                 // Limpar campos após o sucesso
-        //                 document.getElementById("aeronaves").value = "";
-        //             } else {
-        //                 messageStatusALTERAR('Erro ao carregar aeronave: ' + customResponse.message, true);
-        //                 console.log(customResponse.message);
-        //             }
-        //         })
-        //         .catch((e) => {
-        //             messageStatusALTERAR('Erro técnico ao carregar aeronave. Contate o suporte.', true);
-        //             console.log('Falha grave ao carregar aeronave.' + e);
-        //         });
-
-        //     document.querySelector('.containerInvisivel').style.display = 'block';
-        //     segundoContainerVisivel = true;
-        //     document.getElementById('status').style.display = 'none';
-        // }
-        
-        
-        // ajustar parametros!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        // function fetchEditarAeronave(id, origem, destino) {
-        //     const url = `http://localhost:3000/editarAeronave/${id}`; // Adicionando o id à URL
-        //     const requestOptions = {
-        //         method: 'POST',
-        //         headers: { 'Content-Type': 'application/json' },
-        //         body: JSON.stringify({origem, destino})
-        //     };
-        //     return fetch(url, requestOptions).then(T => T.json());
-        // }
+        })
+        .catch((e) => {
+            messageStatus2("Erro técnico ao listar... Contate o suporte.", true);
+            console.log("Falha grave ao listar." + e)
+        });
+}
 
         let segundoContainerVisivel = false;
-
-
-
 
     </script>
 </head>
@@ -224,8 +198,16 @@
                 <th>QtdAssentos</th>
             </tr>
         </thead>
-        <tbody id="dataBody"></tbody>
-            <p id="statusAJUDA" class="statusErrorAJUDA"></p>      
+        <tbody id="dataBody">
+
+        </tbody>
+            <p id="statusAJUDA" class="statusErrorAJUDA"></p>
+        </table>
+   
+            <div class="form-group">
+                <p></p>
+                <button type="button" id="btnCadastrar" name="btnCadastrar" onclick="editarAeroporto()">Alterar</button>
+            </div>
         <p id="statusALTERAR" class="statusErrorALTERAR"></p>      
     </div>
 </body>
