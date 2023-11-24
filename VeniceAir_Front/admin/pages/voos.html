@@ -40,8 +40,8 @@
                             // Editar???
                             customResponse.payload.forEach(item => {
                                 const idvoo = item[0];
-                                //const trecho_origem = item[1];
-                                const trecho = item[2];
+                                const trecho_origem = item[1];
+                                const trecho_destino = item[2];
                                 const data = item[3];
                                 const hora_partida = item[4];
                                 const hora_chegada = item[5];
@@ -51,7 +51,7 @@
     
                                 const row = dataBody.insertRow();
                                 const cell1 = row.insertCell(0);
-                                //const cell2 = row.insertCell(1);
+                                const cell2 = row.insertCell(1);
                                 const cell3 = row.insertCell(2);
                                 const cell4 = row.insertCell(3);
                                 const cell5 = row.insertCell(4);
@@ -60,8 +60,8 @@
                                 const cell8 = row.insertCell(7);
                                 const cell9 = row.insertCell(8);
                                 cell1.textContent = idvoo;
-                                //cell2.textContent = trecho_origem;
-                                cell3.textContent = trecho;
+                                cell2.textContent = trecho_origem;
+                                cell3.textContent = trecho_destino;
                                 cell4.textContent = data;
                                 cell5.textContent = hora_partida;
                                 cell6.textContent = hora_chegada;

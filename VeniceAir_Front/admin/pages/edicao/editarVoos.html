@@ -10,7 +10,7 @@
         // carregar voos
         document.addEventListener('DOMContentLoaded', function () {
             carregarVoos('voos');
-            carregarCidades('origemCombo')   
+            //carregarTrechos('origemCombo')   
         });
 
         let vooSelecionadoId;
@@ -42,32 +42,35 @@
                 });
         }
 
-        function carregarCidades(idSelect) {
-            fetch('http://localhost:3000/listarCidades')
-                .then(response => response.json())
-                .then(data => {
-                    const select = document.getElementById(idSelect);
+        // funcao carregar TRECHOS
+        function carregarTrechos(idSelect) {
+                fetch('http://localhost:3000/listarTrechos')
+                    .then(response => response.json())
+                    .then(data => {
+                        const select = document.getElementById(idSelect);
 
-                    // Adiciona um ouvinte de evento para capturar a seleção
-                    select.addEventListener('change', function () {
-                        // Obtém o ID da cidade selecionada
-                        cidadeSelecionadaId = select.value;
-                        console.log('ID da cidade selecionada:', cidadeSelecionadaId);
-                        // Chama outras funções ou realiza outras ações necessárias
-                    });
+                // Adiciona um ouvinte de evento para capturar a seleção
+                select.addEventListener('change', function () {
+                // Obtém o ID do trecho selecionada
+                trechoSelecionadoId = select.value;
+                console.log('ID do trecho selecionado:', trechoSelecionadoId);
+                // Chama outras funções ou realiza outras ações necessárias
+            });
 
-                    data.payload.forEach(cidade => {
-                        const option = document.createElement('option');
-                        option.value = cidade[0];
-                        option.text = cidade[1];
-                        select.appendChild(option);
-                        
+                        data.payload.forEach(trecho => {
+                            const option = document.createElement('option');
+                            // CONCATENAR (origem e destino na mesma opcaooo)
+                            const optionText = `${trecho[1]}  ➡️  ${trecho[2]}`; 
+
+                            option.value = trecho[0];
+                            option.text = optionText;
+                            select.appendChild(option);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Erro ao carregar trechos:', error);
                     });
-                })
-                .catch(error => {
-                    console.error('Erro ao carregar cidades:', error);
-                });
-        }
+            }
 
         // Função que verifica se o admin selecionou um voo na caixa de seleção
         function selecionouVoo() {
@@ -174,14 +177,13 @@
                         customResponse.payload.forEach(item => {
                             const idvoo = item[0];
                             const trecho_origem = item[1];
-                            const trecho_destino = item[2];
-                            const data = item[3];
-                            const hora_partida = item[4];
-                            const hora_chegada = item[5];
-                            const aeroporto_partida = item[6];
-                            const aeroporto_chegada = item[7];
+                            const data = item[2];
+                            const hora_partida = item[3];
+                            const hora_chegada = item[4];
+                            const aeroporto_partida = item[5];
+                            const aeroporto_chegada = item[6];
                             // LET para pegar o valor e altera-lo
-                            let valor = item[8];
+                            let valor = item[7];
 
                             const row = dataBody.insertRow();
                             const cell1 = row.insertCell(0);
@@ -192,17 +194,17 @@
                             const cell6 = row.insertCell(5);
                             const cell7 = row.insertCell(6);
                             const cell8 = row.insertCell(7);
-                            const cell9 = row.insertCell(8);
+                            //const cell9 = row.insertCell(8);
 
                             // SÓ VAI SER ID_VOO CÉLULA 1
                             cell1.textContent = idvoo;
                                 cell2.textContent = trecho_origem;
-                                cell3.textContent = trecho_destino;
-                                cell4.textContent = data;
-                                cell5.textContent = hora_partida;
-                                cell6.textContent = hora_chegada;
-                                cell7.textContent = aeroporto_partida;
-                                cell8.textContent = aeroporto_chegada;
+                                cell3.textContent = data;
+                                cell4.textContent = hora_partida;
+                                cell5.textContent = hora_chegada;
+                                cell6.textContent = aeroporto_partida;
+                                cell7.textContent = aeroporto_chegada;
+                                //cell8.textContent = valor;
                                
 
                                 
@@ -212,7 +214,7 @@
                                  inputValor.type = 'text';
                                  inputValor.value = valor;
                                  inputValor.id = 'novoValor';
-                                 cell9.appendChild(inputValor);
+                                 cell8.appendChild(inputValor);
 
                               //Adiciona um ouvinte de evento para capturar as alterações no valor
                              inputValor.addEventListener('change', function () {
@@ -259,8 +261,7 @@
             <thead>
             <tr>
                 <th>ID</th>
-                <th>Origem</th>
-                <th>Destino</th>
+                <th>Trecho</th>
                 <th>Data</th>
                 <th>Hora Partida</th>
                 <th>Hora Chegada</th>
