@@ -52,6 +52,7 @@ exports.aeroportoRouter.get("/listarAeroportos", (req, res) => __awaiter(void 0,
         res.send(cr);
     }
 }));
+// LISTAR SOMENTE ALGUNS AEROPORTOS
 // Função OK
 exports.aeroportoRouter.post("/inserirAeroportos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const sigla = req.body.sigla;

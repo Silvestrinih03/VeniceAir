@@ -50,6 +50,9 @@ aeroportoRouter.get("/listarAeroportos", async(req,res)=>{
 
 });
 
+// LISTAR SOMENTE ALGUNS AEROPORTOS
+
+
 // Função OK
 aeroportoRouter.post("/inserirAeroportos", async(req,res)=>{
 

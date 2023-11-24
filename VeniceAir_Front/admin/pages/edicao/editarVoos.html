@@ -6,6 +6,233 @@
     <title>Edição de Voos</title>
     <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet"/>
     <link href="../../assets/css/tela_excluir.css" rel="stylesheet"/>
+    <script>
+        // carregar voos
+        document.addEventListener('DOMContentLoaded', function () {
+            carregarVoos('voos');
+            carregarCidades('origemCombo')   
+        });
+
+        let vooSelecionadoId;
+
+        function carregarVoos(idSelect) {
+            fetch('http://localhost:3000/listarVoos')
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById(idSelect);
+
+                    // Adiciona um ouvinte de evento para capturar a seleção
+                    select.addEventListener('change', function () {
+                    // Obtém o ID do voo selecionado
+                    vooSelecionadoId = select.value;
+                    console.log('ID do voo selecionado:', vooSelecionadoId);
+                    // Chama outras funções ou realiza outras ações necessárias
+        });
+
+                    data.payload.forEach(voo => {
+                        const option = document.createElement('option');
+                        const optionText = `${voo[0]} : ${voo[1]}  ➡️  ${voo[2]}`; 
+                        option.value = voo[0];
+                        option.text = optionText;
+                        select.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar voos:', error);
+                });
+        }
+
+        function carregarCidades(idSelect) {
+            fetch('http://localhost:3000/listarCidades')
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById(idSelect);
+
+                    // Adiciona um ouvinte de evento para capturar a seleção
+                    select.addEventListener('change', function () {
+                        // Obtém o ID da cidade selecionada
+                        cidadeSelecionadaId = select.value;
+                        console.log('ID da cidade selecionada:', cidadeSelecionadaId);
+                        // Chama outras funções ou realiza outras ações necessárias
+                    });
+
+                    data.payload.forEach(cidade => {
+                        const option = document.createElement('option');
+                        option.value = cidade[0];
+                        option.text = cidade[1];
+                        select.appendChild(option);
+                        
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar cidades:', error);
+                });
+        }
+
+        // Função que verifica se o admin selecionou um voo na caixa de seleção
+        function selecionouVoo() {
+            const vooSelecionado = document.getElementById('voos').value;
+            return vooSelecionado !== '0';
+        }
+
+        // Função que exibe as mensagens de status (sucesso ou erro) da parte de ESCOLHER um voo para edição!
+        function messageStatus(msg, error) {
+            const pStatus = document.getElementById('status');
+            if (error) {
+                pStatus.className = 'statusError';
+            } else {
+                pStatus.className = 'statusSuccess';
+            }
+            pStatus.textContent = msg;
+        }
+
+        // ESSA É PRA LISTAGEM DO VOO ESCOLHIDO
+        function messageStatus2(msg, error) {
+                    const pStatus = document.getElementById('status');
+                    if (error) {
+                        pStatus.className = 'statusError';
+                    } else {
+                        pStatus.className = 'statusSuccess';
+                    }
+                    pStatus.textContent = msg;
+                }
+
+        // Função que exibe as mensagens de status (sucesso ou erro) da parte de ALTERAR um voo!
+        function messageStatusALTERAR(msg, error) {
+            const pStatusALTERAR = document.getElementById('statusALTERAR');
+            if (error) {
+                pStatusALTERAR.className = 'statusErrorALTERAR';
+            } else {
+                pStatusALTERAR.className = 'statusSuccessALTERAR';
+            }
+            pStatusALTERAR.textContent = msg;
+        }
+
+
+        // VERIFICA SE O USUARIO DEIXOU UM CAMPO VAZIO
+        function verificarCamposVazios() {
+            let resultado = false;
+            const rows = document.querySelectorAll('#voosTable tbody tr');
+
+            rows.forEach(row => {
+                const cells = row.cells;
+
+                for (let i = 1; i < cells.length; i++) {
+                    const cellValue = obterValorCelula(cells[i]);
+
+                    if (cellValue === '') {
+                        console.log(`Campo vazio encontrado na linha ${row.rowIndex}, coluna ${i + 1}`);
+                        resultado = true;
+                    }
+                }
+            });
+
+            return resultado;
+        }
+
+        function obterValorCelula(cell) {
+            const inputElement = cell.querySelector('input');
+            const selectElement = cell.querySelector('select');
+
+            if (inputElement) {
+                return inputElement.value.trim();
+            } else if (selectElement) {
+                return selectElement.value.trim();
+            } else {
+                return cell.textContent.trim();
+            }
+        }
+
+        function fetchListar(id) {
+                const url = `http://localhost:3000/listarVoo/${id}`;
+                const requestOptions = {
+                    method: 'GET',
+                    headers: {'Content-Type': 'application/json'}
+                };
+
+                return fetch(url, requestOptions).then(T => T.json());
+            }
+
+
+
+        function acessarVoo(){
+            if (!selecionouVoo()) {
+                messageStatus('Selecione um voo!', true);
+                return;
+            }
+                
+
+            document.querySelector('.containerInvisivel').style.display = 'block';
+            segundoContainerVisivel = true;
+            document.getElementById('status').style.display = 'none';
+
+            fetchListar(vooSelecionadoId)
+                .then(customResponse => {
+                    if (customResponse.status === "SUCCESS") {
+                        dataBody.innerHTML = '';
+
+                        customResponse.payload.forEach(item => {
+                            const idvoo = item[0];
+                            const trecho_origem = item[1];
+                            const trecho_destino = item[2];
+                            const data = item[3];
+                            const hora_partida = item[4];
+                            const hora_chegada = item[5];
+                            const aeroporto_partida = item[6];
+                            const aeroporto_chegada = item[7];
+                            // LET para pegar o valor e altera-lo
+                            let valor = item[8];
+
+                            const row = dataBody.insertRow();
+                            const cell1 = row.insertCell(0);
+                            const cell2 = row.insertCell(1);
+                            const cell3 = row.insertCell(2);
+                            const cell4 = row.insertCell(3);
+                            const cell5 = row.insertCell(4);
+                            const cell6 = row.insertCell(5);
+                            const cell7 = row.insertCell(6);
+                            const cell8 = row.insertCell(7);
+                            const cell9 = row.insertCell(8);
+
+                            // SÓ VAI SER ID_VOO CÉLULA 1
+                            cell1.textContent = idvoo;
+                                cell2.textContent = trecho_origem;
+                                cell3.textContent = trecho_destino;
+                                cell4.textContent = data;
+                                cell5.textContent = hora_partida;
+                                cell6.textContent = hora_chegada;
+                                cell7.textContent = aeroporto_partida;
+                                cell8.textContent = aeroporto_chegada;
+                               
+
+                                
+                                
+                              // EDICAO DO VALOR DO VOO
+                                 const inputValor = document.createElement('input');
+                                 inputValor.type = 'text';
+                                 inputValor.value = valor;
+                                 inputValor.id = 'novoValor';
+                                 cell9.appendChild(inputValor);
+
+                              //Adiciona um ouvinte de evento para capturar as alterações no valor
+                             inputValor.addEventListener('change', function () {
+                                 valor = inputValor.value;
+                                 console.log('Novo valor:', valor);
+                             });
+                
+                });
+                    } else {
+                        messageStatus2("Erro ao listar voos...: " + customResponse.message, true);
+                        console.log(customResponse.message);
+                    }
+                })
+                .catch((e) => {
+                    messageStatus2("Erro técnico ao listar... Contate o suporte.", true);
+                    console.log("Falha grave ao listar." + e);
+                });
+        }
+        
+    </script>
 </head>
 <body>
     <div id="header_page">
@@ -20,9 +247,37 @@
         </div>
     </div>
     <div class="container">
-        <label for="id">ID do voo:</label>
-        <input type="text" id="id" name="id"/>
-        <button type="submit" id="alterar" name="alterar">Alterar</button>
+        <select name="voos" id="voos">
+            <option value="0" selected>Selecione o voo que deseja alterar</option>
+        </select>
+        <button type="submit" id="Alterar" name="Alterar" onclick="acessarVoo()">Acessar voo</button>
+        <!-- Mensagem de Status da função que verifica se o usuário selecionou o aeroporto para edição -->
+        <p id="status" class="statusError"></p>
+    </div>
+    <div class="containerInvisivel">
+        <table id="voosTable">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Origem</th>
+                <th>Destino</th>
+                <th>Data</th>
+                <th>Hora Partida</th>
+                <th>Hora Chegada</th>
+                <th>Aeroporto de Partida</th>
+                <th>Aeroporto de Chegada</th>
+                <th>Valor</th>
+            </tr>
+        </thead>
+        <tbody id="dataBody">
+        </tbody>
+            <p id="statusAJUDA" class="statusErrorAJUDA"></p>
+        </table>
+            <div class="form-group">
+                <p></p>
+                <button type="button" id="btnCadastrar" name="btnCadastrar" onclick="editarVoo()">Alterar</button>
+            </div>
+        <p id="statusALTERAR" class="statusErrorALTERAR"></p>      
     </div>
 </body>
 </html>
