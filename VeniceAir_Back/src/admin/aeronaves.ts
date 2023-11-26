@@ -29,7 +29,7 @@ aeronaveRouter.get("/listarAeronaves", async(req,res)=>{
       connectionString: process.env.ORACLE_DB_CONN_STR,
     }
     const connection = await oracledb.getConnection(connAttibs);
-    let resultadoConsulta = await connection.execute("SELECT * FROM AERONAVES");
+    let resultadoConsulta = await connection.execute("SELECT * FROM AERONAVES ORDER BY ID_AERONAVE");
   
     await connection.close();
     cr.status = "SUCCESS"; 

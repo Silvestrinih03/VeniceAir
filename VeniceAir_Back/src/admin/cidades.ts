@@ -32,7 +32,7 @@ cidadeRouter.get("/listarCidades", async(req,res)=>{
       connectionString: process.env.ORACLE_DB_CONN_STR,
     }
     const connection = await oracledb.getConnection(connAttibs);
-    let resultadoConsulta = await connection.execute("SELECT * FROM CIDADES");
+    let resultadoConsulta = await connection.execute("SELECT * FROM CIDADES ORDER BY ID_CIDADE");
   
     await connection.close();
     cr.status = "SUCCESS"; 
