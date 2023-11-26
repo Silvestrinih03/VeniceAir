@@ -129,3 +129,43 @@ buscaRouter.post("/buscarVoo", async(req,res)=>{
   }
 
 });
+
+
+
+
+
+
+
+buscaRouter.get("/selecionouVoo/:codigo", async(req,res)=>{
+  const codigo = req.params.codigo;
+
+  let cr: CustomResponse = {status: "ERROR", message: "", payload: undefined,};
+
+  try{
+    const connAttibs: ConnectionAttributes = {
+      user: process.env.ORACLE_DB_USER,
+      password: process.env.ORACLE_DB_SECRET,
+      connectionString: process.env.ORACLE_DB_CONN_STR,
+    }
+    const connection = await oracledb.getConnection(connAttibs);
+    let resultadoConsulta = await connection.execute("SELECT V.ID_VOO, CO.NOME AS CIDADE_ORIGEM, CD.NOME AS CIDADE_DESTINO, TO_CHAR(V.DATA_PARTIDA, 'DD/MM/YYYY') AS DATA_PARTIDA, V.HORA_PARTIDA, V.HORA_CHEGADA, AP_PARTIDA.SIGLA AS AEROPORTO_PARTIDA, AP_CHEGADA.SIGLA AS AEROPORTO_CHEGADA, V.VALOR FROM VOOS V INNER JOIN TRECHOS T ON V.TRECHO = T.ID_TRECHO INNER JOIN AEROPORTOS AP_PARTIDA ON V.AEROPORTO_PARTIDA = AP_PARTIDA.ID_AEROPORTO INNER JOIN AEROPORTOS AP_CHEGADA ON V.AEROPORTO_CHEGADA = AP_CHEGADA.ID_AEROPORTO INNER JOIN CIDADES CO ON T.CIDADE_ORIGEM = CO.ID_CIDADE INNER JOIN CIDADES CD ON T.CIDADE_DESTINO = CD.ID_CIDADE WHERE ID_VOO = :1", [codigo]);
+
+    //let resultadoConsulta = await connection.execute("SELECT FROM AERONAVES WHERE ID_AERONAVE = :1");
+  
+    await connection.close();
+    cr.status = "SUCCESS"; 
+    cr.message = "Dados obtidos";
+    cr.payload = resultadoConsulta.rows;
+
+  }catch(e){
+    if(e instanceof Error){
+      cr.message = e.message;
+      console.log(e.message);
+    }else{
+      cr.message = "Erro ao conectar ao oracle. Sem detalhes";
+    }
+  } finally {
+    res.send(cr);  
+  }
+
+});

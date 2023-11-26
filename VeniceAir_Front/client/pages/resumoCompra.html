@@ -35,7 +35,7 @@
       }
 
         function fetchApareceIda(id) {
-                const url = `http://localhost:3000/listarVoo/${id}`;
+                const url = `http://localhost:3000/selecionouVoo/${id}`;
                 const requestOptions = {
                     method: 'GET',
                     headers: {'Content-Type': 'application/json'}
@@ -121,7 +121,8 @@
             <thead>
             <tr>
                 <th>ID</th>
-                <th>Trecho</th>
+                <th>Origem</th>
+                <th>Destino</th>
                 <th>Data</th>
                 <th>Hora Partida</th>
                 <th>Hora Chegada</th>
