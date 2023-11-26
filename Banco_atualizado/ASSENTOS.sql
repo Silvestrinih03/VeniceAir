@@ -1,49 +1,6 @@
 -- SEQUENCE ID ASSENTOS
 CREATE SEQUENCE SEQ_ASSENTOS START WITH 1 INCREMENT BY 1;
 
--- SEQUENCE NUMERO_ASSENTO (NÃO ESTÁ SENDO UTILIZADA)
-CREATE SEQUENCE SEQ_NUM_ASSENTO MINVALUE 1 MAXVALUE 100 INCREMENT BY 1;
-
--- TRIGGER ASSENTOS
-CREATE OR REPLACE TRIGGER TRIGGER_50_ASSENTOS_POR_FILEIRA
-BEFORE INSERT ON ASSENTOS
-FOR EACH ROW
-DECLARE
-    v_letra VARCHAR2(1);
-BEGIN
-    -- Verifica se o valor da coluna AERONAVE foi alterado
-    IF :NEW.AERONAVE <> NVL(:OLD.AERONAVE, :NEW.AERONAVE) THEN
-        -- Se sim, reinicia a sequência
-        SELECT SEQ_ASSENTOS.nextval INTO :NEW.ID_ASSENTO FROM DUAL;
-    ELSE
-        -- Se não, continua com o próximo valor da sequência
-        :NEW.ID_ASSENTO := SEQ_ASSENTOS.nextval;
-    END IF;
-
-    -- Calcula a letra com base na divisão do número do assento pela quantidade de assentos por fileira
-    v_letra := CHR(ASCII('A') + (TRUNC((:NEW.ID_ASSENTO - 1) / 50)));
-
-    -- Gera o valor para a coluna COD_ASSENTO
-    :NEW.NUM_ASSENTO := v_letra || TO_CHAR(MOD(:NEW.ID_ASSENTO - 1, 50) + 1);
-END;
-
--- AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
--- CREATE OR REPLACE TRIGGER TRIGGER_50_ASSENTOS_POR_FILEIRA
--- BEFORE INSERT ON ASSENTOS
--- FOR EACH ROW
--- DECLARE
---     v_letra VARCHAR2(1);
--- BEGIN
---     -- Insere o próximo valor da sequência para a coluna ID_ASSENTO
---     :NEW.ID_ASSENTO := SEQ_ASSENTOS.nextval;
-
---     -- Calcula a letra com base na divisão do número do assento pela quantidade de assentos por fileira
---     v_letra := CHR(ASCII('A') + (TRUNC((:NEW.ID_ASSENTO - 1) / 50)));
-
---     -- Gera o valor para a coluna COD_ASSENTO
---     :NEW.NUM_ASSENTO := v_letra || TO_CHAR(MOD(:NEW.ID_ASSENTO - 1, 50) + 1);
--- END;
-
 -- TABLE ASSENTOS
 create table ASSENTOS(
   ID_ASSENTO INTEGER PRIMARY KEY NOT NULL,
@@ -53,6 +10,52 @@ create table ASSENTOS(
   FOREIGN KEY (AERONAVE) REFERENCES AERONAVES(ID_AERONAVE)
 );
 
+-- PROCEDIMENTO CRIADO PARA CADASTRAR ASSENTOS DAS AERONAVES E DIVIDI-LOS EM FILEIRAS COM 10 ASSENTOS CADA (A1 ATÉ A10... B1 ATÉ B10...)
+CREATE OR REPLACE PROCEDURE CADASTRAR_ASSENTOS (p_aeronave_id IN INTEGER)
+IS
+    v_letra VARCHAR2(1);
+    v_numero NUMBER;
+BEGIN
+    -- Obtém a quantidade de assentos da aeronave
+    SELECT QNT_ASSENTOS INTO v_numero FROM AERONAVES WHERE ID_AERONAVE = p_aeronave_id;
 
--- INSERT - NECESSÁRIO ALTERAR O ID DA AERONAVE DE ACORDO COM QUAL AERONAVE DESEJA INSERIR
-INSERT INTO ASSENTOS(STATUS, AERONAVE) VALUES (0, 1);
+    -- Loop para inserir assentos
+    FOR i IN 1..v_numero
+    LOOP
+        -- Calcula a letra com base no número do assento
+        v_letra := CHR(ASCII('A') + TRUNC((i - 1) / 10));
+
+        -- Insere o assento na tabela ASSENTOS
+        INSERT INTO ASSENTOS (ID_ASSENTO, NUM_ASSENTO, STATUS, AERONAVE)
+        VALUES (SEQ_ASSENTOS.nextval, v_letra || TO_CHAR(MOD(i - 1, 10) + 1), 0, p_aeronave_id);
+    END LOOP;
+END CADASTRAR_ASSENTOS;
+
+-- Exemplo de chamada do procedimento para cadastrar os assentos da aeronave com ID 1
+BEGIN
+    CADASTRAR_ASSENTOS(7);
+END;
+
+
+-- -- TRIGGER 60 ASSENTOS - NÃO VOLTA A LISTAGEM QUANDO TROCA A AERONAVE
+-- CREATE OR REPLACE TRIGGER TRIGGER_10_ASSENTOS_POR_FILEIRA
+-- BEFORE INSERT ON ASSENTOS
+-- FOR EACH ROW
+-- DECLARE
+--     v_letra VARCHAR2(1);
+-- BEGIN
+--     -- Verifica se o valor da coluna AERONAVE foi alterado
+--     IF :NEW.AERONAVE <> NVL(:OLD.AERONAVE, :NEW.AERONAVE) THEN
+--         -- Se sim, reinicia a sequência
+--         SELECT SEQ_ASSENTOS.nextval INTO :NEW.ID_ASSENTO FROM DUAL;
+--     ELSE
+--         -- Se não, continua com o próximo valor da sequência
+--         :NEW.ID_ASSENTO := SEQ_ASSENTOS.nextval;
+--     END IF;
+
+--     -- Calcula a letra com base na divisão do número do assento pela quantidade de assentos por fileira
+--     v_letra := CHR(ASCII('A') + (TRUNC((:NEW.ID_ASSENTO - 1) / 10)));
+
+--     -- Gera o valor para a coluna NUM_ASSENTO
+--     :NEW.NUM_ASSENTO := v_letra || TO_CHAR(MOD(:NEW.ID_ASSENTO - 1, 10) + 1);
+-- END;
