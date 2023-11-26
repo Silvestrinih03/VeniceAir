@@ -101,6 +101,47 @@
                     });
                 }
 
+                function preencheuNome(){
+                    let resultado = false;
+                    const nomeCliente = document.getElementById('nome').value;
+                    if (nomeCliente.length > 0) {
+                        resultado = true;
+                    }
+                    return resultado;
+                }
+
+                function preencheuEmail(){
+                    let resultado = false;
+                    const emailCliente = document.getElementById('email').value;
+                    if (emailCliente.length > 0) {
+                        resultado = true;
+                    }
+                    return resultado;
+                }
+
+                function VerificarCartao(){
+                    if (!preencheuNome()) {
+                        MessageStatus('Preencha o nome!', true);
+                        return;
+                    }
+                    else if (!preencheuEmail()) {
+                        MessageStatus('Preencha o email!', true);
+                        return;
+                    }
+                    else { window.location.href = 'pagamentoCartao.html';}
+                }
+
+                function VerificarPix(){
+                    if (!preencheuNome()) {
+                        MessageStatus('Preencha o nome!', true);
+                        return;
+                    }
+                    else if (!preencheuEmail()) {
+                        MessageStatus('Preencha o email!', true);
+                        return;
+                    }
+                    else { window.location.href = 'pagamentoPix.html';}
+                }
     </script>
 </head>
 <body>
@@ -137,23 +178,19 @@
         </table>
 
         </div>
+        <!-- DIV PARA VOLTA INVISIVEL? -->
     <div class="container">
-        <p>Preencha todos os campos para finalizar a compra.</p>
+        <p>Preencha todos os campos para prosseguir.</p>
         <form id="finaliza_pagamento">
             <label for="nome">Nome</label>
-            <input type="text" id="nome" name="nome"/>
+            <input type="text" placeholder="Digite o nome completo" id="nome" name="nome"/>
 
             <label for="email">E-mail de contato</label>
-            <input type="text" id="email" name="email"/>
+            <input type="text" placeholder="ex.: nome@email.com" id="email" name="email"/>
 
-            <label for="anofab">Forma de pagamento</label>
-            <select id="forma_pagamento">
-                <option value="0">Selecione a forma de pagamento</option>
-                <option value="1">Cartão</option>
-                <option value="2">Pix</option>
-            </select>
-            <button type="button">Continuar</button>
-            <button type="reset">Limpar</button>
+            <p> Forma de pagamento:</p>
+            <button type="button" onclick="VerificarCartao()">CARTÃO</button>
+            <button type="button" onclick="VerificarPix()">PIX</button>
         </form>
         <p id="status" class="statusError"></p>
     </div>
