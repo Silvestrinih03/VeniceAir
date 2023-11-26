@@ -11,11 +11,21 @@
             carregarVoos('voos');
         });
 
+        let vooSelecionadoId;
+
         function carregarVoos(idSelect) {
             fetch('http://localhost:3000/listarVoos')
                 .then(response => response.json())
                 .then(data => {
                     const select = document.getElementById(idSelect);
+
+                    // Adiciona um ouvinte de evento para capturar a seleção
+                    select.addEventListener('change', function () {
+                    // Obtém o ID do voo selecionado
+                    vooSelecionadoId = select.value;
+                    console.log('ID do voo selecionado:', vooSelecionadoId);
+                    // Chama outras funções ou realiza outras ações necessárias
+                });
 
                     data.payload.forEach(voo => {
                         const option = document.createElement('option');
@@ -30,13 +40,15 @@
                 });
         }
 
-        async function fetchExcluir(codigo) {
-            const response = await fetch(`http://localhost:3000/excluirVoo/${codigo}`, {
-                method: 'DELETE'
-            });
+        function fetchExcluir(codigo) {
+            const requestOptions = {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+            };
 
-            return response.json();
+            return fetch(`http://localhost:3000/excluirVoo/${codigo}`, requestOptions).then(T => T.json());
         }
+        
 
         function preencheuVoo() {
             const vooSelecionado = document.getElementById('voos').value;
