@@ -5,7 +5,103 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VeniceAir Pagamento</title>
     <link href="../../Geral/assets/css/header_page.css" rel="stylesheet"/>
-    <link href="../assets/pagamento.css" rel="stylesheet"/>
+     <link href="../assets/pagamento.css" rel="stylesheet"/>
+    <link href="../../admin/assets/css/listagem.css" rel="stylesheet"/>
+    <script>
+
+        let id = sessionStorage.getItem("ID_VOO_SELECIONADO");
+        console.log("ID_VOO_SELECIONADO: ", id)
+
+        document.addEventListener('DOMContentLoaded', function () {
+           apareceIda();
+       });
+
+       function MessageStatus(msg, error){
+                   var pStatus = document.getElementById("status");
+   
+                   if(error === true){
+                       pStatus.className = " statusError";
+                   }
+                   else{
+                       pStatus.className = 'statusSuccess'
+                   }
+                   pStatus.textContent = msg;
+        }
+
+        function messageStatusBUSCA(msg, error) {
+          const pStatusBUSCA = document.getElementById('statusBUSCA');
+          pStatusBUSCA.className = error ? 'statusErrorBUSCA' : 'statusSuccessBUSCA';
+          pStatusBUSCA.textContent = msg;
+      }
+
+        function fetchApareceIda(id) {
+                const url = `http://localhost:3000/listarVoo/${id}`;
+                const requestOptions = {
+                    method: 'GET',
+                    headers: {'Content-Type': 'application/json'}
+                };
+
+                return fetch(url, requestOptions).then(T => T.json());
+            }
+
+        function apareceIda(){
+            const iddovoo = id;
+            console.log('id do vooooooooooo = ', iddovoo);
+
+            fetchApareceIda(iddovoo)
+                        .then(customResponse2 => {
+                            if (customResponse2.status === 'SUCCESS') {
+
+                                // Limpa qualquer conteúdo anterior da tabela
+                                dataBody.innerHTML = '';
+                                
+                                // Preenche a tabela com os dados da resposta
+                                // Editar???
+                                customResponse2.payload.forEach(item => {
+                                    const idvoo = item[0];
+                                    const trecho_origem = item[1];
+                                    const trecho_destino = item[2];
+                                    const data = item[3];
+                                    const hora_partida = item[4];
+                                    const hora_chegada = item[5];
+                                    const aeroporto_partida = item[6];
+                                    const aeroporto_chegada = item[7];
+                                    const valor = item[8];
+
+                                    const row = dataBody.insertRow();
+                                    const cell1 = row.insertCell(0);
+                                    const cell2 = row.insertCell(1);
+                                    const cell3 = row.insertCell(2);
+                                    const cell4 = row.insertCell(3);
+                                    const cell5 = row.insertCell(4);
+                                    const cell6 = row.insertCell(5);
+                                    const cell7 = row.insertCell(6);
+                                    const cell8 = row.insertCell(7);
+                                    const cell9 = row.insertCell(8);
+                                    cell1.textContent = idvoo;
+                                    cell2.textContent = trecho_origem;
+                                    cell3.textContent = trecho_destino;
+                                    cell4.textContent = data;
+                                    cell5.textContent = hora_partida;
+                                    cell6.textContent = hora_chegada;
+                                    cell7.textContent = aeroporto_partida;
+                                    cell8.textContent = aeroporto_chegada;
+                                    cell9.textContent = valor;
+                                });
+
+                    messageStatusBUSCA('Voo encontrado!', false);
+                    } else {
+                    messageStatusBUSCA('Erro ao buscar voo: ' + customResponse2.message, true);
+                    console.log(customResponse2.message);
+                    }
+                    })
+                    .catch((e) => {
+                    messageStatusBUSCA('Erro técnico ao buscar voo. Contate o suporte.', true);
+                    console.log('Falha grave ao buscar voo.' + e);
+                    });
+                }
+
+    </script>
 </head>
 <body>
     <div id="header_page">
@@ -20,7 +116,7 @@
         </div>
     </div>
     <div class="container">
-        <h3> Voo selecionado: </h3>
+        <h3> Voo de Ida selecionado: </h3>
         <table id="voosTable">
             <thead>
             <tr>
