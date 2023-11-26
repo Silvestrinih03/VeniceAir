@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VeniceAir Cidades</title>
-    <link href="../../Geral/assets/css/header_page.css" rel="stylesheet"/>
-    <link href="../assets/css/listagem.css" rel="stylesheet"/>
+    <title>VeniceAir Aeroportos</title>
+    <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet"/>
+    <link href="../../assets/css/listagem.css" rel="stylesheet"/>
     <script>
         function MessageStatus(msg, error){
                 var pStatus = document.getElementById("status");
@@ -24,10 +24,10 @@
                     method: 'GET', headers: {'Content-Type' : "application/json"}, body: JSON.stringify(body)
                 };
 
-                return fetch('http://localhost:3000/listarCidades', requestOptions).then(T => T.json())
+                return fetch('http://localhost:3000/listarAeroportos', requestOptions).then(T => T.json())
             }
 
-            function listarCidade(){
+            function listarAeroportos(){
                         const dataBody = document.getElementById('dataBody');
                 fetchListar()
                     .then(customResponse => {
@@ -37,18 +37,22 @@
                         dataBody.innerHTML = '';
 
                         // Preenche a tabela com os dados da resposta
+                        // Editar???
                         customResponse.payload.forEach(item => {
-                            const numero = item[0];
-                            const texto = item[1];
+                            const idaeroporto = item[0];
+                            const sigla = item[1];
+                            const cidade = item[2];
 
                             const row = dataBody.insertRow();
                             const cell1 = row.insertCell(0);
                             const cell2 = row.insertCell(1);
-                            cell1.textContent = numero;
-                            cell2.textContent = texto;
+                            const cell3 = row.insertCell(2);
+                            cell1.textContent = idaeroporto;
+                            cell2.textContent = sigla;
+                            cell3.textContent = cidade;
                         });
                     }else{
-                        MessageStatus("Erro ao listar cidades...: " + customResponse.message, true);
+                        MessageStatus("Erro ao listar aeroportos...: " + customResponse.message, true);
                         console.log(customResponse.message);
                     }
                     })
@@ -59,36 +63,36 @@
             }
              
             document.addEventListener("DOMContentLoaded", function() {
-                listarCidade();
+                listarAeroportos();
             });
     </script>
 </head>
 <body>
     <div id="header_page">
         <div id="img_logo">
-            <img src="../../Geral/assets/images/logo.png"> 
+            <img src="../../../Geral/assets/images/logo.png"> 
         </div>
         <div id="title_page">
-            <h1>VeniceAir Cidades</h1>
+            <h1>VeniceAir Aeroportos</h1>
         </div>
         <div id="button_padrao">
-            <button id="padrao_button"><a href="area_admin.html">Voltar</a></button>
+            <button id="padrao_button"><a href="../area_admin.html">Voltar</a></button>
         </div>
     </div>
     <div id="botao_cadastrar">
-        <button id="cadastrar"><a href="cadastro/cadastroCidades.html">Cadastrar</a></button>
-        <button id="cadastrar"><a href="edicao/editarCidades.html">Editar</a></button>
-        <button id="cadastrar"><a href="exclusao/excluirCidades.html">Excluir</a></button>
+        <button id="cadastrar"><a href="../cadastro/cadastroAeroportos.html">Cadastrar</a></button>
+        <button id="cadastrar"><a href="../edicao/editarAeroportos.html">Editar</a></button>
+        <button id="cadastrar"><a href="../exclusao/excluirAeroportos.html">Excluir</a></button>
     </div>
-        <table id="dataTable">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>NOME</th>
-                </tr>
-            </thead>
-            <tbody id="dataBody"></tbody>
-        </table>
-    </div>
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>SIGLA</th>
+                <th>CIDADE</th>
+            </tr>
+        </thead>
+        <tbody id="dataBody"></tbody>
+    </table>
 </body>
 </html>
