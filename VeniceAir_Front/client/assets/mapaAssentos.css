@@ -1,0 +1,140 @@
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+    /* background-color: #b9cadc; OPÇÃO 2 */
+}
+
+.plane {
+    margin: 20px auto;
+    max-width: 300px;
+}
+
+/*TITULO 1: "MAPA DE ASSENTOS" */
+.cockpit h1 {
+    width: 100%;
+    margin: 35px auto 0px auto;
+    text-transform: uppercase;
+    font-size: 22px;
+    color: navy;
+    position: inherit;
+}
+
+/*SUBTITULO: "Por favor, selecione seu assento"*/
+.cockpit h2 {
+    margin: 5px auto;
+    font-size: 16px;
+    position: inherit;
+}
+
+/*CONTROLA AS CORES DE FUNDO DA PAGINA*/
+.fuselage {
+    background-color: rgb(255, 255, 255);
+}
+
+/*CONTROLA A FONTE DA PAGINA*/
+.info p {
+    margin: 0;
+    padding: 0 5px 15px;
+    font-weight: bold;
+    font-family: "Arial Narrow", Arial, sans-serif;
+}
+
+.info p#passenger {
+    float: left;
+    text-align: left;
+}
+
+.info p#chosenSeat {
+    text-align: right;
+}
+
+
+ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.seats {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+}
+
+.seat {
+    display: flex;
+    flex: 0 0 14.2857142857%;
+    padding: 6px;
+    position: relative;
+}
+.seat:nth-child(3) {
+    margin-right: 14.2857142857%;
+}
+.seat input[type=checkbox] {
+    position: absolute;
+    opacity: 0;
+}
+/*QUANDO SELECIONADO FICA ROXO*/
+.seat input[type=checkbox]:checked + label {
+    background: #a57dd3;
+    -webkit-animation-name: rubberBand;
+    animation-name: rubberBand;
+    animation-duration: 300ms;
+    animation-fill-mode: both;
+    color: #ffffff;
+}
+
+/*ATRIBUTOS DO ASSENTO*/
+.seat label {
+    display: block;
+    position: relative;
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1.5rem;
+    padding: 4px 0;
+    background: #777172;
+    border-radius: 5px;
+    animation-duration: 300ms;
+    animation-fill-mode: both;
+    color: white;
+}
+
+.seat label:hover {
+    cursor: pointer;
+    box-shadow: 0 0 0px 2px #005bad;
+}
+
+/*PARA DEIXAR O BOTÃO DE CONFIRMAR AO CENTRO*/
+.confirm p {
+    margin: 110;
+    padding: 0px;
+    text-align: center;
+}
+
+/*BOTÃO COM A COR PADRÃO VENICEAIR*/
+.confirm button {
+        background-color: #0073e6;
+        color: #fff;
+        padding: 10px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin: 2px;
+        width: 40%;
+      }
+      
+button:hover {
+        background-color: #005bad;
+      }
