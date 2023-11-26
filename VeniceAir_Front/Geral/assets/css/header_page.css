@@ -79,3 +79,15 @@ body {
         font-size: 24px; /* Reduza o tamanho da fonte ainda mais para telas muito pequenas */
     }
 }
+
+/* criação de footer */
+#footer {
+    width: 100%;
+    height: 100px;
+    text-align: center;
+    background-color: #b9cadc;
+    display: flex; /* Substituí inline-flex por flex para melhor controle */
+    justify-content: center; /* Centralize o conteúdo horizontalmente */
+    align-items: center; /* Centralize o conteúdo verticalmente */
+    flex-wrap: wrap; /* Permite que os elementos quebrem para uma nova linha em telas menores */
+}
