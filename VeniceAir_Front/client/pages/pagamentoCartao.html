@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VeniceAir Pagamento</title>
+    <link href="../../Geral/assets/css/header_page.css" rel="stylesheet"/>
+    <link href="../assets/pagamento.css" rel="stylesheet"/>
+</head>
+<body>
+    <div id="header_page">
+        <div id="img_logo">
+            <img src="../../Geral/assets/images/logo.png"> 
+        </div>
+        <div id="title_page">
+            <h1>VeniceAir <br> Pagamento por cartão</h1>
+        </div>
+        <div id="button_padrao">
+            <button id="padrao_button"><a href="area_cliente.html">Voltar</a></button>
+        </div>
+    </div>
+    <div class="container">
+        <p>Preencha todos os campos para finalizar a compra.</p>
+        <form id="finaliza_pagamento">
+            <label for="nome">Nome do titular</label>
+            <!-- <input type="email" placeholder="Insira seu endereço de e-mail" id="email" name="campos_feedback"> -->
+            <input type="text" placeholder="Digite o nome impresso no cartão" id="nome" name="nome"/>
+
+            <label for="numeroCartao">Número do cartão</label>
+            <input type="text" placeholder="Digite somente números" id="numeroCartao" name="numeroCartao"/>
+
+            <label for="validade">Data de Validade</label>
+            <input type="month" id="dataValidade" name="dataValidade"/>
+
+            <label for="codigoSeguranca">Código de Segurança</label>
+            <input type="text" placeholder="ex.: 123" id="cvv" name="cvv"/>
+
+            
+            <!-- <button type="button">Continuar</button>
+            <button type="reset">Limpar</button> -->
+            <!-- colocar, no lado dessa div class container, outra div só que com a imagem dos bancos! -->
+        </form>
+        <p id="status" class="statusError"></p>
+    </div>
+    <div class="container">
+        <button type="button">PAGAR</button>
+    </div>
+</body>
+</html>
