@@ -6,7 +6,7 @@ body {
 
 #header_page {
     width: 100%;
-    height: 100px;
+    /* height: 100px; */
     text-align: center;
     background-color: #b9cadc;
     display: flex; /* Substituí inline-flex por flex para melhor controle */
@@ -90,7 +90,7 @@ body {
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    position: fixed;
+    /* position: fixed; */
     bottom: 0;
 }
 
