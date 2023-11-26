@@ -139,7 +139,7 @@ exports.vooRouter.delete("/excluirVoo/:codigo", (req, res) => __awaiter(void 0, 
         res.send(cr);
     }
 }));
-// Função OK
+// Função OK - Rota para editar voo
 exports.vooRouter.get("/listarVoo/:codigo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const codigo = req.params.codigo;
     let cr = { status: "ERROR", message: "", payload: undefined, };

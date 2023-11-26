@@ -213,4 +213,11 @@
     margin-bottom: 15px;
     cursor: pointer;
     color: white;
+    margin-left: 15px;
+}
+
+#enviar a{
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
 }

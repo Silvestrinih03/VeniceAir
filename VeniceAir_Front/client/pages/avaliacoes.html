@@ -1,0 +1,100 @@
+<!-- Descrição do documento HTML -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <!-- Configuração do conjunto de caracteres e escala de visualização -->
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Avaliações VeniceAir</title>
+      <link href="../../Geral/assets/css/header_page.css" rel="stylesheet"/>
+      <link href="../assets/avaliacoes.css" rel="stylesheet"/>
+      <script>
+        function MessageStatus(msg, error){
+                var pStatus = document.getElementById("status");
+
+                if(error === true){
+                    pStatus.className = " statusError";
+                }
+                else{
+                    pStatus.className = 'statusSuccess'
+                }
+                pStatus.textContent = msg;
+            }
+
+            function fetchListar(body){
+                const requestOptions = {
+                    method: 'GET', headers: {'Content-Type' : "application/json"}, body: JSON.stringify(body)
+                };
+
+                return fetch('http://localhost:3000/listarAvaliacoes', requestOptions).then(T => T.json())
+            }
+
+            function listarAvaliacoes(){
+                        const dataBody = document.getElementById('dataBody');
+                fetchListar()
+                    .then(customResponse => {
+                    if(customResponse.status === "SUCCESS"){
+                        
+                        // Limpa qualquer conteúdo anterior da tabela
+                        dataBody.innerHTML = '';
+
+                        // Preenche a tabela com os dados da resposta
+                        // Editar???
+                        customResponse.payload.forEach(item => {
+                            const nome = item[0];
+                            const email = item[1];
+                            const nota = item[2];
+                            const avaliacao = item[3];
+
+                            const row = dataBody.insertRow();
+                            const cell1 = row.insertCell(0);
+                            const cell2 = row.insertCell(1);
+                            const cell3 = row.insertCell(2);
+                            const cell4 = row.insertCell(3);
+                            cell1.textContent = nome;
+                            cell2.textContent = email;
+                            cell3.textContent = nota;
+                            cell4.textContent = avaliacao;
+                        });
+                    }else{
+                        MessageStatus("Erro ao listar avaliações...: " + customResponse.message, true);
+                        console.log(customResponse.message);
+                    }
+                    })
+                    .catch((e)=>{
+                        MessageStatus("Erro técnico ao listar... Contate o suporte.", true);
+                        console.log("Falha grave ao listar." + e)
+                    });
+            }
+             
+            document.addEventListener("DOMContentLoaded", function() {
+                listarAvaliacoes();
+            });
+    </script>
+  </head>
+  <body>
+      <!-- Cabecalho padrão da página -->
+      <div id="header_page">
+        <div id="img_logo">
+            <img src="../../Geral/assets/images/logo.png"> 
+        </div>
+        <div id="title_page">
+            <h1>Avaliações VeniceAir</h1>
+        </div>
+        <div id="button_padrao">
+            <button id="padrao_button"><a href="area_cliente.html">Voltar</a></button>
+        </div>
+    </div>
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th>NOME</th>
+                <th>E-MAIL</th>
+                <th>NOTA</th>
+                <th>DESCRIÇÃO</th>
+            </tr>
+        </thead>
+        <tbody id="dataBody"></tbody>
+    </table>
+  </body>
+</html>

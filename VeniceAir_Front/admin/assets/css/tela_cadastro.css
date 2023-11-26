@@ -26,7 +26,7 @@ form {
 label {
   font-weight: bold;
   margin-top: 10px;
-  text-align: left;
+  text-align: center;
 }
 
 select, input {
@@ -88,6 +88,10 @@ button:hover {
   margin: 0 10px;
   margin-bottom: 20px;
   text-align: center;
+}
+
+.data{
+  width: 100px;
 }
 
 /* #valor{
