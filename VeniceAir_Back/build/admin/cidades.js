@@ -35,7 +35,7 @@ exports.cidadeRouter.get("/listarCidades", (req, res) => __awaiter(void 0, void 
             connectionString: process.env.ORACLE_DB_CONN_STR,
         };
         const connection = yield oracledb_1.default.getConnection(connAttibs);
-        let resultadoConsulta = yield connection.execute("SELECT * FROM CIDADES");
+        let resultadoConsulta = yield connection.execute("SELECT * FROM CIDADES ORDER BY ID_CIDADE");
         yield connection.close();
         cr.status = "SUCCESS";
         cr.message = "Dados obtidos";

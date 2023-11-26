@@ -33,7 +33,7 @@ exports.aeronaveRouter.get("/listarAeronaves", (req, res) => __awaiter(void 0, v
             connectionString: process.env.ORACLE_DB_CONN_STR,
         };
         const connection = yield oracledb_1.default.getConnection(connAttibs);
-        let resultadoConsulta = yield connection.execute("SELECT * FROM AERONAVES");
+        let resultadoConsulta = yield connection.execute("SELECT * FROM AERONAVES ORDER BY ID_AERONAVE");
         yield connection.close();
         cr.status = "SUCCESS";
         cr.message = "Dados obtidos";

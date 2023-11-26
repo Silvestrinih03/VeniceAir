@@ -28,7 +28,7 @@ trechoRouter.get("/listarTrechos", async(req,res)=>{
       connectionString: process.env.ORACLE_DB_CONN_STR,
     }
     const connection = await oracledb.getConnection(connAttibs);
-    let resultadoConsulta = await connection.execute("SELECT ID_TRECHO, (SELECT c.NOME FROM CIDADES c WHERE c.ID_CIDADE = T.CIDADE_ORIGEM) AS CIDADE_ORIGEM,(SELECT c.NOME FROM CIDADES c WHERE c.ID_CIDADE = T.CIDADE_DESTINO) AS CIDADE_DESTINO FROM TRECHOS T");
+    let resultadoConsulta = await connection.execute("SELECT ID_TRECHO, (SELECT c.NOME FROM CIDADES c WHERE c.ID_CIDADE = T.CIDADE_ORIGEM) AS CIDADE_ORIGEM,(SELECT c.NOME FROM CIDADES c WHERE c.ID_CIDADE = T.CIDADE_DESTINO) AS CIDADE_DESTINO FROM TRECHOS T ORDER BY ID_TRECHO");
   
     await connection.close();
     cr.status = "SUCCESS"; 

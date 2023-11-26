@@ -30,7 +30,7 @@ aeroportoRouter.get("/listarAeroportos", async(req,res)=>{
       connectionString: process.env.ORACLE_DB_CONN_STR,
     }
     const connection = await oracledb.getConnection(connAttibs);
-    let resultadoConsulta = await connection.execute("select ID_AEROPORTO,SIGLA, (select c.NOME from CIDADES c where c.ID_CIDADE = CIDADE) from AEROPORTOS");
+    let resultadoConsulta = await connection.execute("select ID_AEROPORTO,SIGLA, (select c.NOME from CIDADES c where c.ID_CIDADE = CIDADE) from AEROPORTOS ORDER BY ID_AEROPORTO");
   
     await connection.close();
     cr.status = "SUCCESS"; 

@@ -33,7 +33,7 @@ exports.aeroportoRouter.get("/listarAeroportos", (req, res) => __awaiter(void 0,
             connectionString: process.env.ORACLE_DB_CONN_STR,
         };
         const connection = yield oracledb_1.default.getConnection(connAttibs);
-        let resultadoConsulta = yield connection.execute("select ID_AEROPORTO,SIGLA, (select c.NOME from CIDADES c where c.ID_CIDADE = CIDADE) from AEROPORTOS");
+        let resultadoConsulta = yield connection.execute("select ID_AEROPORTO,SIGLA, (select c.NOME from CIDADES c where c.ID_CIDADE = CIDADE) from AEROPORTOS ORDER BY ID_AEROPORTO");
         yield connection.close();
         cr.status = "SUCCESS";
         cr.message = "Dados obtidos";

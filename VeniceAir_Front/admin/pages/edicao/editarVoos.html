@@ -19,6 +19,7 @@
             fetch('http://localhost:3000/listarVoos')
                 .then(response => response.json())
                 .then(data => {
+                    voos = data;
                     const select = document.getElementById(idSelect);
 
                     // Adiciona um ouvinte de evento para capturar a seleção
@@ -35,6 +36,7 @@
                         option.value = voo[0];
                         option.text = optionText;
                         select.appendChild(option);
+                        let dato = voo[3];
                     });
                 })
                 .catch(error => {
@@ -163,8 +165,7 @@
                 messageStatus('Selecione um voo!', true);
                 return;
             }
-                
-
+        
             document.querySelector('.containerInvisivel').style.display = 'block';
             segundoContainerVisivel = true;
             document.getElementById('status').style.display = 'none';
@@ -199,15 +200,47 @@
                             // SÓ VAI SER ID_VOO CÉLULA 1
                             cell1.textContent = idvoo;
                                 cell2.textContent = trecho_origem;
-                                cell3.textContent = data;
-                                cell4.textContent = hora_partida;
-                                cell5.textContent = hora_chegada;
+                                //cell3.textContent = data;
+                                //cell4.textContent = hora_partida;
+                                //cell5.textContent = hora_chegada;
                                 cell6.textContent = aeroporto_partida;
                                 cell7.textContent = aeroporto_chegada;
                                 //cell8.textContent = valor;
-                               
 
-                                
+                                //EDICAO DA DATA
+                                const inputData = document.createElement('input');
+                                inputData.type = 'date';
+                                inputData.value = data;
+                                inputData.id = 'novaData';
+                                cell3.appendChild(inputData);
+                                inputData.addEventListener('change', function () {
+                                    const datinha = inputData.value;
+                                    console.log('DATA ALTERADO:', datinha);
+                                });
+
+      
+
+                                // EDICAO DA HORA DE PARTIDA
+                                const hora1 = document.createElement('input');
+                                hora1.type = 'text';
+                                hora1.value = hora_partida;
+                                hora1.id = 'hora1Input'; // Adicione um ID para identificação
+                                cell4.appendChild(hora1);
+                                hora1.addEventListener('change', function () {
+                                    const horadepartida = hora1.value;
+                                    console.log('HORA DE PARTIDA ALTERADO:', horadepartida);
+                                });
+
+                                // EDICAO DA HORA DE CHEGADA
+                                const hora2 = document.createElement('input');
+                                hora2.type = 'text';
+                                hora2.value = hora_chegada;
+                                hora2.id = 'hora2Input'; // Adicione um ID para identificação
+                                cell5.appendChild(hora2);
+                                hora2.addEventListener('change', function () {
+                                    const horadechegada = hora2.value;
+                                    console.log('HORA DE CHEGADA ALTERADO:', horadechegada);
+                                });
                                 
                               // EDICAO DO VALOR DO VOO
                                  const inputValor = document.createElement('input');
