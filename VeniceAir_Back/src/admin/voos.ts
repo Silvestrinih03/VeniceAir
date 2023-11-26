@@ -148,7 +148,7 @@ vooRouter.delete("/excluirVoo/:codigo", async (req, res) => {
 });
 
 
-// Função OK
+// Função OK - Rota para editar voo
 vooRouter.get("/listarVoo/:codigo", async(req,res)=>{
   const codigo = req.params.codigo;
 
