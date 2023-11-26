@@ -98,15 +98,83 @@
       //Script 2 - Realiza busca dos voos de acordo com o que foi solicitado pelo cliente
       // Chama a função de carregar cidades nos campos de seleção para exibir as cidades cadastradas no banco
       document.addEventListener('DOMContentLoaded', function () {
-            carregarCidades('campo_select2');
-            carregarCidades('campo_select3');
+            carregarOrigens('campo_select2');
+            carregarDestinos('campo_select3');
+            // saida('campo_select');
+            // saida('campo_select2');
+            // saida('campo_select3');
+            // saida('data_ida');
+
+            const tipoPassagemSelect = document.getElementById('campo_select');
+            tipoPassagemSelect.addEventListener('change', tipoPassagemAlterado);
+
+            const dataIdaInput = document.getElementById('campo_data_ida');
+            dataIdaInput.addEventListener('change', dataIdaAlterada);
+
+            const dataVoltaInput = document.getElementById('campo_data_volta');
+            dataVoltaInput.addEventListener('change', dataVoltaAlterada);
+
         });
+
+        function tipoPassagemAlterado() {
+          const tipoSelecionado = document.getElementById('campo_select').value;
+          console.log('Tipo de passagem selecionado:', tipoSelecionado);
+        }
+
+        function dataIdaAlterada() {
+          const dataIdaSelecionada = document.getElementById('campo_data_ida').value;
+          console.log('Data de ida selecionada:', dataIdaSelecionada);
+        }
+
+        function dataVoltaAlterada() {
+          const dataVoltaSelecionada = document.getElementById('campo_data_volta').value;
+          console.log('Data de volta selecionada:', dataVoltaSelecionada);
+        }
+
+        //
+        let origemSelecionadaId;
         // Função para carregar as cidades do banco nos campos de seleção
-        function carregarCidades(idSelect) {
+        function carregarOrigens(idSelect) {
             fetch('http://localhost:3000/listarCidades')
                 .then(response => response.json())
                 .then(data => {
                     const select = document.getElementById(idSelect);
+
+                    // Adiciona um ouvinte de evento para capturar a seleção
+                    select.addEventListener('change', function () {
+                    // Obtém o ID da cidade selecionada
+                    cidadeSelecionadaId = select.value;
+                    console.log('ID da origem selecionada:', cidadeSelecionadaId);
+                    // Chama outras funções ou realiza outras ações necessárias
+                    });
+
+                    data.payload.forEach(cidade => {
+                        const option = document.createElement('option');
+                        option.value = cidade[0];
+                        option.text = cidade[1];
+                        select.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar cidades:', error);
+                });
+        }
+
+        let destinoSelecionadoId;
+        function carregarDestinos(idSelect) {
+            fetch('http://localhost:3000/listarCidades')
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById(idSelect);
+
+                    // Adiciona um ouvinte de evento para capturar a seleção
+                    select.addEventListener('change', function () {
+                    // Obtém o ID da cidade selecionada
+                    destinoSelecionadoId = select.value;
+                    console.log('ID do destino selecionada:', destinoSelecionadoId);
+                    // Chama outras funções ou realiza outras ações necessárias
+                    });
+
                     data.payload.forEach(cidade => {
                         const option = document.createElement('option');
                         option.value = cidade[0];
@@ -174,6 +242,23 @@
                 return resultado;
              }
 
+        // Função que exibe as mensagens de status (sucesso ou erro)
+        function messageStatusBUSCA(msg, error) {
+          const pStatusBUSCA = document.getElementById('statusBUSCA');
+          pStatusBUSCA.className = error ? 'statusErrorBUSCA' : 'statusSuccessBUSCA';
+          pStatusBUSCA.textContent = msg;
+      }
+
+        // Função para definir como parâmetro os valores obtidos em campoPartida, campoChegada e dataDeIda
+        function fetchBuscarVoo(campoPartida, campoChegada, dataDeIda) {
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ campoPartida, campoChegada, dataDeIda})
+            };
+            return fetch('http://localhost:3000/buscarVoo', requestOptions).then(T => T.json());
+        }
+
         // Função que verifica se todos os campos necessários foram preenchidos e mensagens correspondentes
         function Verificar(){
           const tipoPassagem = document.getElementById('campo_select').value;
@@ -202,48 +287,23 @@
                   messageStatusBUSCA('Selecione a data de volta!', true);
                     return ;
                 } else window.location.href = 'resultado_busca.html';
+                  //window.location.href = 'resultado_busca.html';
+                
             }
           else {
             
-            window.location.href = 'resultado_busca.html';
-            // Redirecionamento para a página de resultado da busca
-          }
-        }
-
-        // Função que exibe as mensagens de status (sucesso ou erro)
-        function messageStatusBUSCA(msg, error) {
-          const pStatusBUSCA = document.getElementById('statusBUSCA');
-          pStatusBUSCA.className = error ? 'statusErrorBUSCA' : 'statusSuccessBUSCA';
-          pStatusBUSCA.textContent = msg;
-      }
-
-      const campoPartida = document.getElementById('campo_select2').value;
-      const campoChegada = document.getElementById('campo_select3').value;
-      const dataDeIda = document.getElementById('data_ida').value;
-
-
-        // Função para definir como parâmetro os valores obtidos em campoPartida, campoChegada e dataDeIda
-        function fetchBuscarVoo(campoPartida, campoChegada, dataDeIda) {
-            const requestOptions = {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ campoPartida, campoChegada, dataDeIda})
-            };
-            return fetch('http://localhost:3000/buscarVoo', requestOptions).then(T => T.json());
-        }
-
-        // Função que verifica se os campos obrigatórios foram preenchidos e retorna um alerta para o usuário
-        function BuscarVoo() {
-            
-            // BACK!!!!!!!!!!!!!!!!
-            // Obtém os valores dos campos
+            // console.log pra ver O QUE ESTÁ SENDO MANDADO PRO BANCO
             const tipoDePassagem = document.getElementById('campo_select').value;
+            console.log('Tipo mandado = ', tipoDePassagem);
             const campoPartida= document.getElementById('campo_select2').value;
+            console.log('Origem mandada = ', campoPartida);
             const campoChegada = document.getElementById('campo_select3').value;
-            const dataDeIda = document.getElementById('data_ida').value;
-            //const dataDeVolta = document.getElementById('data_volta').value;
-            // if para volta para fetch?
-            // Realiza a requisição para buscar voos - FAZEEEEEEEEEEEER
+            console.log('Destino mandado = ', campoChegada);
+            const dataDeIda = document.getElementById('campo_data_ida').value;
+            console.log('Data de ida mandada = ', dataDeIda);
+            const dataDeVOLTA = document.getElementById('campo_data_volta').value;
+            console.log('Data de volta mandada = ', dataDeVOLTA);
+
             fetchBuscarVoo(campoPartida, campoChegada, dataDeIda)
               .then(customResponse2 => {
                   if (customResponse2.status === 'SUCCESS') {
@@ -257,7 +317,12 @@
                 messageStatusBUSCA('Erro técnico ao buscar voos. Contate o suporte.', true);
                   console.log('Falha grave ao buscar voos.' + e);
               });
-      }
+
+            window.location.href = 'resultado_busca.html';
+            // Redirecionamento para a página de resultado da busca
+          }
+        }
+        
     </script>
 </head>
 <body>
@@ -309,7 +374,7 @@
         </div>
         <!-- Botões de ação buscar (chama o script) e limpar (apaga os dados preenchidos pelo usuário) -->
         <div id="div_botao" class="mb-3">
-          <button type="button" id="buscar" onclick="Verificar()">Buscar</a></button>
+          <button type="button" id="buscar" onclick="Verificar()">Buscar</button>
           <button type="reset" id="limpar">Limpar</button>
         </div>
         <!-- Exibe mensagem de erro ou sucesso do campo de busca PRECISA ARRUMAR POR CONTA DA AVALIAÇÃO-->

@@ -54,6 +54,8 @@ vooRouter.get("/listarVoos", async(req,res)=>{
 vooRouter.post("/inserirVoo", async (req, res) => {
   const trecho = req.body.trecho as number;
   const data_partida = new Date(req.body.data_partida);
+  // teste
+  console.log('dataa =', data_partida);
   const hora_partida = req.body.hora_partida as string;
   const hora_chegada = req.body.hora_chegada as string;
   const aeroporto_partida = req.body.aeroporto_partida as number;
