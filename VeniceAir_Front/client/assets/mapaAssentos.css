@@ -134,6 +134,11 @@ ol {
         margin: 2px;
         width: 40%;
       }
+
+.confirm button a{
+    color: white;
+    text-decoration: none;
+}
       
 button:hover {
         background-color: #005bad;

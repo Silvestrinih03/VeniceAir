@@ -40,7 +40,7 @@
 
       function selecionarVoo(idVoo) {
             sessionStorage.setItem('ID_VOO_SELECIONADO', idVoo);
-            window.location.href = 'resumoCompra.html'; // Substitua 'outra_pagina.html' pelo URL desejado
+            window.location.href = 'mapaAssentos.html'; // Substitua 'outra_pagina.html' pelo URL desejado
         }
 
       function fetchBuscarVoo({ ori: origem, dest: destino, dt: data }) {
@@ -169,7 +169,5 @@
         <tbody id="dataBody"></tbody>
     </table>
     <p id="statusBUSCA" class="statusErrorBUSCA"></p>
-    <p>Este botão serve para ir até a página de pagamento, no entanto ele será removido no futuro</p>
-    <button><a href="resumoCompra.html">Página de pagamento</a></button>
 </body>
 </html>
