@@ -38,7 +38,7 @@
           pStatusBUSCA.textContent = msg;
       }
 
-      function fetchBuscarVoo(ori, dest, dt) {
+      function fetchBuscarVoo({ ori: origem, dest: destino, dt: data }) {
             const requestOptions = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -78,57 +78,57 @@
                             messageStatusBUSCA('Erro técnico ao buscar voos. Contate o suporte.', true);
                             console.log('Falha grave ao buscar voos.' + e);
                         });
-
-                   fetchListar()
-                       .then(customResponse => {
-                       if(customResponse.status === "SUCCESS"){
+                    }
+            //        fetchListar()
+            //            .then(customResponse => {
+            //            if(customResponse.status === "SUCCESS"){
                            
-                           // Limpa qualquer conteúdo anterior da tabela
-                           dataBody.innerHTML = '';
+            //                // Limpa qualquer conteúdo anterior da tabela
+            //                dataBody.innerHTML = '';
    
-                           // Preenche a tabela com os dados da resposta
-                           // Editar???
-                           customResponse.payload.forEach(item => {
-                               const idvoo = item[0];
-                               const trecho_origem = item[1];
-                               const trecho_destino = item[2];
-                               const data = item[3];
-                               const hora_partida = item[4];
-                               const hora_chegada = item[5];
-                               const aeroporto_partida = item[6];
-                               const aeroporto_chegada = item[7];
-                               const valor = item[8];
+            //                // Preenche a tabela com os dados da resposta
+            //                // Editar???
+            //                customResponse.payload.forEach(item => {
+            //                    const idvoo = item[0];
+            //                    const trecho_origem = item[1];
+            //                    const trecho_destino = item[2];
+            //                    const data = item[3];
+            //                    const hora_partida = item[4];
+            //                    const hora_chegada = item[5];
+            //                    const aeroporto_partida = item[6];
+            //                    const aeroporto_chegada = item[7];
+            //                    const valor = item[8];
    
-                               const row = dataBody.insertRow();
-                               const cell1 = row.insertCell(0);
-                               const cell2 = row.insertCell(1);
-                               const cell3 = row.insertCell(2);
-                               const cell4 = row.insertCell(3);
-                               const cell5 = row.insertCell(4);
-                               const cell6 = row.insertCell(5);
-                               const cell7 = row.insertCell(6);
-                               const cell8 = row.insertCell(7);
-                               const cell9 = row.insertCell(8);
-                               cell1.textContent = idvoo;
-                               cell2.textContent = trecho_origem;
-                               cell3.textContent = trecho_destino;
-                               cell4.textContent = data;
-                               cell5.textContent = hora_partida;
-                               cell6.textContent = hora_chegada;
-                               cell7.textContent = aeroporto_partida;
-                               cell8.textContent = aeroporto_chegada;
-                               cell9.textContent = valor;
-                           });
-                       }else{
-                           MessageStatus("Erro ao listar voos...: " + customResponse.message, true);
-                           console.log(customResponse.message);
-                       }
-                       })
-                       .catch((e)=>{
-                           MessageStatus("Erro técnico ao listar... Contate o suporte.", true);
-                           console.log("Falha grave ao listar." + e)
-                       });
-               }
+            //                    const row = dataBody.insertRow();
+            //                    const cell1 = row.insertCell(0);
+            //                    const cell2 = row.insertCell(1);
+            //                    const cell3 = row.insertCell(2);
+            //                    const cell4 = row.insertCell(3);
+            //                    const cell5 = row.insertCell(4);
+            //                    const cell6 = row.insertCell(5);
+            //                    const cell7 = row.insertCell(6);
+            //                    const cell8 = row.insertCell(7);
+            //                    const cell9 = row.insertCell(8);
+            //                    cell1.textContent = idvoo;
+            //                    cell2.textContent = trecho_origem;
+            //                    cell3.textContent = trecho_destino;
+            //                    cell4.textContent = data;
+            //                    cell5.textContent = hora_partida;
+            //                    cell6.textContent = hora_chegada;
+            //                    cell7.textContent = aeroporto_partida;
+            //                    cell8.textContent = aeroporto_chegada;
+            //                    cell9.textContent = valor;
+            //                });
+            //            }else{
+            //                MessageStatus("Erro ao listar voos...: " + customResponse.message, true);
+            //                console.log(customResponse.message);
+            //            }
+            //            })
+            //            .catch((e)=>{
+            //                MessageStatus("Erro técnico ao listar... Contate o suporte.", true);
+            //                console.log("Falha grave ao listar." + e)
+            //            });
+            //    }
                 
            
 
