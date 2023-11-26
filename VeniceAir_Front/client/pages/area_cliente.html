@@ -249,16 +249,6 @@
           pStatusBUSCA.textContent = msg;
       }
 
-        // Função para definir como parâmetro os valores obtidos em campoPartida, campoChegada e dataDeIda
-        function fetchBuscarVoo(campoPartida, campoChegada, dataDeIda) {
-            const requestOptions = {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ campoPartida, campoChegada, dataDeIda})
-            };
-            return fetch('http://localhost:3000/buscarVoo', requestOptions).then(T => T.json());
-        }
-
         // Função que verifica se todos os campos necessários foram preenchidos e mensagens correspondentes
         function Verificar(){
           const tipoPassagem = document.getElementById('campo_select').value;
@@ -297,29 +287,19 @@
             console.log('Tipo mandado = ', tipoDePassagem);
             const campoPartida= document.getElementById('campo_select2').value;
             console.log('Origem mandada = ', campoPartida);
+            sessionStorage.setItem("ORIGEM", campoPartida);
             const campoChegada = document.getElementById('campo_select3').value;
             console.log('Destino mandado = ', campoChegada);
+            sessionStorage.setItem("DESTINO", campoChegada);
             const dataDeIda = document.getElementById('campo_data_ida').value;
             console.log('Data de ida mandada = ', dataDeIda);
+            sessionStorage.setItem("DATAIDA", dataDeIda);
             const dataDeVOLTA = document.getElementById('campo_data_volta').value;
             console.log('Data de volta mandada = ', dataDeVOLTA);
 
-            fetchBuscarVoo(campoPartida, campoChegada, dataDeIda)
-              .then(customResponse2 => {
-                  if (customResponse2.status === 'SUCCESS') {
-                    messageStatusBUSCA('Voos encontrados!', false);
-                  } else {
-                    messageStatusBUSCA('Erro ao buscar voos: ' + customResponse2.message, true);
-                      console.log(customResponse2.message);
-                  }
-              })
-              .catch((e) => {
-                messageStatusBUSCA('Erro técnico ao buscar voos. Contate o suporte.', true);
-                  console.log('Falha grave ao buscar voos.' + e);
-              });
-
-            window.location.href = 'resultado_busca.html';
             // Redirecionamento para a página de resultado da busca
+            window.location.href = 'resultado_busca.html';
+            
           }
         }
         

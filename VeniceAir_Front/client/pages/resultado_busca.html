@@ -7,6 +7,14 @@
     <link href="../../Geral/assets/css/header_page.css" rel="stylesheet"/>
     <link href="../../admin/assets/css/listagem.css" rel="stylesheet"/>
     <script>
+                let ori = sessionStorage.getItem("ORIGEM");    
+                console.log("ori: ",ori)
+
+                let dest = sessionStorage.getItem("DESTINO");    
+                console.log("dest: ", dest)
+
+                let dt = sessionStorage.getItem("DATAIDA");    
+                console.log("dt: ", dt)
 
         document.addEventListener('DOMContentLoaded', function () {
            listarVoos();
@@ -24,6 +32,21 @@
                    pStatus.textContent = msg;
                }
 
+        function messageStatusBUSCA(msg, error) {
+          const pStatusBUSCA = document.getElementById('statusBUSCA');
+          pStatusBUSCA.className = error ? 'statusErrorBUSCA' : 'statusSuccessBUSCA';
+          pStatusBUSCA.textContent = msg;
+      }
+
+      function fetchBuscarVoo(ori, dest, dt) {
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ori, dest, dt })
+            };
+            return fetch('http://localhost:3000/buscarVoo', requestOptions).then(T => T.json());
+        }
+                
                function fetchListar() {
                    const requestOptions = {
                        method: 'POST',
@@ -35,7 +58,27 @@
 
 
                function listarVoos(){
-                           const dataBody = document.getElementById('dataBody');
+                    const dataBody = document.getElementById('dataBody');
+                    const ori = sessionStorage.getItem("ORIGEM");
+                    const dest = sessionStorage.getItem("DESTINO");
+                    const dt = sessionStorage.getItem("DATAIDA");
+                    console.log('origggem =', ori);
+                    console.log('destttino =', dest);
+                    console.log('daaata =', dt);
+                    fetchBuscarVoo(ori, dest, dt)
+                        .then(customResponse2 => {
+                            if (customResponse2.status === 'SUCCESS') {
+                                messageStatusBUSCA('Voos encontrados!', false);
+                            } else {
+                                messageStatusBUSCA('Erro ao buscar voos: ' + customResponse2.message, true);
+                                console.log(customResponse2.message);
+                            }
+                        })
+                        .catch((e) => {
+                            messageStatusBUSCA('Erro técnico ao buscar voos. Contate o suporte.', true);
+                            console.log('Falha grave ao buscar voos.' + e);
+                        });
+
                    fetchListar()
                        .then(customResponse => {
                        if(customResponse.status === "SUCCESS"){
@@ -120,7 +163,7 @@
         </thead>
         <tbody id="dataBody"></tbody>
     </table>
-
+    <p id="statusBUSCA" class="statusErrorBUSCA"></p>
     <p>Este botão serve para ir até a página de pagamento, no entanto ele será removido no futuro</p>
     <button><a href="pagina_pagamento.html">Página de pagamento</a></button>
 </body>

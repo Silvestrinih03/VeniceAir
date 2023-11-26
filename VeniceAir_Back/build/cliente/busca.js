@@ -81,12 +81,12 @@ dotenv_1.default.config();
 //   }
 // });
 exports.buscaRouter.post("/buscarVoo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const cidadeOrigem = req.body.campoPartida;
-    console.log('origemm = ', cidadeOrigem);
-    const cidadeDestino = req.body.campoChegada;
-    console.log('destinoo = ', cidadeDestino);
-    const dataIda = new Date(req.body.dataDeIda);
-    console.log('data idaa = ', dataIda);
+    const cidadeOrigem = req.body.ori;
+    console.log('cidadeOrigem =', cidadeOrigem);
+    const cidadeDestino = req.body.dest;
+    console.log('cidadeDestino =', cidadeDestino);
+    const dataIda = new Date(req.body.dt);
+    console.log('dataIda =', dataIda);
     let cr = { status: "ERROR", message: "", payload: undefined, };
     try {
         const connAttibs = {

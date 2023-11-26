@@ -84,12 +84,12 @@ type CustomResponse = {
 // });
 
 buscaRouter.post("/buscarVoo", async(req,res)=>{
-  const cidadeOrigem = req.body.campoPartida as number;
-  console.log('origemm = ',cidadeOrigem);
-  const cidadeDestino = req.body.campoChegada as number;
-  console.log('destinoo = ',cidadeDestino);
-  const dataIda = new Date(req.body.dataDeIda);
-  console.log('data idaa = ',dataIda);
+  const cidadeOrigem = req.body.ori;
+  console.log('cidadeOrigem =', cidadeOrigem);
+  const cidadeDestino = req.body.dest;
+  console.log('cidadeDestino =', cidadeDestino);
+  const dataIda = new Date(req.body.dt);
+  console.log('dataIda =', dataIda);
   
   let cr: CustomResponse = {status: "ERROR", message: "", payload: undefined,};
 
