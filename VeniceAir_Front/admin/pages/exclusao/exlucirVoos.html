@@ -16,10 +16,12 @@
                 .then(response => response.json())
                 .then(data => {
                     const select = document.getElementById(idSelect);
+
                     data.payload.forEach(voo => {
                         const option = document.createElement('option');
+                        const optionText = `${voo[0]} : ${voo[1]}  ➡️  ${voo[2]}`; 
                         option.value = voo[0];
-                        option.text = voo[0];
+                        option.text = optionText;
                         select.appendChild(option);
                     });
                 })
