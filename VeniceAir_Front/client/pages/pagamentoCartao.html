@@ -6,6 +6,116 @@
     <title>VeniceAir Pagamento</title>
     <link href="../../Geral/assets/css/header_page.css" rel="stylesheet"/>
     <link href="../assets/pagamento.css" rel="stylesheet"/>
+    <script>
+
+        function messageStatus(msg, error) {
+            const pStatus = document.getElementById('status');
+            if (error) {
+                pStatus.className = 'statusError';
+            } else {
+                pStatus.className = 'statusSuccess';
+            }
+            pStatus.textContent = msg;
+        }
+        
+        function clearFirstMessage() {
+            const pStatus = document.getElementById('status');
+            pStatus.textContent = '';  // Limpa o conteúdo
+            pStatus.className = '';     // Limpa a classe
+        }
+
+        function messageStatusFinal(msg, error) {
+            const pStatus = document.getElementById('statusFINAL');
+            if (error) {
+                pStatus.className = 'statusErrorFINAL';
+            } else {
+                pStatus.className = 'statusSuccessFINAL';
+            }
+            pStatus.textContent = msg;
+
+            clearFirstMessage();
+        }
+
+        function contemApenasNumeros(valor) {
+            return /^\d+$/.test(valor);
+        }
+
+        function preencheuNomeTitular(){
+            let resultado = false;
+            const nomeCompletoo = document.getElementById('nome').value;
+            if (nomeCompletoo.length > 0) {
+                resultado = true;
+            }
+            return resultado;
+        }
+
+        function preencheuNumeroCartao(){
+            let resultado = false;
+            const numeroCartaoo = document.getElementById('numeroCartao').value;
+            if (numeroCartaoo.length > 0) {
+                resultado = true;
+            }
+            return resultado;
+        }
+
+        function preencheuDataValidade(){
+            let resultado = false;
+            const dataVal = document.getElementById('dataValidade').value;
+            if (dataVal.length > 0) {
+                resultado = true;
+            }
+            return resultado;
+        }
+
+        function preencheuCVV(){
+            let resultado = false;
+            const cvvv = document.getElementById('cvv').value;
+            if (cvvv.length > 0) {
+                resultado = true;
+            }
+            return resultado;
+        }
+
+        function aprovaOuReprova(numero) {
+            return numero % 2 === 0;
+        }
+        function PAGAR (){
+            const numeroCartao = document.getElementById('numeroCartao').value;
+            const cvv = document.getElementById('cvv').value;
+
+            if (!preencheuNomeTitular()) {
+                messageStatus('Preencha o nome do titular!', true);
+                return;
+            }
+            else if (!preencheuNumeroCartao() || !contemApenasNumeros(numeroCartao)) {
+                messageStatus('Preencha um número de cartão válido!', true);
+                return;
+            }
+
+            else if (!preencheuDataValidade()) {
+                messageStatus('Preencha a data de validade!', true);
+                return;
+            }
+
+
+            else if (!preencheuCVV() || !contemApenasNumeros(cvv)) {
+                messageStatus('Preencha um código de segurança válido!', true);
+                return;
+            }
+
+            else if (aprovaOuReprova(parseInt(cvv))) {
+                messageStatus('Pagamento não aprovado!', true);
+                //window.location.href = 'resultado_busca.html';
+                return;
+            }
+
+            messageStatusFinal('Pagamento realizado com sucesso!', false);
+            window.location.href = 'pagamentoAprovado.html';
+
+
+        }
+
+    </script>
 </head>
 <body>
     <div id="header_page">
@@ -41,9 +151,16 @@
             <!-- colocar, no lado dessa div class container, outra div só que com a imagem dos bancos! -->
         </form>
         <p id="status" class="statusError"></p>
+
+        <button type="button" onclick="PAGAR()">PAGAR</button>
+        <p id="statusFINAL" class="statusErrorFINAL"></p>
     </div>
-    <div class="container">
-        <button type="button">PAGAR</button>
+    <!-- <div class="container">
+        
+    </div> -->
+    <p></p> <!-- nao sei dar espaco normal -->
+    <div id="footer">
+        <p>  Copyright VeniceAir - 2023. Todos os direitos reservados.</p>
     </div>
 </body>
 </html>

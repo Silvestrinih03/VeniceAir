@@ -53,3 +53,8 @@ body {
   button:hover {
     background-color: #005bad;
   }
+
+.aprovado {
+    max-width: 90px;
+    height: auto;
+}
