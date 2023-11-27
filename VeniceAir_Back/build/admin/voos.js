@@ -55,8 +55,9 @@ exports.vooRouter.get("/listarVoos", (req, res) => __awaiter(void 0, void 0, voi
 exports.vooRouter.post("/inserirVoo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const trecho = req.body.trecho;
     const data_partida = new Date(req.body.data_partida);
+    data_partida.setDate(data_partida.getDate() + 1);
     // teste
-    // console.log('dataa =', data_partida);
+    console.log('dataa que a /inserirVoo esta recebendo =', data_partida);
     const hora_partida = req.body.hora_partida;
     const hora_chegada = req.body.hora_chegada;
     const aeroporto_partida = req.body.aeroporto_partida;

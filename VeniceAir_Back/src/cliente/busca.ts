@@ -95,10 +95,12 @@ buscaRouter.post("/buscarVoo", async(req,res)=>{
   const cidadeOrigem = req.body.ori;
   const cidadeDestino = req.body.dest;
   const dataIda = new Date(req.body.dt);
+  dataIda.setDate(dataIda.getDate() + 1);
+
   
   console.log('cidadeOrigem =', cidadeOrigem);
   console.log('cidadeDestino =', cidadeDestino);
-  console.log('dataIda =', dataIda);
+  console.log('dataIda GAMBIARRA=', dataIda);
   
   let cr: CustomResponse = {status: "ERROR", message: "", payload: undefined,};
 

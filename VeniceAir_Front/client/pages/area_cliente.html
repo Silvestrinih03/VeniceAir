@@ -269,6 +269,7 @@
           function Verificar(){
             const tipoPassagem = document.getElementById('campo_select').value;
             if (!preencheuTipoPassagem()) {
+              //alert("PRENCHE O TIPO DA PASAGE.");
                 messageStatusBUSCA('Selecione o tipo de passagem!', true);
                   return; }
             if (!preencheuPartida()) {
