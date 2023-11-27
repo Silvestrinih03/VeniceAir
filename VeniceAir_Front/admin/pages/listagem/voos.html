@@ -28,16 +28,13 @@
                 }
     
                 function listarVoos(){
-                            const dataBody = document.getElementById('dataBody');
+                    const dataBody = document.getElementById('dataBody');
                     fetchListar()
                         .then(customResponse => {
                         if(customResponse.status === "SUCCESS"){
-                            
                             // Limpa qualquer conteúdo anterior da tabela
                             dataBody.innerHTML = '';
-    
                             // Preenche a tabela com os dados da resposta
-                            // Editar???
                             customResponse.payload.forEach(item => {
                                 const idvoo = item[0];
                                 const trecho_origem = item[1];
