@@ -100,6 +100,9 @@
         document.addEventListener('DOMContentLoaded', function () {
               carregarOrigens('campo_select2');
               carregarDestinos('campo_select3');
+
+
+
               // saida('campo_select');
               // saida('campo_select2');
               // saida('campo_select3');
@@ -119,6 +122,9 @@
           function tipoPassagemAlterado() {
             const tipoSelecionado = document.getElementById('campo_select').value;
             console.log('Tipo de passagem selecionado:', tipoSelecionado);
+            const campoDataVolta = document.getElementById('campo_data_volta');
+            campoDataVolta.disabled = tipoSelecionado === '1';
+            campoDataVolta.value = '';
           }
 
           function dataIdaAlterada() {
@@ -186,6 +192,16 @@
                       console.error('Erro ao carregar cidades:', error);
                   });
           }
+
+
+        
+          
+
+
+
+
+
+
 
           // Funções para verificar o preenchimento de cada campo da busca
 
