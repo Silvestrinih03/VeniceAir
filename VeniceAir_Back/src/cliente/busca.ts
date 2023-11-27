@@ -83,6 +83,7 @@ type CustomResponse = {
 //   }
 // });
 
+// Rota buscar voo
 buscaRouter.post("/buscarVoo", async(req,res)=>{
   //const cidadeOrigem = req.body.ori;
   
@@ -135,7 +136,7 @@ buscaRouter.post("/buscarVoo", async(req,res)=>{
 
 
 
-
+// Rota selecionar um voo
 buscaRouter.get("/selecionouVoo/:codigo", async(req,res)=>{
   const codigo = req.params.codigo;
 

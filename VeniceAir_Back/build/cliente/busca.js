@@ -80,6 +80,7 @@ dotenv_1.default.config();
 //     res.send(cr);
 //   }
 // });
+// Rota buscar voo
 exports.buscaRouter.post("/buscarVoo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //const cidadeOrigem = req.body.ori;
     //const cidadeDestino = req.body.dest;
@@ -119,6 +120,7 @@ exports.buscaRouter.post("/buscarVoo", (req, res) => __awaiter(void 0, void 0, v
         res.send(cr);
     }
 }));
+// Rota selecionar um voo
 exports.buscaRouter.get("/selecionouVoo/:codigo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const codigo = req.params.codigo;
     let cr = { status: "ERROR", message: "", payload: undefined, };

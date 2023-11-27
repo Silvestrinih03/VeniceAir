@@ -22,7 +22,7 @@ const port = 3000;
 exports.vooRouter.use(express_1.default.json());
 exports.vooRouter.use((0, cors_1.default)());
 dotenv_1.default.config();
-// Função OK
+// Rota criada para listar os voos cadastrados no banco
 exports.vooRouter.get("/listarVoos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let cr = { status: "ERROR", message: "", payload: undefined, };
     try {
@@ -51,12 +51,12 @@ exports.vooRouter.get("/listarVoos", (req, res) => __awaiter(void 0, void 0, voi
         res.send(cr);
     }
 }));
-// Função OK
+// Rota criada para inserir voos
 exports.vooRouter.post("/inserirVoo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const trecho = req.body.trecho;
     const data_partida = new Date(req.body.data_partida);
     // teste
-    console.log('dataa =', data_partida);
+    // console.log('dataa =', data_partida);
     const hora_partida = req.body.hora_partida;
     const hora_chegada = req.body.hora_chegada;
     const aeroporto_partida = req.body.aeroporto_partida;
@@ -100,7 +100,7 @@ exports.vooRouter.post("/inserirVoo", (req, res) => __awaiter(void 0, void 0, vo
         res.send(cr);
     }
 }));
-// Função OK
+// Rota criada para excluir voos cadastrados no banco
 exports.vooRouter.delete("/excluirVoo/:codigo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const codigo = req.params.codigo;
     console.log('codigo p excluir', codigo);
@@ -139,7 +139,7 @@ exports.vooRouter.delete("/excluirVoo/:codigo", (req, res) => __awaiter(void 0, 
         res.send(cr);
     }
 }));
-// Função OK - Rota para editar voo
+// Rota criada para editar os voos cadastrados no banco - lista os campos para que o usuário possa editar
 exports.vooRouter.get("/listarVoo/:codigo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const codigo = req.params.codigo;
     let cr = { status: "ERROR", message: "", payload: undefined, };

@@ -18,7 +18,7 @@ type CustomResponse = {
   payload: any
 };
 
-// Função OK
+// Rota criada para listar os voos cadastrados no banco
 vooRouter.get("/listarVoos", async(req,res)=>{
 
   let cr: CustomResponse = {status: "ERROR", message: "", payload: undefined,};
@@ -50,17 +50,18 @@ vooRouter.get("/listarVoos", async(req,res)=>{
 
 });
 
-// Função OK
+// Rota criada para inserir voos
 vooRouter.post("/inserirVoo", async (req, res) => {
   const trecho = req.body.trecho as number;
   const data_partida = new Date(req.body.data_partida);
   // teste
-  console.log('dataa =', data_partida);
+  // console.log('dataa =', data_partida);
   const hora_partida = req.body.hora_partida as string;
   const hora_chegada = req.body.hora_chegada as string;
   const aeroporto_partida = req.body.aeroporto_partida as number;
   const aeroporto_chegada = req.body.aeroporto_chegada as number;
   const valor = req.body.valor as number;
+
 
   let cr = {
     status: "ERROR",
@@ -106,7 +107,7 @@ vooRouter.post("/inserirVoo", async (req, res) => {
 
 
 
-// Função OK
+// Rota criada para excluir voos cadastrados no banco
 vooRouter.delete("/excluirVoo/:codigo", async (req, res) => {
   const codigo = req.params.codigo;
   console.log('codigo p excluir', codigo);
@@ -148,7 +149,7 @@ vooRouter.delete("/excluirVoo/:codigo", async (req, res) => {
 });
 
 
-// Função OK - Rota para editar voo
+// Rota criada para editar os voos cadastrados no banco - lista os campos para que o usuário possa editar
 vooRouter.get("/listarVoo/:codigo", async(req,res)=>{
   const codigo = req.params.codigo;
 

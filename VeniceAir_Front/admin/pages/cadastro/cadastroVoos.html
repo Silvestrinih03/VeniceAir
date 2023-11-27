@@ -120,6 +120,28 @@
                 return resultado;
             }
 
+            // não funcionaaaaaaaaaaaa
+            // function dataErrada() {
+            //     let resultado = false;
+                
+            //     // Obter a data atual
+            //     const dataAtual = new Date();
+            //     const anoAtual = dataAtual.getFullYear();
+            //     const mesAtual = (dataAtual.getMonth() + 1).toString().padStart(2, '0');
+            //     const diaAtual = dataAtual.getDate().toString().padStart(2, '0');
+            //     const dataAtualFormatada = new Date(`${anoAtual}-${mesAtual}-${diaAtual}`);
+
+            //     // Obter a data selecionada
+            //     const dataSelecionada = new Date(document.getElementById('data').value);
+
+            //     // Verificar se a data selecionada é maior ou igual à data atual
+            //     if (dataSelecionada < dataAtualFormatada) {
+            //         resultado = true;
+            //     }
+            //     return resultado;
+            // }
+
+
             function MessageStatus(msg, error){
                 var pStatus = document.getElementById("status");
 
@@ -156,33 +178,39 @@
                     return
                 }
             
-                if(!preencheuData()){
+                else if(!preencheuData()){
                     MessageStatus("Preencha a data!", true);
                     return
                 }
 
-                if(!preencheuHorario()){
+                // não funcionaaaaaaaaaa
+                // else if (dataErrada==true){
+                //     MessageStatus("A data do voo deve ser igual ou maior que a data atual!", true);
+                //     return
+                // }
+
+                else if(!preencheuHorario()){
                     MessageStatus("Preencha o horário!", true);
                     return
                 }
 
-                if (!preencheuAeroportoPartida()){
+                else if (!preencheuAeroportoPartida()){
                     MessageStatus("Preencha o aeroporto de partida!", true)
                 }
 
-                if (!preencheuAeroportoChegada()){
+                else if (!preencheuAeroportoChegada()){
                     MessageStatus("Preencha o aeroporto de chegada!", true)
                 }
 
-                if(!preencheuValor()){
+                else if(!preencheuValor()){
                     MessageStatus("Preencha o valor!", true);
                     return
                 }
 
                 // trecho, data, horapartida, horachegada, aeroportopartida, aeroportochegada, valor
-
                 const Trecho = document.getElementById("comboTrechos").value;
-                const Data = document.getElementById("data").value;
+                // const Data = document.getElementById("data").value;
+                const Data = new Date(document.getElementById("data").value).toISOString().split('T')[0]; // Ajuste aqui
                 const HorarioPartida = document.getElementById("horarioUm").value;
                 const HorarioChegada = document.getElementById("horarioDois").value;
                 const AeroportoPartida = document.getElementById("comboAeroportoUm").value;
