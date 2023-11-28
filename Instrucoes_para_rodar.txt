@@ -1,22 +1,24 @@
-1º Abrir o arquivo no VS Code
+1º Clonar repositório do GIT - https://github.com/Silvestrinih03/VeniceAir/
 
-2º Acessar VPN da PUC 
+2º Abrir o arquivo no VS Code
 
-3º Conectar banco oracle utilizando o usuário cadastrado no arquivo .env
+3º Acessar VPN da PUC 
+
+4º Conectar banco oracle utilizando o usuário cadastrado no arquivo .env
     Usuário: bd190923114
     Senha: Hthwp4
     Conexão: 172.16.12.14/xe
 
-4º Abrir terminal no caminho "C:\Users\nsgar\OneDrive\Área de Trabalho\VeniceAir\VeniceAir_Back"
+5º Abrir terminal no caminho "C:\Users\nsgar\OneDrive\Área de Trabalho\VeniceAir\VeniceAir_Back"
 
-5º Rodar o comando "npm run start"
+6º Rodar o comando "npm run start"
 
-6º Abrir no Chrome o arquivo dashboard.html
+7º Abrir no Chrome o arquivo dashboard.html
     Caminho: C:\Users\nsgar\OneDrive\Área de Trabalho\VeniceAir\VeniceAir_Front\Geral
 
-7º Para acessar o módulo 1 - listagem, cadastro, edição e exclusão de cidades, trechos, aeroportos, aeronaves e voos escolher opção "ADMIN"
+8º Para acessar o módulo 1 - listagem, cadastro, edição e exclusão de cidades, trechos, aeroportos, aeronaves e voos escolher opção "ADMIN"
 
-8º Para acessar o módulo 2 - Busca e compra de voos como cliente escolher opção "CLIENTE"
+9º Para acessar o módulo 2 - Busca e compra de voos como cliente escolher opção "CLIENTE"
 
 DICA DE VOOS CADASTRADOS PARA BUSCA:
             ORIGEM - DESTINO                    DATA
