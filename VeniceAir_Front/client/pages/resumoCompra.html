@@ -19,10 +19,12 @@
 
            const valorArmazenado = sessionStorage.getItem('Tipo');
            console.log('Valor armazenado:', valorArmazenado);
-            // Verificar se o valor de Tipo é igual a 2 e mostrar o elemento se verdadeiro
-            if (valorArmazenado === '2') {
-                            document.getElementById('botaoEscolherVolta').style.display = 'block';
-                        }
+
+           // Verificar se o valor de Tipo é igual a 2 e mostrar o elemento se verdadeiro
+            // if (valorArmazenado === '2') {
+            //     // Ocultar o container com id "padrao_button" se o Tipo for igual a 2
+            //     document.getElementById('padrao_button').style.display = 'none';
+            // }
 
        });
 
@@ -162,6 +164,7 @@
 
             //     else return;
             // }
+            
     </script>
 </head>
 <body>
@@ -198,14 +201,14 @@
         </table>
 
         </div>
-        <div class="containerInvisivel" id="botaoEscolherVolta">
-            <!-- <button type="button"> >Escolher Voo de Volta</button>-->
-            <!-- <button id="padrao_button"><a href="../admin/pages/area_admin.html">Admin</a></button> -->
+        <!-- <div class="containerInvisivel" id="botaoEscolherVolta">
+             <button type="button"> >Escolher Voo de Volta</button>-->
+            <!-- <button id="padrao_button"><a href="../admin/pages/area_admin.html">Admin</a></button>
             <button id="padrao_button"><a href="./volta/resultadoVolta.html">Escolher voo de volta</a></button>
 
         </div>
-        <!-- DIV PARA VOLTA INVISIVEL? -->
-    <div class="container">
+        DIV PARA VOLTA INVISIVEL? -->
+    <div class="container" id="containerOculto">
         <p>Preencha todos os campos para prosseguir.</p>
         <form id="finaliza_pagamento">
             <label for="nome">Nome</label>
