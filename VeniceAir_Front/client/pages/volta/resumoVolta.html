@@ -8,7 +8,7 @@
      <link href="../assets/pagamento.css" rel="stylesheet"/>
     <link href="../../admin/assets/css/listagem.css" rel="stylesheet"/> -->
     <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet"/>
-     <link href="../../assets/pagamento.css" rel="stylesheet"/>
+     <link href="../../assets/css/pagamento.css" rel="stylesheet"/>
     <link href="../../../admin/assets/css/listagem.css" rel="stylesheet"/>
     <script>
 
@@ -45,11 +45,19 @@
                    pStatus.textContent = msg;
         }
 
-        function messageStatusBUSCA(msg, error) {
-          const pStatusBUSCA = document.getElementById('statusBUSCA');
-          pStatusBUSCA.className = error ? 'statusErrorBUSCA' : 'statusSuccessBUSCA';
-          pStatusBUSCA.textContent = msg;
-      }
+        function MessageStatusVOLTA(msg, error){
+                   var pStatus = document.getElementById("status");
+   
+                   if(error === true){
+                       pStatus.className = " statusError";
+                   }
+                   else{
+                       pStatus.className = 'statusSuccess'
+                   }
+                   pStatus.textContent = msg;
+        }
+
+
 
         function fetchApareceIda(id) {
                 const url = `http://localhost:3000/selecionouVoo/${id}`;
@@ -116,14 +124,14 @@
                                     cell9.textContent = valor;
                                 });
 
-                    messageStatusBUSCA('Voo encontrado!', false);
+                    messageStatusVOLTA('Voo encontrado!', false);
                     } else {
-                    messageStatusBUSCA('Erro ao buscar voo: ' + customResponse2.message, true);
+                    messageStatusVOLTA('Erro ao buscar voo: ' + customResponse2.message, true);
                     console.log(customResponse2.message);
                     }
                     })
                     .catch((e) => {
-                    messageStatusBUSCA('Erro técnico ao buscar voo. Contate o suporte.', true);
+                    messageStatusVOLTA('Erro técnico ao buscar voo. Contate o suporte.', true);
                     console.log('Falha grave ao buscar voo.' + e);
                     });
                 }
@@ -213,7 +221,7 @@
                         MessageStatus('Preencha o email!', true);
                         return;
                     }
-                    else { window.location.href = 'pagamentoCartao.html';}
+                    else { window.location.href = '/VeniceAir_Front/client/pages/pagamentoCartao.html';}
                 }
 
                 function VerificarPix(){
@@ -225,7 +233,7 @@
                         MessageStatus('Preencha o email!', true);
                         return;
                     }
-                    else { window.location.href = 'pagamentoPix.html';}
+                    else { window.location.href = '/VeniceAir_Front/client/pages/pagamentoPix.html';}
                 }
 
             // function exibeContainer(){
@@ -315,7 +323,5 @@
         </form>
         <p id="status" class="statusError"></p>
     </div>
-    <p> remover essa linha aqui de voo encontrado dps</p>
-    <p id="statusBUSCA" class="statusErrorBUSCA"></p>
 </body>
 </html>

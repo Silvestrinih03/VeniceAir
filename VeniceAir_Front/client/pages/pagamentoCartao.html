@@ -8,6 +8,16 @@
     <link href="../assets/css/pagamento.css" rel="stylesheet"/>
     <script>
 
+        let TT = sessionStorage.getItem("Tipo");
+        console.log("Tipo da passaggggem ", TT)
+
+        function ondeVolta() {
+            const voltarOnde = sessionStorage.getItem("Tipo");
+            //console.log("voltarOnde = ", voltarOnde);
+            if (voltarOnde === '2')
+                { window.location.href = '/VeniceAir_Front/client/pages/volta/resumoVolta.html'}  
+            else { window.location.href = '/VeniceAir_Front/client/pages/resumoCompra.html'}
+        }
         function messageStatus(msg, error) {
             const pStatus = document.getElementById('status');
             if (error) {
@@ -127,7 +137,7 @@
             <h1>VeniceAir <br> Pagamento por cartão</h1>
         </div>
         <div id="button_padrao">
-            <button id="padrao_button"><a href="resumoCompra.html">Voltar</a></button>
+            <button id="padrao_button" onclick="ondeVolta()">Voltar</button>
         </div>
     </div>
     <div class="container">

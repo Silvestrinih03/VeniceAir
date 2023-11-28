@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VeniceAir Pagamento</title>
     <link href="../../Geral/assets/css/header_page.css" rel="stylesheet"/>
-     <link href="../assets/pagamento.css" rel="stylesheet"/>
+     <link href="../assets/css/pagamento.css" rel="stylesheet"/>
     <link href="../../admin/assets/css/listagem.css" rel="stylesheet"/>
     <script>
 
@@ -20,11 +20,12 @@
            const valorArmazenado = sessionStorage.getItem('Tipo');
            console.log('Valor armazenado:', valorArmazenado);
 
-           // Verificar se o valor de Tipo é igual a 2 e mostrar o elemento se verdadeiro
-            // if (valorArmazenado === '2') {
-            //     // Ocultar o container com id "padrao_button" se o Tipo for igual a 2
-            //     document.getElementById('padrao_button').style.display = 'none';
-            // }
+           //Verificar se o valor de Tipo é igual a 2 e mostrar o elemento se verdadeiro
+            if (valorArmazenado === '2') {
+                // Ocultar o container com id "padrao_button" se o Tipo for igual a 2
+                document.getElementById('containerInvisivel').style.display = 'block';
+                document.getElementById('containerOculto').style.display = 'none';
+            }
 
        });
 
@@ -201,14 +202,13 @@
         </table>
 
         </div>
-        <!-- <div class="containerInvisivel" id="botaoEscolherVolta">
-             <button type="button"> >Escolher Voo de Volta</button>-->
-            <!-- <button id="padrao_button"><a href="../admin/pages/area_admin.html">Admin</a></button>
+         <div class="containerInvisivel" id="containerInvisivel">
+             <!--<button type="button"> >Escolher Voo de Volta</button>
+             <button id="padrao_button"><a href="../admin/pages/area_admin.html">Admin</a></button> -->
             <button id="padrao_button"><a href="./volta/resultadoVolta.html">Escolher voo de volta</a></button>
+         </div>
 
-        </div>
-        DIV PARA VOLTA INVISIVEL? -->
-    <div class="container" id="containerOculto">
+        <div class="container" id="containerOculto">
         <p>Preencha todos os campos para prosseguir.</p>
         <form id="finaliza_pagamento">
             <label for="nome">Nome</label>
