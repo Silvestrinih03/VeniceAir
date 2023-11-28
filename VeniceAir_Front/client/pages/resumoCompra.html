@@ -14,6 +14,16 @@
 
         document.addEventListener('DOMContentLoaded', function () {
            apareceIda();
+           
+
+
+           const valorArmazenado = sessionStorage.getItem('Tipo');
+           console.log('Valor armazenado:', valorArmazenado);
+            // Verificar se o valor de Tipo é igual a 2 e mostrar o elemento se verdadeiro
+            if (valorArmazenado === '2') {
+                            document.getElementById('botaoEscolherVolta').style.display = 'block';
+                        }
+
        });
 
        function MessageStatus(msg, error){
@@ -142,6 +152,16 @@
                     }
                     else { window.location.href = 'pagamentoPix.html';}
                 }
+
+            // function exibeContainer(){
+            //     var recebeTipo = sessionStorage.getItem("TIPO DA PASSAGEM");
+            //     if (recebeTipo === '2')
+            //         {
+            //             document.querySelector('.containerInvisivel').style.display = 'block';
+            //         }
+
+            //     else return;
+            // }
     </script>
 </head>
 <body>
@@ -177,6 +197,9 @@
             </tbody>
         </table>
 
+        </div>
+        <div class="containerInvisivel" id="botaoEscolherVolta">
+            <button type="button" >Escolher Voo de Volta</button>
         </div>
         <!-- DIV PARA VOLTA INVISIVEL? -->
     <div class="container">

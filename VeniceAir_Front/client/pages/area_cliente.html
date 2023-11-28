@@ -10,6 +10,8 @@
       <!-- Link CSS - Desing da página -->
       <link href="../assets/area_cliente.css" rel="stylesheet"/>
       <script>
+
+        let ajuda;
         // Script 1 - Envia avaliação do usuário
         // Função para verificar se o campo de "Nome" foi preenchido
         function preencheuNome() {
@@ -117,10 +119,13 @@
               const dataVoltaInput = document.getElementById('campo_data_volta');
               dataVoltaInput.addEventListener('change', dataVoltaAlterada);
 
+              
+
           });
 
           function tipoPassagemAlterado() {
             const tipoSelecionado = document.getElementById('campo_select').value;
+            sessionStorage.setItem('Tipo', tipoSelecionado);
             console.log('Tipo de passagem selecionado:', tipoSelecionado);
             const campoDataVolta = document.getElementById('campo_data_volta');
             campoDataVolta.disabled = tipoSelecionado === '1';
@@ -135,6 +140,7 @@
           function dataVoltaAlterada() {
             const dataVoltaSelecionada = document.getElementById('campo_data_volta').value;
             console.log('Data de volta selecionada:', dataVoltaSelecionada);
+            sessionStorage.setItem('DataVolta', dataVoltaSelecionada);
           }
 
           //
