@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VeniceAir Buscas</title>
-    <link href="../../Geral/assets/css/header_page.css" rel="stylesheet"/>
-    <link href="../../admin/assets/css/listagem.css" rel="stylesheet"/>
+    <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet"/>
+    <link href="../../../admin/assets/css/listagem.css" rel="stylesheet"/>
     <script>
                 let ori = sessionStorage.getItem("ORIGEM");    
                 console.log("ori: ",ori)
@@ -13,7 +13,7 @@
                 let dest = sessionStorage.getItem("DESTINO");    
                 console.log("dest: ", dest)
 
-                let dt = sessionStorage.getItem("DATAIDA");    
+                let dt = sessionStorage.getItem("DataVolta");    
                 console.log("dt: ", dt)
 
                 let volta = sessionStorage.getItem("DataVolta");
@@ -42,8 +42,8 @@
       }
 
       function selecionarVoo(idVoo) {
-            sessionStorage.setItem('ID_VOO_SELECIONADO', idVoo);
-            window.location.href = 'mapaAssentos.html'; // Substitua 'outra_pagina.html' pelo URL desejado
+            sessionStorage.setItem('ID_VOO_SELECIONADO_VOLTA', idVoo);
+            window.location.href = 'mapaAssentosVolta.html'; // Substitua 'outra_pagina.html' pelo URL desejado
         }
 
       function fetchBuscarVoo({ ori: origem, dest: destino, dt: data }) {
@@ -52,7 +52,7 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ ori, dest, dt })
             };
-            return fetch('http://localhost:3000/buscarVoo', requestOptions).then(T => T.json());
+            return fetch('http://localhost:3000/buscarVooVolta', requestOptions).then(T => T.json());
         }
                 
                function fetchListar() {
@@ -144,13 +144,13 @@
 <body>
     <div id="header_page">
         <div id="img_logo">
-            <img src="../../Geral/assets/images/logo.png"> 
+            <img src="../../../Geral/assets/images/logo.png"> 
         </div>
         <div id="title_page">
-            <h1>VeniceAir <br> Resultado da busca</h1>
+            <h1>VeniceAir <br> Resultado da busca VOLTA</h1>
         </div>
         <div id="button_padrao">
-            <button id="padrao_button"><a href="area_cliente.html">Voltar</a></button>
+            <button id="padrao_button"><a href="../resumoCompra.html">Voltar</a></button>
         </div>
     </div>
     <table id="dataTable">

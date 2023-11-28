@@ -4,13 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VeniceAir Pagamento</title>
-    <link href="../../Geral/assets/css/header_page.css" rel="stylesheet"/>
+    <!-- <link href="../../Geral/assets/css/header_page.css" rel="stylesheet"/>
      <link href="../assets/pagamento.css" rel="stylesheet"/>
-    <link href="../../admin/assets/css/listagem.css" rel="stylesheet"/>
+    <link href="../../admin/assets/css/listagem.css" rel="stylesheet"/> -->
+    <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet"/>
+     <link href="../../assets/pagamento.css" rel="stylesheet"/>
+    <link href="../../../admin/assets/css/listagem.css" rel="stylesheet"/>
     <script>
 
         let id = sessionStorage.getItem("ID_VOO_SELECIONADO");
         console.log("ID_VOO_SELECIONADO: ", id)
+
+        let id2 = sessionStorage.getItem("ID_VOO_SELECIONADO_VOLTA");
+        console.log("ID_VOO_SELECIONADO_VOLTA: ", id2);
 
         document.addEventListener('DOMContentLoaded', function () {
            apareceIda();
@@ -167,13 +173,13 @@
 <body>
     <div id="header_page">
         <div id="img_logo">
-            <img src="../../Geral/assets/images/logo.png"> 
+            <img src="../../../Geral/assets/images/logo.png"> 
         </div>
         <div id="title_page">
-            <h1>VeniceAir <br>Resumo da compra</h1>
+            <h1>VeniceAir <br>Resumo da compra: volta</h1>
         </div>
         <div id="button_padrao">
-            <button id="padrao_button"><a href="mapaAssentos.html">Voltar</a></button>
+            <button id="padrao_button"><a href="mapaAssentosVolta.html">Voltar</a></button>
         </div>
     </div>
     <div class="container">
