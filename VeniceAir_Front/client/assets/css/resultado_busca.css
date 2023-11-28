@@ -1,0 +1,19 @@
+
+#dataTable{
+    width: 100%;
+}
+
+#dataBody{
+    text-align: center;
+}
+
+tr, th{
+    padding: 10px 15px;
+    background-color: #0073e669;
+    height: 80px;
+    border-radius: 5px;
+}
+
+th{
+    height: 40px;
+}
