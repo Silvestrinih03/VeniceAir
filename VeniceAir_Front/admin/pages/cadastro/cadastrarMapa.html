@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VeniceAir - AERONAVES</title>
+    <link rel="stylesheet" href="../../../Geral/assets/css/header_page.css"/>
+    <link rel="stylesheet" href="../../assets/css/tela_cadastro.css"/>
+    <link href="../../assets/css/tela_excluir.css" rel="stylesheet"/>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            carregarAeronaves('aeronaves');
+            carregarVoos('voos');
+        });
+
+        let aeronaveSel;
+
+        // Função para carregar as cidades do banco no campo de seleção
+        function carregarAeronaves(idSelect) {
+            fetch('http://localhost:3000/listarAeronaves')
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById(idSelect);
+
+                    // Adiciona um ouvinte de evento para capturar a seleção
+            select.addEventListener('change', function () {
+                // Obtém o ID da cidade selecionada
+                aeronaveSel = select.value;
+                console.log('ID da aeronave selecionada:', aeronaveSel);
+                // Chama outras funções ou realiza outras ações necessárias
+            });
+
+                    data.payload.forEach(aeronave => {
+                        const option = document.createElement('option');
+                        const optionText = `${aeronave[0]} : ${aeronave[1]}  ➡️  ${aeronave[2]}`; 
+                        option.value = aeronave[0];
+                        option.text = optionText;
+                        select.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar aeronaves:', error);
+                });
+        }
+
+
+        let vooSel;
+
+        function carregarVoos(idSelect) {
+            fetch('http://localhost:3000/listarVoos')
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById(idSelect);
+
+                    // Adiciona um ouvinte de evento para capturar a seleção
+                    select.addEventListener('change', function () {
+                    // Obtém o ID do voo selecionado
+                    vooSel = select.value;
+                    console.log('ID do voo selecionado:', vooSel);
+                    // Chama outras funções ou realiza outras ações necessárias
+                });
+
+                    data.payload.forEach(voo => {
+                        const option = document.createElement('option');
+                        const optionText = `${voo[0]} : ${voo[1]}  ➡️  ${voo[2]}`; 
+                        option.value = voo[0];
+                        option.text = optionText;
+                        select.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar voos:', error);
+                });
+        }
+
+        function messageStatus(msg, error) {
+            const pStatus = document.getElementById('status');
+            if (error) {
+                pStatus.className = 'statusError';
+            } else {
+                pStatus.className = 'statusSuccess';
+            }
+            pStatus.textContent = msg;
+        }
+
+        function messageStatusVoo(msg, error) {
+            const pStatus = document.getElementById('statusVoo');
+            if (error) {
+                pStatus.className = 'statusErrorVoo';
+            } else {
+                pStatus.className = 'statusSuccessVoo';
+            }
+            pStatus.textContent = msg;
+        }
+
+        function messageStatusMapa(msg, error) {
+            const pStatus = document.getElementById('statusMapa');
+            if (error) {
+                pStatus.className = 'statusErrorMapa';
+            } else {
+                pStatus.className = 'statusSuccessMapa';
+            }
+            pStatus.textContent = msg;
+        }
+
+        function escolhiAeronave() {
+            const aeronaveSelecionada = document.getElementById('aeronaves').value;
+            return aeronaveSelecionada !== '0';
+        }
+
+        function escolhiVoo() {
+            const vooSelecionado = document.getElementById('voos').value;
+            return vooSelecionado !== '0';
+        }
+
+        function acessarAeronave() {
+            if (!escolhiAeronave()) {
+                messageStatus('Selecione uma aeronave!', true);
+                return;
+            }
+
+            document.querySelector('.containerInvisivel').style.display = 'block';
+            segundoContainerVisivel = true;
+            document.getElementById('status').style.display = 'none';
+
+        }
+
+        function acessarVoo() {
+            if (!escolhiVoo()) {
+                messageStatusVoo('Selecione um voo!', true);
+                return;
+            }
+
+            document.querySelector('.containerOculto').style.display = 'block';
+            segundoContainerVisivel = true;
+            document.getElementById('statusVoo').style.display = 'none';
+
+        }
+
+        function preenchiAssentos(){
+            let resultado = false;
+            const num = document.getElementById('qntAssentos').value;
+            if(num.length > 0){
+                resultado = true;
+            }
+            return resultado;
+        }
+
+        function cadastrarMapa(){
+            if (!preenchiAssentos()) {
+                messageStatusMapa('Digite a quantidade!', true);
+                return;
+            }
+        }
+    
+    </script>
+</head>
+<body>
+    <!-- Cabeçalho da página -->
+    <div id="header_page">
+      <div id="img_logo">
+        <img src="../../../Geral/assets/images/logo.png">
+      </div>
+      <div id="title_page">
+          <h1>VeniceAir <br> Cadastro de Mapa de Assentos do Voo</h1>
+      </div>
+      <div id="button_padrao">
+          <button id="padrao_button"><a href="../listagem/mapas.html">Voltar</a></button>
+      </div>
+    </div>
+
+    <!-- Formulário de cadastro -->
+    <div class="container">
+        <p>Selecione uma aeronave para cadastrar seus assentos</p>
+        <select name="aeronaves" id="aeronaves">
+            <option value="0" selected>Selecione o ID da aeronave que deseja mapear</option>
+        </select>
+        <button type="submit" id="Alterar" name="Alterar" onclick="acessarAeronave()">Escolher aeronave</button>
+        <!-- Mensagem de Status da função que verifica se o usuário selecionou o aeroporto para edição -->
+        <p id="status" class="statusError"></p>
+    </div>
+        <div class="containerInvisivel">
+            <select name="voos" id="voos">
+                <option value="0" selected>Selecione o voo que deseja vincular</option>
+            </select>
+            <button type="submit" id="Alterar" name="Alterar" onclick="acessarVoo()">Escolher voo</button>
+            <!-- Mensagem de Status da função que verifica se o usuário selecionou o aeroporto para edição -->
+            <p id="statusVoo" class="statusErrorVoo"></p>
+        </div>
+
+        <div class="containerOculto">
+            <p> Digite o número total de assentos: </p>
+            <input type="text" id="qntAssentos" name="qntAssentos" placeholder="ex.: 32"/>
+            <button type="submit" id="Alterar" name="Alterar" onclick="cadastrarMapa()">Cadastrar mapa de assentos</button>
+            <!-- Mensagem de Status da função que verifica se o usuário selecionou o aeroporto para edição -->
+            <p id="statusMapa" class="statusErrorMapa"></p>
+        </div>
+</body>
+</html>

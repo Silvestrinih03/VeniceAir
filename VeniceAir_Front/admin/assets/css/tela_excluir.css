@@ -19,6 +19,19 @@
     margin-top: 20px;
     justify-content: center;
 }
+
+.containerOculto {
+  display: none;
+  max-width: 1000px;
+  margin: 0 auto;
+  margin-top: 300px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  margin-top: 20px;
+  justify-content: center;
+}
   .container {
     max-width: 400px;
     margin: 0 auto;
