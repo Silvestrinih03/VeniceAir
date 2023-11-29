@@ -79,13 +79,15 @@
     if (!preencheuNomeCompleto()) {
         messageStatus('Preencha o nome do titular!', true);
         return;
-    } else if (!preencheuCPF() || !contemApenasNumeros(numCPF)) { // Corrigido aqui
+    } else if (!preencheuCPF() || !contemApenasNumeros(numCPF)) {
         messageStatus('Preencha um CPF válido!', true);
         return;
     } else if (aprovaOuReprova(parseInt(numCPF))) {
-        messageStatusFinal('Pagamento recusado!', true); // Corrigido aqui
+        //messageStatusFinal('Pagamento recusado!', true);
+        alert("PAGAMENTO RECUSADO!");
         return;
     } else {
+        console.log("cheguei aqui");
         messageStatusFinal('Pagamento realizado com sucesso!', false);
         window.location.href = 'pagamentoAprovado.html';
         
