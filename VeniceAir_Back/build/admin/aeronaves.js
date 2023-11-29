@@ -130,6 +130,7 @@ exports.aeronaveRouter.get("/listarAeronave/:codigo", (req, res) => __awaiter(vo
 // DELETAR AERONAVE DO BANCO
 exports.aeronaveRouter.delete("/excluirAeronave/:codigo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const codigo = req.params.codigo;
+    console.log("codigo=====", codigo);
     let cr = {
         status: "ERROR",
         message: "",
@@ -157,8 +158,11 @@ exports.aeronaveRouter.delete("/excluirAeronave/:codigo", (req, res) => __awaite
     }
     catch (e) {
         if (e instanceof Error) {
-            cr.message = e.message;
-            console.log(e.message);
+            // Verifique se a exceção é relacionada ao erro ORA-02292
+            if (e.message.includes("ORA-02292")) {
+                cr.message = "Não é possível excluir aeronave. Existem registros dependentes em outras tabelas.";
+                console.log(e.message);
+            }
         }
         else {
             cr.message = "Erro ao conectar ao Oracle. Sem detalhes";

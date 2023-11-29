@@ -141,6 +141,7 @@ aeronaveRouter.get("/listarAeronave/:codigo", async(req,res)=>{
 // DELETAR AERONAVE DO BANCO
 aeronaveRouter.delete("/excluirAeronave/:codigo", async (req, res) => {
   const codigo = req.params.codigo;
+  console.log("codigo=====", codigo);
 
   let cr = {
       status: "ERROR",
@@ -170,8 +171,10 @@ aeronaveRouter.delete("/excluirAeronave/:codigo", async (req, res) => {
       }
   } catch (e) {
       if (e instanceof Error) {
-          cr.message = e.message;
-          console.log(e.message);
+          // Verifique se a exceção é relacionada ao erro ORA-02292
+        if (e.message.includes("ORA-02292")) {
+        cr.message = "Não é possível excluir aeronave pois existe um mapa de assentos cadastrado para esta aeronave."; 
+          console.log(e.message); }
       } else {
           cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
       }

@@ -147,11 +147,83 @@
             return resultado;
         }
 
+        function fetchInserir(body) {
+          const requestOptions = {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(body),
+          };
+          return fetch('http://localhost:3000/inserirMapa', requestOptions).then(T => T.json());
+        }
+
+        function fetchProcedure(body) {
+          const requestOptions = {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(body),
+          };
+          return fetch('http://localhost:3000/procedureMapa', requestOptions).then(T => T.json())
+                .then(response => response.json())
+        .then(result => {
+            // Trate o resultado da procedure aqui, se necessário
+            console.log('Resultado da procedure:', result);
+            return result;
+        })
+        .catch(error => {
+            console.error('Erro ao chamar a procedure:', error);
+            throw error; // Propaga o erro para que seja tratado externamente, se necessário
+        });
+}
+        
+
         function cadastrarMapa(){
             if (!preenchiAssentos()) {
                 messageStatusMapa('Digite a quantidade!', true);
                 return;
             }
+
+            // agora vai
+            const aeronave  = document.getElementById('aeronaves').value;
+            console.log("a aeronavee: ", aeronave );
+            const voo = document.getElementById('voos').value;
+            console.log("a vooo: ", voo);
+            const total = document.getElementById('qntAssentos').value;
+            console.log("a totaalll: ", total);
+
+            //teste OK
+            const p_aeronave_id = document.getElementById('aeronaves').value;
+            sessionStorage.setItem('AERONAVEGUARDAR', p_aeronave_id);
+            console.log("AERONAVEGUARDAR: ", p_aeronave_id);
+
+            // ok!!
+            const p_voo_id = sessionStorage.getItem("IDVOOMAPA"); 
+            console.log("AAAAAAAAAAAAAA: ", p_voo_id);
+
+            fetchProcedure({p_aeronave_id});
+
+            fetchInserir({
+                aeronave: aeronave, // Corrigido o nome da propriedade
+                voo: voo,
+                total: total,
+            })
+            .then(customResponse => {
+                if (customResponse.status === 'SUCCESS') {
+                    messageStatusMapa('Mapa cadastrado com sucesso.', false);
+                    // // Limpar campos após o sucesso
+                    // document.getElementById("fabricante").value = "0";
+                    // document.getElementById("modelo").value = "";
+                    // document.getElementById("anofab").value = "";
+                    // document.getElementById("qtdeAssentos").value = "";
+                    
+                } else {
+                    messageStatusMapa('Erro ao cadastrar mapa: ' + customResponse.message, true);
+                    console.log(customResponse.message);
+                }
+            })
+            .catch((e) => {
+                messageStatusMapa('Erro técnico ao cadastrar. Contate o suporte.', true);
+                console.log('Falha grave ao cadastrar.' + e);
+            });
         }
     
     </script>
@@ -181,8 +253,9 @@
         <p id="status" class="statusError"></p>
     </div>
         <div class="containerInvisivel">
+            <p>Selecione o voo que deseja vincular</p>
             <select name="voos" id="voos">
-                <option value="0" selected>Selecione o voo que deseja vincular</option>
+                <option value="0" selected>Selecione o voo</option>
             </select>
             <button type="submit" id="Alterar" name="Alterar" onclick="acessarVoo()">Escolher voo</button>
             <!-- Mensagem de Status da função que verifica se o usuário selecionou o aeroporto para edição -->

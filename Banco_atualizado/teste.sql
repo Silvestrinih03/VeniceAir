@@ -1,0 +1,48 @@
+
+CREATE SEQUENCE SEQ_MAPA_DE_ASSENTOS START WITH 1 INCREMENT BY 1;
+
+CREATE TABLE MAPA_DE_ASSENTOS (
+    ID_MAPA integer PRIMARY KEY NOT NULL,
+    AERONAVE integer NOT NULL,
+    VOO integer NOT NULL,
+    TOTAL_ASSENTOS integer NOT NULL,
+    FOREIGN KEY (AERONAVE) REFERENCES AERONAVES(ID_AERONAVE),
+    FOREIGN KEY (VOO) REFERENCES VOOS(ID_VOO)
+);
+
+CREATE TABLE ASSENTO (
+    ID_ASSENTO integer PRIMARY KEY NOT NULL,
+    NUM_ASSENTO varchar2(4) NOT NULL,
+    STATUS_ASSENTO integer NOT NULL,
+    COD_VOO integer NOT NULL,
+    FOREIGN KEY (COD_VOO) REFERENCES VOOS(ID_VOO)
+);
+
+CREATE SEQUENCE SEQ_ASSENTO START WITH 1 INCREMENT BY 1;
+
+SELECT * FROM MAPA_DE_ASSENTOS;
+SELECT * FROM ASSENTO;
+
+
+
+
+
+CREATE OR REPLACE PROCEDURE CADASTRA_ASSENTO (p_voo_id IN INTEGER)
+IS
+    v_letra VARCHAR2(1);
+    v_numero NUMBER;
+BEGIN
+    -- Obtém a quantidade de assentos da aeronave
+        SELECT TOTAL_ASSENTOS INTO v_numero FROM MAPA_DE_ASSENTOS WHERE VOO = p_voo_id;
+
+    -- Loop para inserir assentos
+    FOR i IN 1..v_numero
+    LOOP
+        -- Calcula a letra com base no número do assento
+        v_letra := CHR(ASCII('A') + TRUNC((i - 1) / 10));
+
+        -- Insere o assento na tabela ASSENTOS
+        INSERT INTO ASSENTO (ID_ASSENTO, NUM_ASSENTO, STATUS_ASSENTO, COD_VOO)
+        VALUES (SEQ_ASSENTO.nextval, v_letra || TO_CHAR(MOD(i - 1, 10) + 1), 0, p_voo_id);
+    END LOOP;
+END CADASTRA_ASSENTO;

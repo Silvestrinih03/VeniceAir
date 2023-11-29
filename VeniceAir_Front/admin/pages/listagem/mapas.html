@@ -7,69 +7,71 @@
         <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet"/>
         <link href="../../assets/css/listagem.css" rel="stylesheet"/>
         <script>
-            // function MessageStatus(msg, error){
-            //         var pStatus = document.getElementById("status");
+
+            function MessageStatus(msg, error){
+                var pStatus = document.getElementById("status");
+
+                if(error === true){
+                    pStatus.className = " statusError";
+                }
+                else{
+                    pStatus.className = 'statusSuccess'
+                }
+                pStatus.textContent = msg;
+            }
+
+            function fetchListar(body){
+                const requestOptions = {
+                    method: 'GET', headers: {'Content-Type' : "application/json"}, body: JSON.stringify(body)
+                };
+
+                return fetch('http://localhost:3000/listarMapas', requestOptions).then(T => T.json())
+            }
     
-            //         if(error === true){
-            //             pStatus.className = " statusError";
-            //         }
-            //         else{
-            //             pStatus.className = 'statusSuccess'
-            //         }
-            //         pStatus.textContent = msg;
-            //     }
-    
-            //     function fetchListar(body){
-            //         const requestOptions = {
-            //             method: 'GET', headers: {'Content-Type' : "application/json"}, body: JSON.stringify(body)
-            //         };
-    
-            //         return fetch('http://localhost:3000/listarAeronaves', requestOptions).then(T => T.json())
-            //     }
-    
-            //     function listarAeronave(){
-            //             const dataBody = document.getElementById('dataBody');
-            //     fetchListar()
-            //         .then(customResponse => {
-            //         if(customResponse.status === "SUCCESS"){
+            function listarMapas(){
+                        const dataBody = document.getElementById('dataBody');
+                fetchListar()
+                    .then(customResponse => {
+                    if(customResponse.status === "SUCCESS"){
                         
-            //             // Limpa qualquer conteúdo anterior da tabela
-            //             dataBody.innerHTML = '';
+                        // Limpa qualquer conteúdo anterior da tabela
+                        dataBody.innerHTML = '';
 
-            //             // Preenche a tabela com os dados da resposta
-            //             customResponse.payload.forEach(item => {
-            //                 const idaeronave = item[0];
-            //                 const fabricante = item[1];
-            //                 const modelo = item[2];
-            //                 const anofab = item[3];
-            //                 const qtdeAssentos = item[4];
+                        // Preenche a tabela com os dados da resposta
+                        customResponse.payload.forEach(item => {
+                            const idmapa = item[0];
+                            const aeronave = item[1];
+                            const voo = item[2];
+                            const totalAssentos = item[3];
 
-            //                 const row = dataBody.insertRow();
-            //                 const cell1 = row.insertCell(0);
-            //                 const cell2 = row.insertCell(1);
-            //                 const cell3 = row.insertCell(2);
-            //                 const cell4 = row.insertCell(3);
-            //                 const cell5 = row.insertCell(4);
-            //                 cell1.textContent = idaeronave;
-            //                 cell2.textContent = fabricante;
-            //                 cell3.textContent = modelo;
-            //                 cell4.textContent = anofab;
-            //                 cell5.textContent = qtdeAssentos;
-            //             });
-            //         }else{
-            //             MessageStatus("Erro ao listar Aeronave...: " + customResponse.message, true);
-            //             console.log(customResponse.message);
-            //         }
-            //         })
-            //         .catch((e)=>{
-            //             MessageStatus("Erro técnico ao listar... Contate o suporte.", true);
-            //             console.log("Falha grave ao listar." + e)
-            //         });
-            // }
-                 
-            //     document.addEventListener("DOMContentLoaded", function() {
-            //         listarAeronave();
-            //     });
+
+                            const row = dataBody.insertRow();
+                            const cell1 = row.insertCell(0);
+                            const cell2 = row.insertCell(1);
+                            const cell3 = row.insertCell(2);
+                            const cell4 = row.insertCell(3);
+                            cell1.textContent = idmapa;
+                            cell2.textContent = aeronave;
+                            cell3.textContent = voo;
+                            cell4.textContent = totalAssentos;
+
+                        });
+                    }else{
+                        MessageStatus("Erro ao listar mapas...: " + customResponse.message, true);
+                        console.log(customResponse.message);
+                    }
+                    })
+                    .catch((e)=>{
+                        MessageStatus("Erro técnico ao listar... Contate o suporte.", true);
+                        console.log("Falha grave ao listar." + e)
+                    });
+            }
+
+
+            document.addEventListener("DOMContentLoaded", function() {
+                listarMapas();
+            });
+            
         </script>
     </head>
     <body>

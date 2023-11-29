@@ -12,6 +12,8 @@ import { trechoRouter } from './admin/trechos';
 import { vooRouter } from './admin/voos';
 import { avaliacaoRouter } from './cliente/avaliacao';
 import { buscaRouter } from './cliente/busca';
+import { mapaRouter } from './admin/mapa';
+
 
 
 dotenv.config();
@@ -29,6 +31,7 @@ app.use(trechoRouter);
 app.use(vooRouter);
 app.use(avaliacaoRouter);
 app.use(buscaRouter);
+app.use(mapaRouter);
 
 const PORT = parseInt(`${process.env.PORT || 3000}`);
 app.listen(PORT, () => console.log(`Server is running at ${PORT}.`));
