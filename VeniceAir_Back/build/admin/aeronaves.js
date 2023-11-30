@@ -160,7 +160,7 @@ exports.aeronaveRouter.delete("/excluirAeronave/:codigo", (req, res) => __awaite
         if (e instanceof Error) {
             // Verifique se a exceção é relacionada ao erro ORA-02292
             if (e.message.includes("ORA-02292")) {
-                cr.message = "Não é possível excluir aeronave. Existem registros dependentes em outras tabelas.";
+                cr.message = "Não é possível excluir aeronave pois existe um mapa de assentos cadastrado para esta aeronave.";
                 console.log(e.message);
             }
         }

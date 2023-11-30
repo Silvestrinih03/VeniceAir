@@ -99,7 +99,9 @@ exports.mapaRouter.get("/listarMapas", (req, res) => __awaiter(void 0, void 0, v
     }
 }));
 exports.mapaRouter.post("/procedureMapa", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const p_aeronave_id = req.body.p_aeronave_id;
+    //const p_aeronave_id = req.body.p_aeronave_id as number;
+    const p_aeronave_id = parseInt(req.body.p_aeronave_id, 10);
+    console.log("Typeof p_aeronave_id:", typeof p_aeronave_id);
     console.log("veja aqui: ", p_aeronave_id);
     let cr = { status: "ERROR", message: "", payload: undefined, };
     try {
@@ -109,12 +111,11 @@ exports.mapaRouter.post("/procedureMapa", (req, res) => __awaiter(void 0, void 0
             connectionString: process.env.ORACLE_DB_CONN_STR,
         };
         const connection = yield oracledb_1.default.getConnection(connAttibs);
-        let resultadoConsulta = yield connection.execute(`BEGIN CADASTRA_ASSENTO(:1); END;`, [p_aeronave_id]);
-        // const cmdInsertCidade = 'INSERT INTO CIDADES VALUES (SEQ_CIDADES.NEXTVAL, :1)';
+        let resultadoConsulta = yield connection.execute('BEGIN CADASTRA_ASSENTO(:p_aeronave_id); END;', [p_aeronave_id]);
         yield connection.close();
         cr.status = "SUCCESS";
         cr.message = "Dados obtidos";
-        cr.payload = "resultadoConsulta.rows;";
+        cr.payload = resultadoConsulta.rows;
     }
     catch (e) {
         if (e instanceof Error) {

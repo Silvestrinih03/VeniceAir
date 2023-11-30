@@ -107,7 +107,9 @@ mapaRouter.get("/listarMapas", async(req,res)=>{
 
 
 mapaRouter.post("/procedureMapa", async(req,res)=>{
-    const p_aeronave_id = req.body.p_aeronave_id as number;
+    //const p_aeronave_id = req.body.p_aeronave_id as number;
+    const p_aeronave_id = parseInt(req.body.p_aeronave_id, 10);
+    console.log("Typeof p_aeronave_id:", typeof p_aeronave_id);
     console.log("veja aqui: ", p_aeronave_id);
 
     let cr: CustomResponse = {status: "ERROR", message: "", payload: undefined,};
@@ -119,13 +121,12 @@ mapaRouter.post("/procedureMapa", async(req,res)=>{
         connectionString: process.env.ORACLE_DB_CONN_STR,
       }
       const connection = await oracledb.getConnection(connAttibs);
-      let resultadoConsulta = await connection.execute(`BEGIN CADASTRA_ASSENTO(:1); END;`,[p_aeronave_id]);
-      // const cmdInsertCidade = 'INSERT INTO CIDADES VALUES (SEQ_CIDADES.NEXTVAL, :1)';
-
+      let resultadoConsulta = await connection.execute('BEGIN CADASTRA_ASSENTO(:p_aeronave_id); END;', p_aeronave_id);
+      
       await connection.close();
       cr.status = "SUCCESS"; 
       cr.message = "Dados obtidos";
-      cr.payload = "resultadoConsulta.rows;"
+      cr.payload =resultadoConsulta.rows;
   
     }catch(e){
       if(e instanceof Error){
