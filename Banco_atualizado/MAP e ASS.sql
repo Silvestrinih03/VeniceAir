@@ -1,0 +1,51 @@
+
+
+-- TABELA MAPA DE ASSENTOS QUE É UTILIZADA NO MOMENTO!!
+CREATE TABLE MAP (
+    ID_MAPA integer PRIMARY KEY NOT NULL,
+    AERONAVE integer NOT NULL,
+    VOO integer NOT NULL,
+    TOTAL_ASSENTOS integer NOT NULL,
+    FOREIGN KEY (AERONAVE) REFERENCES AERONAVES(ID_AERONAVE),
+    FOREIGN KEY (VOO) REFERENCES VOOS(ID_VOO)
+);
+-- SEQUENCIA PARA PREENCHER ID AUTOMATICAMENTE
+CREATE SEQUENCE SEQ_MAP START WITH 1 INCREMENT BY 1;
+-- ALTER TABLE: ADICIONAR CONSTRAINT UNIQUE EM VOO
+ALTER TABLE MAP
+ADD CONSTRAINT unique_voo_map UNIQUE (VOO);
+-------------------------------------------------------------------
+
+-- TABELA ASSENTOS QUE É UTILIZADA NO MOMENTO!!!!
+CREATE TABLE ASS (
+    ID_ASSENTO integer PRIMARY KEY NOT NULL,
+    NUM_ASSENTO varchar2(4) NOT NULL,
+    STATUS_ASSENTO integer NOT NULL,
+    COD_VOO integer NOT NULL,
+    FOREIGN KEY (COD_VOO) REFERENCES VOOS(ID_VOO)
+);
+-- SEQUENCIA PARA PREENCHER ID AUTOMATICAMENTE
+CREATE SEQUENCE SEQUENCIA_ASSENTOS START WITH 1 INCREMENT BY 1;
+
+-------------------------------------------------------------------
+
+-- PROCEDURE PARA CADASTRAR OS ASSENTOS DE ACORDO COM O NUMERO DE ASSENTOS DA AERONAVE
+CREATE OR REPLACE PROCEDURE PROCEDUREASSENTO (p_voo_id IN INTEGER)
+IS
+    v_letra VARCHAR2(1);
+    v_numero NUMBER;
+BEGIN
+    -- Obtém a quantidade de assentos da aeronave
+        SELECT TOTAL_ASSENTOS INTO v_numero FROM MAP WHERE VOO = p_voo_id;
+
+    -- Loop para inserir assentos
+    FOR i IN 1..v_numero
+    LOOP
+        -- Calcula a letra com base no número do assento
+        v_letra := CHR(ASCII('A') + TRUNC((i - 1) / 10));
+
+        -- Insere o assento na tabela ASSENTOS
+        INSERT INTO ASS (ID_ASSENTO, NUM_ASSENTO, STATUS_ASSENTO, COD_VOO)
+        VALUES (SEQUENCIA_ASSENTOS.nextval, v_letra || TO_CHAR(MOD(i - 1, 10) + 1), 0, p_voo_id);
+    END LOOP;
+END PROCEDUREASSENTO;

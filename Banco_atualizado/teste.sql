@@ -26,31 +26,11 @@ SELECT * FROM ASSENTO;
 
 
 
-
-CREATE OR REPLACE PROCEDURE CADASTRA_ASSENTO (p_voo_id IN INTEGER)
-IS
-    v_letra VARCHAR2(1);
-    v_numero NUMBER;
-BEGIN
-    -- Obtém a quantidade de assentos da aeronave
-        SELECT TOTAL_ASSENTOS INTO v_numero FROM MAPA_DE_ASSENTOS WHERE VOO = p_voo_id;
-
-    -- Loop para inserir assentos
-    FOR i IN 1..v_numero
-    LOOP
-        -- Calcula a letra com base no número do assento
-        v_letra := CHR(ASCII('A') + TRUNC((i - 1) / 10));
-
-        -- Insere o assento na tabela ASSENTOS
-        INSERT INTO ASSENTO (ID_ASSENTO, NUM_ASSENTO, STATUS_ASSENTO, COD_VOO)
-        VALUES (SEQ_ASSENTO.nextval, v_letra || TO_CHAR(MOD(i - 1, 10) + 1), 0, p_voo_id);
-    END LOOP;
-END CADASTRA_ASSENTO;
-
-
-ALTER TABLE MAPA_DE_ASSENTOS
-DROP CONSTRAINT SYS_C0030266;
-
-
 ALTER TABLE MAPA_DE_ASSENTOS
 ADD CONSTRAINT unique_voo_mapa_assentos UNIQUE (VOO);
+
+
+
+
+
+
