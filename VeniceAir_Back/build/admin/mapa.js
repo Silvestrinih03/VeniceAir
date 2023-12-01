@@ -43,7 +43,7 @@ exports.mapaRouter.post("/inserirMapa", (req, res) => __awaiter(void 0, void 0, 
             password: process.env.ORACLE_DB_SECRET,
             connectionString: process.env.ORACLE_DB_CONN_STR,
         });
-        const cmdInsertMapa = 'INSERT INTO MAPA_DE_ASSENTOS (ID_MAPA, AERONAVE, VOO, TOTAL_ASSENTOS) VALUES (SEQ_MAPA_DE_ASSENTOS.nextval, :1, :2, :3)';
+        const cmdInsertMapa = 'INSERT INTO MAP (ID_MAPA, AERONAVE, VOO, TOTAL_ASSENTOS) VALUES (SEQ_MAPA_DE_ASSENTOS.nextval, :1, :2, :3)';
         const dados = [aeronave, voo, numAssentos];
         let resInsert = yield conn.execute(cmdInsertMapa, dados);
         yield conn.commit();
@@ -79,7 +79,7 @@ exports.mapaRouter.get("/listarMapas", (req, res) => __awaiter(void 0, void 0, v
             connectionString: process.env.ORACLE_DB_CONN_STR,
         };
         const connection = yield oracledb_1.default.getConnection(connAttibs);
-        let resultadoConsulta = yield connection.execute("SELECT * FROM MAPA_DE_ASSENTOS");
+        let resultadoConsulta = yield connection.execute("SELECT * FROM MAP");
         yield connection.close();
         cr.status = "SUCCESS";
         cr.message = "Dados obtidos";
@@ -119,20 +119,79 @@ exports.mapaRouter.post("/procedureMapa", (req, res) => __awaiter(void 0, void 0
             autoCommit: true,
         };
         let resultadoProcedure = yield conn.execute(cmdProcedure, bindVariables, options);
-        // try{
-        //   const connAttibs: ConnectionAttributes = {
-        //     user: process.env.ORACLE_DB_USER,
-        //     password: process.env.ORACLE_DB_SECRET,
-        //     connectionString: process.env.ORACLE_DB_CONN_STR,
-        //   }
-        //   const connection = await oracledb.getConnection(connAttibs);
-        //   console.log('Before executing procedure. p_aeronave_id:', p_aeronave_id);
-        //   let resultadoConsulta = await connection.execute('BEGIN CADASTRA_ASSENTO(:p_aeronave_id); END;',  {p_aeronave_id});
-        //   console.log('After executing procedure. Result:', resultadoConsulta);
         yield conn.close();
         cr.status = "SUCCESS";
         cr.message = "Dados obtidos";
         cr.payload = resultadoProcedure.rows;
+    }
+    catch (e) {
+        if (e instanceof Error) {
+            cr.message = e.message;
+            console.log(e.message);
+        }
+        else {
+            cr.message = "Erro ao conectar ao oracle. Sem detalhes";
+        }
+    }
+    finally {
+        res.send(cr);
+    }
+}));
+exports.mapaRouter.post("/procedureMapa2", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    //const p_aeronave_id = req.body.p_aeronave_id as number;
+    const p_voo_id = parseInt(req.body.p_voo_id, 10);
+    console.log("Typeof p_voo_id:", typeof p_voo_id);
+    console.log("veja aqui: ", p_voo_id);
+    let cr = { status: "ERROR", message: "", payload: undefined, };
+    let conn;
+    try {
+        conn = yield oracledb_1.default.getConnection({
+            user: process.env.ORACLE_DB_USER,
+            password: process.env.ORACLE_DB_SECRET,
+            connectionString: process.env.ORACLE_DB_CONN_STR,
+        });
+        const cmdProcedure = `BEGIN PROCEDUREASSENTO(:p_voo_id); END;`;
+        const bindVariables = {
+            p_voo_id: { val: Number(p_voo_id), type: oracledb_1.default.NUMBER, dir: oracledb_1.default.BIND_IN }
+        };
+        const options = {
+            autoCommit: true,
+        };
+        let resultadoProcedure = yield conn.execute(cmdProcedure, bindVariables, options);
+        yield conn.close();
+        cr.status = "SUCCESS";
+        cr.message = "Dados obtidos";
+        cr.payload = resultadoProcedure.rows;
+    }
+    catch (e) {
+        if (e instanceof Error) {
+            cr.message = e.message;
+            console.log(e.message);
+        }
+        else {
+            cr.message = "Erro ao conectar ao oracle. Sem detalhes";
+        }
+    }
+    finally {
+        res.send(cr);
+    }
+}));
+// listar mapas de voo
+exports.mapaRouter.get("/acharMapa/:p_voo_id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const p_voo_id = parseInt(req.params.p_voo_id, 10);
+    let cr = { status: "ERROR", message: "", payload: undefined, };
+    try {
+        const connAttibs = {
+            user: process.env.ORACLE_DB_USER,
+            password: process.env.ORACLE_DB_SECRET,
+            connectionString: process.env.ORACLE_DB_CONN_STR,
+        };
+        const connection = yield oracledb_1.default.getConnection(connAttibs);
+        let resultadoConsulta = yield connection.execute("SELECT * FROM ASSENTOS WHERE ");
+        yield connection.close();
+        cr.status = "SUCCESS";
+        cr.message = "Dados obtidos";
+        cr.payload = resultadoConsulta.rows;
     }
     catch (e) {
         if (e instanceof Error) {

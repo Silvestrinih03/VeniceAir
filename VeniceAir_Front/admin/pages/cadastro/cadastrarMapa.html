@@ -28,6 +28,24 @@
                 // Obtém o ID da cidade selecionada
                 aeronaveSel = select.value;
                 console.log('ID da aeronave selecionada:', aeronaveSel);
+
+
+
+                const selectedOption = select.options[select.selectedIndex];
+                const qntAssentos = selectedOption.getAttribute('data-qnt-assentos');
+                
+                // Armazena o valor no sessionStorage
+                sessionStorage.setItem('qntAssentos', qntAssentos);
+                console.log('Qnt Assentos da aeronave selecionada:', qntAssentos);
+
+                document.getElementById('qntAssentos').value = qntAssentos;
+                
+
+
+
+
+
+
                 // Chama outras funções ou realiza outras ações necessárias
             });
 
@@ -36,6 +54,13 @@
                         const optionText = `${aeronave[0]} : ${aeronave[1]}  ➡️  ${aeronave[2]}`; 
                         option.value = aeronave[0];
                         option.text = optionText;
+
+                        // ARMAZENA A QUANTIDADE DE ASSENTOS
+                        option.setAttribute('data-qnt-assentos', aeronave[4]);
+                        select.appendChild(option);
+
+
+
                         select.appendChild(option);
                     });
                 })
@@ -58,6 +83,7 @@
                     // Obtém o ID do voo selecionado
                     vooSel = select.value;
                     console.log('ID do voo selecionado:', vooSel);
+                    //sessionStorage.setItem("vooID", vooSel);
                     // Chama outras funções ou realiza outras ações necessárias
                 });
 
@@ -162,7 +188,7 @@
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(body),
           };
-          return fetch('http://localhost:3000/procedureMapa', requestOptions).then(T => T.json())
+          return fetch('http://localhost:3000/procedureMapa2', requestOptions).then(T => T.json())
                 .then(response => response.json())
         .then(result => {
             // Trate o resultado da procedure aqui, se necessário
@@ -229,10 +255,10 @@
         }
         
         function cadastrarAssentos(){
-            const p_aeronave_id = document.getElementById('aeronaves').value;
-            sessionStorage.setItem('SOCORRO', p_aeronave_id);
-            console.log("SOCORRO: ", p_aeronave_id);
-            fetchProcedure({p_aeronave_id});
+            const p_voo_id = document.getElementById('voos').value;
+            sessionStorage.setItem('SOCORRO', p_voo_id);
+            console.log("SOCORRO: ", p_voo_id);
+            fetchProcedure({p_voo_id});
         }
     
     </script>
@@ -273,7 +299,7 @@
 
         <div class="containerOculto">
             <p> Digite o número total de assentos: </p>
-            <input type="text" id="qntAssentos" name="qntAssentos" placeholder="ex.: 32"/>
+            <input type="text" id="qntAssentos" name="qntAssentos" readonly/>
             <button type="submit" id="Alterar" name="Alterar" onclick="cadastrarMapa()">Cadastrar mapa de assentos</button>
             <button type="submit" id="Alterar" name="Alterar" onclick="cadastrarAssentos()">Cadastrar ASSENTOS</button>
             <!-- Mensagem de Status da função que verifica se o usuário selecionou o aeroporto para edição -->
