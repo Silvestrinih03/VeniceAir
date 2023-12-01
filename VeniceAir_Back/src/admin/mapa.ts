@@ -133,18 +133,7 @@ mapaRouter.post("/procedureMapa", async(req,res)=>{
         };
     
         let resultadoProcedure = await conn.execute(cmdProcedure, bindVariables, options);
-    // try{
-    //   const connAttibs: ConnectionAttributes = {
-    //     user: process.env.ORACLE_DB_USER,
-    //     password: process.env.ORACLE_DB_SECRET,
-    //     connectionString: process.env.ORACLE_DB_CONN_STR,
-    //   }
-    //   const connection = await oracledb.getConnection(connAttibs);
-
-    //   console.log('Before executing procedure. p_aeronave_id:', p_aeronave_id);
-    //   let resultadoConsulta = await connection.execute('BEGIN CADASTRA_ASSENTO(:p_aeronave_id); END;',  {p_aeronave_id});
-    //   console.log('After executing procedure. Result:', resultadoConsulta);
-      
+    
       await conn.close();
       cr.status = "SUCCESS"; 
       cr.message = "Dados obtidos";
@@ -162,3 +151,41 @@ mapaRouter.post("/procedureMapa", async(req,res)=>{
     }
   
   });
+
+
+
+
+
+// listar mapas de voo
+mapaRouter.get("/acharMapa/:p_voo_id", async(req,res)=>{
+  const p_voo_id = parseInt(req.params.p_voo_id, 10);
+
+  let cr: CustomResponse = {status: "ERROR", message: "", payload: undefined,};
+
+  try{
+    const connAttibs: ConnectionAttributes = {
+      user: process.env.ORACLE_DB_USER,
+      password: process.env.ORACLE_DB_SECRET,
+      connectionString: process.env.ORACLE_DB_CONN_STR,
+    }
+    const connection = await oracledb.getConnection(connAttibs);
+    let resultadoConsulta = await connection.execute("SELECT * FROM ASSENTOS WHERE ");
+  
+    await connection.close();
+    cr.status = "SUCCESS"; 
+    cr.message = "Dados obtidos";
+    cr.payload = resultadoConsulta.rows;
+
+  }catch(e){
+    if(e instanceof Error){
+      cr.message = e.message;
+      console.log(e.message);
+    }else{
+      cr.message = "Erro ao conectar ao oracle. Sem detalhes";
+    }
+  } finally {
+    res.send(cr);  
+  }
+
+});
+
