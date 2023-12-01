@@ -191,15 +191,15 @@
             console.log("a totaalll: ", total);
 
             //teste OK
-            const p_aeronave_id = document.getElementById('aeronaves').value;
-            sessionStorage.setItem('AERONAVEGUARDAR', p_aeronave_id);
-            console.log("AERONAVEGUARDAR: ", p_aeronave_id);
+            // const p_aeronave_id = document.getElementById('aeronaves').value;
+            // sessionStorage.setItem('AERONAVEGUARDAR', p_aeronave_id);
+            // console.log("AERONAVEGUARDAR: ", p_aeronave_id);
 
             // ok!!
             const p_voo_id = sessionStorage.getItem("IDVOOMAPA"); 
             console.log("AAAAAAAAAAAAAA: ", p_voo_id);
 
-            fetchProcedure({p_aeronave_id});
+            
 
             fetchInserir({
                 aeronave: aeronave, // Corrigido o nome da propriedade
@@ -224,6 +224,15 @@
                 messageStatusMapa('Erro técnico ao cadastrar. Contate o suporte.', true);
                 console.log('Falha grave ao cadastrar.' + e);
             });
+
+            //fetchProcedure({p_aeronave_id});
+        }
+        
+        function cadastrarAssentos(){
+            const p_aeronave_id = document.getElementById('aeronaves').value;
+            sessionStorage.setItem('SOCORRO', p_aeronave_id);
+            console.log("SOCORRO: ", p_aeronave_id);
+            fetchProcedure({p_aeronave_id});
         }
     
     </script>
@@ -266,6 +275,7 @@
             <p> Digite o número total de assentos: </p>
             <input type="text" id="qntAssentos" name="qntAssentos" placeholder="ex.: 32"/>
             <button type="submit" id="Alterar" name="Alterar" onclick="cadastrarMapa()">Cadastrar mapa de assentos</button>
+            <button type="submit" id="Alterar" name="Alterar" onclick="cadastrarAssentos()">Cadastrar ASSENTOS</button>
             <!-- Mensagem de Status da função que verifica se o usuário selecionou o aeroporto para edição -->
             <p id="statusMapa" class="statusErrorMapa"></p>
         </div>

@@ -113,20 +113,42 @@ mapaRouter.post("/procedureMapa", async(req,res)=>{
     console.log("veja aqui: ", p_aeronave_id);
 
     let cr: CustomResponse = {status: "ERROR", message: "", payload: undefined,};
-  
-    try{
-      const connAttibs: ConnectionAttributes = {
-        user: process.env.ORACLE_DB_USER,
-        password: process.env.ORACLE_DB_SECRET,
-        connectionString: process.env.ORACLE_DB_CONN_STR,
-      }
-      const connection = await oracledb.getConnection(connAttibs);
-      let resultadoConsulta = await connection.execute('BEGIN CADASTRA_ASSENTO(:p_aeronave_id); END;', p_aeronave_id);
+
+    let conn;
+
+  try {
+    conn = await oracledb.getConnection({
+      user: process.env.ORACLE_DB_USER,
+      password: process.env.ORACLE_DB_SECRET,
+      connectionString: process.env.ORACLE_DB_CONN_STR,
+    });
+
+    const cmdProcedure = `BEGIN CADASTRA_ASSENTO(:p_aeronave_id); END;`;
+
+        const bindVariables = {
+          p_aeronave_id: { val: Number(p_aeronave_id), type: oracledb.NUMBER, dir: oracledb.BIND_IN }};
+    
+        const options = {
+          autoCommit: true,
+        };
+    
+        let resultadoProcedure = await conn.execute(cmdProcedure, bindVariables, options);
+    // try{
+    //   const connAttibs: ConnectionAttributes = {
+    //     user: process.env.ORACLE_DB_USER,
+    //     password: process.env.ORACLE_DB_SECRET,
+    //     connectionString: process.env.ORACLE_DB_CONN_STR,
+    //   }
+    //   const connection = await oracledb.getConnection(connAttibs);
+
+    //   console.log('Before executing procedure. p_aeronave_id:', p_aeronave_id);
+    //   let resultadoConsulta = await connection.execute('BEGIN CADASTRA_ASSENTO(:p_aeronave_id); END;',  {p_aeronave_id});
+    //   console.log('After executing procedure. Result:', resultadoConsulta);
       
-      await connection.close();
+      await conn.close();
       cr.status = "SUCCESS"; 
       cr.message = "Dados obtidos";
-      cr.payload =resultadoConsulta.rows;
+      cr.payload =resultadoProcedure.rows;
   
     }catch(e){
       if(e instanceof Error){
