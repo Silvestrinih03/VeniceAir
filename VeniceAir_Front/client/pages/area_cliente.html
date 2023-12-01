@@ -38,6 +38,11 @@
             const pStatus = document.getElementById('statusAvaliacao');
             pStatus.className = error ? 'statusErrorAvaliacao' : 'statusSuccessAvaliacao';
             pStatus.textContent = msg;
+
+            // Oculta a mensagem (2500 milissegundos)
+            setTimeout(function() {
+                  pStatus.textContent = '';
+              }, 2500);
         }
         // Função que realiza a requisição para inserir a avaliação no banco de dados
         function fetchInserir(body) {
@@ -269,6 +274,10 @@
             const pStatusBUSCA = document.getElementById('statusBUSCA');
             pStatusBUSCA.className = error ? 'statusErrorBUSCA' : 'statusSuccessBUSCA';
             pStatusBUSCA.textContent = msg;
+            // Oculta a mensagem após (2500 milissegundos)
+            setTimeout(function() {
+                  pStatus.textContent = '';
+              }, 2500);
         }
 
           // Função que verifica se todos os campos necessários foram preenchidos e mensagens correspondentes
@@ -403,11 +412,11 @@
           <label for="avaliacao" name="feedback_label">Deixe sua avaliação</label>
           <select id="avaliacao" name="campos_feedback">
             <option value="0">Nota</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
+            <option value="1">1 ⭐</option>
+            <option value="2">2 ⭐⭐</option>
+            <option value="3">3 ⭐⭐⭐</option>
+            <option value="4">4 ⭐⭐⭐⭐</option>
+            <option value="5">5 ⭐⭐⭐⭐⭐</option>
           </select>
           <label for="descricao" name="feedback_label">Conte sobre sua experiência com a VeniceAir e/ou suas sugestões de melhoria</label>
           <input type="text" id="descricao" name="campos_feedback" placeholder="Descrição">
