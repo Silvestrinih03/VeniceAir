@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VeniceAir Buscas</title>
     <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet"/>
-    <link href="../../../admin/assets/css/listagem.css" rel="stylesheet"/>
+    <link href="../../assets/css/resultado_busca.css" rel="stylesheet"/>
     <script>
                 let ori = sessionStorage.getItem("ORIGEM");    
                 console.log("ori: ",ori)
@@ -118,14 +118,14 @@
                                     // parte botão
                                     const cell10 = row.insertCell(9); // nova celula pro botao de selecionar
                                     const selectButton = document.createElement('button');
-                                    selectButton.textContent = 'Selecionar';
+                                    selectButton.textContent = '✔️';
                                     selectButton.addEventListener('click', function () {
                                         selecionarVoo(idvoo);
                                     });
                                     cell10.appendChild(selectButton);
                                 });
 
-                                messageStatusBUSCA('Voos encontrados!', false);
+                                messageStatusBUSCA(' ', false);
                             } else {
                                 messageStatusBUSCA('Erro ao buscar voos: ' + customResponse2.message, true);
                                 console.log(customResponse2.message);
@@ -166,7 +166,7 @@
                 <th>AEROPORTO DE PARTIDA</th>
                 <th>AEROPORTO DE CHEGADA</th>
                 <th>VALOR</th>
-                <th> . </th>
+                <th>  </th>
             </tr>
         </thead>
         <tbody id="dataBody"></tbody>

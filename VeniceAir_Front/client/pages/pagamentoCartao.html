@@ -15,8 +15,8 @@
             const voltarOnde = sessionStorage.getItem("Tipo");
             //console.log("voltarOnde = ", voltarOnde);
             if (voltarOnde === '2')
-                { window.location.href = '/VeniceAir_Front/client/pages/volta/resumoVolta.html'}  
-            else { window.location.href = '/VeniceAir_Front/client/pages/resumoCompra.html'}
+                { window.location.href = 'volta/resumoVolta.html'}
+            else { window.location.href = 'resumoCompra.html'}
         }
         function messageStatus(msg, error) {
             const pStatus = document.getElementById('status');
@@ -141,9 +141,9 @@
             <button id="padrao_button" onclick="ondeVolta()">Voltar</button>
         </div>
     </div>
-    <div class="container">
-        <p>Preencha todos os campos para finalizar a compra.</p>
+    <div class="container_cartao">
         <form id="finaliza_pagamento">
+            <p>Preencha todos os campos para finalizar a compra.</p>
             <label for="nome">Nome do titular</label>
             <!-- <input type="email" placeholder="Insira seu endereço de e-mail" id="email" name="campos_feedback"> -->
             <input type="text" placeholder="Digite o nome impresso no cartão" id="nome" name="nome"/>
@@ -163,8 +163,9 @@
             <!-- colocar, no lado dessa div class container, outra div só que com a imagem dos bancos! -->
         </form>
         <p id="status" class="statusError"></p>
-
-        <button type="button" onclick="PAGAR()">PAGAR</button>
+    </div>
+    <div class="container_botao">
+        <button class="pagar" type="button" onclick="PAGAR()">PAGAR</button>
         <p id="statusFINAL" class="statusErrorFINAL"></p>
     </div>
     <!-- <div class="container">

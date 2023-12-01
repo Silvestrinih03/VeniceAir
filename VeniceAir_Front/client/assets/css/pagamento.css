@@ -8,7 +8,7 @@ body {
     justify-content: flex-start;
     height: 100vh;
   }
-  
+
   .container {
     margin: 0 auto;
     padding: 40px;
@@ -16,28 +16,66 @@ body {
     border-radius: 5px;
     background-color: #f9f9f9;
     margin-top: 20px;
-  }
-  
-  form {
     display: flex;
-    flex-direction: column;
-  }
-  
-  label {
-    font-weight: bold;
-    margin-top: 10px;
-    text-align: left;
-  }
-  
-  select, input {
-    padding: 5px;
-    margin-bottom: 10px;
+    flex-direction: row; /* Alterado para exibir os elementos na horizontal */
+    justify-content: space-between; /* Adicionado para espaçamento entre os elementos */
+    width: 60%;
+}
+
+.container_cartao{
+    margin: 0 auto;
+    padding: 40px;
     border: 1px solid #ccc;
-    border-radius: 3px;
-    width: 100%;
-    height: 30px;
-  }
-  
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row; /* Alterado para exibir os elementos na horizontal */
+    justify-content: space-between; /* Adicionado para espaçamento entre os elementos */
+    width: 40%;
+}
+
+.container_botao{
+    margin: 0 auto;
+    padding: 40px;
+    margin-top: 20px;
+    width: 50%; /* Ajuste a largura conforme necessário */
+}
+
+#QRCODE {
+  flex: 1; /* Para ocupar o espaço disponível */
+  margin-left: 20px; /* Adicione margem à esquerda para espaçamento */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* Para ocupar o espaço disponível */
+}
+
+label {
+  font-weight: bold;
+  margin-top: 10px;
+  text-align: left;
+}
+
+select, input {
+  padding: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  width: 100%;
+  height: 30px;
+}
+
+#img_QRCode {
+  width: 300px;
+  height: auto;
+}
+
   button {
     background-color: #0073e6;
     color: #fff;
@@ -49,7 +87,7 @@ body {
     margin: 2px;
     width: 100%;
   }
-  
+
   button:hover {
     background-color: #005bad;
   }

@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VeniceAir Pagamento</title>
     <link href="../../Geral/assets/css/header_page.css" rel="stylesheet"/>
-     <link href="../assets/css/pagamento.css" rel="stylesheet"/>
-    <link href="../../admin/assets/css/listagem.css" rel="stylesheet"/>
+     <!-- <link href="../assets/css/pagamento.css" rel="stylesheet"/>
+    <link href="../../admin/assets/css/listagem.css" rel="stylesheet"/> -->
+    <link href="../assets/css/resumoCompra.css" rel="stylesheet"/>
     <script>
 
         let id = sessionStorage.getItem("ID_VOO_SELECIONADO");
@@ -203,9 +204,7 @@
 
         </div>
          <div class="containerInvisivel" id="containerInvisivel">
-             <!--<button type="button"> >Escolher Voo de Volta</button>
-             <button id="padrao_button"><a href="../admin/pages/area_admin.html">Admin</a></button> -->
-            <button id="padrao_button"><a href="./volta/resultadoVolta.html">Escolher voo de volta</a></button>
+            <button id="esc_volta"><a href="./volta/resultadoVolta.html">Escolher voo de volta</a></button>
          </div>
 
         <div class="container" id="containerOculto">
@@ -218,8 +217,8 @@
             <input type="text" placeholder="ex.: nome@email.com" id="email" name="email"/>
 
             <p> Forma de pagamento:</p>
-            <button type="button" onclick="VerificarCartao()">CARTÃO</button>
-            <button type="button" onclick="VerificarPix()">PIX</button>
+            <button class="pag" type="button" onclick="VerificarCartao()">CARTÃO</button>
+            <button class="pag" type="button" onclick="VerificarPix()">PIX</button>
         </form>
         <p id="status" class="statusError"></p>
     </div>

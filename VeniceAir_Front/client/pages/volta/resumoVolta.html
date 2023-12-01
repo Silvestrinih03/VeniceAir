@@ -8,8 +8,9 @@
      <link href="../assets/pagamento.css" rel="stylesheet"/>
     <link href="../../admin/assets/css/listagem.css" rel="stylesheet"/> -->
     <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet"/>
-     <link href="../../assets/css/pagamento.css" rel="stylesheet"/>
-    <link href="../../../admin/assets/css/listagem.css" rel="stylesheet"/>
+     <!-- <link href="../../assets/css/pagamento.css" rel="stylesheet"/> -->
+    <!-- <link href="../../../admin/assets/css/listagem.css" rel="stylesheet"/> -->
+    <link href="../../assets/css/resumoCompra.css" rel="stylesheet"/>
     <script>
 
         let id = sessionStorage.getItem("ID_VOO_SELECIONADO");
@@ -221,7 +222,7 @@
                         MessageStatus('Preencha o email!', true);
                         return;
                     }
-                    else { window.location.href = '/VeniceAir_Front/client/pages/pagamentoCartao.html';}
+                    else { window.location.href = '../pagamentoCartao.html';}
                 }
 
                 function VerificarPix(){
@@ -233,7 +234,7 @@
                         MessageStatus('Preencha o email!', true);
                         return;
                     }
-                    else { window.location.href = '/VeniceAir_Front/client/pages/pagamentoPix.html';}
+                    else { window.location.href = '../pagamentoPix.html';}
                 }
 
             // function exibeContainer(){
@@ -253,7 +254,7 @@
             <img src="../../../Geral/assets/images/logo.png"> 
         </div>
         <div id="title_page">
-            <h1>VeniceAir <br>Resumo da compra: volta</h1>
+            <h1>VeniceAir <br>Resumo da compra</h1>
         </div>
         <div id="button_padrao">
             <button id="padrao_button"><a href="mapaAssentosVolta.html">Voltar</a></button>
@@ -318,8 +319,8 @@
             <input type="text" placeholder="ex.: nome@email.com" id="email" name="email"/>
 
             <p> Forma de pagamento:</p>
-            <button type="button" onclick="VerificarCartao()">CARTÃO</button>
-            <button type="button" onclick="VerificarPix()">PIX</button>
+            <button class="pag" type="button" onclick="VerificarCartao()">CARTÃO</button>
+            <button class="pag" type="button" onclick="VerificarPix()">PIX</button>
         </form>
         <p id="status" class="statusError"></p>
     </div>

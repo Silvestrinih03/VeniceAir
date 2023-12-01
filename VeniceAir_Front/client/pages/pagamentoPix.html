@@ -15,8 +15,8 @@
             const voltarOnde = sessionStorage.getItem("Tipo");
             //console.log("voltarOnde = ", voltarOnde);
             if (voltarOnde === '2')
-                { window.location.href = '/VeniceAir_Front/client/pages/volta/resumoVolta.html'}  
-            else { window.location.href = '/VeniceAir_Front/client/pages/resumoCompra.html'}
+                { window.location.href = 'volta/resumoVolta.html'}  
+            else { window.location.href = 'resumoCompra.html'}
         }
 
         function messageStatus(msg, error) {
@@ -109,25 +109,25 @@
         </div>
     </div>
     <div class="container">
-        <p>Preencha todos os campos para finalizar a compra.</p>
         <form id="finaliza_pagamento">
             <label for="nome">Nome completo</label>
             <!-- <input type="email" placeholder="Insira seu endereço de e-mail" id="email" name="campos_feedback"> -->
             <input type="text" placeholder="Digite o nome completo" id="nome" name="nome"/>
+            <label for="email">E-mail</label>
+            <input type="text" placeholder="ex: nome@email.com" id="numeroCPF" name="numeroCPF"/>
             <label for="numeroCPF">CPF</label>
             <input type="text" placeholder="Digite somente números" id="numeroCPF" name="numeroCPF"/>
+            <p>Preencha todos os campos para finalizar a compra.</p>
+            <p id="status" class="statusError"></p>
         </form>
-        <p id="status" class="statusError"></p>
-        
-    </div>   
-    <!-- div pro qr code e texto -->
-    <div class="container">
+
         <div id="QRCODE">
-            <img src="pagamento\pagamento\pix.png.jpg">
+            <img id="img_QRCode" src="pagamento\pagamento\pix.png.jpg">
             <p>Escaneie o QR CODE!</p>
         </div>
+        
     </div>
-    <div class="container">
+    <div class="container_botao">
         <button type="button" onclick="enviarDados();">Enviar dados</button>
         <p id="statusFINAL" class="statusErrorFINAL"></p>
 
