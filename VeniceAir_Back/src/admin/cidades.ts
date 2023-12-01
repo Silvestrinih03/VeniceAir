@@ -20,7 +20,7 @@ type CustomResponse = {
   payload: any
 };
 
-// Definir rota da requisição "Listar cidades" ---> OK
+// Definir rota da requisição "Listar cidades" (listagem de registros)
 cidadeRouter.get("/listarCidades", async(req,res)=>{
 
   let cr: CustomResponse = {status: "ERROR", message: "", payload: undefined,};
@@ -52,7 +52,7 @@ cidadeRouter.get("/listarCidades", async(req,res)=>{
 
 });
 
-// Definir rota da requisição "Inserir cidades" ---> OK
+// Definir rota da requisição "Inserir cidades"
 cidadeRouter.post("/inserirCidades", async(req,res)=>{
   
   const nome = req.body.nome as string;
@@ -99,7 +99,7 @@ cidadeRouter.post("/inserirCidades", async(req,res)=>{
   }
 });
 
-// Definir rota da requisição "Excluir cidades" ---> OK
+// Definir rota da requisição "Excluir cidades"
 cidadeRouter.delete("/excluirCidade/:codigo", async (req, res) => {
   const codigo = req.params.codigo;
 
@@ -130,19 +130,22 @@ cidadeRouter.delete("/excluirCidade/:codigo", async (req, res) => {
           cr.message = "Cidade não excluída. Verifique se o código informado está correto.";
       }
   } catch (e) {
-      if (e instanceof Error) {
-          cr.message = e.message;
-          console.log(e.message);
-      } else {
-          cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
-      }
-  } finally {
-      res.send(cr);
-  }
+    // Verifique erros da Oracle
+    if (e instanceof Error) {
+      // Retorna mensagem amigável para o erro ORA-02292 - Ação não pode ser realizada, pois este registro possui filhos cadastrados em outras tabelas
+      if (e.message.includes("ORA-02292")) {
+      cr.message = "Antes de excluir esta cidade, certifique-se de remover os trechos e aeroportos vinculados a ela."; 
+        console.log(e.message); }
+    } else {
+        cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
+    }
+} finally {
+    res.send(cr);
+}
 });
 
-// Definir rota da requisição "Atualizar cidade" ---> NÃO ESTÁ FUNCIONANDO
-// cidadeRouter.put("/atualizarCidade/:codigo", async (req, res) => {
+
+// Definir rota da requisição "Atualizar cidade"
 cidadeRouter.put("/atualizarCidade/:codigo", async (req, res) => {
   const codigo = req.params.codigo;
   const novoNome = req.body.nome as string;

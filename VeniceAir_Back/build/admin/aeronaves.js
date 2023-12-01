@@ -23,7 +23,7 @@ const port = 3000; //muda a porta se não for isso
 exports.aeronaveRouter.use(express_1.default.json());
 exports.aeronaveRouter.use((0, cors_1.default)());
 dotenv_1.default.config();
-// Função OK
+// Rota para listar aeronaves (listagem de registros)
 exports.aeronaveRouter.get("/listarAeronaves", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let cr = { status: "ERROR", message: "", payload: undefined, };
     try {
@@ -52,7 +52,7 @@ exports.aeronaveRouter.get("/listarAeronaves", (req, res) => __awaiter(void 0, v
         res.send(cr);
     }
 }));
-// Função OK
+// Rota para inserir aeronaves no banco
 exports.aeronaveRouter.post("/inserirAeronaves", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const fabricante = req.body.fabricante;
     const modelo = req.body.modelo;
@@ -96,7 +96,53 @@ exports.aeronaveRouter.post("/inserirAeronaves", (req, res) => __awaiter(void 0,
         res.send(cr);
     }
 }));
-// Função OK
+// Rota para excluir aeronave do banco
+exports.aeronaveRouter.delete("/excluirAeronave/:codigo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const codigo = req.params.codigo;
+    console.log("codigo=====", codigo);
+    let cr = {
+        status: "ERROR",
+        message: "",
+        payload: undefined,
+    };
+    try {
+        const connection = yield oracledb_1.default.getConnection({
+            user: process.env.ORACLE_DB_USER,
+            password: process.env.ORACLE_DB_SECRET,
+            connectionString: process.env.ORACLE_DB_CONN_STR,
+        });
+        const cmdDeleteTrecho = `DELETE AERONAVES WHERE ID_AERONAVE = :1`;
+        const dados = [codigo];
+        let resDelete = yield connection.execute(cmdDeleteTrecho, dados);
+        yield connection.commit();
+        yield connection.close();
+        const rowsDeleted = resDelete.rowsAffected;
+        if (rowsDeleted !== undefined && rowsDeleted === 1) {
+            cr.status = "SUCCESS";
+            cr.message = "Aeronave excluída.";
+        }
+        else {
+            cr.message = "Aeronave não excluída. Verifique se o código informado está correto.";
+        }
+    }
+    catch (e) {
+        // Verifique erros da Oracle
+        if (e instanceof Error) {
+            // Retorna mensagem amigável para o erro ORA-02292 - Ação não pode ser realizada, pois este registro possui filhos cadastrados em outras tabelas
+            if (e.message.includes("ORA-02292")) {
+                cr.message = "Antes de excluir esta aeronave, certifique-se de remover os dados vinculados ao seu mapa de assentos.";
+                console.log(e.message);
+            }
+        }
+        else {
+            cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
+        }
+    }
+    finally {
+        res.send(cr);
+    }
+}));
+// Rota para listar dados da aeronave na função de editar
 exports.aeronaveRouter.get("/listarAeronave/:codigo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const codigo = req.params.codigo;
     let cr = { status: "ERROR", message: "", payload: undefined, };
@@ -127,52 +173,7 @@ exports.aeronaveRouter.get("/listarAeronave/:codigo", (req, res) => __awaiter(vo
         res.send(cr);
     }
 }));
-// DELETAR AERONAVE DO BANCO
-exports.aeronaveRouter.delete("/excluirAeronave/:codigo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const codigo = req.params.codigo;
-    console.log("codigo=====", codigo);
-    let cr = {
-        status: "ERROR",
-        message: "",
-        payload: undefined,
-    };
-    try {
-        const connection = yield oracledb_1.default.getConnection({
-            user: process.env.ORACLE_DB_USER,
-            password: process.env.ORACLE_DB_SECRET,
-            connectionString: process.env.ORACLE_DB_CONN_STR,
-        });
-        const cmdDeleteTrecho = `DELETE AERONAVES WHERE ID_AERONAVE = :1`;
-        const dados = [codigo];
-        let resDelete = yield connection.execute(cmdDeleteTrecho, dados);
-        yield connection.commit();
-        yield connection.close();
-        const rowsDeleted = resDelete.rowsAffected;
-        if (rowsDeleted !== undefined && rowsDeleted === 1) {
-            cr.status = "SUCCESS";
-            cr.message = "Aeronave excluída.";
-        }
-        else {
-            cr.message = "Aeronave não excluída. Verifique se o código informado está correto.";
-        }
-    }
-    catch (e) {
-        if (e instanceof Error) {
-            // Verifique se a exceção é relacionada ao erro ORA-02292
-            if (e.message.includes("ORA-02292")) {
-                cr.message = "Não é possível excluir aeronave pois existe um mapa de assentos cadastrado para esta aeronave.";
-                console.log(e.message);
-            }
-        }
-        else {
-            cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
-        }
-    }
-    finally {
-        res.send(cr);
-    }
-}));
-// ALTERAR TO FAZENDO
+// Rota para editar dados da aeronave no banco
 exports.aeronaveRouter.post("/editarAeronave/:codigo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const codigo = req.params.codigo;
     const fabricante = req.body.fabricante;

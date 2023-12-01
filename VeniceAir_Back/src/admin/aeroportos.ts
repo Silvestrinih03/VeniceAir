@@ -18,7 +18,7 @@ type CustomResponse = {
   payload: any
 };
 
-// Função OK
+// Rota para listar aeroportos (listagem de registros)
 aeroportoRouter.get("/listarAeroportos", async(req,res)=>{
 
   let cr: CustomResponse = {status: "ERROR", message: "", payload: undefined,};
@@ -50,10 +50,7 @@ aeroportoRouter.get("/listarAeroportos", async(req,res)=>{
 
 });
 
-// LISTAR SOMENTE ALGUNS AEROPORTOS
-
-
-// Função OK
+// Rota para inserir aeroportos no banco
 aeroportoRouter.post("/inserirAeroportos", async(req,res)=>{
 
   const sigla = req.body.sigla as string;
@@ -101,7 +98,7 @@ aeroportoRouter.post("/inserirAeroportos", async(req,res)=>{
   }
 });
 
-// Função OK
+// Rota para excluir aeroportos
 aeroportoRouter.delete("/excluirAeroporto/:codigo", async (req, res) => {
   const codigo = req.params.codigo;
 
@@ -132,18 +129,21 @@ aeroportoRouter.delete("/excluirAeroporto/:codigo", async (req, res) => {
           cr.message = "Aeroporto não excluído. Verifique se o código informado está correto.";
       }
   } catch (e) {
-      if (e instanceof Error) {
-          cr.message = e.message;
-          console.log(e.message);
-      } else {
-          cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
-      }
-  } finally {
-      res.send(cr);
-  }
+    // Verifique erros da Oracle
+    if (e instanceof Error) {
+      // Retorna mensagem amigável para o erro ORA-02292 - Ação não pode ser realizada, pois este registro possui filhos cadastrados em outras tabelas
+      if (e.message.includes("ORA-02292")) {
+      cr.message = "Antes de excluir este aeroporto, certifique-se de remover os voos vinculados a ele."; 
+        console.log(e.message); }
+    } else {
+        cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
+    }
+} finally {
+    res.send(cr);
+}
 });
 
-// ALTERAR FUNCIONADO
+// Rota para editar aeroportos
 aeroportoRouter.post("/editarAeroporto/:codigo", async (req, res) => {
   const codigo = req.params.codigo;
   const novaSigla = req.body.sigla as string;

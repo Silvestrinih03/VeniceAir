@@ -16,7 +16,7 @@ type CustomResponse = {
   payload: any
 };
 
-// Função para listar trechos cadastrados - OK
+// Rota para listar trechos cadastrados (listagem de registros)
 trechoRouter.get("/listarTrechos", async(req,res)=>{
 
   let cr: CustomResponse = {status: "ERROR", message: "", payload: undefined,};
@@ -48,7 +48,7 @@ trechoRouter.get("/listarTrechos", async(req,res)=>{
 
 });
 
-// Função para inserir trecho - OK
+// Rota para inserir trechos
 trechoRouter.post("/inserirTrecho", async(req,res)=>{
   
   const origem = req.body.origem as number;
@@ -99,7 +99,7 @@ trechoRouter.post("/inserirTrecho", async(req,res)=>{
   }
 });
 
-// Função para excluir trecho - OK
+// Rota para excluir trechos
 trechoRouter.delete("/excluirTrecho/:codigo", async (req, res) => {
   const codigo = req.params.codigo;
 
@@ -130,18 +130,21 @@ trechoRouter.delete("/excluirTrecho/:codigo", async (req, res) => {
           cr.message = "Trecho não excluído. Verifique se o código informado está correto.";
       }
   } catch (e) {
-      if (e instanceof Error) {
-          cr.message = e.message;
-          console.log(e.message);
-      } else {
-          cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
-      }
-  } finally {
-      res.send(cr);
-  }
+    // Verifique erros da Oracle
+    if (e instanceof Error) {
+      // Retorna mensagem amigável para o erro ORA-02292 - Ação não pode ser realizada, pois este registro possui filhos cadastrados em outras tabelas
+      if (e.message.includes("ORA-02292")) {
+      cr.message = "Antes de excluir este trecho, certifique-se de remover os voos vinculados a ele."; 
+        console.log(e.message); }
+    } else {
+        cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
+    }
+} finally {
+    res.send(cr);
+}
 });
 
-// FUNCAO ALTERAR
+// Rota para editar trechos
 trechoRouter.post("/editarTrecho/:codigo", async (req, res) => {
   const codigo = req.params.codigo;
   const novaOrigem = req.body.origem as number;

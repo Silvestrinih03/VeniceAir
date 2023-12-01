@@ -22,7 +22,7 @@ const port = 3000;
 exports.vooRouter.use(express_1.default.json());
 exports.vooRouter.use((0, cors_1.default)());
 dotenv_1.default.config();
-// Rota criada para listar os voos cadastrados no banco
+// Rota para listar os voos cadastrados no banco (listagem de registros)
 exports.vooRouter.get("/listarVoos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let cr = { status: "ERROR", message: "", payload: undefined, };
     try {
@@ -51,7 +51,7 @@ exports.vooRouter.get("/listarVoos", (req, res) => __awaiter(void 0, void 0, voi
         res.send(cr);
     }
 }));
-// Rota criada para inserir voos
+// Rota para inserir voos
 exports.vooRouter.post("/inserirVoo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const trecho = req.body.trecho;
     const data_partida = new Date(req.body.data_partida);
@@ -101,7 +101,7 @@ exports.vooRouter.post("/inserirVoo", (req, res) => __awaiter(void 0, void 0, vo
         res.send(cr);
     }
 }));
-// Rota criada para excluir voos cadastrados no banco
+// Rota criada para excluir voos
 exports.vooRouter.delete("/excluirVoo/:codigo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const codigo = req.params.codigo;
     console.log('codigo p excluir', codigo);
@@ -128,9 +128,13 @@ exports.vooRouter.delete("/excluirVoo/:codigo", (req, res) => __awaiter(void 0, 
         }
     }
     catch (e) {
+        // Verifique erros da Oracle
         if (e instanceof Error) {
-            cr.message = e.message;
-            console.log(e.message);
+            // Retorna mensagem amigável para o erro ORA-02292 - Ação não pode ser realizada, pois este registro possui filhos cadastrados em outras tabelas
+            if (e.message.includes("ORA-02292")) {
+                cr.message = "Antes de excluir este voo, certifique-se de remover os mapas de assentos vinculados a ele.";
+                console.log(e.message);
+            }
         }
         else {
             cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
