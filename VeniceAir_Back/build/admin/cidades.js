@@ -25,7 +25,7 @@ exports.cidadeRouter.use(express_1.default.json());
 exports.cidadeRouter.use((0, cors_1.default)());
 // Chama o dotenv para receber os dados do banco
 dotenv_1.default.config();
-// Definir rota da requisição "Listar cidades" ---> OK
+// Definir rota da requisição "Listar cidades" (listagem de registros)
 exports.cidadeRouter.get("/listarCidades", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let cr = { status: "ERROR", message: "", payload: undefined, };
     try {
@@ -54,7 +54,7 @@ exports.cidadeRouter.get("/listarCidades", (req, res) => __awaiter(void 0, void 
         res.send(cr);
     }
 }));
-// Definir rota da requisição "Inserir cidades" ---> OK
+// Definir rota da requisição "Inserir cidades"
 exports.cidadeRouter.post("/inserirCidades", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const nome = req.body.nome;
     let cr = {
@@ -95,7 +95,7 @@ exports.cidadeRouter.post("/inserirCidades", (req, res) => __awaiter(void 0, voi
         res.send(cr);
     }
 }));
-// Definir rota da requisição "Excluir cidades" ---> OK
+// Definir rota da requisição "Excluir cidades"
 exports.cidadeRouter.delete("/excluirCidade/:codigo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const codigo = req.params.codigo;
     let cr = {
@@ -124,9 +124,13 @@ exports.cidadeRouter.delete("/excluirCidade/:codigo", (req, res) => __awaiter(vo
         }
     }
     catch (e) {
+        // Verifique erros da Oracle
         if (e instanceof Error) {
-            cr.message = e.message;
-            console.log(e.message);
+            // Retorna mensagem amigável para o erro ORA-02292 - Ação não pode ser realizada, pois este registro possui filhos cadastrados em outras tabelas
+            if (e.message.includes("ORA-02292")) {
+                cr.message = "Antes de excluir esta cidade, certifique-se de remover os trechos e aeroportos vinculados a ela.";
+                console.log(e.message);
+            }
         }
         else {
             cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
@@ -136,8 +140,7 @@ exports.cidadeRouter.delete("/excluirCidade/:codigo", (req, res) => __awaiter(vo
         res.send(cr);
     }
 }));
-// Definir rota da requisição "Atualizar cidade" ---> NÃO ESTÁ FUNCIONANDO
-// cidadeRouter.put("/atualizarCidade/:codigo", async (req, res) => {
+// Definir rota da requisição "Atualizar cidade"
 exports.cidadeRouter.put("/atualizarCidade/:codigo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const codigo = req.params.codigo;
     const novoNome = req.body.nome;

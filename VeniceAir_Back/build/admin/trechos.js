@@ -22,7 +22,7 @@ const port = 3000;
 exports.trechoRouter.use(express_1.default.json());
 exports.trechoRouter.use((0, cors_1.default)());
 dotenv_1.default.config();
-// Função para listar trechos cadastrados - OK
+// Rota para listar trechos cadastrados (listagem de registros)
 exports.trechoRouter.get("/listarTrechos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let cr = { status: "ERROR", message: "", payload: undefined, };
     try {
@@ -51,7 +51,7 @@ exports.trechoRouter.get("/listarTrechos", (req, res) => __awaiter(void 0, void 
         res.send(cr);
     }
 }));
-// Função para inserir trecho - OK
+// Rota para inserir trechos
 exports.trechoRouter.post("/inserirTrecho", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const origem = req.body.origem;
     const destino = req.body.destino;
@@ -96,7 +96,7 @@ exports.trechoRouter.post("/inserirTrecho", (req, res) => __awaiter(void 0, void
         res.send(cr);
     }
 }));
-// Função para excluir trecho - OK
+// Rota para excluir trechos
 exports.trechoRouter.delete("/excluirTrecho/:codigo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const codigo = req.params.codigo;
     let cr = {
@@ -125,9 +125,13 @@ exports.trechoRouter.delete("/excluirTrecho/:codigo", (req, res) => __awaiter(vo
         }
     }
     catch (e) {
+        // Verifique erros da Oracle
         if (e instanceof Error) {
-            cr.message = e.message;
-            console.log(e.message);
+            // Retorna mensagem amigável para o erro ORA-02292 - Ação não pode ser realizada, pois este registro possui filhos cadastrados em outras tabelas
+            if (e.message.includes("ORA-02292")) {
+                cr.message = "Antes de excluir este trecho, certifique-se de remover os voos vinculados a ele.";
+                console.log(e.message);
+            }
         }
         else {
             cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
@@ -137,7 +141,7 @@ exports.trechoRouter.delete("/excluirTrecho/:codigo", (req, res) => __awaiter(vo
         res.send(cr);
     }
 }));
-// FUNCAO ALTERAR
+// Rota para editar trechos
 exports.trechoRouter.post("/editarTrecho/:codigo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const codigo = req.params.codigo;
     const novaOrigem = req.body.origem;

@@ -23,7 +23,7 @@ const port = 3000;
 exports.aeroportoRouter.use(express_1.default.json());
 exports.aeroportoRouter.use((0, cors_1.default)());
 dotenv_1.default.config();
-// Função OK
+// Rota para listar aeroportos (listagem de registros)
 exports.aeroportoRouter.get("/listarAeroportos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let cr = { status: "ERROR", message: "", payload: undefined, };
     try {
@@ -52,8 +52,7 @@ exports.aeroportoRouter.get("/listarAeroportos", (req, res) => __awaiter(void 0,
         res.send(cr);
     }
 }));
-// LISTAR SOMENTE ALGUNS AEROPORTOS
-// Função OK
+// Rota para inserir aeroportos no banco
 exports.aeroportoRouter.post("/inserirAeroportos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const sigla = req.body.sigla;
     const cidade = req.body.cidade;
@@ -95,7 +94,7 @@ exports.aeroportoRouter.post("/inserirAeroportos", (req, res) => __awaiter(void 
         res.send(cr);
     }
 }));
-// Função OK
+// Rota para excluir aeroportos
 exports.aeroportoRouter.delete("/excluirAeroporto/:codigo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const codigo = req.params.codigo;
     let cr = {
@@ -124,9 +123,13 @@ exports.aeroportoRouter.delete("/excluirAeroporto/:codigo", (req, res) => __awai
         }
     }
     catch (e) {
+        // Verifique erros da Oracle
         if (e instanceof Error) {
-            cr.message = e.message;
-            console.log(e.message);
+            // Retorna mensagem amigável para o erro ORA-02292 - Ação não pode ser realizada, pois este registro possui filhos cadastrados em outras tabelas
+            if (e.message.includes("ORA-02292")) {
+                cr.message = "Antes de excluir este aeroporto, certifique-se de remover os voos vinculados a ele.";
+                console.log(e.message);
+            }
         }
         else {
             cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
@@ -136,7 +139,7 @@ exports.aeroportoRouter.delete("/excluirAeroporto/:codigo", (req, res) => __awai
         res.send(cr);
     }
 }));
-// ALTERAR FUNCIONADO
+// Rota para editar aeroportos
 exports.aeroportoRouter.post("/editarAeroporto/:codigo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const codigo = req.params.codigo;
     const novaSigla = req.body.sigla;

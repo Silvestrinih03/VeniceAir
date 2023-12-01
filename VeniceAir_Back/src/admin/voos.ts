@@ -18,7 +18,7 @@ type CustomResponse = {
   payload: any
 };
 
-// Rota criada para listar os voos cadastrados no banco
+// Rota para listar os voos cadastrados no banco (listagem de registros)
 vooRouter.get("/listarVoos", async(req,res)=>{
 
   let cr: CustomResponse = {status: "ERROR", message: "", payload: undefined,};
@@ -50,7 +50,7 @@ vooRouter.get("/listarVoos", async(req,res)=>{
 
 });
 
-// Rota criada para inserir voos
+// Rota para inserir voos
 vooRouter.post("/inserirVoo", async (req, res) => {
   const trecho = req.body.trecho as number;
   const data_partida = new Date(req.body.data_partida);
@@ -62,9 +62,6 @@ vooRouter.post("/inserirVoo", async (req, res) => {
   const aeroporto_partida = req.body.aeroporto_partida as number;
   const aeroporto_chegada = req.body.aeroporto_chegada as number;
   const valor = req.body.valor as number;
-
-
-
 
   let cr = {
     status: "ERROR",
@@ -108,9 +105,7 @@ vooRouter.post("/inserirVoo", async (req, res) => {
   }
 });
 
-
-
-// Rota criada para excluir voos cadastrados no banco
+// Rota criada para excluir voos
 vooRouter.delete("/excluirVoo/:codigo", async (req, res) => {
   const codigo = req.params.codigo;
   console.log('codigo p excluir', codigo);
@@ -140,15 +135,18 @@ vooRouter.delete("/excluirVoo/:codigo", async (req, res) => {
           cr.message = "Voo excluído.";
       }
   } catch (e) {
-      if (e instanceof Error) {
-          cr.message = e.message;
-          console.log(e.message);
-      } else {
-          cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
-      }
-  } finally {
-      res.send(cr);
-  }
+    // Verifique erros da Oracle
+    if (e instanceof Error) {
+      // Retorna mensagem amigável para o erro ORA-02292 - Ação não pode ser realizada, pois este registro possui filhos cadastrados em outras tabelas
+      if (e.message.includes("ORA-02292")) {
+      cr.message = "Antes de excluir este voo, certifique-se de remover os mapas de assentos vinculados a ele."; 
+        console.log(e.message); }
+    } else {
+        cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
+    }
+} finally {
+    res.send(cr);
+}
 });
 
 

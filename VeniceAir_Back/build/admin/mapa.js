@@ -119,20 +119,40 @@ exports.mapaRouter.post("/procedureMapa", (req, res) => __awaiter(void 0, void 0
             autoCommit: true,
         };
         let resultadoProcedure = yield conn.execute(cmdProcedure, bindVariables, options);
-        // try{
-        //   const connAttibs: ConnectionAttributes = {
-        //     user: process.env.ORACLE_DB_USER,
-        //     password: process.env.ORACLE_DB_SECRET,
-        //     connectionString: process.env.ORACLE_DB_CONN_STR,
-        //   }
-        //   const connection = await oracledb.getConnection(connAttibs);
-        //   console.log('Before executing procedure. p_aeronave_id:', p_aeronave_id);
-        //   let resultadoConsulta = await connection.execute('BEGIN CADASTRA_ASSENTO(:p_aeronave_id); END;',  {p_aeronave_id});
-        //   console.log('After executing procedure. Result:', resultadoConsulta);
         yield conn.close();
         cr.status = "SUCCESS";
         cr.message = "Dados obtidos";
         cr.payload = resultadoProcedure.rows;
+    }
+    catch (e) {
+        if (e instanceof Error) {
+            cr.message = e.message;
+            console.log(e.message);
+        }
+        else {
+            cr.message = "Erro ao conectar ao oracle. Sem detalhes";
+        }
+    }
+    finally {
+        res.send(cr);
+    }
+}));
+// listar mapas de voo
+exports.mapaRouter.get("/acharMapa/:p_voo_id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const p_voo_id = parseInt(req.params.p_voo_id, 10);
+    let cr = { status: "ERROR", message: "", payload: undefined, };
+    try {
+        const connAttibs = {
+            user: process.env.ORACLE_DB_USER,
+            password: process.env.ORACLE_DB_SECRET,
+            connectionString: process.env.ORACLE_DB_CONN_STR,
+        };
+        const connection = yield oracledb_1.default.getConnection(connAttibs);
+        let resultadoConsulta = yield connection.execute("SELECT * FROM ASSENTOS WHERE ");
+        yield connection.close();
+        cr.status = "SUCCESS";
+        cr.message = "Dados obtidos";
+        cr.payload = resultadoConsulta.rows;
     }
     catch (e) {
         if (e instanceof Error) {
