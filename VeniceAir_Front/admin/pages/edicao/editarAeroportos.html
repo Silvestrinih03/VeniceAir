@@ -92,6 +92,11 @@
                 pStatus.className = 'statusSuccess';
             }
             pStatus.textContent = msg;
+
+            // Oculta a mensagem após 1 segundos (1000 milissegundos)
+            setTimeout(function() {
+                pStatus.textContent = '';
+            }, 1000);
         }
 
         // Função que exibe as mensagens de status (sucesso ou erro) da parte de ALTERAR os dados de um aeroporto!
@@ -103,6 +108,11 @@
                 pStatusALTERAR.className = 'statusSuccessALTERAR';
             }
             pStatusALTERAR.textContent = msg;
+
+            // Oculta a mensagem após 1 segundos (1000 milissegundos)
+            setTimeout(function() {
+                pStatus.textContent = '';
+            }, 1000);
         }
 
         // Variável de controle para verificar se o segundo container está visível

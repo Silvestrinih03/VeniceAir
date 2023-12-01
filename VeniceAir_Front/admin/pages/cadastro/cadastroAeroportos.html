@@ -53,6 +53,11 @@
                 pStatus.className = 'statusSuccess';
             }
             pStatus.textContent = msg;
+
+            // Oculta a mensagem após 1 segundos (1000 milissegundos)
+            setTimeout(function() {
+                pStatus.textContent = '';
+            }, 1000);
         }
 
         // Função para definir como parâmetro os valores obtidos em sigla e cidade

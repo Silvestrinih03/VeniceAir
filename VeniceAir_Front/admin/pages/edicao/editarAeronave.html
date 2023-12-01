@@ -55,6 +55,11 @@
                 pStatus.className = 'statusSuccess';
             }
             pStatus.textContent = msg;
+
+            // Oculta a mensagem após 1 segundos (1000 milissegundos)
+            setTimeout(function() {
+                pStatus.textContent = '';
+            }, 1000);
         }
 
         // ESSA É PRA LISTAGEM DA AERONAVE ESCOLHIDA
@@ -66,6 +71,11 @@
                 pStatus.className = 'statusSuccess';
             }
             pStatus.textContent = msg;
+
+            // Oculta a mensagem após 1 segundos (1000 milissegundos)
+            setTimeout(function() {
+                pStatus.textContent = '';
+            }, 1000);
         }
 
         // Função que exibe as mensagens de status (sucesso ou erro) da parte de ALTERAR uma aeronave!
@@ -77,6 +87,11 @@
                 pStatusALTERAR.className = 'statusSuccessALTERAR';
             }
             pStatusALTERAR.textContent = msg;
+
+            // Oculta a mensagem após 3 segundos (3000 milissegundos)
+            setTimeout(function() {
+                pStatus.textContent = '';
+            }, 3000);
         }
 
         // VERIFICA SE O USUARIO DEIXOU UM CAMPO VAZIO

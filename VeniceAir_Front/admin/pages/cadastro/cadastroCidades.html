@@ -6,12 +6,8 @@
     <link rel="stylesheet" href="../../assets/css/tela_cadastro.css"/>
     <script>
         function preencheuNomeCidade() {
-            let resultado = false;
             const nomeSelecionado = document.getElementById('nomeCidade').value;
-            if (nomeSelecionado.length > 0) {
-                resultado = true;
-            }
-            return resultado;
+            return nomeSelecionado.length > 0;
         }
 
         function messageStatus(msg, error) {
@@ -22,6 +18,10 @@
                 pStatus.className = 'statusSuccess';
             }
             pStatus.textContent = msg;
+            // Oculta a mensagem após 1 segundos (1000 milissegundos)
+            setTimeout(function() {
+                pStatus.textContent = '';
+            }, 1000);
         }
 
         function fetchInserir(body) {
@@ -58,10 +58,19 @@
                 console.log('Falha grave ao cadastrar.' + e);
             });
         }
+
+        window.onload = function() {
+            document.getElementById("nomeCidade").value = "";
+            document.getElementById("limparButton").addEventListener("click", function() {
+                // Limpar campos e mensagem ao clicar no botão Limpar
+                document.getElementById("nomeCidade").value = "";
+                document.getElementById("status").textContent = "";
+            });
+        };
     </script>
 </head>
 <body>
-     <!-- Cabeçalho da páginaa -->
+     <!-- Cabeçalho da página -->
      <div id="header_page">
         <div id="img_logo">
           <img src="../../../Geral/assets/images/logo.png">
@@ -79,7 +88,7 @@
         <label for="nomeCidade">Nome da cidade:</label>
         <input type="text" id="nomeCidade" name="nomeCidade"/>
         <button type="button" id="btnCadastrar" name="btnCadastrar" onclick="inserirCidade()">Salvar</button>
-        <button type="reset">Limpar</button>
+        <button type="reset" id="limparButton">Limpar</button>
         <p id="status" class="statusError"></p>
     </div>
 </body>

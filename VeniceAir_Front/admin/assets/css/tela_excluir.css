@@ -83,7 +83,7 @@
     background-color: #005bad;
   }
   
-  .statusError {
+  /* .statusError {
     color: red;
     margin-top: 10px;
   }
@@ -92,7 +92,7 @@
     color: blue;
     margin-top: 10px;
   }
-  
+   */
 
   table {
     border-collapse: collapse;

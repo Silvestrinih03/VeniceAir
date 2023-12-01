@@ -87,6 +87,11 @@
                 pStatus.className = 'statusSuccess';
             }
             pStatus.textContent = msg;
+
+            // Oculta a mensagem após 1 segundos (1000 milissegundos)
+            setTimeout(function() {
+                pStatus.textContent = '';
+            }, 1000);
         }
 
         function messageStatusALTERAR(msg, error) {
@@ -97,6 +102,11 @@
                 pStatusALTERAR.className = 'statusSuccessALTERAR';
             }
             pStatusALTERAR.textContent = msg;
+
+            // Oculta a mensagem após 1 segundos (1000 milissegundos)
+            setTimeout(function() {
+                pStatus.textContent = '';
+            }, 1000);
         }
 
 
