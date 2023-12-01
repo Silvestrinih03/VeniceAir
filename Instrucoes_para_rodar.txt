@@ -21,7 +21,12 @@
 9º Para acessar o módulo 2 - Busca e compra de voos como cliente escolher opção "CLIENTE"
 
 DICA DE VOOS CADASTRADOS PARA BUSCA:
+APENAS IDA
             ORIGEM - DESTINO                    DATA
     1 - SALVADOR - PORTO ALEGRE             DIA 21/12/2023
     2 - NOVA YORK - SÃO PAULO               DIA 13/12/2023
     3 - RIO DE JANEIRO - FLORIANÓPOLIS      DIA 15/12/2023
+
+APENAS VOLTA
+    ORIGEM - DESTINO       DATA PARTIDA         DATA VOLTA
+    NICOLE - MARCELA      DIA 27/11/2023      DIA 30/11/2023
