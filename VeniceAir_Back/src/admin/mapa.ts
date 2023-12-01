@@ -43,7 +43,7 @@ mapaRouter.post("/inserirMapa", async(req,res)=>{
         connectionString: process.env.ORACLE_DB_CONN_STR,
       });
   
-      const cmdInsertMapa = 'INSERT INTO MAPA_DE_ASSENTOS (ID_MAPA, AERONAVE, VOO, TOTAL_ASSENTOS) VALUES (SEQ_MAPA_DE_ASSENTOS.nextval, :1, :2, :3)';
+      const cmdInsertMapa = 'INSERT INTO MAP (ID_MAPA, AERONAVE, VOO, TOTAL_ASSENTOS) VALUES (SEQ_MAPA_DE_ASSENTOS.nextval, :1, :2, :3)';
   
       const dados = [aeronave, voo, numAssentos];
       let resInsert = await conn.execute(cmdInsertMapa, dados);
@@ -84,7 +84,7 @@ mapaRouter.get("/listarMapas", async(req,res)=>{
         connectionString: process.env.ORACLE_DB_CONN_STR,
       }
       const connection = await oracledb.getConnection(connAttibs);
-      let resultadoConsulta = await connection.execute("SELECT * FROM MAPA_DE_ASSENTOS");
+      let resultadoConsulta = await connection.execute("SELECT * FROM MAP");
     
       await connection.close();
       cr.status = "SUCCESS"; 
@@ -151,6 +151,78 @@ mapaRouter.post("/procedureMapa", async(req,res)=>{
     }
   
   });
+
+
+
+
+
+
+
+
+
+
+  mapaRouter.post("/procedureMapa2", async(req,res)=>{
+    //const p_aeronave_id = req.body.p_aeronave_id as number;
+    const p_voo_id = parseInt(req.body.p_voo_id, 10);
+    console.log("Typeof p_voo_id:", typeof p_voo_id);
+    console.log("veja aqui: ", p_voo_id);
+
+    let cr: CustomResponse = {status: "ERROR", message: "", payload: undefined,};
+
+    let conn;
+
+  try {
+    conn = await oracledb.getConnection({
+      user: process.env.ORACLE_DB_USER,
+      password: process.env.ORACLE_DB_SECRET,
+      connectionString: process.env.ORACLE_DB_CONN_STR,
+    });
+
+    const cmdProcedure = `BEGIN PROCEDUREASSENTO(:p_voo_id); END;`;
+
+        const bindVariables = {
+          p_voo_id: { val: Number(p_voo_id), type: oracledb.NUMBER, dir: oracledb.BIND_IN }};
+    
+        const options = {
+          autoCommit: true,
+        };
+    
+        let resultadoProcedure = await conn.execute(cmdProcedure, bindVariables, options);
+    
+      await conn.close();
+      cr.status = "SUCCESS"; 
+      cr.message = "Dados obtidos";
+      cr.payload =resultadoProcedure.rows;
+  
+    }catch(e){
+      if(e instanceof Error){
+        cr.message = e.message;
+        console.log(e.message);
+      }else{
+        cr.message = "Erro ao conectar ao oracle. Sem detalhes";
+      }
+    } finally {
+      res.send(cr);  
+    }
+  
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
