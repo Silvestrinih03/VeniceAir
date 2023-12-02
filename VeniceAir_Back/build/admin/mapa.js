@@ -98,6 +98,7 @@ exports.mapaRouter.get("/listarMapas", (req, res) => __awaiter(void 0, void 0, v
         res.send(cr);
     }
 }));
+// RETIRAR DEPOISSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
 exports.mapaRouter.post("/procedureMapa", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //const p_aeronave_id = req.body.p_aeronave_id as number;
     const p_aeronave_id = parseInt(req.body.p_aeronave_id, 10);
@@ -179,6 +180,7 @@ exports.mapaRouter.post("/procedureMapa2", (req, res) => __awaiter(void 0, void 
 // listar mapas de voo
 exports.mapaRouter.get("/acharMapa/:p_voo_id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const p_voo_id = parseInt(req.params.p_voo_id, 10);
+    console.log("Voo para achar mapa: ", p_voo_id);
     let cr = { status: "ERROR", message: "", payload: undefined, };
     try {
         const connAttibs = {
@@ -187,7 +189,7 @@ exports.mapaRouter.get("/acharMapa/:p_voo_id", (req, res) => __awaiter(void 0, v
             connectionString: process.env.ORACLE_DB_CONN_STR,
         };
         const connection = yield oracledb_1.default.getConnection(connAttibs);
-        let resultadoConsulta = yield connection.execute("SELECT * FROM ASSENTOS WHERE ");
+        let resultadoConsulta = yield connection.execute("SELECT * FROM ASS WHERE COD_VOO = :1", [p_voo_id]);
         yield connection.close();
         cr.status = "SUCCESS";
         cr.message = "Dados obtidos";

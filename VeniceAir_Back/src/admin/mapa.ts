@@ -105,7 +105,7 @@ mapaRouter.get("/listarMapas", async(req,res)=>{
   });
 
 
-
+// RETIRAR DEPOISSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
 mapaRouter.post("/procedureMapa", async(req,res)=>{
     //const p_aeronave_id = req.body.p_aeronave_id as number;
     const p_aeronave_id = parseInt(req.body.p_aeronave_id, 10);
@@ -231,6 +231,7 @@ mapaRouter.post("/procedureMapa", async(req,res)=>{
 // listar mapas de voo
 mapaRouter.get("/acharMapa/:p_voo_id", async(req,res)=>{
   const p_voo_id = parseInt(req.params.p_voo_id, 10);
+  console.log("Voo para achar mapa: ", p_voo_id);
 
   let cr: CustomResponse = {status: "ERROR", message: "", payload: undefined,};
 
@@ -241,7 +242,7 @@ mapaRouter.get("/acharMapa/:p_voo_id", async(req,res)=>{
       connectionString: process.env.ORACLE_DB_CONN_STR,
     }
     const connection = await oracledb.getConnection(connAttibs);
-    let resultadoConsulta = await connection.execute("SELECT * FROM ASSENTOS WHERE ");
+    let resultadoConsulta = await connection.execute("SELECT * FROM ASS WHERE COD_VOO = :1", [p_voo_id]);
   
     await connection.close();
     cr.status = "SUCCESS"; 
