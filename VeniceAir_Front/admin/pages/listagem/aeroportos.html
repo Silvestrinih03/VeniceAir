@@ -1,43 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VeniceAir Aeroportos</title>
-    <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet"/>
-    <link href="../../assets/css/listagem.css" rel="stylesheet"/>
+    <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet" />
+    <link href="../../assets/css/listagem.css" rel="stylesheet" />
     <script>
-        function MessageStatus(msg, error){
-                var pStatus = document.getElementById("status");
+        function MessageStatus(msg, error) {
+            var pStatus = document.getElementById("status");
 
-                if(error === true){
-                    pStatus.className = " statusError";
-                }
-                else{
-                    pStatus.className = 'statusSuccess'
-                }
-                pStatus.textContent = msg;
-
-                // Oculta a mensagem após 1 segundos (1000 milissegundos)
-                setTimeout(function() {
-                        pStatus.textContent = '';
-                        }, 1000);
+            if (error === true) {
+                pStatus.className = " statusError";
             }
-
-            function fetchListar(body){
-                const requestOptions = {
-                    method: 'GET', headers: {'Content-Type' : "application/json"}, body: JSON.stringify(body)
-                };
-
-                return fetch('http://localhost:3000/listarAeroportos', requestOptions).then(T => T.json())
+            else {
+                pStatus.className = 'statusSuccess'
             }
+            pStatus.textContent = msg;
 
-            function listarAeroportos(){
-                        const dataBody = document.getElementById('dataBody');
-                fetchListar()
-                    .then(customResponse => {
-                    if(customResponse.status === "SUCCESS"){
-                        
+            // Oculta a mensagem após 1 segundos (1000 milissegundos)
+            setTimeout(function () {
+                pStatus.textContent = '';
+            }, 1000);
+        }
+
+        function fetchListar(body) {
+            const requestOptions = {
+                method: 'GET', headers: { 'Content-Type': "application/json" }, body: JSON.stringify(body)
+            };
+
+            return fetch('http://localhost:3000/listarAeroportos', requestOptions).then(T => T.json())
+        }
+
+        function listarAeroportos() {
+            const dataBody = document.getElementById('dataBody');
+            fetchListar()
+                .then(customResponse => {
+                    if (customResponse.status === "SUCCESS") {
+
                         // Limpa qualquer conteúdo anterior da tabela
                         dataBody.innerHTML = '';
 
@@ -56,26 +57,27 @@
                             cell2.textContent = sigla;
                             cell3.textContent = cidade;
                         });
-                    }else{
+                    } else {
                         MessageStatus("Erro ao listar aeroportos...: " + customResponse.message, true);
                         console.log(customResponse.message);
                     }
-                    })
-                    .catch((e)=>{
-                        MessageStatus("Erro técnico ao listar... Contate o suporte.", true);
-                        console.log("Falha grave ao listar." + e)
-                    });
-            }
-             
-            document.addEventListener("DOMContentLoaded", function() {
-                listarAeroportos();
-            });
+                })
+                .catch((e) => {
+                    MessageStatus("Erro técnico ao listar... Contate o suporte.", true);
+                    console.log("Falha grave ao listar." + e)
+                });
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            listarAeroportos();
+        });
     </script>
 </head>
+
 <body>
     <div id="header_page">
         <div id="img_logo">
-            <a href="../../../Geral/dashboard.html"><img src="../../../Geral/assets/images/logo.png"></a> 
+            <a href="../../../Geral/dashboard.html"><img src="../../../Geral/assets/images/logo.png"></a>
         </div>
         <div id="title_page">
             <h1>VeniceAir Aeroportos</h1>
@@ -100,4 +102,5 @@
         <tbody id="dataBody"></tbody>
     </table>
 </body>
+
 </html>

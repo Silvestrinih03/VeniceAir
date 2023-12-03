@@ -1,124 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VeniceAir - Mapa de Assentos</title>
-    <link rel="stylesheet" href="../../Geral/assets/css/header_page.css"/>
-    <link href="../../admin/assets/css/listagem.css" rel="stylesheet"/>
-    <!--<link href="../assets/css/pagamento.css" rel="stylesheet"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VeniceAir - Mapa de Assentos</title>
+  <link rel="stylesheet" href="../../Geral/assets/css/header_page.css" />
+  <link href="../../admin/assets/css/listagem.css" rel="stylesheet" />
+  <!--<link href="../assets/css/pagamento.css" rel="stylesheet"/>
      <link rel="stylesheet" href="../../../Geral/assets/css/header_page.css"/> -->
-    <script>
+  <script>
 
-          document.addEventListener('DOMContentLoaded', function () {
-            listarAssentos(p_voo_id);
-          });
-
-
-        let p_voo_id = sessionStorage.getItem("ID_VOO_SELECIONADO");
-        console.log("ID_VOO_SELECIONADO: ", p_voo_id);
-
-        function MessageStatus(msg, error){
-          var pStatus = document.getElementById("status");
-          if(error === true){
-            pStatus.className = " statusError";
-          }else{ pStatus.className = 'statusSuccess'
-              }pStatus.textContent = msg;
-                    // Oculta a mensagem após 1 segundos (1000 milissegundos)
-                    setTimeout(function() {
-                        pStatus.textContent = '';
-                        }, 1000);
-        }
+    document.addEventListener('DOMContentLoaded', function () {
+      listarAssentos(p_voo_id);
+    });
 
 
+    let p_voo_id = sessionStorage.getItem("ID_VOO_SELECIONADO");
+    console.log("ID_VOO_SELECIONADO: ", p_voo_id);
+
+    function MessageStatus(msg, error) {
+      var pStatus = document.getElementById("status");
+      if (error === true) {
+        pStatus.className = " statusError";
+      } else {
+        pStatus.className = 'statusSuccess'
+      } pStatus.textContent = msg;
+      // Oculta a mensagem após 1 segundos (1000 milissegundos)
+      setTimeout(function () {
+        pStatus.textContent = '';
+      }, 1000);
+    }
 
 
 
-        function fetchAcharMapa(){
-          const url = `http://localhost:3000/acharMapa/${p_voo_id}`;
-          const requestOptions = {
-                method: 'GET',
-                headers: {'Content-Type': 'application/json'}
-          };
 
-          return fetch(url, requestOptions).then(T => T.json());
-        }
 
-        function listarAssentos(){
-                    const dataBody = document.getElementById('dataBody');
-                    fetchAcharMapa()
-                        .then(customResponse => {
-                        if(customResponse.status === "SUCCESS"){
-                            // Limpa qualquer conteúdo anterior da tabela
-                            dataBody.innerHTML = '';
-                            // Preenche a tabela com os dados da resposta
-                            customResponse.payload.forEach(item => {
-                                const idmapa = item[0];
-                                const numassento = item[1];
-                                const statusassento = item[2];
-                                const codaeronave = item[3];
-    
-                                const row = dataBody.insertRow();
-                                const cell1 = row.insertCell(0);
-                                const cell2 = row.insertCell(1);
-                                const cell3 = row.insertCell(2);
-                                const cell4 = row.insertCell(3);
+    function fetchAcharMapa() {
+      const url = `http://localhost:3000/acharMapa/${p_voo_id}`;
+      const requestOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+      };
 
-                                cell1.textContent = idmapa;
-                                cell2.textContent = numassento;
-                                cell3.textContent = statusassento;
-                                cell4.textContent = codaeronave;
+      return fetch(url, requestOptions).then(T => T.json());
+    }
 
-                            });
-                        }else{
-                            MessageStatus("Erro ao listar voos...: " + customResponse.message, true);
-                            console.log(customResponse.message);
-                        }
-                        })
-                        .catch((e)=>{
-                            MessageStatus("Erro técnico ao listar... Contate o suporte.", true);
-                            console.log("Falha grave ao listar." + e)
-                        });
-                }
+    function listarAssentos() {
+      const dataBody = document.getElementById('dataBody');
+      fetchAcharMapa()
+        .then(customResponse => {
+          if (customResponse.status === "SUCCESS") {
+            // Limpa qualquer conteúdo anterior da tabela
+            dataBody.innerHTML = '';
+            // Preenche a tabela com os dados da resposta
+            customResponse.payload.forEach(item => {
+              const idmapa = item[0];
+              const numassento = item[1];
+              const statusassento = item[2];
+              const codaeronave = item[3];
 
-    </script>
+              const row = dataBody.insertRow();
+              const cell1 = row.insertCell(0);
+              const cell2 = row.insertCell(1);
+              const cell3 = row.insertCell(2);
+              const cell4 = row.insertCell(3);
+
+              cell1.textContent = idmapa;
+              cell2.textContent = numassento;
+              cell3.textContent = statusassento;
+              cell4.textContent = codaeronave;
+
+            });
+          } else {
+            MessageStatus("Erro ao listar voos...: " + customResponse.message, true);
+            console.log(customResponse.message);
+          }
+        })
+        .catch((e) => {
+          MessageStatus("Erro técnico ao listar... Contate o suporte.", true);
+          console.log("Falha grave ao listar." + e)
+        });
+    }
+
+  </script>
 </head>
+
 <body>
-    <!-- Cabeçalho da página -->
-    <div id="header_page">
-      <div id="img_logo">
-        <a href="../../Geral/dashboard.html"><img src="../../Geral/assets/images/logo.png"></a> 
-      </div>
-      <div id="title_page">
-          <h1>VeniceAir <br>Mapa de Assentos do Voo<br> TEM UM BOTÃO LA EMBAIXO</h1>
-      </div>
-      <div id="button_padrao">
-          <!-- botao vai voltar pro dashboard, essa pag é de teste -->
-          <button id="padrao_button"><a href="../pages/resultado_busca.html">Voltar</a></button>
-      </div>
+  <!-- Cabeçalho da página -->
+  <div id="header_page">
+    <div id="img_logo">
+      <a href="../../Geral/dashboard.html"><img src="../../Geral/assets/images/logo.png"></a>
     </div>
-
-    <div class="container">
-      <h3> Listagem dos assentos do voo </h3>
-      <table id="voosTable">
-          <thead>
-          <tr>
-              <th>id_assento</th>
-              <th>num_assento</th>
-              <th>status_assento</th>
-              <th>cod_aeronave</th>
-          </tr>
-          </thead>
-          <tbody
-              id="dataBody">
-          </tbody>
-      </table>
-
-      </div>
-      <div class="container">
-        <p><button id="btnConfirm"><a href="resumoCompra.html">Confirmar</a></button></p>
+    <div id="title_page">
+      <h1>VeniceAir <br>Mapa de Assentos do Voo<br> TEM UM BOTÃO LA EMBAIXO</h1>
     </div>
-    </body>
-    </html>
-    <!-- COMEÇAR A PARTIR DAQUI -->
+    <div id="button_padrao">
+      <!-- botao vai voltar pro dashboard, essa pag é de teste -->
+      <button id="padrao_button"><a href="../pages/resultado_busca.html">Voltar</a></button>
+    </div>
+  </div>
 
+  <div class="container">
+    <h3> Listagem dos assentos do voo </h3>
+    <table id="voosTable">
+      <thead>
+        <tr>
+          <th>id_assento</th>
+          <th>num_assento</th>
+          <th>status_assento</th>
+          <th>cod_aeronave</th>
+        </tr>
+      </thead>
+      <tbody id="dataBody">
+      </tbody>
+    </table>
+
+  </div>
+  <div class="container">
+    <p><button id="btnConfirm"><a href="resumoCompra.html">Confirmar</a></button></p>
+  </div>
+</body>
+
+</html>
+<!-- COMEÇAR A PARTIR DAQUI -->

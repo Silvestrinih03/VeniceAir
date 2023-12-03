@@ -1,44 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>VeniceAir Aeronaves</title>
-        <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet"/>
-        <link href="../../assets/css/listagem.css" rel="stylesheet"/>
-        <script>
 
-            function MessageStatus(msg, error){
-                var pStatus = document.getElementById("status");
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VeniceAir Aeronaves</title>
+    <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet" />
+    <link href="../../assets/css/listagem.css" rel="stylesheet" />
+    <script>
 
-                if(error === true){
-                    pStatus.className = " statusError";
-                }
-                else{
-                    pStatus.className = 'statusSuccess'
-                }
-                pStatus.textContent = msg;
+        function MessageStatus(msg, error) {
+            var pStatus = document.getElementById("status");
 
-                // Oculta a mensagem após 1 segundos (1000 milissegundos)
-                setTimeout(function() {
-                        pStatus.textContent = '';
-                        }, 1000);
+            if (error === true) {
+                pStatus.className = " statusError";
             }
-
-            function fetchListar(body){
-                const requestOptions = {
-                    method: 'GET', headers: {'Content-Type' : "application/json"}, body: JSON.stringify(body)
-                };
-
-                return fetch('http://localhost:3000/listarMapas', requestOptions).then(T => T.json())
+            else {
+                pStatus.className = 'statusSuccess'
             }
-    
-            function listarMapas(){
-                        const dataBody = document.getElementById('dataBody');
-                fetchListar()
-                    .then(customResponse => {
-                    if(customResponse.status === "SUCCESS"){
-                        
+            pStatus.textContent = msg;
+
+            // Oculta a mensagem após 1 segundos (1000 milissegundos)
+            setTimeout(function () {
+                pStatus.textContent = '';
+            }, 1000);
+        }
+
+        function fetchListar(body) {
+            const requestOptions = {
+                method: 'GET', headers: { 'Content-Type': "application/json" }, body: JSON.stringify(body)
+            };
+
+            return fetch('http://localhost:3000/listarMapas', requestOptions).then(T => T.json())
+        }
+
+        function listarMapas() {
+            const dataBody = document.getElementById('dataBody');
+            fetchListar()
+                .then(customResponse => {
+                    if (customResponse.status === "SUCCESS") {
+
                         // Limpa qualquer conteúdo anterior da tabela
                         dataBody.innerHTML = '';
 
@@ -61,52 +62,54 @@
                             cell4.textContent = totalAssentos;
 
                         });
-                    }else{
+                    } else {
                         MessageStatus("Erro ao listar mapas...: " + customResponse.message, true);
                         console.log(customResponse.message);
                     }
-                    })
-                    .catch((e)=>{
-                        MessageStatus("Erro técnico ao listar... Contate o suporte.", true);
-                        console.log("Falha grave ao listar." + e)
-                    });
-            }
+                })
+                .catch((e) => {
+                    MessageStatus("Erro técnico ao listar... Contate o suporte.", true);
+                    console.log("Falha grave ao listar." + e)
+                });
+        }
 
 
-            document.addEventListener("DOMContentLoaded", function() {
-                listarMapas();
-            });
-            
-        </script>
-    </head>
-    <body>
+        document.addEventListener("DOMContentLoaded", function () {
+            listarMapas();
+        });
 
-        <div id="header_page">
-            <div id="img_logo">
-                <a href="../../../Geral/dashboard.html"><img src="../../../Geral/assets/images/logo.png"></a> 
-            </div>
-            <div id="title_page">
-                <h1>VeniceAir<br> Mapas de Assentos dos Voos</h1>
-            </div>
-            <div id="button_padrao">
-                <button id="padrao_button"><a href="../area_admin.html">Voltar</a></button>
-            </div>
+    </script>
+</head>
+
+<body>
+
+    <div id="header_page">
+        <div id="img_logo">
+            <a href="../../../Geral/dashboard.html"><img src="../../../Geral/assets/images/logo.png"></a>
         </div>
-        <div id="botao_cadastrar">
-            <button id="cadastrar"><a href="../cadastro/cadastrarMapa.html">Cadastrar</a></button>
-            <!-- <button id="cadastrar"><a href="../edicao/editarAeronave.html">Editar</a></button>
+        <div id="title_page">
+            <h1>VeniceAir<br> Mapas de Assentos dos Voos</h1>
+        </div>
+        <div id="button_padrao">
+            <button id="padrao_button"><a href="../area_admin.html">Voltar</a></button>
+        </div>
+    </div>
+    <div id="botao_cadastrar">
+        <button id="cadastrar"><a href="../cadastro/cadastrarMapa.html">Cadastrar</a></button>
+        <!-- <button id="cadastrar"><a href="../edicao/editarAeronave.html">Editar</a></button>
             <button id="cadastrar"><a href="../exclusao/excluirAeronaves.html">Excluir</a></button> -->
-        </div>
-        <table id="dataTable">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Aeronave</th>
-                    <th>Voo</th>
-                    <th>Assentos</th>
-                </tr>
-            </thead>
-            <tbody id="dataBody"></tbody>
-        </table>
-    </body>
+    </div>
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Aeronave</th>
+                <th>Voo</th>
+                <th>Assentos</th>
+            </tr>
+        </thead>
+        <tbody id="dataBody"></tbody>
+    </table>
+</body>
+
 </html>

@@ -1,48 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edição de Cidades</title>
-    <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet"/>
-    <link href="../../assets/css/tela_excluir.css" rel="stylesheet"/>
+    <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet" />
+    <link href="../../assets/css/tela_excluir.css" rel="stylesheet" />
     <script>
 
         // Carrega as Cidades no Combo box
         document.addEventListener('DOMContentLoaded', function () {
-            carregarCidades('cidade');   
+            carregarCidades('cidade');
         });
 
 
         // Variável para armazenar o ID da cidade selecionada
-let cidadeSelecionadaId;
+        let cidadeSelecionadaId;
 
-// Função para carregar as cidades do banco no campo de seleção
-function carregarCidades(idSelect) {
-    fetch('http://localhost:3000/listarCidades')
-        .then(response => response.json())
-        .then(data => {
-            const select = document.getElementById(idSelect);
+        // Função para carregar as cidades do banco no campo de seleção
+        function carregarCidades(idSelect) {
+            fetch('http://localhost:3000/listarCidades')
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById(idSelect);
 
-            // Adiciona um ouvinte de evento para capturar a seleção
-            select.addEventListener('change', function () {
-                // Obtém o ID da cidade selecionada
-                cidadeSelecionadaId = select.value;
-                console.log('ID da cidade selecionada:', cidadeSelecionadaId);
-                // Chama outras funções ou realiza outras ações necessárias
-            });
+                    // Adiciona um ouvinte de evento para capturar a seleção
+                    select.addEventListener('change', function () {
+                        // Obtém o ID da cidade selecionada
+                        cidadeSelecionadaId = select.value;
+                        console.log('ID da cidade selecionada:', cidadeSelecionadaId);
+                        // Chama outras funções ou realiza outras ações necessárias
+                    });
 
-            data.payload.forEach(cidade => {
-                const option = document.createElement('option');
-                option.value = cidade[0];
-                option.text = cidade[1];
-                select.appendChild(option);
-            });
-        })
-        .catch(error => {
-            console.error('Erro ao carregar cidades:', error);
-        });
-}
+                    data.payload.forEach(cidade => {
+                        const option = document.createElement('option');
+                        option.value = cidade[0];
+                        option.text = cidade[1];
+                        select.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar cidades:', error);
+                });
+        }
 
         // Função que exibe as mensagens de status (sucesso ou erro) da parte de ESCOLHER uma cidade para edição!
         function messageStatus(msg, error) {
@@ -55,7 +56,7 @@ function carregarCidades(idSelect) {
             pStatus.textContent = msg;
 
             // Oculta a mensagem após 1 segundos (1000 milissegundos)
-            setTimeout(function() {
+            setTimeout(function () {
                 pStatus.textContent = '';
             }, 1000);
         }
@@ -71,13 +72,13 @@ function carregarCidades(idSelect) {
             pStatusALTERAR.textContent = msg;
 
             // Oculta a mensagem após 1 segundos (1000 milissegundos)
-            setTimeout(function() {
+            setTimeout(function () {
                 pStatus.textContent = '';
             }, 1000);
         }
 
         // Função para verificar se o campo de "Cidade" foi selecionado
-        function selecionouCidade(){
+        function selecionouCidade() {
             const cidadeSelecionada = document.getElementById('cidade').value;
             return cidadeSelecionada !== '0';
         }
@@ -96,7 +97,7 @@ function carregarCidades(idSelect) {
         //let cidadeId;  // Declarando cidadeId no escopo global
 
         // Função que verifica se todos os campos necessários foram preenchidos e mensagens correspondentes
-        function acessarCidade(){
+        function acessarCidade() {
             const select = document.getElementById('cidade');
             const cidadeSelecionada = select.value;
             // Pega o ID da cidade selecionada pra depois enviar como parâmetro
@@ -123,13 +124,13 @@ function carregarCidades(idSelect) {
             const requestOptions = {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({nome})
+                body: JSON.stringify({ nome })
             };
             return fetch(url, requestOptions).then(T => T.json());
         }
 
         // Função para alterar as informações da cidade
-        function editarCidade(){
+        function editarCidade() {
             // Verifica se o segundo container está visível
             if (!segundoContainerVisivel) {
                 return;
@@ -142,10 +143,10 @@ function carregarCidades(idSelect) {
 
             // Obtém os valores do campo do novo nome da cidade
             const nomeDaCidade = document.getElementById('nomeAlterado').value;
-    
-        // Chama fetch para verificar se a ação foi realizada com sucesso
-        fetchEditarCidade(cidadeSelecionadaId, nomeDaCidade)
-            .then(customResponse => {
+
+            // Chama fetch para verificar se a ação foi realizada com sucesso
+            fetchEditarCidade(cidadeSelecionadaId, nomeDaCidade)
+                .then(customResponse => {
                     if (customResponse.status === 'SUCCESS') {
                         messageStatusALTERAR('Cidade alterada com sucesso!', false);
                         // Limpar campos após o sucesso
@@ -163,14 +164,15 @@ function carregarCidades(idSelect) {
             // FUNÇÃO ALTERAAAAAAAAAAAR
 
             //messageStatusALTERAR('Cidade alterada com sucesso!', false);
-            
-            }
+
+        }
     </script>
 </head>
+
 <body>
     <div id="header_page">
         <div id="img_logo">
-            <a href="../../../Geral/dashboard.html"><img src="../../../Geral/assets/images/logo.png"></a> 
+            <a href="../../../Geral/dashboard.html"><img src="../../../Geral/assets/images/logo.png"></a>
         </div>
         <div id="title_page">
             <h1>VeniceAir <br> Edição de Cidades</h1>
@@ -190,15 +192,16 @@ function carregarCidades(idSelect) {
 
     <div class="containerInvisivel">
         <form class="form-group">
-                <label for="sigla">Alterar NOME:</label>
-                <input type="text" id="nomeAlterado" name="nomeAlterado" required>
-    <div class="form-group">
-        <button type="button" id="btnCadastrar" name="btnCadastrar" onclick="editarCidade()">Alterar</button>
-        <!-- <button type="reset">Limpar</button> -->
+            <label for="sigla">Alterar NOME:</label>
+            <input type="text" id="nomeAlterado" name="nomeAlterado" required>
+            <div class="form-group">
+                <button type="button" id="btnCadastrar" name="btnCadastrar" onclick="editarCidade()">Alterar</button>
+                <!-- <button type="reset">Limpar</button> -->
+            </div>
+            <!-- Mensagem de Status da função ALTERAR dados do aeroporto -->
+            <p id="statusALTERAR" class="statusErrorALTERAR"></p>
     </div>
-    <!-- Mensagem de Status da função ALTERAR dados do aeroporto -->
-    <p id="statusALTERAR" class="statusErrorALTERAR"></p>      
-</div>
 
 </body>
+
 </html>

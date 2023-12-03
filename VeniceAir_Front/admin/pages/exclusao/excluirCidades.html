@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exclusão de Cidades</title>
-    <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet"/>
-    <link href="../../assets/css/tela_excluir.css" rel="stylesheet"/>
+    <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet" />
+    <link href="../../assets/css/tela_excluir.css" rel="stylesheet" />
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             carregarCidades('cidades');
@@ -43,9 +44,9 @@
             pStatus.textContent = msg;
 
             // Oculta a mensagem após 1 segundos (1000 milissegundos)
-            setTimeout(function() {
+            setTimeout(function () {
                 pStatus.textContent = '';
-                }, 1000);
+            }, 1000);
         }
 
         function fetchExcluir(cidade) {
@@ -85,6 +86,7 @@
 
     </script>
 </head>
+
 <body>
     <div id="header_page">
         <div id="img_logo">
@@ -108,4 +110,5 @@
         <p id="status" class="statusError"></p>
     </div>
 </body>
+
 </html>

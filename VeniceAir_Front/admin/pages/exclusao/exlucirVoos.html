@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exclusão de Voos</title>
-    <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet"/>
-    <link href="../../assets/css/tela_excluir.css" rel="stylesheet"/>
+    <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet" />
+    <link href="../../assets/css/tela_excluir.css" rel="stylesheet" />
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             carregarVoos('voos');
@@ -21,15 +22,15 @@
 
                     // Adiciona um ouvinte de evento para capturar a seleção
                     select.addEventListener('change', function () {
-                    // Obtém o ID do voo selecionado
-                    vooSelecionadoId = select.value;
-                    console.log('ID do voo selecionado:', vooSelecionadoId);
-                    // Chama outras funções ou realiza outras ações necessárias
-                });
+                        // Obtém o ID do voo selecionado
+                        vooSelecionadoId = select.value;
+                        console.log('ID do voo selecionado:', vooSelecionadoId);
+                        // Chama outras funções ou realiza outras ações necessárias
+                    });
 
                     data.payload.forEach(voo => {
                         const option = document.createElement('option');
-                        const optionText = `${voo[0]} : ${voo[1]}  ➡️  ${voo[2]}`; 
+                        const optionText = `${voo[0]} : ${voo[1]}  ➡️  ${voo[2]}`;
                         option.value = voo[0];
                         option.text = optionText;
                         select.appendChild(option);
@@ -48,7 +49,7 @@
 
             return fetch(`http://localhost:3000/excluirVoo/${codigo}`, requestOptions).then(T => T.json());
         }
-        
+
 
         function preencheuVoo() {
             const vooSelecionado = document.getElementById('voos').value;
@@ -65,9 +66,9 @@
             pStatus.textContent = msg;
 
             // Oculta a mensagem após 1 segundos (1000 milissegundos)
-            setTimeout(function() {
+            setTimeout(function () {
                 pStatus.textContent = '';
-                }, 1000);
+            }, 1000);
         }
 
         function excluirVoo() {
@@ -96,10 +97,11 @@
         }
     </script>
 </head>
+
 <body>
     <div id="header_page">
         <div id="img_logo">
-            <a href="../../../Geral/dashboard.html"><img src="../../../Geral/assets/images/logo.png"></a> 
+            <a href="../../../Geral/dashboard.html"><img src="../../../Geral/assets/images/logo.png"></a>
         </div>
         <div id="title_page">
             <h1>VeniceAir <br> Exclusão de Voos</h1>
@@ -115,9 +117,10 @@
         <select name="voos" id="voos">
             <option value="0" selected>Selecione o ID voo que deseja excluir</option>
         </select>
-        
+
         <button type="button" id="excluir" name="excluir" onclick="excluirVoo()">Excluir</button>
         <p id="status" class="statusError"></p>
     </div>
 </body>
+
 </html>

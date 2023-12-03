@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,10 +8,10 @@
     <!-- <link href="../../Geral/assets/css/header_page.css" rel="stylesheet"/>
      <link href="../assets/pagamento.css" rel="stylesheet"/>
     <link href="../../admin/assets/css/listagem.css" rel="stylesheet"/> -->
-    <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet"/>
-     <!-- <link href="../../assets/css/pagamento.css" rel="stylesheet"/> -->
+    <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet" />
+    <!-- <link href="../../assets/css/pagamento.css" rel="stylesheet"/> -->
     <!-- <link href="../../../admin/assets/css/listagem.css" rel="stylesheet"/> -->
-    <link href="../../assets/css/resumoCompra.css" rel="stylesheet"/>
+    <link href="../../assets/css/resumoCompra.css" rel="stylesheet" />
     <script>
 
         let id = sessionStorage.getItem("ID_VOO_SELECIONADO");
@@ -20,238 +21,239 @@
         console.log("ID_VOO_SELECIONADO_VOLTA: ", id2);
 
         document.addEventListener('DOMContentLoaded', function () {
-           apareceIda();
-           apareceVolta();
-           
+            apareceIda();
+            apareceVolta();
 
 
-           const valorArmazenado = sessionStorage.getItem('Tipo');
-           console.log('Valor armazenado:', valorArmazenado);
+
+            const valorArmazenado = sessionStorage.getItem('Tipo');
+            console.log('Valor armazenado:', valorArmazenado);
             // Verificar se o valor de Tipo é igual a 2 e mostrar o elemento se verdadeiro
             // if (valorArmazenado === '2') {
             //                 document.getElementById('botaoEscolherVolta').style.display = 'block';
             //             }
 
-       });
+        });
 
-       function MessageStatus(msg, error){
-                   var pStatus = document.getElementById("status");
-   
-                   if(error === true){
-                       pStatus.className = " statusError";
-                   }
-                   else{
-                       pStatus.className = 'statusSuccess'
-                   }
-                   pStatus.textContent = msg;
+        function MessageStatus(msg, error) {
+            var pStatus = document.getElementById("status");
+
+            if (error === true) {
+                pStatus.className = " statusError";
+            }
+            else {
+                pStatus.className = 'statusSuccess'
+            }
+            pStatus.textContent = msg;
         }
 
-        function MessageStatusVOLTA(msg, error){
-                   var pStatus = document.getElementById("status");
-   
-                   if(error === true){
-                       pStatus.className = " statusError";
-                   }
-                   else{
-                       pStatus.className = 'statusSuccess'
-                   }
-                   pStatus.textContent = msg;
+        function MessageStatusVOLTA(msg, error) {
+            var pStatus = document.getElementById("status");
+
+            if (error === true) {
+                pStatus.className = " statusError";
+            }
+            else {
+                pStatus.className = 'statusSuccess'
+            }
+            pStatus.textContent = msg;
         }
 
 
 
         function fetchApareceIda(id) {
-                const url = `http://localhost:3000/selecionouVoo/${id}`;
-                const requestOptions = {
-                    method: 'GET',
-                    headers: {'Content-Type': 'application/json'}
-                };
+            const url = `http://localhost:3000/selecionouVoo/${id}`;
+            const requestOptions = {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            };
 
-                return fetch(url, requestOptions).then(T => T.json());
-            }
+            return fetch(url, requestOptions).then(T => T.json());
+        }
 
-            function fetchApareceVolta(id) {
-                const url = `http://localhost:3000/selecionouVoo/${id}`;
-                const requestOptions = {
-                    method: 'GET',
-                    headers: {'Content-Type': 'application/json'}
-                };
+        function fetchApareceVolta(id) {
+            const url = `http://localhost:3000/selecionouVoo/${id}`;
+            const requestOptions = {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            };
 
-                return fetch(url, requestOptions).then(T => T.json());
-            }
+            return fetch(url, requestOptions).then(T => T.json());
+        }
 
-        function apareceIda(){
+        function apareceIda() {
             const iddovoo = id;
             console.log('id do vooooooooooo = ', iddovoo);
 
             fetchApareceIda(iddovoo)
-                        .then(customResponse2 => {
-                            if (customResponse2.status === 'SUCCESS') {
+                .then(customResponse2 => {
+                    if (customResponse2.status === 'SUCCESS') {
 
-                                // Limpa qualquer conteúdo anterior da tabela
-                                dataBody.innerHTML = '';
-                                
-                                // Preenche a tabela com os dados da resposta
-                                // Editar???
-                                customResponse2.payload.forEach(item => {
-                                    const idvoo = item[0];
-                                    const trecho_origem = item[1];
-                                    const trecho_destino = item[2];
-                                    const data = item[3];
-                                    const hora_partida = item[4];
-                                    const hora_chegada = item[5];
-                                    const aeroporto_partida = item[6];
-                                    const aeroporto_chegada = item[7];
-                                    const valor = item[8];
+                        // Limpa qualquer conteúdo anterior da tabela
+                        dataBody.innerHTML = '';
 
-                                    const row = dataBody.insertRow();
-                                    const cell1 = row.insertCell(0);
-                                    const cell2 = row.insertCell(1);
-                                    const cell3 = row.insertCell(2);
-                                    const cell4 = row.insertCell(3);
-                                    const cell5 = row.insertCell(4);
-                                    const cell6 = row.insertCell(5);
-                                    const cell7 = row.insertCell(6);
-                                    const cell8 = row.insertCell(7);
-                                    const cell9 = row.insertCell(8);
-                                    cell1.textContent = idvoo;
-                                    cell2.textContent = trecho_origem;
-                                    cell3.textContent = trecho_destino;
-                                    cell4.textContent = data;
-                                    cell5.textContent = hora_partida;
-                                    cell6.textContent = hora_chegada;
-                                    cell7.textContent = aeroporto_partida;
-                                    cell8.textContent = aeroporto_chegada;
-                                    cell9.textContent = valor;
-                                });
+                        // Preenche a tabela com os dados da resposta
+                        // Editar???
+                        customResponse2.payload.forEach(item => {
+                            const idvoo = item[0];
+                            const trecho_origem = item[1];
+                            const trecho_destino = item[2];
+                            const data = item[3];
+                            const hora_partida = item[4];
+                            const hora_chegada = item[5];
+                            const aeroporto_partida = item[6];
+                            const aeroporto_chegada = item[7];
+                            const valor = item[8];
 
-                    messageStatusVOLTA('Voo encontrado!', false);
+                            const row = dataBody.insertRow();
+                            const cell1 = row.insertCell(0);
+                            const cell2 = row.insertCell(1);
+                            const cell3 = row.insertCell(2);
+                            const cell4 = row.insertCell(3);
+                            const cell5 = row.insertCell(4);
+                            const cell6 = row.insertCell(5);
+                            const cell7 = row.insertCell(6);
+                            const cell8 = row.insertCell(7);
+                            const cell9 = row.insertCell(8);
+                            cell1.textContent = idvoo;
+                            cell2.textContent = trecho_origem;
+                            cell3.textContent = trecho_destino;
+                            cell4.textContent = data;
+                            cell5.textContent = hora_partida;
+                            cell6.textContent = hora_chegada;
+                            cell7.textContent = aeroporto_partida;
+                            cell8.textContent = aeroporto_chegada;
+                            cell9.textContent = valor;
+                        });
+
+                        messageStatusVOLTA('Voo encontrado!', false);
                     } else {
-                    messageStatusVOLTA('Erro ao buscar voo: ' + customResponse2.message, true);
-                    console.log(customResponse2.message);
+                        messageStatusVOLTA('Erro ao buscar voo: ' + customResponse2.message, true);
+                        console.log(customResponse2.message);
                     }
-                    })
-                    .catch((e) => {
+                })
+                .catch((e) => {
                     messageStatusVOLTA('Erro técnico ao buscar voo. Contate o suporte.', true);
                     console.log('Falha grave ao buscar voo.' + e);
-                    });
-                }
+                });
+        }
 
 
-                function apareceVolta(){
-                    const iddovoo = id2;
-                    console.log('id do voooooooooooVOLTA = ', iddovoo);
+        function apareceVolta() {
+            const iddovoo = id2;
+            console.log('id do voooooooooooVOLTA = ', iddovoo);
 
-                    fetchApareceVolta(iddovoo)
-                                .then(customResponse3 => {
-                                    if (customResponse3.status === 'SUCCESS') {
+            fetchApareceVolta(iddovoo)
+                .then(customResponse3 => {
+                    if (customResponse3.status === 'SUCCESS') {
 
-                                        // Limpa qualquer conteúdo anterior da tabela
-                                        dataBody2.innerHTML = '';
-                                        
-                                        // Preenche a tabela com os dados da resposta
-                                        // Editar???
-                                        customResponse3.payload.forEach(item => {
-                                            const idvoo = item[0];
-                                            const trecho_origem = item[1];
-                                            const trecho_destino = item[2];
-                                            const data = item[3];
-                                            const hora_partida = item[4];
-                                            const hora_chegada = item[5];
-                                            const aeroporto_partida = item[6];
-                                            const aeroporto_chegada = item[7];
-                                            const valor = item[8];
+                        // Limpa qualquer conteúdo anterior da tabela
+                        dataBody2.innerHTML = '';
 
-                                            const row = dataBody2.insertRow();
-                                            const cell1 = row.insertCell(0);
-                                            const cell2 = row.insertCell(1);
-                                            const cell3 = row.insertCell(2);
-                                            const cell4 = row.insertCell(3);
-                                            const cell5 = row.insertCell(4);
-                                            const cell6 = row.insertCell(5);
-                                            const cell7 = row.insertCell(6);
-                                            const cell8 = row.insertCell(7);
-                                            const cell9 = row.insertCell(8);
-                                            cell1.textContent = idvoo;
-                                            cell2.textContent = trecho_origem;
-                                            cell3.textContent = trecho_destino;
-                                            cell4.textContent = data;
-                                            cell5.textContent = hora_partida;
-                                            cell6.textContent = hora_chegada;
-                                            cell7.textContent = aeroporto_partida;
-                                            cell8.textContent = aeroporto_chegada;
-                                            cell9.textContent = valor;
-                                        });
+                        // Preenche a tabela com os dados da resposta
+                        // Editar???
+                        customResponse3.payload.forEach(item => {
+                            const idvoo = item[0];
+                            const trecho_origem = item[1];
+                            const trecho_destino = item[2];
+                            const data = item[3];
+                            const hora_partida = item[4];
+                            const hora_chegada = item[5];
+                            const aeroporto_partida = item[6];
+                            const aeroporto_chegada = item[7];
+                            const valor = item[8];
 
-                            messageStatusVOLTA('Voo encontrado!', false);
-                            } else {
-                            messageStatusVOLTA('Erro ao buscar voo: ' + customResponse3.message, true);
-                            console.log(customResponse3.message);
-                            }
-                            })
-                            .catch((e) => {
-                            messageStatusVOLTA('Erro técnico ao buscar voo. Contate o suporte.', true);
-                            console.log('Falha grave ao buscar voo.' + e);
-                            });
-                        }
+                            const row = dataBody2.insertRow();
+                            const cell1 = row.insertCell(0);
+                            const cell2 = row.insertCell(1);
+                            const cell3 = row.insertCell(2);
+                            const cell4 = row.insertCell(3);
+                            const cell5 = row.insertCell(4);
+                            const cell6 = row.insertCell(5);
+                            const cell7 = row.insertCell(6);
+                            const cell8 = row.insertCell(7);
+                            const cell9 = row.insertCell(8);
+                            cell1.textContent = idvoo;
+                            cell2.textContent = trecho_origem;
+                            cell3.textContent = trecho_destino;
+                            cell4.textContent = data;
+                            cell5.textContent = hora_partida;
+                            cell6.textContent = hora_chegada;
+                            cell7.textContent = aeroporto_partida;
+                            cell8.textContent = aeroporto_chegada;
+                            cell9.textContent = valor;
+                        });
 
-                function preencheuNome(){
-                    let resultado = false;
-                    const nomeCliente = document.getElementById('nome').value;
-                    if (nomeCliente.length > 0) {
-                        resultado = true;
+                        messageStatusVOLTA('Voo encontrado!', false);
+                    } else {
+                        messageStatusVOLTA('Erro ao buscar voo: ' + customResponse3.message, true);
+                        console.log(customResponse3.message);
                     }
-                    return resultado;
-                }
+                })
+                .catch((e) => {
+                    messageStatusVOLTA('Erro técnico ao buscar voo. Contate o suporte.', true);
+                    console.log('Falha grave ao buscar voo.' + e);
+                });
+        }
 
-                function preencheuEmail(){
-                    let resultado = false;
-                    const emailCliente = document.getElementById('email').value;
-                    if (emailCliente.length > 0) {
-                        resultado = true;
-                    }
-                    return resultado;
-                }
+        function preencheuNome() {
+            let resultado = false;
+            const nomeCliente = document.getElementById('nome').value;
+            if (nomeCliente.length > 0) {
+                resultado = true;
+            }
+            return resultado;
+        }
 
-                function VerificarCartao(){
-                    if (!preencheuNome()) {
-                        MessageStatus('Preencha o nome!', true);
-                        return;
-                    }
-                    else if (!preencheuEmail()) {
-                        MessageStatus('Preencha o email!', true);
-                        return;
-                    }
-                    else { window.location.href = '../pagamentoCartao.html';}
-                }
+        function preencheuEmail() {
+            let resultado = false;
+            const emailCliente = document.getElementById('email').value;
+            if (emailCliente.length > 0) {
+                resultado = true;
+            }
+            return resultado;
+        }
 
-                function VerificarPix(){
-                    if (!preencheuNome()) {
-                        MessageStatus('Preencha o nome!', true);
-                        return;
-                    }
-                    else if (!preencheuEmail()) {
-                        MessageStatus('Preencha o email!', true);
-                        return;
-                    }
-                    else { window.location.href = '../pagamentoPix.html';}
-                }
+        function VerificarCartao() {
+            if (!preencheuNome()) {
+                MessageStatus('Preencha o nome!', true);
+                return;
+            }
+            else if (!preencheuEmail()) {
+                MessageStatus('Preencha o email!', true);
+                return;
+            }
+            else { window.location.href = '../pagamentoCartao.html'; }
+        }
 
-            // function exibeContainer(){
-            //     var recebeTipo = sessionStorage.getItem("TIPO DA PASSAGEM");
-            //     if (recebeTipo === '2')
-            //         {
-            //             document.querySelector('.containerInvisivel').style.display = 'block';
-            //         }
+        function VerificarPix() {
+            if (!preencheuNome()) {
+                MessageStatus('Preencha o nome!', true);
+                return;
+            }
+            else if (!preencheuEmail()) {
+                MessageStatus('Preencha o email!', true);
+                return;
+            }
+            else { window.location.href = '../pagamentoPix.html'; }
+        }
 
-            //     else return;
-            // }
+        // function exibeContainer(){
+        //     var recebeTipo = sessionStorage.getItem("TIPO DA PASSAGEM");
+        //     if (recebeTipo === '2')
+        //         {
+        //             document.querySelector('.containerInvisivel').style.display = 'block';
+        //         }
+
+        //     else return;
+        // }
     </script>
 </head>
+
 <body>
     <div id="header_page">
         <div id="img_logo">
-            <a href="../../../Geral/dashboard.html"><img src="../../../Geral/assets/images/logo.png"></a> 
+            <a href="../../../Geral/dashboard.html"><img src="../../../Geral/assets/images/logo.png"></a>
         </div>
         <div id="title_page">
             <h1>VeniceAir <br>Resumo da compra</h1>
@@ -264,29 +266,6 @@
         <h3> Voo de Ida selecionado: </h3>
         <table id="voosTable">
             <thead>
-            <tr>
-                <th>ID</th>
-                <th>Origem</th>
-                <th>Destino</th>
-                <th>Data</th>
-                <th>Hora Partida</th>
-                <th>Hora Chegada</th>
-                <th>Aeroporto de Partida</th>
-                <th>Aeroporto de Chegada</th>
-                <th>Valor</th>
-            </tr>
-            </thead>
-            <tbody
-                id="dataBody">
-            </tbody>
-        </table>
-        <p> Assento: X0</p>
-        </div>
-
-        <div class="container">
-            <h3> Voo de Volta selecionado: </h3>
-            <table id="voosTable2">
-                <thead>
                 <tr>
                     <th>ID</th>
                     <th>Origem</th>
@@ -298,25 +277,46 @@
                     <th>Aeroporto de Chegada</th>
                     <th>Valor</th>
                 </tr>
-                </thead>
-                <tbody
-                    id="dataBody2">
-                </tbody>
-            </table>
-            <p> Assento: X0</p>
-            </div>
-        
-       
-        <!-- DIV PARA VOLTA INVISIVEL? -->
+            </thead>
+            <tbody id="dataBody">
+            </tbody>
+        </table>
+        <p> Assento: X0</p>
+    </div>
+
+    <div class="container">
+        <h3> Voo de Volta selecionado: </h3>
+        <table id="voosTable2">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Origem</th>
+                    <th>Destino</th>
+                    <th>Data</th>
+                    <th>Hora Partida</th>
+                    <th>Hora Chegada</th>
+                    <th>Aeroporto de Partida</th>
+                    <th>Aeroporto de Chegada</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody id="dataBody2">
+            </tbody>
+        </table>
+        <p> Assento: X0</p>
+    </div>
+
+
+    <!-- DIV PARA VOLTA INVISIVEL? -->
 
     <div class="container">
         <p>Preencha todos os campos para prosseguir.</p>
         <form id="finaliza_pagamento">
             <label for="nome">Nome</label>
-            <input type="text" placeholder="Digite o nome completo" id="nome" name="nome"/>
+            <input type="text" placeholder="Digite o nome completo" id="nome" name="nome" />
 
             <label for="email">E-mail de contato</label>
-            <input type="text" placeholder="ex.: nome@email.com" id="email" name="email"/>
+            <input type="text" placeholder="ex.: nome@email.com" id="email" name="email" />
 
             <p> Forma de pagamento:</p>
             <button class="pag" type="button" onclick="VerificarCartao()">CARTÃO</button>
@@ -325,4 +325,5 @@
         <p id="status" class="statusError"></p>
     </div>
 </body>
+
 </html>

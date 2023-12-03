@@ -1,35 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exclusão de Trecho</title>
-    <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet"/>
-    <link href="../../assets/css/tela_excluir.css" rel="stylesheet"/>
+    <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet" />
+    <link href="../../assets/css/tela_excluir.css" rel="stylesheet" />
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             carregarTrechos('trechos');
         });
 
         function carregarTrechos(idSelect) {
-                fetch('http://localhost:3000/listarTrechos')
-                    .then(response => response.json())
-                    .then(data => {
-                        const select = document.getElementById(idSelect);
-                        data.payload.forEach(trecho => {
-                            const option = document.createElement('option');
-                            // CONCATENAR (origem e destino na mesma opcaooo)
-                            const optionText = `${trecho[1]}  ➡️  ${trecho[2]}`; 
+            fetch('http://localhost:3000/listarTrechos')
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById(idSelect);
+                    data.payload.forEach(trecho => {
+                        const option = document.createElement('option');
+                        // CONCATENAR (origem e destino na mesma opcaooo)
+                        const optionText = `${trecho[1]}  ➡️  ${trecho[2]}`;
 
-                            option.value = trecho[0];
-                            option.text = optionText;
-                            select.appendChild(option);
-                        });
-                    })
-                    .catch(error => {
-                        console.error('Erro ao carregar trechos:', error);
+                        option.value = trecho[0];
+                        option.text = optionText;
+                        select.appendChild(option);
                     });
-            }
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar trechos:', error);
+                });
+        }
 
         function preencheuTrecho() {
             const trechoSelecionado = document.getElementById('trechos').value;
@@ -46,9 +47,9 @@
             pStatus.textContent = msg;
 
             // Oculta a mensagem após 1 segundos (1000 milissegundos)
-            setTimeout(function() {
+            setTimeout(function () {
                 pStatus.textContent = '';
-                }, 1000);
+            }, 1000);
         }
 
         function fetchExcluir(trecho) {
@@ -87,6 +88,7 @@
         }
     </script>
 </head>
+
 <body>
     <div id="header_page">
         <div id="img_logo">
@@ -111,4 +113,5 @@
         <p id="status" class="statusError"></p>
     </div>
 </body>
+
 </html>

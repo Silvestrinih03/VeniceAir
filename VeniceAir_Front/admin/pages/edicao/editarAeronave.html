@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edição de Aeronaves</title>
-    <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet"/>
-    <link href="../../assets/css/tela_excluir.css" rel="stylesheet"/>
+    <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet" />
+    <link href="../../assets/css/tela_excluir.css" rel="stylesheet" />
     <script>
         // Carrega as aeronaves no Combo box
         document.addEventListener('DOMContentLoaded', function () {
-            carregarAeronaves('aeronaves');   
+            carregarAeronaves('aeronaves');
         });
 
         let aeronaveSelecionadaId;
@@ -22,16 +23,16 @@
                     const select = document.getElementById(idSelect);
 
                     // Adiciona um ouvinte de evento para capturar a seleção
-            select.addEventListener('change', function () {
-                // Obtém o ID da cidade selecionada
-                aeronaveSelecionadaId = select.value;
-                console.log('ID da aeronave selecionada:', aeronaveSelecionadaId);
-                // Chama outras funções ou realiza outras ações necessárias
-            });
+                    select.addEventListener('change', function () {
+                        // Obtém o ID da cidade selecionada
+                        aeronaveSelecionadaId = select.value;
+                        console.log('ID da aeronave selecionada:', aeronaveSelecionadaId);
+                        // Chama outras funções ou realiza outras ações necessárias
+                    });
 
                     data.payload.forEach(aeronave => {
                         const option = document.createElement('option');
-                        const optionText = `${aeronave[0]} : ${aeronave[1]}  ➡️  ${aeronave[2]}`; 
+                        const optionText = `${aeronave[0]} : ${aeronave[1]}  ➡️  ${aeronave[2]}`;
                         option.value = aeronave[0];
                         option.text = optionText;
                         select.appendChild(option);
@@ -57,7 +58,7 @@
             pStatus.textContent = msg;
 
             // Oculta a mensagem após 1 segundos (1000 milissegundos)
-            setTimeout(function() {
+            setTimeout(function () {
                 pStatus.textContent = '';
             }, 1000);
         }
@@ -73,7 +74,7 @@
             pStatus.textContent = msg;
 
             // Oculta a mensagem após 1 segundos (1000 milissegundos)
-            setTimeout(function() {
+            setTimeout(function () {
                 pStatus.textContent = '';
             }, 1000);
         }
@@ -89,7 +90,7 @@
             pStatusALTERAR.textContent = msg;
 
             // Oculta a mensagem após 3 segundos (3000 milissegundos)
-            setTimeout(function() {
+            setTimeout(function () {
                 pStatus.textContent = '';
             }, 3000);
         }
@@ -115,167 +116,167 @@
             return resultado;
         }
 
-function obterValorCelula(cell) {
-    const inputElement = cell.querySelector('input');
-    const selectElement = cell.querySelector('select');
+        function obterValorCelula(cell) {
+            const inputElement = cell.querySelector('input');
+            const selectElement = cell.querySelector('select');
 
-    if (inputElement) {
-        return inputElement.value.trim();
-    } else if (selectElement) {
-        return selectElement.value.trim();
-    } else {
-        return cell.textContent.trim();
-    }
-}
+            if (inputElement) {
+                return inputElement.value.trim();
+            } else if (selectElement) {
+                return selectElement.value.trim();
+            } else {
+                return cell.textContent.trim();
+            }
+        }
 
         function fetchListar(id) {
-                const url = `http://localhost:3000/listarAeronave/${id}`;
-                const requestOptions = {
-                    method: 'GET',
-                    headers: {'Content-Type': 'application/json'}
-                };
+            const url = `http://localhost:3000/listarAeronave/${id}`;
+            const requestOptions = {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            };
 
-                return fetch(url, requestOptions).then(T => T.json());
+            return fetch(url, requestOptions).then(T => T.json());
+        }
+
+
+        function acessarAeronave() {
+            if (!selecionouAeronave()) {
+                messageStatus('Selecione uma aeronave!', true);
+                return;
             }
 
+            document.querySelector('.containerInvisivel').style.display = 'block';
+            segundoContainerVisivel = true;
+            document.getElementById('status').style.display = 'none';
 
-            function acessarAeronave() {
-    if (!selecionouAeronave()) {
-        messageStatus('Selecione uma aeronave!', true);
-        return;
-    }
+            fetchListar(aeronaveSelecionadaId)
+                .then(customResponse => {
+                    if (customResponse.status === "SUCCESS") {
+                        dataBody.innerHTML = '';
 
-    document.querySelector('.containerInvisivel').style.display = 'block';
-    segundoContainerVisivel = true;
-    document.getElementById('status').style.display = 'none';
+                        customResponse.payload.forEach(item => {
+                            const idaeronave = item[0];
+                            const fabricante = item[1];
+                            const modelo = item[2];
+                            const anofab = item[3];
+                            const qtdeAssentos = item[4];
 
-    fetchListar(aeronaveSelecionadaId)
-        .then(customResponse => {
-            if (customResponse.status === "SUCCESS") {
-                dataBody.innerHTML = '';
+                            const row = dataBody.insertRow();
+                            const cell1 = row.insertCell(0);
+                            const cell2 = row.insertCell(1);
+                            const cell3 = row.insertCell(2);
+                            const cell4 = row.insertCell(3);
+                            const cell5 = row.insertCell(4);
 
-                customResponse.payload.forEach(item => {
-                    const idaeronave = item[0];
-                    const fabricante = item[1];
-                    const modelo = item[2];
-                    const anofab = item[3];
-                    const qtdeAssentos = item[4];
+                            // cell3.contentEditable = true;
+                            // cell4.contentEditable = true;
+                            // cell5.contentEditable = true;
 
-                    const row = dataBody.insertRow();
-                    const cell1 = row.insertCell(0);
-                    const cell2 = row.insertCell(1);
-                    const cell3 = row.insertCell(2);
-                    const cell4 = row.insertCell(3);
-                    const cell5 = row.insertCell(4);
+                            cell1.textContent = idaeronave;
+                            // cell3.textContent = modelo;
+                            // cell4.textContent = anofab;
+                            // cell5.textContent = qtdeAssentos;
 
-                    // cell3.contentEditable = true;
-                    // cell4.contentEditable = true;
-                    // cell5.contentEditable = true;
+                            const fabricanteCombo = document.createElement('select');
+                            const fabricanteId = `fabricante_${idaeronave}`;
+                            fabricanteCombo.id = fabricanteId;
 
-                    cell1.textContent = idaeronave;
-                    // cell3.textContent = modelo;
-                    // cell4.textContent = anofab;
-                    // cell5.textContent = qtdeAssentos;
+                            const fabricantes = ['AirBus', 'Boeing', 'EMBRAER'];
+                            fabricantes.forEach(fabricante => {
+                                const option = document.createElement('option');
+                                option.value = fabricante;
+                                option.text = fabricante;
+                                fabricanteCombo.appendChild(option);
+                            });
 
-                    const fabricanteCombo = document.createElement('select');
-                    const fabricanteId = `fabricante_${idaeronave}`;
-                    fabricanteCombo.id = fabricanteId;
+                            cell2.appendChild(fabricanteCombo);
+                            fabricanteCombo.value = fabricante;
 
-                    const fabricantes = ['AirBus', 'Boeing', 'EMBRAER'];
-                    fabricantes.forEach(fabricante => {
-                        const option = document.createElement('option');
-                        option.value = fabricante;
-                        option.text = fabricante;
-                        fabricanteCombo.appendChild(option);
-                    });
+                            const fabricanteElement = document.getElementById(fabricanteId);
+                            fabricanteElement.id = 'fabricanteInput'; // Adicione um ID para identificação
+                            fabricanteElement.addEventListener('change', function () {
+                                const fabricanteValue = fabricanteElement.value;
+                                console.log('FABRICANTE SELECIONADO:', fabricanteValue);
+                            });
 
-                    cell2.appendChild(fabricanteCombo);
-                    fabricanteCombo.value = fabricante;
-                    
-                    const fabricanteElement = document.getElementById(fabricanteId);
-                    fabricanteElement.id = 'fabricanteInput'; // Adicione um ID para identificação
-                    fabricanteElement.addEventListener('change', function () {
-                        const fabricanteValue = fabricanteElement.value;
-                        console.log('FABRICANTE SELECIONADO:', fabricanteValue);
-                    });
+                            const modeloElement = document.createElement('input');
+                            modeloElement.type = 'text';
+                            modeloElement.value = modelo;
+                            modeloElement.id = 'modeloInput'; // Adicione um ID para identificação
+                            cell3.appendChild(modeloElement);
+                            modeloElement.addEventListener('change', function () {
+                                const modeloValue = modeloElement.value;
+                                console.log('MODELO ALTERADO:', modeloValue);
+                            });
 
-                    const modeloElement = document.createElement('input');
-                    modeloElement.type = 'text';
-                    modeloElement.value = modelo;
-                    modeloElement.id = 'modeloInput'; // Adicione um ID para identificação
-                    cell3.appendChild(modeloElement);
-                    modeloElement.addEventListener('change', function () {
-                        const modeloValue = modeloElement.value;
-                        console.log('MODELO ALTERADO:', modeloValue);
-                    });
+                            const anofabElement = document.createElement('input');
+                            anofabElement.type = 'text';
+                            anofabElement.value = anofab;
+                            anofabElement.id = 'anofabInput'; // Adicione um ID para identificação
+                            cell4.appendChild(anofabElement);
+                            anofabElement.addEventListener('change', function () {
+                                const anofabValue = anofabElement.value;
+                                validarNumero1('anofabInput');
+                                console.log('ANO DE FABRICAÇÃO ALTERADO:', anofabValue);
+                            });
 
-                    const anofabElement = document.createElement('input');
-                    anofabElement.type = 'text';
-                    anofabElement.value = anofab;
-                    anofabElement.id = 'anofabInput'; // Adicione um ID para identificação
-                    cell4.appendChild(anofabElement);
-                    anofabElement.addEventListener('change', function () {
-                        const anofabValue = anofabElement.value;
-                        validarNumero1('anofabInput');
-                        console.log('ANO DE FABRICAÇÃO ALTERADO:', anofabValue);
-                    });
-
-                    const qtdeAssentosElement = document.createElement('input');
-                    qtdeAssentosElement.type = 'text';
-                    qtdeAssentosElement.value = qtdeAssentos;
-                    qtdeAssentosElement.id = 'qtdeAssentosInput'; // Adicione um ID para identificação
-                    cell5.appendChild(qtdeAssentosElement);
-                    qtdeAssentosElement.addEventListener('change', function () {
-                        const qtdeAssentosValue = qtdeAssentosElement.value;
-                        validarNumero2('qtdeAssentosInput');
-                        console.log('QTDE DE ASSENTOS ALTERADA:', qtdeAssentosValue);
-                    });
+                            const qtdeAssentosElement = document.createElement('input');
+                            qtdeAssentosElement.type = 'text';
+                            qtdeAssentosElement.value = qtdeAssentos;
+                            qtdeAssentosElement.id = 'qtdeAssentosInput'; // Adicione um ID para identificação
+                            cell5.appendChild(qtdeAssentosElement);
+                            qtdeAssentosElement.addEventListener('change', function () {
+                                const qtdeAssentosValue = qtdeAssentosElement.value;
+                                validarNumero2('qtdeAssentosInput');
+                                console.log('QTDE DE ASSENTOS ALTERADA:', qtdeAssentosValue);
+                            });
+                        });
+                    } else {
+                        messageStatus2("Erro ao listar Aeronave...: " + customResponse.message, true);
+                        console.log(customResponse.message);
+                    }
+                })
+                .catch((e) => {
+                    messageStatus2("Erro técnico ao listar... Contate o suporte.", true);
+                    console.log("Falha grave ao listar." + e);
                 });
-            } else {
-                messageStatus2("Erro ao listar Aeronave...: " + customResponse.message, true);
-                console.log(customResponse.message);
+        }
+
+        function validarNumero1(elementId) {
+            const inputElement = document.getElementById(elementId);
+            const valor = inputElement.value.trim();
+
+            if (!/^\d+$/.test(valor)) {
+                messageStatusALTERAR(`O campo de ano de fabricação deve conter apenas números!`, true);
             }
-        })
-        .catch((e) => {
-            messageStatus2("Erro técnico ao listar... Contate o suporte.", true);
-            console.log("Falha grave ao listar." + e);
-        });
-}
+        }
 
-function validarNumero1(elementId) {
-    const inputElement = document.getElementById(elementId);
-    const valor = inputElement.value.trim();
+        function validarNumero2(elementId) {
+            const inputElement = document.getElementById(elementId);
+            const valor = inputElement.value.trim();
 
-    if (!/^\d+$/.test(valor)) {
-        messageStatusALTERAR(`O campo de ano de fabricação deve conter apenas números!`, true);
-    }
-}
-
-function validarNumero2(elementId) {
-    const inputElement = document.getElementById(elementId);
-    const valor = inputElement.value.trim();
-
-    if (!/^\d+$/.test(valor)) {
-        messageStatusALTERAR(`O campo de quantidade de assentos deve conter apenas números!`, true);
-    }
-}
+            if (!/^\d+$/.test(valor)) {
+                messageStatusALTERAR(`O campo de quantidade de assentos deve conter apenas números!`, true);
+            }
+        }
         let segundoContainerVisivel = false;
 
         //"/editarAeronave/:codigo" --- mudar parametros
         // adicionar dps de headers:  body: JSON.stringify({sigla, cidade})
 
-        function fetchEditarAeronave(id, fab, modelo, anofab, qtd){
+        function fetchEditarAeronave(id, fab, modelo, anofab, qtd) {
             const url = `http://localhost:3000/editarAeronave/${id}`;
-                const requestOptions = {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({fabricante: fab, modelo, anofab, qtd})       
-                };
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ fabricante: fab, modelo, anofab, qtd })
+            };
 
-                return fetch(url, requestOptions).then(T => T.json());
-            }
-        
-        function editarAeronave(){
+            return fetch(url, requestOptions).then(T => T.json());
+        }
+
+        function editarAeronave() {
             if (!segundoContainerVisivel) {
                 return;
             }
@@ -285,7 +286,7 @@ function validarNumero2(elementId) {
                 messageStatusALTERAR('Um campo está vazio!', true);
                 return;
             }
-        
+
             const fabricante = document.getElementById('fabricanteInput').value;
             const modelo = document.getElementById('modeloInput').value;
             const anofab = document.getElementById('anofabInput').value;
@@ -298,7 +299,7 @@ function validarNumero2(elementId) {
             console.log('QUANTIADEE ===', qtd);
 
             fetchEditarAeronave(aeronaveSelecionadaId, fabricante, modelo, anofab, qtd)
-            .then(customResponse => {
+                .then(customResponse => {
                     if (customResponse.status === 'SUCCESS') {
                         messageStatusALTERAR('Aeronave alterada com sucesso!', false);
                         // Limpar campos após o sucesso
@@ -313,14 +314,15 @@ function validarNumero2(elementId) {
                     messageStatusALTERAR('Erro técnico ao editar aeronave. Contate o suporte.', true);
                     console.log('Falha grave ao editar aeronave.' + e);
                 });
-            
+
         }
     </script>
 </head>
+
 <body>
     <div id="header_page">
         <div id="img_logo">
-            <a href="../../../Geral/dashboard.html"><img src="../../../Geral/assets/images/logo.png"></a> 
+            <a href="../../../Geral/dashboard.html"><img src="../../../Geral/assets/images/logo.png"></a>
         </div>
         <div id="title_page">
             <h1>VeniceAir <br> Edição de Aeronaves</h1>
@@ -340,25 +342,26 @@ function validarNumero2(elementId) {
     <div class="containerInvisivel">
         <table id="aeronavesTable">
             <thead>
-            <tr>
-                <th>ID</th>
-                <th>Fabricante</th>
-                <th>Modelo</th>
-                <th>AnoFab</th>
-                <th>QtdAssentos</th>
-            </tr>
-        </thead>
-        <tbody id="dataBody">
+                <tr>
+                    <th>ID</th>
+                    <th>Fabricante</th>
+                    <th>Modelo</th>
+                    <th>AnoFab</th>
+                    <th>QtdAssentos</th>
+                </tr>
+            </thead>
+            <tbody id="dataBody">
 
-        </tbody>
+            </tbody>
             <p id="statusAJUDA" class="statusErrorAJUDA"></p>
         </table>
-   
-            <div class="form-group">
-                <p></p>
-                <button type="button" id="btnCadastrar" name="btnCadastrar" onclick="editarAeronave()">Alterar</button>
-            </div>
-        <p id="statusALTERAR" class="statusErrorALTERAR"></p>      
+
+        <div class="form-group">
+            <p></p>
+            <button type="button" id="btnCadastrar" name="btnCadastrar" onclick="editarAeronave()">Alterar</button>
+        </div>
+        <p id="statusALTERAR" class="statusErrorALTERAR"></p>
     </div>
 </body>
+
 </html>

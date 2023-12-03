@@ -1,125 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>VeniceAir Voos</title>
-        <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet"/>
-        <link href="../../assets/css/listagem.css" rel="stylesheet"/>
-        <script>
-            function MessageStatus(msg, error){
-                    var pStatus = document.getElementById("status");
-    
-                    if(error === true){
-                        pStatus.className = " statusError";
-                    }
-                    else{
-                        pStatus.className = 'statusSuccess'
-                    }
-                    pStatus.textContent = msg;
 
-                    // Oculta a mensagem após 1 segundos (1000 milissegundos)
-                    setTimeout(function() {
-                        pStatus.textContent = '';
-                        }, 1000);
-                }
-    
-                function fetchListar(body){
-                    const requestOptions = {
-                        method: 'GET', headers: {'Content-Type' : "application/json"}, body: JSON.stringify(body)
-                    };
-    
-                    return fetch('http://localhost:3000/listarVoos', requestOptions).then(T => T.json())
-                }
-    
-                function listarVoos(){
-                    const dataBody = document.getElementById('dataBody');
-                    fetchListar()
-                        .then(customResponse => {
-                        if(customResponse.status === "SUCCESS"){
-                            // Limpa qualquer conteúdo anterior da tabela
-                            dataBody.innerHTML = '';
-                            // Preenche a tabela com os dados da resposta
-                            customResponse.payload.forEach(item => {
-                                const idvoo = item[0];
-                                const trecho_origem = item[1];
-                                const trecho_destino = item[2];
-                                const data = item[3];
-                                const hora_partida = item[4];
-                                const hora_chegada = item[5];
-                                const aeroporto_partida = item[6];
-                                const aeroporto_chegada = item[7];
-                                const valor = item[8];
-    
-                                const row = dataBody.insertRow();
-                                const cell1 = row.insertCell(0);
-                                const cell2 = row.insertCell(1);
-                                const cell3 = row.insertCell(2);
-                                const cell4 = row.insertCell(3);
-                                const cell5 = row.insertCell(4);
-                                const cell6 = row.insertCell(5);
-                                const cell7 = row.insertCell(6);
-                                const cell8 = row.insertCell(7);
-                                const cell9 = row.insertCell(8);
-                                cell1.textContent = idvoo;
-                                cell2.textContent = trecho_origem;
-                                cell3.textContent = trecho_destino;
-                                cell4.textContent = data;
-                                cell5.textContent = hora_partida;
-                                cell6.textContent = hora_chegada;
-                                cell7.textContent = aeroporto_partida;
-                                cell8.textContent = aeroporto_chegada;
-                                cell9.textContent = valor;
-                            });
-                        }else{
-                            MessageStatus("Erro ao listar voos...: " + customResponse.message, true);
-                            console.log(customResponse.message);
-                        }
-                        })
-                        .catch((e)=>{
-                            MessageStatus("Erro técnico ao listar... Contate o suporte.", true);
-                            console.log("Falha grave ao listar." + e)
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VeniceAir Voos</title>
+    <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet" />
+    <link href="../../assets/css/listagem.css" rel="stylesheet" />
+    <script>
+        function MessageStatus(msg, error) {
+            var pStatus = document.getElementById("status");
+
+            if (error === true) {
+                pStatus.className = " statusError";
+            }
+            else {
+                pStatus.className = 'statusSuccess'
+            }
+            pStatus.textContent = msg;
+
+            // Oculta a mensagem após 1 segundos (1000 milissegundos)
+            setTimeout(function () {
+                pStatus.textContent = '';
+            }, 1000);
+        }
+
+        function fetchListar(body) {
+            const requestOptions = {
+                method: 'GET', headers: { 'Content-Type': "application/json" }, body: JSON.stringify(body)
+            };
+
+            return fetch('http://localhost:3000/listarVoos', requestOptions).then(T => T.json())
+        }
+
+        function listarVoos() {
+            const dataBody = document.getElementById('dataBody');
+            fetchListar()
+                .then(customResponse => {
+                    if (customResponse.status === "SUCCESS") {
+                        // Limpa qualquer conteúdo anterior da tabela
+                        dataBody.innerHTML = '';
+                        // Preenche a tabela com os dados da resposta
+                        customResponse.payload.forEach(item => {
+                            const idvoo = item[0];
+                            const trecho_origem = item[1];
+                            const trecho_destino = item[2];
+                            const data = item[3];
+                            const hora_partida = item[4];
+                            const hora_chegada = item[5];
+                            const aeroporto_partida = item[6];
+                            const aeroporto_chegada = item[7];
+                            const valor = item[8];
+
+                            const row = dataBody.insertRow();
+                            const cell1 = row.insertCell(0);
+                            const cell2 = row.insertCell(1);
+                            const cell3 = row.insertCell(2);
+                            const cell4 = row.insertCell(3);
+                            const cell5 = row.insertCell(4);
+                            const cell6 = row.insertCell(5);
+                            const cell7 = row.insertCell(6);
+                            const cell8 = row.insertCell(7);
+                            const cell9 = row.insertCell(8);
+                            cell1.textContent = idvoo;
+                            cell2.textContent = trecho_origem;
+                            cell3.textContent = trecho_destino;
+                            cell4.textContent = data;
+                            cell5.textContent = hora_partida;
+                            cell6.textContent = hora_chegada;
+                            cell7.textContent = aeroporto_partida;
+                            cell8.textContent = aeroporto_chegada;
+                            cell9.textContent = valor;
                         });
-                }
-                 
-                document.addEventListener("DOMContentLoaded", function() {
-                    listarVoos();
+                    } else {
+                        MessageStatus("Erro ao listar voos...: " + customResponse.message, true);
+                        console.log(customResponse.message);
+                    }
+                })
+                .catch((e) => {
+                    MessageStatus("Erro técnico ao listar... Contate o suporte.", true);
+                    console.log("Falha grave ao listar." + e)
                 });
-        </script>
-    </head>
-    <body>
-        <div id="header_page">
-            <div id="img_logo">
-                <a href="../../../Geral/dashboard.html"><img src="../../../Geral/assets/images/logo.png"></a> 
-            </div>
-            <div id="title_page">
-                <h1>VeniceAir Voos</h1>
-            </div>
-            <div id="button_padrao">
-                <button id="padrao_button"><a href="../area_admin.html">Voltar</a></button>
-            </div>
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            listarVoos();
+        });
+    </script>
+</head>
+
+<body>
+    <div id="header_page">
+        <div id="img_logo">
+            <a href="../../../Geral/dashboard.html"><img src="../../../Geral/assets/images/logo.png"></a>
         </div>
-        <div id="botao_cadastrar">
-            <button id="cadastrar"><a href="../cadastro/cadastroVoos.html">Cadastrar</a></button>
-            <button id="cadastrar"><a href="../edicao/editarVoos.html">Editar</a></button>
-            <button id="cadastrar"><a href="../exclusao/exlucirVoos.html">Excluir</a></button>
+        <div id="title_page">
+            <h1>VeniceAir Voos</h1>
         </div>
-        <table id="dataTable">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <!-- <th>IDENTIFICAÇÃO DO VOO</th -->
-                    <th>ORIGEM</th>
-                    <th>DESTINO</th>
-                    <th>DATA</th>
-                    <th>HORA PARTIDA</th>
-                    <th>HORA CHEGADA</th>
-                    <th>AEROPORTO DE PARTIDA</th>
-                    <th>AEROPORTO DE CHEGADA</th>
-                    <th>VALOR</th>
-                </tr>
-            </thead>
-            <tbody id="dataBody"></tbody>
-        </table>
-    </body>
+        <div id="button_padrao">
+            <button id="padrao_button"><a href="../area_admin.html">Voltar</a></button>
+        </div>
+    </div>
+    <div id="botao_cadastrar">
+        <button id="cadastrar"><a href="../cadastro/cadastroVoos.html">Cadastrar</a></button>
+        <button id="cadastrar"><a href="../edicao/editarVoos.html">Editar</a></button>
+        <button id="cadastrar"><a href="../exclusao/exlucirVoos.html">Excluir</a></button>
+    </div>
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <!-- <th>IDENTIFICAÇÃO DO VOO</th -->
+                <th>ORIGEM</th>
+                <th>DESTINO</th>
+                <th>DATA</th>
+                <th>HORA PARTIDA</th>
+                <th>HORA CHEGADA</th>
+                <th>AEROPORTO DE PARTIDA</th>
+                <th>AEROPORTO DE CHEGADA</th>
+                <th>VALOR</th>
+            </tr>
+        </thead>
+        <tbody id="dataBody"></tbody>
+    </table>
+</body>
+
 </html>

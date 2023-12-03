@@ -1,40 +1,41 @@
 <!-- Descrição do documento HTML -->
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-      <!-- Configuração do conjunto de caracteres e escala de visualização -->
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Avaliações VeniceAir</title>
-      <link href="../../Geral/assets/css/header_page.css" rel="stylesheet"/>
-      <link href="../assets/css/avaliacoes.css" rel="stylesheet"/>
-      <script>
-        function MessageStatus(msg, error){
-                var pStatus = document.getElementById("status");
 
-                if(error === true){
-                    pStatus.className = " statusError";
-                }
-                else{
-                    pStatus.className = 'statusSuccess'
-                }
-                pStatus.textContent = msg;
+<head>
+    <!-- Configuração do conjunto de caracteres e escala de visualização -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avaliações VeniceAir</title>
+    <link href="../../Geral/assets/css/header_page.css" rel="stylesheet" />
+    <link href="../assets/css/avaliacoes.css" rel="stylesheet" />
+    <script>
+        function MessageStatus(msg, error) {
+            var pStatus = document.getElementById("status");
+
+            if (error === true) {
+                pStatus.className = " statusError";
             }
-
-            function fetchListar(body){
-                const requestOptions = {
-                    method: 'GET', headers: {'Content-Type' : "application/json"}, body: JSON.stringify(body)
-                };
-
-                return fetch('http://localhost:3000/listarAvaliacoes', requestOptions).then(T => T.json())
+            else {
+                pStatus.className = 'statusSuccess'
             }
+            pStatus.textContent = msg;
+        }
 
-            function listarAvaliacoes(){
-                        const dataBody = document.getElementById('dataBody');
-                fetchListar()
-                    .then(customResponse => {
-                    if(customResponse.status === "SUCCESS"){
-                        
+        function fetchListar(body) {
+            const requestOptions = {
+                method: 'GET', headers: { 'Content-Type': "application/json" }, body: JSON.stringify(body)
+            };
+
+            return fetch('http://localhost:3000/listarAvaliacoes', requestOptions).then(T => T.json())
+        }
+
+        function listarAvaliacoes() {
+            const dataBody = document.getElementById('dataBody');
+            fetchListar()
+                .then(customResponse => {
+                    if (customResponse.status === "SUCCESS") {
+
                         // Limpa qualquer conteúdo anterior da tabela
                         dataBody.innerHTML = '';
 
@@ -56,27 +57,28 @@
                             cell3.textContent = nota;
                             cell4.textContent = avaliacao;
                         });
-                    }else{
+                    } else {
                         MessageStatus("Erro ao listar avaliações...: " + customResponse.message, true);
                         console.log(customResponse.message);
                     }
-                    })
-                    .catch((e)=>{
-                        MessageStatus("Erro técnico ao listar... Contate o suporte.", true);
-                        console.log("Falha grave ao listar." + e)
-                    });
-            }
-             
-            document.addEventListener("DOMContentLoaded", function() {
-                listarAvaliacoes();
-            });
+                })
+                .catch((e) => {
+                    MessageStatus("Erro técnico ao listar... Contate o suporte.", true);
+                    console.log("Falha grave ao listar." + e)
+                });
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            listarAvaliacoes();
+        });
     </script>
-  </head>
-  <body>
-      <!-- Cabecalho padrão da página -->
-      <div id="header_page">
+</head>
+
+<body>
+    <!-- Cabecalho padrão da página -->
+    <div id="header_page">
         <div id="img_logo">
-            <a href="../../Geral/dashboard.html"><img src="../../Geral/assets/images/logo.png"></a> 
+            <a href="../../Geral/dashboard.html"><img src="../../Geral/assets/images/logo.png"></a>
         </div>
         <div id="title_page">
             <h1>Avaliações VeniceAir</h1>
@@ -96,5 +98,6 @@
         </thead>
         <tbody id="dataBody"></tbody>
     </table>
-  </body>
+</body>
+
 </html>

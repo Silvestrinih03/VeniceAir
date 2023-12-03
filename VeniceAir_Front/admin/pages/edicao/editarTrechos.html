@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edição de Trechos</title>
-    <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet"/>
-    <link href="../../assets/css/tela_excluir.css" rel="stylesheet"/>
+    <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet" />
+    <link href="../../assets/css/tela_excluir.css" rel="stylesheet" />
     <script>
-        
+
         document.addEventListener('DOMContentLoaded', function () {
             carregarTrechos('trechos');
-            carregarCidades('cidadeORIGEM'); 
-            carregarCidades('cidadeDESTINO'); 
+            carregarCidades('cidadeORIGEM');
+            carregarCidades('cidadeDESTINO');
         });
 
         let trechoSelecionadoID;
@@ -24,16 +25,16 @@
                     const select = document.getElementById(idSelect);
 
                     // Adiciona um ouvinte de evento para capturar a seleção
-            select.addEventListener('change', function () {
-                // Obtém o ID da cidade selecionada
-                trechoSelecionadoID = select.value;
-                console.log('ID do trecho selecionado:', trechoSelecionadoID);
-                // Chama outras funções ou realiza outras ações necessárias
-            });
+                    select.addEventListener('change', function () {
+                        // Obtém o ID da cidade selecionada
+                        trechoSelecionadoID = select.value;
+                        console.log('ID do trecho selecionado:', trechoSelecionadoID);
+                        // Chama outras funções ou realiza outras ações necessárias
+                    });
 
                     data.payload.forEach(trecho => {
                         const option = document.createElement('option');
-                        const optionText = `${trecho[1]}  ➡️  ${trecho[2]}`; 
+                        const optionText = `${trecho[1]}  ➡️  ${trecho[2]}`;
                         option.value = trecho[0];
                         option.text = optionText;
                         select.appendChild(option);
@@ -48,31 +49,31 @@
 
 
 
-    function carregarCidades(idSelect) {
-    fetch('http://localhost:3000/listarCidades')
-        .then(response => response.json())
-        .then(data => {
-            const select = document.getElementById(idSelect);
+        function carregarCidades(idSelect) {
+            fetch('http://localhost:3000/listarCidades')
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById(idSelect);
 
-            // Adiciona um ouvinte de evento para capturar a seleção
-            select.addEventListener('change', function () {
-                // Obtém o ID da cidade selecionada
-                cidadeSelecionadaId = select.value;
-                console.log('ID da cidade selecionada:', cidadeSelecionadaId);
-                // Chama outras funções ou realiza outras ações necessárias
-            });
+                    // Adiciona um ouvinte de evento para capturar a seleção
+                    select.addEventListener('change', function () {
+                        // Obtém o ID da cidade selecionada
+                        cidadeSelecionadaId = select.value;
+                        console.log('ID da cidade selecionada:', cidadeSelecionadaId);
+                        // Chama outras funções ou realiza outras ações necessárias
+                    });
 
-            data.payload.forEach(cidade => {
-                const option = document.createElement('option');
-                option.value = cidade[0];
-                option.text = cidade[1];
-                select.appendChild(option);
-            });
-        })
-        .catch(error => {
-            console.error('Erro ao carregar cidades:', error);
-        });
-}
+                    data.payload.forEach(cidade => {
+                        const option = document.createElement('option');
+                        option.value = cidade[0];
+                        option.text = cidade[1];
+                        select.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar cidades:', error);
+                });
+        }
 
         function preencheuTrecho() {
             const trechoSelecionado = document.getElementById('trechos').value;
@@ -89,7 +90,7 @@
             pStatus.textContent = msg;
 
             // Oculta a mensagem após 1 segundos (1000 milissegundos)
-            setTimeout(function() {
+            setTimeout(function () {
                 pStatus.textContent = '';
             }, 1000);
         }
@@ -104,28 +105,28 @@
             pStatusALTERAR.textContent = msg;
 
             // Oculta a mensagem após 1 segundos (1000 milissegundos)
-            setTimeout(function() {
+            setTimeout(function () {
                 pStatus.textContent = '';
             }, 1000);
         }
 
 
-        function preencheuOrigem(){
+        function preencheuOrigem() {
             const origemSelecionada = document.getElementById('cidadeORIGEM').value;
             return origemSelecionada !== '0';
         }
 
-        function preencheuDestino(){
+        function preencheuDestino() {
             const destinoSelecionado = document.getElementById('cidadeDESTINO').value;
             return destinoSelecionado !== '0';
         }
 
         function verificarOrigemDestinoIguais(origem, destino) {
-        return origem === destino;
-    }
+            return origem === destino;
+        }
         let segundoContainerVisivel = false;
 
-        function acessarTrecho(){
+        function acessarTrecho() {
             if (!preencheuTrecho()) {
                 messageStatus('Selecione um trecho!', true);
                 return;
@@ -141,12 +142,12 @@
             const requestOptions = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({origem, destino})
+                body: JSON.stringify({ origem, destino })
             };
             return fetch(url, requestOptions).then(T => T.json());
         }
 
-        function editarTrecho(){
+        function editarTrecho() {
             if (!segundoContainerVisivel) {
                 return;
             }
@@ -164,15 +165,15 @@
             const cidadeDestino = document.getElementById('cidadeDESTINO').value;
 
             if (verificarOrigemDestinoIguais(cidadeOrigem, cidadeDestino)) {
-            messageStatusALTERAR('A origem e o destino não podem ser iguais!', true);
-            return;
-        }
+                messageStatusALTERAR('A origem e o destino não podem ser iguais!', true);
+                return;
+            }
             console.log(trechoSelecionadoID);
             console.log(cidadeOrigem);
             console.log(cidadeDestino);
 
             fetchEditarTrecho(trechoSelecionadoID, cidadeOrigem, cidadeDestino)
-            .then(customResponse => {
+                .then(customResponse => {
                     if (customResponse.status === 'SUCCESS') {
                         messageStatusALTERAR('Trecho alterado com sucesso!', false);
                         // Limpar campos após o sucesso
@@ -188,12 +189,13 @@
                     console.log('Falha grave ao editar trecho.' + e);
                 });
         }
-</script>
+    </script>
 </head>
+
 <body>
     <div id="header_page">
         <div id="img_logo">
-            <a href="../../../Geral/dashboard.html"><img src="../../../Geral/assets/images/logo.png"></a> 
+            <a href="../../../Geral/dashboard.html"><img src="../../../Geral/assets/images/logo.png"></a>
         </div>
         <div id="title_page">
             <h1>VeniceAir <br> Edição de Trecho</h1>
@@ -221,12 +223,13 @@
             <select name="cidadeDESTINO" id="cidadeDESTINO">
                 <option value="0" selected>Destino</option>
             </select>
-    <div class="form-group">
-        <button type="button" id="btnCadastrar" name="btnCadastrar" onclick="editarTrecho()">Alterar</button>
-        <!-- <button type="reset">Limpar</button> -->
+            <div class="form-group">
+                <button type="button" id="btnCadastrar" name="btnCadastrar" onclick="editarTrecho()">Alterar</button>
+                <!-- <button type="reset">Limpar</button> -->
+            </div>
+            <!-- Mensagem de Status da função ALTERAR dados do aeroporto -->
+            <p id="statusALTERAR" class="statusErrorALTERAR"></p>
     </div>
-    <!-- Mensagem de Status da função ALTERAR dados do aeroporto -->
-    <p id="statusALTERAR" class="statusErrorALTERAR"></p>      
-</div>
 </body>
+
 </html>

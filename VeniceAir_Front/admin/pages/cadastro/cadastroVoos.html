@@ -1,248 +1,249 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="../../../Geral/assets/css/header_page.css">
-        <link rel="stylesheet" href="../../assets/css/tela_cadastro.css">
-        <title>Cadastro de Voos - VeniceAir</title>
-        <script>
-            
-            let trechoSelecionadoId;
-            // carregar TRECHO e AEROPORTOS
-            document.addEventListener('DOMContentLoaded', function () {
-                carregarTrechos('comboTrechos');
-                carregarAeroportos('comboAeroportoUm');
-                carregarAeroportos('comboAeroportoDois');
-            });
 
-            // funcao carregar TRECHOS
-            function carregarTrechos(idSelect) {
-                fetch('http://localhost:3000/listarTrechos')
-                    .then(response => response.json())
-                    .then(data => {
-                        const select = document.getElementById(idSelect);
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../../Geral/assets/css/header_page.css">
+    <link rel="stylesheet" href="../../assets/css/tela_cadastro.css">
+    <title>Cadastro de Voos - VeniceAir</title>
+    <script>
 
-                // Adiciona um ouvinte de evento para capturar a seleção
-                select.addEventListener('change', function () {
-                // Obtém o ID do trecho selecionada
-                trechoSelecionadoId = select.value;
-                console.log('ID do trecho selecionado:', trechoSelecionadoId);
-                // Chama outras funções ou realiza outras ações necessárias
-            });
+        let trechoSelecionadoId;
+        // carregar TRECHO e AEROPORTOS
+        document.addEventListener('DOMContentLoaded', function () {
+            carregarTrechos('comboTrechos');
+            carregarAeroportos('comboAeroportoUm');
+            carregarAeroportos('comboAeroportoDois');
+        });
 
-                        data.payload.forEach(trecho => {
-                            const option = document.createElement('option');
-                            // CONCATENAR (origem e destino na mesma opcaooo)
-                            const optionText = `${trecho[1]}  ➡️  ${trecho[2]}`; 
+        // funcao carregar TRECHOS
+        function carregarTrechos(idSelect) {
+            fetch('http://localhost:3000/listarTrechos')
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById(idSelect);
 
-                            option.value = trecho[0];
-                            option.text = optionText;
-                            select.appendChild(option);
-                        });
-                    })
-                    .catch(error => {
-                        console.error('Erro ao carregar trechos:', error);
+                    // Adiciona um ouvinte de evento para capturar a seleção
+                    select.addEventListener('change', function () {
+                        // Obtém o ID do trecho selecionada
+                        trechoSelecionadoId = select.value;
+                        console.log('ID do trecho selecionado:', trechoSelecionadoId);
+                        // Chama outras funções ou realiza outras ações necessárias
                     });
-            }
 
-            // funcao carregar AEROPORTOS
-            function carregarAeroportos(idSelect) {
-                fetch('http://localhost:3000/listarAeroportos')
-                    .then(response => response.json())
-                    .then(data => {
-                        const select = document.getElementById(idSelect);
+                    data.payload.forEach(trecho => {
+                        const option = document.createElement('option');
+                        // CONCATENAR (origem e destino na mesma opcaooo)
+                        const optionText = `${trecho[1]}  ➡️  ${trecho[2]}`;
 
-                        data.payload.forEach(aeroporto => {
-                            const option = document.createElement('option');
-                            const optionText = `${aeroporto[1]}  ➡️  ${aeroporto[2]}`; 
-                            option.value = aeroporto[0];
-                            option.text = optionText;
-                            select.appendChild(option);
-                        });
-                    })
-                    .catch(error => {
-                        console.error('Erro ao carregar aeroportos:', error);
+                        option.value = trecho[0];
+                        option.text = optionText;
+                        select.appendChild(option);
                     });
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar trechos:', error);
+                });
+        }
+
+        // funcao carregar AEROPORTOS
+        function carregarAeroportos(idSelect) {
+            fetch('http://localhost:3000/listarAeroportos')
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById(idSelect);
+
+                    data.payload.forEach(aeroporto => {
+                        const option = document.createElement('option');
+                        const optionText = `${aeroporto[1]}  ➡️  ${aeroporto[2]}`;
+                        option.value = aeroporto[0];
+                        option.text = optionText;
+                        select.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar aeroportos:', error);
+                });
+        }
+
+        function preencheuTrecho() {
+            let resultado = false
+
+            const trechoSelecionado = document.getElementById('comboTrechos').value;
+            return trechoSelecionado !== '0';
+        }
+
+        function preencheuData() {
+            let resultado = false;
+
+            const data = document.getElementById('data').value;
+            if (data.length > 0) {
+                resultado = true;
             }
+            return resultado;
+        }
 
-            function preencheuTrecho(){
-                let resultado = false
+        function preencheuHorario() {
+            let resultado = false;
 
-                const trechoSelecionado = document.getElementById('comboTrechos').value;
-                return trechoSelecionado !== '0';
+            const horario1 = document.getElementById('horarioUm').value;
+            const horario2 = document.getElementById('horarioDois').value;
+
+            if (horario1.length > 0 && horario2.length > 0) {
+                resultado = true;
             }
+            return resultado;
+        }
 
-            function preencheuData(){
-                let resultado = false;
+        function preencheuAeroportoPartida() {
+            let resultado = false;
 
-                const data = document.getElementById('data').value;
-                if(data.length > 0){
-                    resultado = true;
-                }
-                return resultado;
+            const aeroPARTIDASelecionado = document.getElementById('comboAeroportoUm').value;
+            return aeroPARTIDASelecionado !== '0';
+
+        }
+
+        function preencheuAeroportoChegada() {
+            let resultado = false;
+
+            const aeroCHEGADASelecionado = document.getElementById('comboAeroportoDois').value;
+            return aeroCHEGADASelecionado !== '0';
+        }
+
+        function preencheuValor() {
+            let resultado = false;
+
+            const valor = document.getElementById('valor').value;
+            if (valor.length > 0) {
+                resultado = true;
             }
+            return resultado;
+        }
 
-            function preencheuHorario(){
-                let resultado = false;
+        // não funcionaaaaaaaaaaaa
+        // function dataErrada() {
+        //     let resultado = false;
 
-                const horario1 = document.getElementById('horarioUm').value;
-                const horario2 = document.getElementById('horarioDois').value;
+        //     // Obter a data atual
+        //     const dataAtual = new Date();
+        //     const anoAtual = dataAtual.getFullYear();
+        //     const mesAtual = (dataAtual.getMonth() + 1).toString().padStart(2, '0');
+        //     const diaAtual = dataAtual.getDate().toString().padStart(2, '0');
+        //     const dataAtualFormatada = new Date(`${anoAtual}-${mesAtual}-${diaAtual}`);
 
-                if(horario1.length > 0 && horario2.length >0 ){
-                    resultado = true;
-                }
-                return resultado;
+        //     // Obter a data selecionada
+        //     const dataSelecionada = new Date(document.getElementById('data').value);
+
+        //     // Verificar se a data selecionada é maior ou igual à data atual
+        //     if (dataSelecionada < dataAtualFormatada) {
+        //         resultado = true;
+        //     }
+        //     return resultado;
+        // }
+
+
+        function MessageStatus(msg, error) {
+            var pStatus = document.getElementById("status");
+
+            if (error === true) {
+                pStatus.className = " statusError";
             }
-
-            function preencheuAeroportoPartida(){
-                let resultado = false;
-
-                const aeroPARTIDASelecionado = document.getElementById('comboAeroportoUm').value;
-                return aeroPARTIDASelecionado !== '0';
-        
+            else {
+                pStatus.className = 'statusSucess'
             }
+            pStatus.textContent = msg;
 
-            function preencheuAeroportoChegada(){
-                let resultado = false;
-
-                const aeroCHEGADASelecionado = document.getElementById('comboAeroportoDois').value;
-                return aeroCHEGADASelecionado !== '0';
-            }
-
-            function preencheuValor(){
-                let resultado = false;
-
-                const valor = document.getElementById('valor').value;
-                if(valor.length > 0){
-                    resultado = true;
-                }
-                return resultado;
-            }
-
-            // não funcionaaaaaaaaaaaa
-            // function dataErrada() {
-            //     let resultado = false;
-                
-            //     // Obter a data atual
-            //     const dataAtual = new Date();
-            //     const anoAtual = dataAtual.getFullYear();
-            //     const mesAtual = (dataAtual.getMonth() + 1).toString().padStart(2, '0');
-            //     const diaAtual = dataAtual.getDate().toString().padStart(2, '0');
-            //     const dataAtualFormatada = new Date(`${anoAtual}-${mesAtual}-${diaAtual}`);
-
-            //     // Obter a data selecionada
-            //     const dataSelecionada = new Date(document.getElementById('data').value);
-
-            //     // Verificar se a data selecionada é maior ou igual à data atual
-            //     if (dataSelecionada < dataAtualFormatada) {
-            //         resultado = true;
-            //     }
-            //     return resultado;
-            // }
-
-
-            function MessageStatus(msg, error){
-                var pStatus = document.getElementById("status");
-
-                if(error === true){
-                    pStatus.className = " statusError";
-                }
-                else{
-                    pStatus.className = 'statusSucess'
-                }
-                pStatus.textContent = msg;
-
-                // Oculta a mensagem após 1 segundos (1000 milissegundos)
-            setTimeout(function() {
+            // Oculta a mensagem após 1 segundos (1000 milissegundos)
+            setTimeout(function () {
                 pStatus.textContent = '';
             }, 1000);
+        }
+
+
+        function fetchInserirVoo(trecho, data, horapartida, horachegada, aeroportopartida, aeroportochegada, valor) {
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    trecho: trecho,
+                    data_partida: data,
+                    hora_partida: horapartida,
+                    hora_chegada: horachegada,
+                    aeroporto_partida: aeroportopartida,
+                    aeroporto_chegada: aeroportochegada,
+                    valor: valor
+                })
+            };
+            return fetch('http://localhost:3000/inserirVoo', requestOptions).then(response => response.json());
+        }
+
+        function cadastrarVoo() {
+            if (!preencheuTrecho()) {
+                MessageStatus("Selecione um trecho!", true);
+                return
             }
 
-
-            function fetchInserirVoo(trecho, data, horapartida, horachegada, aeroportopartida, aeroportochegada, valor) {
-                const requestOptions = {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        trecho: trecho,
-                        data_partida: data,
-                        hora_partida: horapartida,
-                        hora_chegada: horachegada,
-                        aeroporto_partida: aeroportopartida,
-                        aeroporto_chegada: aeroportochegada,
-                        valor: valor
-                    })
-                };
-                return fetch('http://localhost:3000/inserirVoo', requestOptions).then(response => response.json());
+            else if (!preencheuData()) {
+                MessageStatus("Preencha a data!", true);
+                return
             }
 
-            function cadastrarVoo(){
-                if(!preencheuTrecho()){
-                    MessageStatus("Selecione um trecho!", true);
-                    return
-                }
-            
-                else if(!preencheuData()){
-                    MessageStatus("Preencha a data!", true);
-                    return
-                }
+            // não funcionaaaaaaaaaa
+            // else if (dataErrada==true){
+            //     MessageStatus("A data do voo deve ser igual ou maior que a data atual!", true);
+            //     return
+            // }
 
-                // não funcionaaaaaaaaaa
-                // else if (dataErrada==true){
-                //     MessageStatus("A data do voo deve ser igual ou maior que a data atual!", true);
-                //     return
-                // }
+            else if (!preencheuHorario()) {
+                MessageStatus("Preencha o horário!", true);
+                return
+            }
 
-                else if(!preencheuHorario()){
-                    MessageStatus("Preencha o horário!", true);
-                    return
-                }
+            else if (!preencheuAeroportoPartida()) {
+                MessageStatus("Preencha o aeroporto de partida!", true)
+            }
 
-                else if (!preencheuAeroportoPartida()){
-                    MessageStatus("Preencha o aeroporto de partida!", true)
-                }
+            else if (!preencheuAeroportoChegada()) {
+                MessageStatus("Preencha o aeroporto de chegada!", true)
+            }
 
-                else if (!preencheuAeroportoChegada()){
-                    MessageStatus("Preencha o aeroporto de chegada!", true)
-                }
+            else if (!preencheuValor()) {
+                MessageStatus("Preencha o valor!", true);
+                return
+            }
 
-                else if(!preencheuValor()){
-                    MessageStatus("Preencha o valor!", true);
-                    return
-                }
+            // trecho, data, horapartida, horachegada, aeroportopartida, aeroportochegada, valor
+            const Trecho = document.getElementById("comboTrechos").value;
+            // const Data = document.getElementById("data").value;
+            const Data = new Date(document.getElementById("data").value).toISOString().split('T')[0]; // Ajuste aqui
+            const HorarioPartida = document.getElementById("horarioUm").value;
+            const HorarioChegada = document.getElementById("horarioDois").value;
+            const AeroportoPartida = document.getElementById("comboAeroportoUm").value;
+            const AeroportoChegada = document.getElementById("comboAeroportoDois").value;
+            const Valor = document.getElementById("valor").value;
 
-                // trecho, data, horapartida, horachegada, aeroportopartida, aeroportochegada, valor
-                const Trecho = document.getElementById("comboTrechos").value;
-                // const Data = document.getElementById("data").value;
-                const Data = new Date(document.getElementById("data").value).toISOString().split('T')[0]; // Ajuste aqui
-                const HorarioPartida = document.getElementById("horarioUm").value;
-                const HorarioChegada = document.getElementById("horarioDois").value;
-                const AeroportoPartida = document.getElementById("comboAeroportoUm").value;
-                const AeroportoChegada = document.getElementById("comboAeroportoDois").value;
-                const Valor = document.getElementById("valor").value;
-
-                // MENSAGEM NO CONSOLE PRA SABER QUAL TRECHO Q FOI SELECIONADO (CAMPINAS-PORTOALEGRE=42)
-                // MAIS CONSOLE LOG PRA SABER DE TUDO ====== DATA ESTA RETORNANDO INVALIDO!
-                // sql aceita: DD/MM/RR e aqui envia YYYY/MM/DD
-                console.log("Trecho:", Trecho);
-                console.log("Data:", Data);
-                console.log("horario partida:", HorarioPartida);
-                console.log("horario chegada:", HorarioChegada);
-                console.log("aeroporto partida:", AeroportoPartida);
-                console.log("aeroporto chegada:", AeroportoChegada);
-                console.log("valor:", Valor);
+            // MENSAGEM NO CONSOLE PRA SABER QUAL TRECHO Q FOI SELECIONADO (CAMPINAS-PORTOALEGRE=42)
+            // MAIS CONSOLE LOG PRA SABER DE TUDO ====== DATA ESTA RETORNANDO INVALIDO!
+            // sql aceita: DD/MM/RR e aqui envia YYYY/MM/DD
+            console.log("Trecho:", Trecho);
+            console.log("Data:", Data);
+            console.log("horario partida:", HorarioPartida);
+            console.log("horario chegada:", HorarioChegada);
+            console.log("aeroporto partida:", AeroportoPartida);
+            console.log("aeroporto chegada:", AeroportoChegada);
+            console.log("valor:", Valor);
 
 
-                fetchInserirVoo(
-                    Trecho,
-                    Data,
-                    HorarioPartida,
-                    HorarioChegada,
-                    AeroportoPartida,
-                    AeroportoChegada,
-                    Valor
-                )
+            fetchInserirVoo(
+                Trecho,
+                Data,
+                HorarioPartida,
+                HorarioChegada,
+                AeroportoPartida,
+                AeroportoChegada,
+                Valor
+            )
                 .then(customResponse => {
                     if (customResponse.status === "SUCCESS") {
                         MessageStatus("Voo cadastrado com sucesso! ", false);
@@ -265,62 +266,64 @@
                 });
         }
 
-        </script>
-    </head>
-    <body>
-        <div id="header_page">
-            <div id="img_logo">
-                <a href="../../../Geral/dashboard.html"><img src="../../../Geral/assets/images/logo.png"></a> 
-            </div>
-            <div id="title_page">
-                <h1>VeniceAir <br> Cadastro de Voos</h1>
-            </div>
-            <div id="button_padrao">
-                <button id="padrao_button"><a href="../listagem/voos.html">Voltar</a></button>
-            </div>
+    </script>
+</head>
+
+<body>
+    <div id="header_page">
+        <div id="img_logo">
+            <a href="../../../Geral/dashboard.html"><img src="../../../Geral/assets/images/logo.png"></a>
         </div>
-        <div class="container">
-            <p>Preencha todos os campos para cadastrar voo.</p>
-            <form action="/inserirVoo" method="post" enctype="application/json">
-                <label for="trecho">Trecho:</label>
-                <select name="comboTrechos" id="comboTrechos">
-                    <option value="0" selected>Selecione o trecho</option>
-                </select>
-            
-                <label for="data">Data:</label>
-                <div id="voos">
-                    <input type="date" id="data" name="data" required>
-                </div>
-            
-                <div id="voos">
-                    <label for="horarioUm">Hora partida:</label>
-                    <label for="horarioDois">Hora chegada:</label>
-                </div>
-            
-                <div id="voos">
-                    <input type="text" id="horarioUm" name="horarioUm" placeholder="Ex: 11:00" required>
-                    <input type="text" id="horarioDois" name="horarioDois" placeholder="Ex: 11:00" required>
-                </div>
-            
-                <label for="data" id="voos">Aeroporto partida:</label>
-                <select name="comboAeroportoUm" id="comboAeroportoUm">
-                    <option value="0" selected>Selecione o aeroporto</option>
-                </select>
-            
-                <label for="data" id="voos">Aeroporto chegada:</label>
-                <select name="comboAeroportoDois" id="comboAeroportoDois">
-                    <option value="0" selected>Selecione o aeroporto</option>
-                </select>
-            
-                <label for="valor" id="voos">Valor:</label>
-                <input type="text" id="valor" name="valor" required placeholder="Ex: 2000.00">
-                
-                <button type="button" onclick="cadastrarVoo()">Salvar</button>
-                <button type="reset">Limpar</button>
-            </form>
-            
-            <p id="status" class="statusError"></p>
-            <!-- TA PODENDO SELECIONAR O MESMO AEROPORTO 2X -->
+        <div id="title_page">
+            <h1>VeniceAir <br> Cadastro de Voos</h1>
         </div>
-    </body>
+        <div id="button_padrao">
+            <button id="padrao_button"><a href="../listagem/voos.html">Voltar</a></button>
+        </div>
+    </div>
+    <div class="container">
+        <p>Preencha todos os campos para cadastrar voo.</p>
+        <form action="/inserirVoo" method="post" enctype="application/json">
+            <label for="trecho">Trecho:</label>
+            <select name="comboTrechos" id="comboTrechos">
+                <option value="0" selected>Selecione o trecho</option>
+            </select>
+
+            <label for="data">Data:</label>
+            <div id="voos">
+                <input type="date" id="data" name="data" required>
+            </div>
+
+            <div id="voos">
+                <label for="horarioUm">Hora partida:</label>
+                <label for="horarioDois">Hora chegada:</label>
+            </div>
+
+            <div id="voos">
+                <input type="text" id="horarioUm" name="horarioUm" placeholder="Ex: 11:00" required>
+                <input type="text" id="horarioDois" name="horarioDois" placeholder="Ex: 11:00" required>
+            </div>
+
+            <label for="data" id="voos">Aeroporto partida:</label>
+            <select name="comboAeroportoUm" id="comboAeroportoUm">
+                <option value="0" selected>Selecione o aeroporto</option>
+            </select>
+
+            <label for="data" id="voos">Aeroporto chegada:</label>
+            <select name="comboAeroportoDois" id="comboAeroportoDois">
+                <option value="0" selected>Selecione o aeroporto</option>
+            </select>
+
+            <label for="valor" id="voos">Valor:</label>
+            <input type="text" id="valor" name="valor" required placeholder="Ex: 2000.00">
+
+            <button type="button" onclick="cadastrarVoo()">Salvar</button>
+            <button type="reset">Limpar</button>
+        </form>
+
+        <p id="status" class="statusError"></p>
+        <!-- TA PODENDO SELECIONAR O MESMO AEROPORTO 2X -->
+    </div>
+</body>
+
 </html>

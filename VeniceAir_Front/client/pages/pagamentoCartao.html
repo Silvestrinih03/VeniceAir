@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VeniceAir Pagamento</title>
-    <link href="../../Geral/assets/css/header_page.css" rel="stylesheet"/>
-    <link href="../assets/css/pagamento.css" rel="stylesheet"/>
+    <link href="../../Geral/assets/css/header_page.css" rel="stylesheet" />
+    <link href="../assets/css/pagamento.css" rel="stylesheet" />
     <script>
 
         let TT = sessionStorage.getItem("Tipo");
@@ -14,9 +15,8 @@
         function ondeVolta() {
             const voltarOnde = sessionStorage.getItem("Tipo");
             //console.log("voltarOnde = ", voltarOnde);
-            if (voltarOnde === '2')
-                { window.location.href = 'volta/resumoVolta.html'}
-            else { window.location.href = 'resumoCompra.html'}
+            if (voltarOnde === '2') { window.location.href = 'volta/resumoVolta.html' }
+            else { window.location.href = 'resumoCompra.html' }
         }
         function messageStatus(msg, error) {
             const pStatus = document.getElementById('status');
@@ -27,7 +27,7 @@
             }
             pStatus.textContent = msg;
         }
-        
+
         function clearFirstMessage() {
             const pStatus = document.getElementById('status');
             pStatus.textContent = '';  // Limpa o conteúdo
@@ -50,7 +50,7 @@
             return /^\d+$/.test(valor);
         }
 
-        function preencheuNomeTitular(){
+        function preencheuNomeTitular() {
             let resultado = false;
             const nomeCompletoo = document.getElementById('nome').value;
             if (nomeCompletoo.length > 0) {
@@ -59,7 +59,7 @@
             return resultado;
         }
 
-        function preencheuNumeroCartao(){
+        function preencheuNumeroCartao() {
             let resultado = false;
             const numeroCartaoo = document.getElementById('numeroCartao').value;
             if (numeroCartaoo.length > 0) {
@@ -68,7 +68,7 @@
             return resultado;
         }
 
-        function preencheuDataValidade(){
+        function preencheuDataValidade() {
             let resultado = false;
             const dataVal = document.getElementById('dataValidade').value;
             if (dataVal.length > 0) {
@@ -77,7 +77,7 @@
             return resultado;
         }
 
-        function preencheuCVV(){
+        function preencheuCVV() {
             let resultado = false;
             const cvvv = document.getElementById('cvv').value;
             if (cvvv.length > 0) {
@@ -89,8 +89,8 @@
         function aprovaOuReprova(numero) {
             return numero % 2 === 0;
         }
-        
-        function PAGAR (){
+
+        function PAGAR() {
             const numeroCartao = document.getElementById('numeroCartao').value;
             const cvv = document.getElementById('cvv').value;
 
@@ -129,6 +129,7 @@
 
     </script>
 </head>
+
 <body>
     <div id="header_page">
         <div id="img_logo">
@@ -146,18 +147,18 @@
             <p>Preencha todos os campos para finalizar a compra.</p>
             <label for="nome">Nome do titular</label>
             <!-- <input type="email" placeholder="Insira seu endereço de e-mail" id="email" name="campos_feedback"> -->
-            <input type="text" placeholder="Digite o nome impresso no cartão" id="nome" name="nome"/>
+            <input type="text" placeholder="Digite o nome impresso no cartão" id="nome" name="nome" />
 
             <label for="numeroCartao">Número do cartão</label>
-            <input type="text" placeholder="Digite somente números" id="numeroCartao" name="numeroCartao"/>
+            <input type="text" placeholder="Digite somente números" id="numeroCartao" name="numeroCartao" />
 
             <label for="validade">Data de Validade</label>
-            <input type="month" id="dataValidade" name="dataValidade"/>
+            <input type="month" id="dataValidade" name="dataValidade" />
 
             <label for="codigoSeguranca">Código de Segurança</label>
-            <input type="text" placeholder="ex.: 123" id="cvv" name="cvv"/>
+            <input type="text" placeholder="ex.: 123" id="cvv" name="cvv" />
 
-            
+
             <!-- <button type="button">Continuar</button>
             <button type="reset">Limpar</button> -->
             <!-- colocar, no lado dessa div class container, outra div só que com a imagem dos bancos! -->
@@ -173,7 +174,8 @@
     </div> -->
     <p></p> <!-- nao sei dar espaco normal -->
     <div id="footer">
-        <p>  Copyright VeniceAir - 2023. Todos os direitos reservados.</p>
+        <p> Copyright VeniceAir - 2023. Todos os direitos reservados.</p>
     </div>
 </body>
+
 </html>

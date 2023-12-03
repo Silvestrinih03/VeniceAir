@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VeniceAir Pagamento</title>
-    <link href="../../Geral/assets/css/header_page.css" rel="stylesheet"/>
-    <link href="../assets/css/pagamento.css" rel="stylesheet"/>
+    <link href="../../Geral/assets/css/header_page.css" rel="stylesheet" />
+    <link href="../assets/css/pagamento.css" rel="stylesheet" />
     <script>
 
         let TT = sessionStorage.getItem("Tipo");
@@ -14,9 +15,8 @@
         function ondeVolta() {
             const voltarOnde = sessionStorage.getItem("Tipo");
             //console.log("voltarOnde = ", voltarOnde);
-            if (voltarOnde === '2')
-                { window.location.href = 'volta/resumoVolta.html'}  
-            else { window.location.href = 'resumoCompra.html'}
+            if (voltarOnde === '2') { window.location.href = 'volta/resumoVolta.html' }
+            else { window.location.href = 'resumoCompra.html' }
         }
 
         function messageStatus(msg, error) {
@@ -51,7 +51,7 @@
             return /^\d+$/.test(valor);
         }
 
-        function preencheuNomeCompleto(){
+        function preencheuNomeCompleto() {
             let resultado = false;
             const nomeCompletoo = document.getElementById('nome').value;
             if (nomeCompletoo.length > 0) {
@@ -60,7 +60,7 @@
             return resultado;
         }
 
-        function preencheuCPF(){
+        function preencheuCPF() {
             let resultado = false;
             const numCPF = document.getElementById('numeroCPF').value;
             if (numCPF.length > 0) {
@@ -74,32 +74,33 @@
         }
 
         function enviarDados() {
-    const numCPF = document.getElementById('numeroCPF').value;
+            const numCPF = document.getElementById('numeroCPF').value;
 
-    if (!preencheuNomeCompleto()) {
-        messageStatus('Preencha o nome do titular!', true);
-        return;
-    } else if (!preencheuCPF() || !contemApenasNumeros(numCPF)) {
-        messageStatus('Preencha um CPF válido!', true);
-        return;
-    } else if (aprovaOuReprova(parseInt(numCPF))) {
-        //messageStatusFinal('Pagamento recusado!', true);
-        alert("PAGAMENTO RECUSADO!");
-        return;
-    } else {
-        console.log("cheguei aqui");    
-        messageStatusFinal('Pagamento realizado com sucesso!', false);
-        window.location.href = 'pagamentoAprovado.html';
-        
-    }
-}
+            if (!preencheuNomeCompleto()) {
+                messageStatus('Preencha o nome do titular!', true);
+                return;
+            } else if (!preencheuCPF() || !contemApenasNumeros(numCPF)) {
+                messageStatus('Preencha um CPF válido!', true);
+                return;
+            } else if (aprovaOuReprova(parseInt(numCPF))) {
+                //messageStatusFinal('Pagamento recusado!', true);
+                alert("PAGAMENTO RECUSADO!");
+                return;
+            } else {
+                console.log("cheguei aqui");
+                messageStatusFinal('Pagamento realizado com sucesso!', false);
+                window.location.href = 'pagamentoAprovado.html';
+
+            }
+        }
 
     </script>
 </head>
+
 <body>
     <div id="header_page">
         <div id="img_logo">
-            <a href="../../Geral/dashboard.html"><img src="../../Geral/assets/images/logo.png"></a>  
+            <a href="../../Geral/dashboard.html"><img src="../../Geral/assets/images/logo.png"></a>
         </div>
         <div id="title_page">
             <h1>VeniceAir <br> Pagamento por PIX</h1>
@@ -112,11 +113,11 @@
         <form id="finaliza_pagamento">
             <label for="nome">Nome completo</label>
             <!-- <input type="email" placeholder="Insira seu endereço de e-mail" id="email" name="campos_feedback"> -->
-            <input type="text" placeholder="Digite o nome completo" id="nome" name="nome"/>
+            <input type="text" placeholder="Digite o nome completo" id="nome" name="nome" />
             <label for="email">E-mail</label>
-            <input type="text" placeholder="ex: nome@email.com" id="numeroCPF" name="numeroCPF"/>
+            <input type="text" placeholder="ex: nome@email.com" id="numeroCPF" name="numeroCPF" />
             <label for="numeroCPF">CPF</label>
-            <input type="text" placeholder="Digite somente números" id="numeroCPF" name="numeroCPF"/>
+            <input type="text" placeholder="Digite somente números" id="numeroCPF" name="numeroCPF" />
             <p>Preencha todos os campos para finalizar a compra.</p>
             <p id="status" class="statusError"></p>
         </form>
@@ -125,7 +126,7 @@
             <img id="img_QRCode" src="pagamento\pagamento\pix.png.jpg">
             <p>Escaneie o QR CODE!</p>
         </div>
-        
+
     </div>
     <div class="container_botao">
         <button type="button" onclick="enviarDados();">Enviar dados</button>
@@ -133,4 +134,5 @@
 
     </div>
 </body>
+
 </html>

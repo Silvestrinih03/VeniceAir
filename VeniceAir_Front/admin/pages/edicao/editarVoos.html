@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edição de Voos</title>
-    <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet"/>
-    <link href="../../assets/css/tela_excluir.css" rel="stylesheet"/>
+    <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet" />
+    <link href="../../assets/css/tela_excluir.css" rel="stylesheet" />
     <script>
         // carregar voos
         document.addEventListener('DOMContentLoaded', function () {
@@ -24,15 +25,15 @@
 
                     // Adiciona um ouvinte de evento para capturar a seleção
                     select.addEventListener('change', function () {
-                    // Obtém o ID do voo selecionado
-                    vooSelecionadoId = select.value;
-                    console.log('ID do voo selecionado:', vooSelecionadoId);
-                    // Chama outras funções ou realiza outras ações necessárias
-        });
+                        // Obtém o ID do voo selecionado
+                        vooSelecionadoId = select.value;
+                        console.log('ID do voo selecionado:', vooSelecionadoId);
+                        // Chama outras funções ou realiza outras ações necessárias
+                    });
 
                     data.payload.forEach(voo => {
                         const option = document.createElement('option');
-                        const optionText = `${voo[0]} : ${voo[1]}  ➡️  ${voo[2]}`; 
+                        const optionText = `${voo[0]} : ${voo[1]}  ➡️  ${voo[2]}`;
                         option.value = voo[0];
                         option.text = optionText;
                         select.appendChild(option);
@@ -46,33 +47,33 @@
 
         // funcao carregar TRECHOS
         function carregarTrechos(idSelect) {
-                fetch('http://localhost:3000/listarTrechos')
-                    .then(response => response.json())
-                    .then(data => {
-                        const select = document.getElementById(idSelect);
+            fetch('http://localhost:3000/listarTrechos')
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById(idSelect);
 
-                // Adiciona um ouvinte de evento para capturar a seleção
-                select.addEventListener('change', function () {
-                // Obtém o ID do trecho selecionada
-                trechoSelecionadoId = select.value;
-                console.log('ID do trecho selecionado:', trechoSelecionadoId);
-                // Chama outras funções ou realiza outras ações necessárias
-            });
-
-                        data.payload.forEach(trecho => {
-                            const option = document.createElement('option');
-                            // CONCATENAR (origem e destino na mesma opcaooo)
-                            const optionText = `${trecho[1]}  ➡️  ${trecho[2]}`; 
-
-                            option.value = trecho[0];
-                            option.text = optionText;
-                            select.appendChild(option);
-                        });
-                    })
-                    .catch(error => {
-                        console.error('Erro ao carregar trechos:', error);
+                    // Adiciona um ouvinte de evento para capturar a seleção
+                    select.addEventListener('change', function () {
+                        // Obtém o ID do trecho selecionada
+                        trechoSelecionadoId = select.value;
+                        console.log('ID do trecho selecionado:', trechoSelecionadoId);
+                        // Chama outras funções ou realiza outras ações necessárias
                     });
-            }
+
+                    data.payload.forEach(trecho => {
+                        const option = document.createElement('option');
+                        // CONCATENAR (origem e destino na mesma opcaooo)
+                        const optionText = `${trecho[1]}  ➡️  ${trecho[2]}`;
+
+                        option.value = trecho[0];
+                        option.text = optionText;
+                        select.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar trechos:', error);
+                });
+        }
 
         // Função que verifica se o admin selecionou um voo na caixa de seleção
         function selecionouVoo() {
@@ -91,26 +92,26 @@
             pStatus.textContent = msg;
 
             // Oculta a mensagem após 1 segundos (1000 milissegundos)
-            setTimeout(function() {
+            setTimeout(function () {
                 pStatus.textContent = '';
-                }, 1000);
-            
+            }, 1000);
+
         }
 
         // ESSA É PRA LISTAGEM DO VOO ESCOLHIDO
         function messageStatus2(msg, error) {
-                    const pStatus = document.getElementById('status');
-                    if (error) {
-                        pStatus.className = 'statusError';
-                    } else {
-                        pStatus.className = 'statusSuccess';
-                    }
-                    pStatus.textContent = msg;
+            const pStatus = document.getElementById('status');
+            if (error) {
+                pStatus.className = 'statusError';
+            } else {
+                pStatus.className = 'statusSuccess';
+            }
+            pStatus.textContent = msg;
 
-                    // Oculta a mensagem após 1 segundos (1000 milissegundos)
-                    setTimeout(function() {
-                        pStatus.textContent = '';
-                        }, 1000);
+            // Oculta a mensagem após 1 segundos (1000 milissegundos)
+            setTimeout(function () {
+                pStatus.textContent = '';
+            }, 1000);
         }
 
         // Função que exibe as mensagens de status (sucesso ou erro) da parte de ALTERAR um voo!
@@ -124,7 +125,7 @@
             pStatusALTERAR.textContent = msg;
 
             // Oculta a mensagem após 3 segundos (3000 milissegundos)
-            setTimeout(function() {
+            setTimeout(function () {
                 pStatus.textContent = '';
             }, 3000);
         }
@@ -165,23 +166,23 @@
         }
 
         function fetchListar(id) {
-                const url = `http://localhost:3000/listarVoo/${id}`;
-                const requestOptions = {
-                    method: 'GET',
-                    headers: {'Content-Type': 'application/json'}
-                };
+            const url = `http://localhost:3000/listarVoo/${id}`;
+            const requestOptions = {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            };
 
-                return fetch(url, requestOptions).then(T => T.json());
-            }
+            return fetch(url, requestOptions).then(T => T.json());
+        }
 
 
 
-        function acessarVoo(){
+        function acessarVoo() {
             if (!selecionouVoo()) {
                 messageStatus('Selecione um voo!', true);
                 return;
             }
-        
+
             document.querySelector('.containerInvisivel').style.display = 'block';
             segundoContainerVisivel = true;
             document.getElementById('status').style.display = 'none';
@@ -215,63 +216,63 @@
 
                             // SÓ VAI SER ID_VOO CÉLULA 1
                             cell1.textContent = idvoo;
-                                cell2.textContent = trecho_origem;
-                                //cell3.textContent = data;
-                                //cell4.textContent = hora_partida;
-                                //cell5.textContent = hora_chegada;
-                                cell6.textContent = aeroporto_partida;
-                                cell7.textContent = aeroporto_chegada;
-                                //cell8.textContent = valor;
+                            cell2.textContent = trecho_origem;
+                            //cell3.textContent = data;
+                            //cell4.textContent = hora_partida;
+                            //cell5.textContent = hora_chegada;
+                            cell6.textContent = aeroporto_partida;
+                            cell7.textContent = aeroporto_chegada;
+                            //cell8.textContent = valor;
 
-                                //EDICAO DA DATA
-                                const inputData = document.createElement('input');
-                                inputData.type = 'date';
-                                inputData.value = data;
-                                inputData.id = 'novaData';
-                                cell3.appendChild(inputData);
-                                inputData.addEventListener('change', function () {
-                                    const datinha = inputData.value;
-                                    console.log('DATA ALTERADO:', datinha);
-                                });
+                            //EDICAO DA DATA
+                            const inputData = document.createElement('input');
+                            inputData.type = 'date';
+                            inputData.value = data;
+                            inputData.id = 'novaData';
+                            cell3.appendChild(inputData);
+                            inputData.addEventListener('change', function () {
+                                const datinha = inputData.value;
+                                console.log('DATA ALTERADO:', datinha);
+                            });
 
-      
 
-                                // EDICAO DA HORA DE PARTIDA
-                                const hora1 = document.createElement('input');
-                                hora1.type = 'text';
-                                hora1.value = hora_partida;
-                                hora1.id = 'hora1Input'; // Adicione um ID para identificação
-                                cell4.appendChild(hora1);
-                                hora1.addEventListener('change', function () {
-                                    const horadepartida = hora1.value;
-                                    console.log('HORA DE PARTIDA ALTERADO:', horadepartida);
-                                });
 
-                                // EDICAO DA HORA DE CHEGADA
-                                const hora2 = document.createElement('input');
-                                hora2.type = 'text';
-                                hora2.value = hora_chegada;
-                                hora2.id = 'hora2Input'; // Adicione um ID para identificação
-                                cell5.appendChild(hora2);
-                                hora2.addEventListener('change', function () {
-                                    const horadechegada = hora2.value;
-                                    console.log('HORA DE CHEGADA ALTERADO:', horadechegada);
-                                });
-                                
-                              // EDICAO DO VALOR DO VOO
-                                 const inputValor = document.createElement('input');
-                                 inputValor.type = 'text';
-                                 inputValor.value = valor;
-                                 inputValor.id = 'novoValor';
-                                 cell8.appendChild(inputValor);
+                            // EDICAO DA HORA DE PARTIDA
+                            const hora1 = document.createElement('input');
+                            hora1.type = 'text';
+                            hora1.value = hora_partida;
+                            hora1.id = 'hora1Input'; // Adicione um ID para identificação
+                            cell4.appendChild(hora1);
+                            hora1.addEventListener('change', function () {
+                                const horadepartida = hora1.value;
+                                console.log('HORA DE PARTIDA ALTERADO:', horadepartida);
+                            });
 
-                              //Adiciona um ouvinte de evento para capturar as alterações no valor
-                             inputValor.addEventListener('change', function () {
-                                 valor = inputValor.value;
-                                 console.log('Novo valor:', valor);
-                             });
-                
-                });
+                            // EDICAO DA HORA DE CHEGADA
+                            const hora2 = document.createElement('input');
+                            hora2.type = 'text';
+                            hora2.value = hora_chegada;
+                            hora2.id = 'hora2Input'; // Adicione um ID para identificação
+                            cell5.appendChild(hora2);
+                            hora2.addEventListener('change', function () {
+                                const horadechegada = hora2.value;
+                                console.log('HORA DE CHEGADA ALTERADO:', horadechegada);
+                            });
+
+                            // EDICAO DO VALOR DO VOO
+                            const inputValor = document.createElement('input');
+                            inputValor.type = 'text';
+                            inputValor.value = valor;
+                            inputValor.id = 'novoValor';
+                            cell8.appendChild(inputValor);
+
+                            //Adiciona um ouvinte de evento para capturar as alterações no valor
+                            inputValor.addEventListener('change', function () {
+                                valor = inputValor.value;
+                                console.log('Novo valor:', valor);
+                            });
+
+                        });
                     } else {
                         messageStatus2("Erro ao listar voos...: " + customResponse.message, true);
                         console.log(customResponse.message);
@@ -282,13 +283,14 @@
                     console.log("Falha grave ao listar." + e);
                 });
         }
-        
+
     </script>
 </head>
+
 <body>
     <div id="header_page">
         <div id="img_logo">
-            <a href="../../../Geral/dashboard.html"><img src="../../../Geral/assets/images/logo.png"></a> 
+            <a href="../../../Geral/dashboard.html"><img src="../../../Geral/assets/images/logo.png"></a>
         </div>
         <div id="title_page">
             <h1>VeniceAir <br> Edição de Voo</h1>
@@ -308,26 +310,27 @@
     <div class="containerInvisivel">
         <table id="voosTable">
             <thead>
-            <tr>
-                <th>ID</th>
-                <th>Trecho</th>
-                <th>Data</th>
-                <th>Hora Partida</th>
-                <th>Hora Chegada</th>
-                <th>Aeroporto de Partida</th>
-                <th>Aeroporto de Chegada</th>
-                <th>Valor</th>
-            </tr>
-        </thead>
-        <tbody id="dataBody">
-        </tbody>
+                <tr>
+                    <th>ID</th>
+                    <th>Trecho</th>
+                    <th>Data</th>
+                    <th>Hora Partida</th>
+                    <th>Hora Chegada</th>
+                    <th>Aeroporto de Partida</th>
+                    <th>Aeroporto de Chegada</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody id="dataBody">
+            </tbody>
             <p id="statusAJUDA" class="statusErrorAJUDA"></p>
         </table>
-            <div class="form-group">
-                <p></p>
-                <button type="button" id="btnCadastrar" name="btnCadastrar" onclick="editarVoo()">Alterar</button>
-            </div>
-        <p id="statusALTERAR" class="statusErrorALTERAR"></p>      
+        <div class="form-group">
+            <p></p>
+            <button type="button" id="btnCadastrar" name="btnCadastrar" onclick="editarVoo()">Alterar</button>
+        </div>
+        <p id="statusALTERAR" class="statusErrorALTERAR"></p>
     </div>
 </body>
+
 </html>

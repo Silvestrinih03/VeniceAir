@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VeniceAir - AERONAVES</title>
-    <link rel="stylesheet" href="../../../Geral/assets/css/header_page.css"/>
-    <link rel="stylesheet" href="../../assets/css/tela_cadastro.css"/>
-    <link href="../../assets/css/tela_excluir.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../../../Geral/assets/css/header_page.css" />
+    <link rel="stylesheet" href="../../assets/css/tela_cadastro.css" />
+    <link href="../../assets/css/tela_excluir.css" rel="stylesheet" />
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -24,34 +25,34 @@
                     const select = document.getElementById(idSelect);
 
                     // Adiciona um ouvinte de evento para capturar a seleção
-            select.addEventListener('change', function () {
-                // Obtém o ID da cidade selecionada
-                aeronaveSel = select.value;
-                console.log('ID da aeronave selecionada:', aeronaveSel);
+                    select.addEventListener('change', function () {
+                        // Obtém o ID da cidade selecionada
+                        aeronaveSel = select.value;
+                        console.log('ID da aeronave selecionada:', aeronaveSel);
 
 
 
-                const selectedOption = select.options[select.selectedIndex];
-                const qntAssentos = selectedOption.getAttribute('data-qnt-assentos');
-                
-                // Armazena o valor no sessionStorage
-                sessionStorage.setItem('qntAssentos', qntAssentos);
-                console.log('Qnt Assentos da aeronave selecionada:', qntAssentos);
+                        const selectedOption = select.options[select.selectedIndex];
+                        const qntAssentos = selectedOption.getAttribute('data-qnt-assentos');
 
-                document.getElementById('qntAssentos').value = qntAssentos;
-                
+                        // Armazena o valor no sessionStorage
+                        sessionStorage.setItem('qntAssentos', qntAssentos);
+                        console.log('Qnt Assentos da aeronave selecionada:', qntAssentos);
 
+                        document.getElementById('qntAssentos').value = qntAssentos;
 
 
 
 
 
-                // Chama outras funções ou realiza outras ações necessárias
-            });
+
+
+                        // Chama outras funções ou realiza outras ações necessárias
+                    });
 
                     data.payload.forEach(aeronave => {
                         const option = document.createElement('option');
-                        const optionText = `${aeronave[0]} : ${aeronave[1]}  ➡️  ${aeronave[2]}`; 
+                        const optionText = `${aeronave[0]} : ${aeronave[1]}  ➡️  ${aeronave[2]}`;
                         option.value = aeronave[0];
                         option.text = optionText;
 
@@ -80,16 +81,16 @@
 
                     // Adiciona um ouvinte de evento para capturar a seleção
                     select.addEventListener('change', function () {
-                    // Obtém o ID do voo selecionado
-                    vooSel = select.value;
-                    console.log('ID do voo selecionado:', vooSel);
-                    //sessionStorage.setItem("vooID", vooSel);
-                    // Chama outras funções ou realiza outras ações necessárias
-                });
+                        // Obtém o ID do voo selecionado
+                        vooSel = select.value;
+                        console.log('ID do voo selecionado:', vooSel);
+                        //sessionStorage.setItem("vooID", vooSel);
+                        // Chama outras funções ou realiza outras ações necessárias
+                    });
 
                     data.payload.forEach(voo => {
                         const option = document.createElement('option');
-                        const optionText = `${voo[0]} : ${voo[1]}  ➡️  ${voo[2]}`; 
+                        const optionText = `${voo[0]} : ${voo[1]}  ➡️  ${voo[2]}`;
                         option.value = voo[0];
                         option.text = optionText;
                         select.appendChild(option);
@@ -110,9 +111,9 @@
             pStatus.textContent = msg;
 
             // Oculta a mensagem após 1 segundos (1000 milissegundos)
-            setTimeout(function() {
+            setTimeout(function () {
                 pStatus.textContent = '';
-                }, 1000);
+            }, 1000);
         }
 
         function messageStatusVoo(msg, error) {
@@ -169,53 +170,53 @@
 
         }
 
-        function preenchiAssentos(){
+        function preenchiAssentos() {
             let resultado = false;
             const num = document.getElementById('qntAssentos').value;
-            if(num.length > 0){
+            if (num.length > 0) {
                 resultado = true;
             }
             return resultado;
         }
 
         function fetchInserir(body) {
-          const requestOptions = {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(body),
-          };
-          return fetch('http://localhost:3000/inserirMapa', requestOptions).then(T => T.json());
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body),
+            };
+            return fetch('http://localhost:3000/inserirMapa', requestOptions).then(T => T.json());
         }
 
         function fetchProcedure(body) {
-          const requestOptions = {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(body),
-          };
-          return fetch('http://localhost:3000/procedureMapa2', requestOptions).then(T => T.json())
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body),
+            };
+            return fetch('http://localhost:3000/procedureMapa2', requestOptions).then(T => T.json())
                 .then(response => response.json())
-        .then(result => {
-            // Trate o resultado da procedure aqui, se necessário
-            console.log('Resultado da procedure:', result);
-            return result;
-        })
-        .catch(error => {
-            console.error('Erro ao chamar a procedure:', error);
-            throw error; // Propaga o erro para que seja tratado externamente, se necessário
-        });
-}
-        
+                .then(result => {
+                    // Trate o resultado da procedure aqui, se necessário
+                    console.log('Resultado da procedure:', result);
+                    return result;
+                })
+                .catch(error => {
+                    console.error('Erro ao chamar a procedure:', error);
+                    throw error; // Propaga o erro para que seja tratado externamente, se necessário
+                });
+        }
 
-        function cadastrarMapa(){
+
+        function cadastrarMapa() {
             if (!preenchiAssentos()) {
                 messageStatusMapa('Digite a quantidade!', true);
                 return;
             }
 
             // agora vai
-            const aeronave  = document.getElementById('aeronaves').value;
-            console.log("a aeronavee: ", aeronave );
+            const aeronave = document.getElementById('aeronaves').value;
+            console.log("a aeronavee: ", aeronave);
             const voo = document.getElementById('voos').value;
             console.log("a vooo: ", voo);
             const total = document.getElementById('qntAssentos').value;
@@ -227,59 +228,60 @@
             // console.log("AERONAVEGUARDAR: ", p_aeronave_id);
 
             // ok!!
-            const p_voo_id = sessionStorage.getItem("IDVOOMAPA"); 
+            const p_voo_id = sessionStorage.getItem("IDVOOMAPA");
             console.log("AAAAAAAAAAAAAA: ", p_voo_id);
 
-            
+
 
             fetchInserir({
                 aeronave: aeronave, // Corrigido o nome da propriedade
                 voo: voo,
                 total: total,
             })
-            .then(customResponse => {
-                if (customResponse.status === 'SUCCESS') {
-                    messageStatusMapa('Mapa cadastrado com sucesso.', false);
-                    // // Limpar campos após o sucesso
-                    // document.getElementById("fabricante").value = "0";
-                    // document.getElementById("modelo").value = "";
-                    // document.getElementById("anofab").value = "";
-                    // document.getElementById("qtdeAssentos").value = "";
-                    
-                } else {
-                    messageStatusMapa('Erro ao cadastrar mapa: ' + customResponse.message, true);
-                    console.log(customResponse.message);
-                }
-            })
-            .catch((e) => {
-                messageStatusMapa('Erro técnico ao cadastrar. Contate o suporte.', true);
-                console.log('Falha grave ao cadastrar.' + e);
-            });
+                .then(customResponse => {
+                    if (customResponse.status === 'SUCCESS') {
+                        messageStatusMapa('Mapa cadastrado com sucesso.', false);
+                        // // Limpar campos após o sucesso
+                        // document.getElementById("fabricante").value = "0";
+                        // document.getElementById("modelo").value = "";
+                        // document.getElementById("anofab").value = "";
+                        // document.getElementById("qtdeAssentos").value = "";
+
+                    } else {
+                        messageStatusMapa('Erro ao cadastrar mapa: ' + customResponse.message, true);
+                        console.log(customResponse.message);
+                    }
+                })
+                .catch((e) => {
+                    messageStatusMapa('Erro técnico ao cadastrar. Contate o suporte.', true);
+                    console.log('Falha grave ao cadastrar.' + e);
+                });
 
             //fetchProcedure({p_aeronave_id});
         }
-        
-        function cadastrarAssentos(){
+
+        function cadastrarAssentos() {
             const p_voo_id = document.getElementById('voos').value;
             sessionStorage.setItem('SOCORRO', p_voo_id);
             console.log("SOCORRO: ", p_voo_id);
-            fetchProcedure({p_voo_id});
+            fetchProcedure({ p_voo_id });
         }
-    
+
     </script>
 </head>
+
 <body>
     <!-- Cabeçalho da página -->
     <div id="header_page">
-      <div id="img_logo">
-        <a href="../../../Geral/dashboard.html"><img src="../../../Geral/assets/images/logo.png"></a>
-      </div>
-      <div id="title_page">
-          <h1>VeniceAir <br> Cadastro de Mapa de Assentos do Voo</h1>
-      </div>
-      <div id="button_padrao">
-          <button id="padrao_button"><a href="../listagem/mapas.html">Voltar</a></button>
-      </div>
+        <div id="img_logo">
+            <a href="../../../Geral/dashboard.html"><img src="../../../Geral/assets/images/logo.png"></a>
+        </div>
+        <div id="title_page">
+            <h1>VeniceAir <br> Cadastro de Mapa de Assentos do Voo</h1>
+        </div>
+        <div id="button_padrao">
+            <button id="padrao_button"><a href="../listagem/mapas.html">Voltar</a></button>
+        </div>
     </div>
 
     <!-- Formulário de cadastro -->
@@ -292,23 +294,24 @@
         <!-- Mensagem de Status da função que verifica se o usuário selecionou o aeroporto para edição -->
         <p id="status" class="statusError"></p>
     </div>
-        <div class="containerInvisivel">
-            <p>Selecione o voo que deseja vincular</p>
-            <select name="voos" id="voos">
-                <option value="0" selected>Selecione o voo</option>
-            </select>
-            <button type="submit" id="Alterar" name="Alterar" onclick="acessarVoo()">Escolher voo</button>
-            <!-- Mensagem de Status da função que verifica se o usuário selecionou o aeroporto para edição -->
-            <p id="statusVoo" class="statusErrorVoo"></p>
-        </div>
+    <div class="containerInvisivel">
+        <p>Selecione o voo que deseja vincular</p>
+        <select name="voos" id="voos">
+            <option value="0" selected>Selecione o voo</option>
+        </select>
+        <button type="submit" id="Alterar" name="Alterar" onclick="acessarVoo()">Escolher voo</button>
+        <!-- Mensagem de Status da função que verifica se o usuário selecionou o aeroporto para edição -->
+        <p id="statusVoo" class="statusErrorVoo"></p>
+    </div>
 
-        <div class="containerOculto">
-            <p> Digite o número total de assentos: </p>
-            <input type="text" id="qntAssentos" name="qntAssentos" readonly/>
-            <button type="submit" id="Alterar" name="Alterar" onclick="cadastrarMapa()">Cadastrar mapa de assentos</button>
-            <button type="submit" id="Alterar" name="Alterar" onclick="cadastrarAssentos()">Cadastrar ASSENTOS</button>
-            <!-- Mensagem de Status da função que verifica se o usuário selecionou o aeroporto para edição -->
-            <p id="statusMapa" class="statusErrorMapa"></p>
-        </div>
+    <div class="containerOculto">
+        <p> Digite o número total de assentos: </p>
+        <input type="text" id="qntAssentos" name="qntAssentos" readonly />
+        <button type="submit" id="Alterar" name="Alterar" onclick="cadastrarMapa()">Cadastrar mapa de assentos</button>
+        <button type="submit" id="Alterar" name="Alterar" onclick="cadastrarAssentos()">Cadastrar ASSENTOS</button>
+        <!-- Mensagem de Status da função que verifica se o usuário selecionou o aeroporto para edição -->
+        <p id="statusMapa" class="statusErrorMapa"></p>
+    </div>
 </body>
+
 </html>

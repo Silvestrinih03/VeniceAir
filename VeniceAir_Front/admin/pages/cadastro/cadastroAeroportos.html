@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Cadastro de Aeroportos</title>
     <link rel="stylesheet" href="../../../Geral/assets/css/header_page.css">
@@ -11,7 +12,7 @@
         });
 
         // Função para carregar as cidades do banco nos campos de seleção
-            function carregarCidades(idSelect) {
+        function carregarCidades(idSelect) {
             fetch('http://localhost:3000/listarCidades')
                 .then(response => response.json())
                 .then(data => {
@@ -29,7 +30,7 @@
         }
 
         // Função para verificar se o campo de "Cidade" foi selecionado
-        function preencheuCidade(){
+        function preencheuCidade() {
             const cidadeSelecionada = document.getElementById('comboOrigem').value;
             return cidadeSelecionada !== '0';
         }
@@ -55,7 +56,7 @@
             pStatus.textContent = msg;
 
             // Oculta a mensagem após 1 segundos (1000 milissegundos)
-            setTimeout(function() {
+            setTimeout(function () {
                 pStatus.textContent = '';
             }, 1000);
         }
@@ -108,6 +109,7 @@
         }
     </script>
 </head>
+
 <body>
     <div id="header_page">
         <div id="img_logo">
@@ -133,8 +135,8 @@
                 <!-- <input type="text" id="cadastro" name="cadastro" required> -->
                 <select name="comboOrigem" id="comboOrigem">
                     <option value="0" selected>Selecione a cidade</option>
-                    
-                </select>   
+
+                </select>
             </div>
             <div class="form-group">
                 <button type="button" id="btnCadastrar" name="btnCadastrar" onclick="inserirAeroporto()">Salvar</button>
@@ -145,4 +147,5 @@
         <p id="status" class="statusError"></p>
     </div>
 </body>
+
 </html>
