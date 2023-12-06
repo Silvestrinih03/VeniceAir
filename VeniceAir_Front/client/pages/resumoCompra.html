@@ -14,6 +14,12 @@
         let id = sessionStorage.getItem("ID_VOO_SELECIONADO");
         console.log("ID_VOO_SELECIONADO: ", id)
 
+        let assento = sessionStorage.getItem("ASSENTO_DO_CLIENTE");
+        console.log("ASSENTO_DO_CLIENTE: ", assento);
+
+        let idAssento = sessionStorage.getItem("ID_DO_ASSENTO");
+        console.log("ID_DO_ASSENTO: ", idAssento);
+
         document.addEventListener('DOMContentLoaded', function () {
             apareceIda();
 
@@ -28,6 +34,8 @@
                 document.getElementById('containerInvisivel').style.display = 'block';
                 document.getElementById('containerOculto').style.display = 'none';
             }
+
+            document.getElementById('assentoP').textContent = `Assento: ${assento || 'X0'}`;
 
         });
 
@@ -202,7 +210,7 @@
             <tbody id="dataBody">
             </tbody>
         </table>
-
+        <p id="assentoP"> Assento: X0</p>
     </div>
     <div class="containerInvisivel" id="containerInvisivel">
         <button id="esc_volta"><a href="./volta/resultadoVolta.html">Escolher voo de volta</a></button>

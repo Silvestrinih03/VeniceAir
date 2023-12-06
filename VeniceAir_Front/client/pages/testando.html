@@ -33,26 +33,38 @@
       }, 1000);
     }
 
-    let assentoSelecionado = null;
+    function selecionarAssento(numAssento) {
+            sessionStorage.setItem('ASSENTO_DO_CLIENTE', numAssento);
+    }
 
-    function criarBotaoAssento(numAssento, statusAssento) {
+    function pegarIDdoAssento(idAssento) {
+            sessionStorage.setItem('ID_DO_ASSENTO', idAssento);
+    }
+
+    let assentoSelecionado = null;
+    let assentoCliente;
+
+    function criarBotaoAssento(idAssento, numAssento, statusAssento) {
     const btnAssento = document.createElement('button');
     btnAssento.textContent = numAssento;
     btnAssento.className = 'buttonAssento';  
 
     btnAssento.addEventListener('click', function() {
-      
+      selecionarAssento(numAssento);
       if (assentoSelecionado) {
         // Restaure a cor original do assento anteriormente selecionado
         assentoSelecionado.style.backgroundColor = '#f2f2f2';
       }
+      pegarIDdoAssento(idAssento);
 
       assentoSelecionado = btnAssento;
       btnAssento.style.backgroundColor = '#a57dd3';
 
-      // CONSOLE 
+      // CONSOLE
+      console.log('ID do Assento selecionado:', idAssento);
       console.log('Assento selecionado:', numAssento);
       console.log('Status do Assento:', statusAssento);
+
     });
     return btnAssento;
   }
@@ -81,11 +93,12 @@
 
         // Preenche a seção com os botões dos assentos
         customResponse.payload.forEach(item => {
+          idAssento = item[0];
           const numAssento = item[1];
           const statusAssento = item[2]; // Assumindo que o status_assento está na posição 2
 
           // Cria um botão para cada assento
-          const btnAssento = criarBotaoAssento(numAssento, statusAssento);
+          const btnAssento = criarBotaoAssento(idAssento, numAssento, statusAssento);
           containerBotoes.appendChild(btnAssento);
         });
         } else {
