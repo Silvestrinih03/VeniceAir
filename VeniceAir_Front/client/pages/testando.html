@@ -35,7 +35,7 @@
 
     let assentoSelecionado = null;
 
-    function criarBotaoAssento(numAssento) {
+    function criarBotaoAssento(numAssento, statusAssento) {
     const btnAssento = document.createElement('button');
     btnAssento.textContent = numAssento;
     btnAssento.className = 'buttonAssento';  
@@ -52,6 +52,7 @@
 
       // CONSOLE 
       console.log('Assento selecionado:', numAssento);
+      console.log('Status do Assento:', statusAssento);
     });
     return btnAssento;
   }
@@ -68,35 +69,25 @@
     }
 
     function listarAssentos() {
-      //const dataBody = document.getElementById('dataBody');
 
       const containerBotoes = document.getElementById('containerBotoes');
-
-      // const selectedOption = select.options[select.selectedIndex];
-      // const statusAss = selectedOption.getAttribute('statusAssento');
-      // // Armazena o valor no sessionStorage
-      // sessionStorage.setItem('statusAssento', statusAss);
-      // console.log('Status do assento selecionado:', statusAss);
 
 
       fetchAcharMapa()
       .then(customResponse => {
         if (customResponse.status === "SUCCESS") {
           // Limpa qualquer conteúdo anterior dos botões
-          containerBotoes.innerHTML = '';
+        containerBotoes.innerHTML = '';
 
-          // Preenche a seção com os botões dos assentos
-          customResponse.payload.forEach(item => {
-            const numassento = item[1];
+        // Preenche a seção com os botões dos assentos
+        customResponse.payload.forEach(item => {
+          const numAssento = item[1];
+          const statusAssento = item[2]; // Assumindo que o status_assento está na posição 2
 
-            // PEGA O STATUS
-            // option.setAttribute('statusAssento', item[4]);
-            //             select.appendChild(option);
-
-            // Cria um botão para cada assento
-            const btnAssento = criarBotaoAssento(numassento);
-            containerBotoes.appendChild(btnAssento);
-          });
+          // Cria um botão para cada assento
+          const btnAssento = criarBotaoAssento(numAssento, statusAssento);
+          containerBotoes.appendChild(btnAssento);
+        });
         } else {
           MessageStatus("Erro ao listar voos...: " + customResponse.message, true);
           console.log(customResponse.message);
