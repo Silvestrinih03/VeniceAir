@@ -12,6 +12,20 @@
         let TT = sessionStorage.getItem("Tipo");
         console.log("Tipo da passaggggem ", TT)
 
+        let assentocliente = sessionStorage.getItem("ID_DO_ASSENTO");
+        console.log("ID_DO_ASSENTO ", assentocliente)
+
+        let voocliente = sessionStorage.getItem("ID_VOO_SELECIONADO");
+        console.log("ID_VOO_SELECIONADO ", voocliente)
+
+        let nomecliente = sessionStorage.getItem("NOME_DO_CLIENTE");
+        console.log("NOME_DO_CLIENTE ", nomecliente)
+
+        let emailcliente = sessionStorage.getItem("EMAIL_DO_CLIENTE");
+        console.log("EMAIL_DO_CLIENTE ", emailcliente)
+
+
+
         function ondeVolta() {
             const voltarOnde = sessionStorage.getItem("Tipo");
             //console.log("voltarOnde = ", voltarOnde);
@@ -121,6 +135,8 @@
                 return;
             }
 
+            // chegou ate aqui entao os campos estao corretos: hora de pegar tudo e mandar pro banco.
+            // testar se tipo =1: 
             messageStatusFinal('Pagamento realizado com sucesso!', false);
             window.location.href = 'pagamentoAprovado.html';
 
@@ -158,12 +174,12 @@
             <label for="codigoSeguranca">Código de Segurança</label>
             <input type="text" placeholder="ex.: 123" id="cvv" name="cvv" />
 
-
+            <p id="status" class="statusError"></p>
             <!-- <button type="button">Continuar</button>
             <button type="reset">Limpar</button> -->
             <!-- colocar, no lado dessa div class container, outra div só que com a imagem dos bancos! -->
         </form>
-        <p id="status" class="statusError"></p>
+        
     </div>
     <div class="container_botao">
         <button class="pagar" type="button" onclick="PAGAR()">PAGAR</button>

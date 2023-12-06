@@ -12,6 +12,23 @@
         let TT = sessionStorage.getItem("Tipo");
         console.log("Tipo da passaggggem ", TT)
 
+        let assentocliente = sessionStorage.getItem("ID_DO_ASSENTO");
+        console.log("ID_DO_ASSENTO ", assentocliente)
+
+        let voocliente = sessionStorage.getItem("ID_VOO_SELECIONADO");
+        console.log("ID_VOO_SELECIONADO ", voocliente)
+
+        let nomecliente = sessionStorage.getItem("NOME_DO_CLIENTE");
+        console.log("NOME_DO_CLIENTE ", nomecliente)
+
+        let emailcliente = sessionStorage.getItem("EMAIL_DO_CLIENTE");
+        console.log("EMAIL_DO_CLIENTE ", emailcliente)
+        
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('nome').value = nomecliente;
+            document.getElementById('email').value = emailcliente;
+        });
+
         function ondeVolta() {
             const voltarOnde = sessionStorage.getItem("Tipo");
             //console.log("voltarOnde = ", voltarOnde);
@@ -73,6 +90,22 @@
             return numero % 2 === 0;
         }
 
+        function fetchComprarPassagem(idassento, idvoo, nome, email) {
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ idassento, idvoo, nome, email })
+            };
+            return fetch('http://localhost:3000/comprarPassagem', requestOptions).then(T => T.json());
+        }
+
+        function fetchComprarAssento(id) {
+            const url = `http://localhost:3000/comprarPassagem/${id}`;
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+        };}
+
         function enviarDados() {
             const numCPF = document.getElementById('numeroCPF').value;
 
@@ -87,13 +120,30 @@
                 alert("PAGAMENTO RECUSADO!");
                 return;
             } else {
+                // variaveis pra mandar
                 console.log("cheguei aqui");
-                messageStatusFinal('Pagamento realizado com sucesso!', false);
-                window.location.href = 'pagamentoAprovado.html';
+                console.log("mandando id assento: ", assentocliente);
+                console.log("mandando id voo: ", voocliente);
+                console.log("mandando nome cliente: ", nomecliente);
+                console.log("mandando email cliente: ", emailcliente);
 
+                // chama comprar passagem
+                //fetchComprarPassagem(assentocliente, voocliente, nomecliente, emailcliente)
+                fetchComprarPassagem(assentocliente, voocliente, nomecliente, emailcliente)
+                .then(customResponse => {
+                    if (customResponse.status === 'SUCCESS') {
+                        messageStatusFinal('FOOOI..', false);
+                    } else {
+                        messageStatusFinal('Erro : ' + customResponse.message, true);
+                        console.log(customResponse.message);
+                    }
+                })
+                .catch((e) => {
+                    messageStatusFinal('erro. Contate o suporte.', true);
+                    console.log('Falha grave ao cadastrar aeroporto.' + e);
+                });
             }
-        }
-
+    }
     </script>
 </head>
 
@@ -113,9 +163,9 @@
         <form id="finaliza_pagamento">
             <label for="nome">Nome completo</label>
             <!-- <input type="email" placeholder="Insira seu endereço de e-mail" id="email" name="campos_feedback"> -->
-            <input type="text" placeholder="Digite o nome completo" id="nome" name="nome" />
+            <input type="text" id="nome" name="nome" readonly/>
             <label for="email">E-mail</label>
-            <input type="text" placeholder="ex: nome@email.com" id="numeroCPF" name="numeroCPF" />
+            <input type="text" id="email" name="email" readonly/>
             <label for="numeroCPF">CPF</label>
             <input type="text" placeholder="Digite somente números" id="numeroCPF" name="numeroCPF" />
             <p>Preencha todos os campos para finalizar a compra.</p>
@@ -123,6 +173,7 @@
         </form>
 
         <div id="QRCODE">
+            
             <img id="img_QRCode" src="pagamento\pagamento\pix.png.jpg">
             <p>Escaneie o QR CODE!</p>
         </div>

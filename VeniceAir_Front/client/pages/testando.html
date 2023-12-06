@@ -33,6 +33,15 @@
       }, 1000);
     }
 
+    function obterCorPorStatus(statusAssento) {
+      if (statusAssento === 1) {
+        return '#808080'; // Cinza escuro
+      } else {
+        return '#f2f2f2'; // Cor padrão para outros status
+      }
+    }
+
+
     function selecionarAssento(numAssento) {
             sessionStorage.setItem('ASSENTO_DO_CLIENTE', numAssento);
     }
@@ -45,15 +54,19 @@
     let assentoCliente;
 
     function criarBotaoAssento(idAssento, numAssento, statusAssento) {
-    const btnAssento = document.createElement('button');
-    btnAssento.textContent = numAssento;
-    btnAssento.className = 'buttonAssento';  
+  const btnAssento = document.createElement('button');
+  btnAssento.textContent = numAssento;
+  btnAssento.className = 'buttonAssento';
+  btnAssento.style.backgroundColor = obterCorPorStatus(statusAssento);
 
-    btnAssento.addEventListener('click', function() {
+  if (statusAssento === 1) {
+    btnAssento.disabled = true;
+  } else {
+    btnAssento.addEventListener('click', function () {
       selecionarAssento(numAssento);
       if (assentoSelecionado) {
         // Restaure a cor original do assento anteriormente selecionado
-        assentoSelecionado.style.backgroundColor = '#f2f2f2';
+        assentoSelecionado.style.backgroundColor = obterCorPorStatus(statusAssento);
       }
       pegarIDdoAssento(idAssento);
 
@@ -64,10 +77,11 @@
       console.log('ID do Assento selecionado:', idAssento);
       console.log('Assento selecionado:', numAssento);
       console.log('Status do Assento:', statusAssento);
-
     });
-    return btnAssento;
   }
+
+  return btnAssento;
+}
 
 
     function fetchAcharMapa() {
@@ -129,23 +143,6 @@
       <button id="padrao_button"><a href="../pages/resultado_busca.html">Voltar</a></button>
     </div>
   </div>
-
-  <!-- <div class="container">
-    <h3> Listagem dos assentos do voo </h3>
-    <table id="voosTable">
-      <thead>
-        <tr>
-          <th>id_assento</th>
-          <th>num_assento</th>
-          <th>status_assento</th>
-          <th>cod_aeronave</th>
-        </tr>
-      </thead>
-      <tbody id="dataBody">
-      </tbody>
-    </table>
-
-  </div> -->
   <div class ="center">
     <div id="escolhaAssento">
       <h2> Escolha seu assento. </h3>
@@ -156,10 +153,13 @@
     <!-- BOTOES -->
     </div>
 </div>
-
+<div class ="center">
   <div class="container">
+    <!-- criar verificacao pra ver se o usuario escolheu um assento / um assento VALIDO -->
+    <!-- alerta? -->
     <p><button id="btnConfirm"><a href="resumoCompra.html">Confirmar</a></button></p>
   </div>
+</div>
 </body>
 
 </html>

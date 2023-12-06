@@ -151,7 +151,14 @@
                 MessageStatus('Preencha o email!', true);
                 return;
             }
-            else { window.location.href = 'pagamentoCartao.html'; }
+            else { 
+                const nomeDoCliente = document.getElementById('nome').value;
+                sessionStorage.setItem('NOME_DO_CLIENTE', nomeDoCliente);
+                const emailDoCliente = document.getElementById('email').value;
+                sessionStorage.setItem('EMAIL_DO_CLIENTE', emailDoCliente);
+
+                window.location.href = 'pagamentoCartao.html'; 
+            }
         }
 
         function VerificarPix() {
@@ -163,18 +170,14 @@
                 MessageStatus('Preencha o email!', true);
                 return;
             }
-            else { window.location.href = 'pagamentoPix.html'; }
+            else {
+                const nomeDoCliente = document.getElementById('nome').value;
+                sessionStorage.setItem('NOME_DO_CLIENTE', nomeDoCliente);
+                const emailDoCliente = document.getElementById('email').value;
+                sessionStorage.setItem('EMAIL_DO_CLIENTE', emailDoCliente);
+
+                 window.location.href = 'pagamentoPix.html'; }
         }
-
-        // function exibeContainer(){
-        //     var recebeTipo = sessionStorage.getItem("TIPO DA PASSAGEM");
-        //     if (recebeTipo === '2')
-        //         {
-        //             document.querySelector('.containerInvisivel').style.display = 'block';
-        //         }
-
-        //     else return;
-        // }
 
     </script>
 </head>

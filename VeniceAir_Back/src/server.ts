@@ -13,6 +13,8 @@ import { vooRouter } from './admin/voos';
 import { avaliacaoRouter } from './cliente/avaliacao';
 import { buscaRouter } from './cliente/busca';
 import { mapaRouter } from './admin/mapa';
+import { passagemRouter } from './cliente/passagem';
+import { assentoRouter } from './cliente/assento';
 
 
 
@@ -32,6 +34,9 @@ app.use(vooRouter);
 app.use(avaliacaoRouter);
 app.use(buscaRouter);
 app.use(mapaRouter);
+app.use(passagemRouter);
+app.use(assentoRouter);
+
 
 const PORT = parseInt(`${process.env.PORT || 3000}`);
 app.listen(PORT, () => console.log(`Server is running at ${PORT}.`));

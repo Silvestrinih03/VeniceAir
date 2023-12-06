@@ -6,7 +6,7 @@
     "env": "npm init && npm i express cors dotenv helmet morgan express-async-errors && npm i -D typescript ts-node @types/express @types/cors @types/helmet @types/dotenv @types/morgan",
     "build": "npx tsc",
     "start": "node ./build/server.js",
-    "startv": "npx tsc && node build/voos.js && node build/trechos.js && node build/aeroportos.js && node build/aeronaves.js && node build/cidades.js && node build/mapa.js",
+    "startv": "npx tsc && node build/voos.js && node build/trechos.js && node build/aeroportos.js && node build/aeronaves.js && node build/cidades.js && node build/mapa.js && node build/passagem.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
