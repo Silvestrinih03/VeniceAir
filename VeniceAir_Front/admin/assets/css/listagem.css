@@ -1,3 +1,7 @@
+/* CSS geral utilizado nas listagens de registro do sistema */
+/* Utilizado tanto para área do administrador, quanto para área do cliente  */
+
+/* DIV Utilizada para posicionar os botões de cadastrar, editar e excluir resgistros na tela de listagem */
 #botao_cadastrar{
     display: flex;
     /* justify-content: space-between; */
@@ -6,6 +10,7 @@
     /* background-color: #b9cadc; */
 }
 
+/* Utilizado para criar um padrão nos botões de cadastrar, editar e excluir resgistros do administrador */
 #cadastrar{
     flex: 1;
     height: 40px;
@@ -16,28 +21,22 @@
     transition: background-color 0.3s;
     margin: 10px 10px;
 }
-
 #cadastrar:hover{
    background-color: #005bad; 
 }
-
 #cadastrar a{
     text-decoration: none;
     color: #fff;
 }
 
+/* Utilizado para padronizar as tabelas que exibem os registros cadastrados */
+/* Utilizada em todas as telas de cadastros e em algumas telas do cliente */
 #dataTable{
     width: 100%;
 }
-
 #dataBody{
     text-align: center;
 }
-
-/* table{
-    background-color: pink;
-} */
-
 tr, th{
     padding: 10px 15px;
     background-color: #0073e669;

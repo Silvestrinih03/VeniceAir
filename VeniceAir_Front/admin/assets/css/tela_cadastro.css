@@ -1,7 +1,9 @@
+/* CSS geral utilizado nas telas de cadastro da área do administrador */
+
+/* Padronização geral da página */
 body {
   font-family: Arial, sans-serif;
   background-color: #ffffff;
-  /* background-color: #b9cadc; OPÇÃO 2 */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,6 +11,8 @@ body {
   height: 100vh;
 }
 
+/* Utilizada em todas as telas de cadastro do painel administrador */
+/* Exibe o formulário com os campos necessários para o realizar os cadastros */
 .container {
   margin: 0 auto;
   padding: 40px;
@@ -18,17 +22,20 @@ body {
   margin-top: 20px;
 }
 
+/* Utilizado para padronizar os formulários das telas de cadastro */
 form {
   display: flex;
   flex-direction: column;
 }
 
+/* Utilizado em todas as telas de cadastro do painel admin para especificar os campos */
 label {
   font-weight: bold;
   margin-top: 10px;
   text-align: center;
 }
 
+/* Utilizado para criar um padrão nos campos de input e select das telas de cadastro do administrador */
 select, input {
   padding: 5px;
   margin-bottom: 10px;
@@ -38,6 +45,7 @@ select, input {
   height: 30px;
 }
 
+/* Utilizado para criar um padrão nos botões das telas de cadastro do administrador */
 button {
   background-color: #0073e6;
   color: #fff;
@@ -49,27 +57,25 @@ button {
   margin: 2px;
   width: 100%;
 }
-
 button:hover {
   background-color: #005bad;
 }
 
+/* Acredito que não está sendo utilizado em nenhuma página, porém vou deixar aqui caso quebre alguma tela */
 /* CSS UTILIZADO EXCLUSIVAMENTE PARA CADASTROS DE AERONAVES */
-#mapa_assentos{
+/* #mapa_assentos{
   display: flex;
   flex-direction: row;
   align-items: center;
 }
-
 #mapa_assentos label{
   text-align: center;
   margin: 10px;
 }
-
 #mapa_assentos input{
   margin: 0 30px;
   margin-bottom: 20px;
-}
+} */
 
 /* CSS UTILIZADO EXCLUSIVAMENTE PARA CADASTROS DE VOOS */
 #voos{
@@ -77,7 +83,6 @@ button:hover {
   flex-direction: row;
   align-items: center;
 }
-
 #voos label{
   margin: 0 10px;
   margin-top: 10px;
@@ -89,11 +94,11 @@ button:hover {
   margin-bottom: 20px;
   text-align: center;
 }
-
 .data{
   width: 100px;
 }
 
+/* Não está sendo utilizado */
 /* #valor{
   width: 150px;
   margin-bottom: 10px;

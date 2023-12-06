@@ -1,3 +1,6 @@
+/* CSS utilizado para estilizar as opções de menu do administrador */
+
+/* Padronização geral da página */
 body {
     background-color: #b9cadc;
     font-family: Arial, sans-serif;
@@ -5,12 +8,14 @@ body {
     padding: 0;
 }
 
+/* DIV utilizada para organizar a exibição das opções de menu na tela */
 #opcoes {
     margin-top: 150px;
     display: flex;
     justify-content: center;
 }
 
+/* DIV utilizada para tranformar as opções de menu em circulos */
 #opcao {
     width: 150px;
     height: 150px;
@@ -25,13 +30,15 @@ body {
     transition: background-color 0.3s;
 }
 
+/* Utilizado para mudar a cor dos circulos quando o usuário posicionar o mouse */
+#opcao:hover {
+    background-color: #007bff;
+}
+
+/* Utilizado para estilizar o nome do menu */
 #opcao a {
     text-decoration: none;
     color: #1f70b2;
     font-weight: bold;
     text-align: center;
-}
-
-#opcao:hover {
-    background-color: #007bff;
 }
