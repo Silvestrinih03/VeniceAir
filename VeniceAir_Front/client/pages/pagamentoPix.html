@@ -99,12 +99,14 @@
             return fetch('http://localhost:3000/comprarPassagem', requestOptions).then(T => T.json());
         }
 
-        function fetchComprarAssento(id) {
-            const url = `http://localhost:3000/comprarPassagem/${id}`;
+        function fetchComprarAssento(idassento) {
             const requestOptions = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-        };}
+                body: JSON.stringify({idassento})
+            };
+            return fetch('http://localhost:3000/comprarAssento', requestOptions).then(T => T.json());
+        }
 
         function enviarDados() {
             const numCPF = document.getElementById('numeroCPF').value;
@@ -140,8 +142,25 @@
                 })
                 .catch((e) => {
                     messageStatusFinal('erro. Contate o suporte.', true);
-                    console.log('Falha grave ao cadastrar aeroporto.' + e);
+                    console.log('DEU TUDO ERRADO.' + e);
                 });
+
+                fetchComprarAssento(assentocliente)
+                .then(customResponse => {
+                    if (customResponse.status === 'SUCCESS') {
+                        messageStatusFinal('FOOOI..', false);
+                    } else {
+                        messageStatusFinal('Erro : ' + customResponse.message, true);
+                        console.log(customResponse.message);
+                    }
+                })
+                .catch((e) => {
+                    messageStatusFinal('erro. Contate o suporte.', true);
+                    console.log('DEU TUDO ERRADO.' + e);
+                });
+
+                // redireciona pra pag de aprovado
+                window.location.href = 'pagamentoAprovado.html';
             }
     }
     </script>

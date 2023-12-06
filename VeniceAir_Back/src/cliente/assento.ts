@@ -21,13 +21,9 @@ type CustomResponse = {
 };
 
 
-
-
-
-
 // Definir rota da requisição "comprarAssento"
-assentoRouter.post("comprarAssento/:id", async (req, res) => {
-  const idassento = req.params.id;
+assentoRouter.post("/comprarAssento", async (req, res) => {
+  const idassento = req.body.idassento;
   //const idvoo = req.body.idvoo as Number;
 
   console.log("ID ASSENTO (TABELA ASSENTO): ", idassento);

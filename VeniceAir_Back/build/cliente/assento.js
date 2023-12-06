@@ -26,8 +26,8 @@ exports.assentoRouter.use((0, cors_1.default)());
 // Chama o dotenv para receber os dados do banco
 dotenv_1.default.config();
 // Definir rota da requisição "comprarAssento"
-exports.assentoRouter.post("comprarAssento/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const idassento = req.params.id;
+exports.assentoRouter.post("/comprarAssento", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const idassento = req.body.idassento;
     //const idvoo = req.body.idvoo as Number;
     console.log("ID ASSENTO (TABELA ASSENTO): ", idassento);
     //console.log("ID VOO (TABELA ASSENTO): ", idvoo);
