@@ -1,0 +1,42 @@
+.center {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+.containerAssentos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+    max-width: 400px; /* Ajuste a largura máxima do contêiner conforme necessário */
+    margin: 0 auto; /* Centraliza o contêiner na página */
+}
+
+#containerBotoes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.buttonAssento {
+    width: 30px; /* Ajuste a largura do assento conforme necessário */
+    height: 30px; /* Ajuste a altura do assento conforme necessário */
+    margin: 5px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+/* Estilizando assentos à esquerda */
+.buttonAssento:nth-child(10n) {
+    margin-right: 0; /* Remove a margem à direita para o último assento de cada linha */
+}
+
+/* Estilizando assentos à direita */
+.buttonAssento:nth-child(10n+1) {
+    margin-left: 0px; /* Remove a margem à esquerda para o primeiro assento de cada linha */
+}

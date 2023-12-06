@@ -7,6 +7,7 @@
   <title>VeniceAir - Mapa de Assentos</title>
   <link rel="stylesheet" href="../../Geral/assets/css/header_page.css" />
   <link href="../../admin/assets/css/listagem.css" rel="stylesheet" />
+  <link href="../assets/css/map.css" rel="stylesheet" />
   <!--<link href="../assets/css/pagamento.css" rel="stylesheet"/>
      <link rel="stylesheet" href="../../../Geral/assets/css/header_page.css"/> -->
   <script>
@@ -32,8 +33,28 @@
       }, 1000);
     }
 
+    let assentoSelecionado = null;
 
+    function criarBotaoAssento(numAssento) {
+    const btnAssento = document.createElement('button');
+    btnAssento.textContent = numAssento;
+    btnAssento.className = 'buttonAssento';  
 
+    btnAssento.addEventListener('click', function() {
+      
+      if (assentoSelecionado) {
+        // Restaure a cor original do assento anteriormente selecionado
+        assentoSelecionado.style.backgroundColor = '#f2f2f2';
+      }
+
+      assentoSelecionado = btnAssento;
+      btnAssento.style.backgroundColor = '#a57dd3';
+
+      // CONSOLE 
+      console.log('Assento selecionado:', numAssento);
+    });
+    return btnAssento;
+  }
 
 
     function fetchAcharMapa() {
@@ -47,41 +68,45 @@
     }
 
     function listarAssentos() {
-      const dataBody = document.getElementById('dataBody');
+      //const dataBody = document.getElementById('dataBody');
+
+      const containerBotoes = document.getElementById('containerBotoes');
+
+      // const selectedOption = select.options[select.selectedIndex];
+      // const statusAss = selectedOption.getAttribute('statusAssento');
+      // // Armazena o valor no sessionStorage
+      // sessionStorage.setItem('statusAssento', statusAss);
+      // console.log('Status do assento selecionado:', statusAss);
+
+
       fetchAcharMapa()
-        .then(customResponse => {
-          if (customResponse.status === "SUCCESS") {
-            // Limpa qualquer conteúdo anterior da tabela
-            dataBody.innerHTML = '';
-            // Preenche a tabela com os dados da resposta
-            customResponse.payload.forEach(item => {
-              const idmapa = item[0];
-              const numassento = item[1];
-              const statusassento = item[2];
-              const codaeronave = item[3];
+      .then(customResponse => {
+        if (customResponse.status === "SUCCESS") {
+          // Limpa qualquer conteúdo anterior dos botões
+          containerBotoes.innerHTML = '';
 
-              const row = dataBody.insertRow();
-              const cell1 = row.insertCell(0);
-              const cell2 = row.insertCell(1);
-              const cell3 = row.insertCell(2);
-              const cell4 = row.insertCell(3);
+          // Preenche a seção com os botões dos assentos
+          customResponse.payload.forEach(item => {
+            const numassento = item[1];
 
-              cell1.textContent = idmapa;
-              cell2.textContent = numassento;
-              cell3.textContent = statusassento;
-              cell4.textContent = codaeronave;
+            // PEGA O STATUS
+            // option.setAttribute('statusAssento', item[4]);
+            //             select.appendChild(option);
 
-            });
-          } else {
-            MessageStatus("Erro ao listar voos...: " + customResponse.message, true);
-            console.log(customResponse.message);
-          }
-        })
-        .catch((e) => {
-          MessageStatus("Erro técnico ao listar... Contate o suporte.", true);
-          console.log("Falha grave ao listar." + e)
-        });
-    }
+            // Cria um botão para cada assento
+            const btnAssento = criarBotaoAssento(numassento);
+            containerBotoes.appendChild(btnAssento);
+          });
+        } else {
+          MessageStatus("Erro ao listar voos...: " + customResponse.message, true);
+          console.log(customResponse.message);
+        }
+      })
+      .catch((e) => {
+        MessageStatus("Erro técnico ao listar... Contate o suporte.", true);
+        console.log("Falha grave ao listar." + e);
+      });
+  }
 
   </script>
 </head>
@@ -101,7 +126,7 @@
     </div>
   </div>
 
-  <div class="container">
+  <!-- <div class="container">
     <h3> Listagem dos assentos do voo </h3>
     <table id="voosTable">
       <thead>
@@ -116,7 +141,18 @@
       </tbody>
     </table>
 
+  </div> -->
+  <div class ="center">
+    <div id="escolhaAssento">
+      <h2> Escolha seu assento. </h3>
+    </div>
   </div>
+  <div class="containerAssentos">
+    <div id="containerBotoes">
+    <!-- BOTOES -->
+    </div>
+</div>
+
   <div class="container">
     <p><button id="btnConfirm"><a href="resumoCompra.html">Confirmar</a></button></p>
   </div>
