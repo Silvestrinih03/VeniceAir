@@ -1,0 +1,51 @@
+body {
+    background-image: url(../images/airplane.webp);
+    background-size: cover; /* Faz a imagem cobrir toda a tela */
+    background-position: center center; /* Centraliza a imagem */
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    margin: 150px auto; /* Adicionei margem superior e inferior para melhor espaçamento */
+    padding: 40px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    width: 80%; /* Ajustei a largura para melhor adaptação */
+    max-width: 600px; /* Adicionei uma largura máxima para telas maiores */
+    text-align: center;
+}
+
+/* Estilize as mensagens para torná-las mais proeminentes e legíveis */
+.container h1 {
+    color: #00e686a2; /* Verde para indicar sucesso */
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.container h2 {
+    color: #333; /* Cor padrão para o texto */
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+button {
+    background-color: #0073e6;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+    width: 30%;
+  }
+
+button:hover {
+    background-color: #005bad;
+}
+
+button a{
+    color: #fff;
+    text-decoration: none;
+}
