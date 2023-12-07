@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exclusão de Mapas</title>
+    <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet" />
+    <link href="../../assets/css/tela_excluir.css" rel="stylesheet" />
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            carregarMapas('mapa');
+        });
+
+        function carregarMapas(idSelect) {
+            fetch('http://localhost:3000/listarMapas')
+                .then(response => response.json())
+                .then(mapa => {
+                    const select = document.getElementById(idSelect);
+                    mapa.payload.forEach(mapa => {
+                        const option = document.createElement('option');
+                        option.value = mapa[0]; // or the correct value for the ID of the mapa
+                        option.text = mapa[0]; // or the correct value for the name of the mapa
+                        select.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar mapas:', error);
+                });
+        }
+
+        function preencheuMapa() {
+            const mapaSelecionado = document.getElementById('mapa').value;
+            return mapaSelecionado !== '0';
+        }
+
+        function messageStatus(msg, error) {
+            const pStatus = document.getElementById('status');
+            if (error) {
+                pStatus.className = 'statusError';
+            } else {
+                pStatus.className = 'statusSuccess';
+            }
+            pStatus.textContent = msg;
+
+            // Oculta a mensagem após 2500 milissegundos
+            setTimeout(function () {
+                pStatus.textContent = '';
+            }, 2500);
+        }
+
+        function fetchExcluir(mapa) {
+            const requestOptions = {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+            };
+
+            return fetch(`http://localhost:3000/excluirMapa/${mapa}`, requestOptions).then(T => T.json());
+        }
+
+
+        function excluirMapa() {
+            if (!preencheuMapa()) {
+                messageStatus('Selecione o mapa que deseja excluir!', true);
+                return;
+            }
+
+            const mapa = document.getElementById('mapa').value;
+
+            fetchExcluir(mapa)
+                .then(customResponse => {
+                    if (customResponse.status === 'SUCCESS') {
+                        messageStatus('Mapa excluído...', false);
+                        // Limpar campos após o sucesso
+                        document.getElementById("mapa").value = "";
+                    } else {
+                        messageStatus('Erro ao excluir mapa: ' + customResponse.message, true);
+                        console.log(customResponse.message);
+                    }
+                })
+                .catch((e) => {
+                    messageStatus('Erro técnico ao excluir mapa. Contate o suporte.', true);
+                    console.log('Falha grave ao excluir mapa.' + e);
+                });
+        }
+    </script>
+</head>
+
+<body>
+    <div id="header_page">
+        <div id="img_logo">
+            <a href="../../../Geral/dashboard.html"><img src="../../../Geral/assets/images/logo.png"></a>
+        </div>
+        <div id="title_page">
+            <h1>VeniceAir <br> Exclusão de Mapas</h1>
+        </div>
+        <div id="button_padrao">
+            <button id="padrao_button"><a href="../listagem/mapas.html">Voltar</a></button>
+        </div>
+    </div>
+    <div class="container">
+        <!-- <label for="id">Cidade:</label> -->
+        <p>Selecione um mapa para excluí-lo.</p>
+        <p>Esta ação não poderá ser revertida!</p>
+        <select name="mapa" id="mapa">
+            <option value="0" selected>Selecione o ID do mapa que deseja excluir</option>
+        </select>
+        <button type="button" id="excluir" name="excluir" onclick="excluirMapa()">Excluir</button>
+        <p id="status" class="statusError"></p>
+    </div>
+</body>
+
+</html>

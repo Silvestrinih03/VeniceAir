@@ -262,3 +262,49 @@ mapaRouter.get("/acharMapa/:p_voo_id", async(req,res)=>{
 
 });
 
+
+
+// Definir rota da requisição "Excluir mapas"
+mapaRouter.delete("/excluirMapa/:codigo", async (req, res) => {
+  const codigo = req.params.codigo;
+
+  let cr = {
+      status: "ERROR",
+      message: "",
+      payload: undefined,
+  };
+
+  try {
+      const connection = await oracledb.getConnection({
+          user: process.env.ORACLE_DB_USER,
+          password: process.env.ORACLE_DB_SECRET,
+          connectionString: process.env.ORACLE_DB_CONN_STR,
+      });
+
+      const cmdDeleteCidade = `DELETE MAP WHERE ID_MAP = :1`;
+      const dados = [codigo];
+      let resDelete = await connection.execute(cmdDeleteCidade, dados);
+      await connection.commit();
+      await connection.close();
+
+      const rowsDeleted = resDelete.rowsAffected;
+      if (rowsDeleted !== undefined && rowsDeleted === 1) {
+          cr.status = "SUCCESS";
+          cr.message = "Mapa excluído.";
+      } else {
+          cr.message = "Mapa não excluído. Verifique se o código informado está correto.";
+      }
+  } catch (e) {
+    // Verifique erros da Oracle
+    if (e instanceof Error) {
+      // Retorna mensagem amigável para o erro ORA-02292 - Ação não pode ser realizada, pois este registro possui filhos cadastrados em outras tabelas
+      // if (e.message.includes("ORA-02292")) {
+      // cr.message = "Antes de excluir esta mapa, certifique-se de remover os trechos e aeroportos vinculados a ela."; 
+      //   console.log(e.message); }
+    } else {
+        cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
+    }
+} finally {
+    res.send(cr);
+}
+});
