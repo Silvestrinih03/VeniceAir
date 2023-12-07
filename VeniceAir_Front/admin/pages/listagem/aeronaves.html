@@ -5,9 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VeniceAir Aeronaves</title>
+    <!-- Importando folhas de estilo -->
     <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet" />
     <link href="../../assets/css/listagem.css" rel="stylesheet" />
+    <!-- Script criado para interatividade do front com o back -->
     <script>
+        // Função para exibir mensagens de status (sucesso ou erros)
         function MessageStatus(msg, error) {
             var pStatus = document.getElementById("status");
 
@@ -20,11 +23,12 @@
             pStatus.textContent = msg;
 
             // Oculta a mensagem após 1 segundos (1000 milissegundos)
-            setTimeout(function () {
-                pStatus.textContent = '';
-            }, 1000);
+            // setTimeout(function () {
+            //     pStatus.textContent = '';
+            // }, 1000);
         }
 
+        // Função para realizar uma solicitação de listagem de aeronaves
         function fetchListar(body) {
             const requestOptions = {
                 method: 'GET', headers: { 'Content-Type': "application/json" }, body: JSON.stringify(body)
@@ -33,6 +37,7 @@
             return fetch('http://localhost:3000/listarAeronaves', requestOptions).then(T => T.json())
         }
 
+        // Função para listar os aeroportos na tabela
         function listarAeronave() {
             const dataBody = document.getElementById('dataBody');
             fetchListar()
@@ -73,6 +78,7 @@
                 });
         }
 
+        // Chama a função para listar os aeroportos no momento em que a página é carregada
         document.addEventListener("DOMContentLoaded", function () {
             listarAeronave();
         });
@@ -80,7 +86,7 @@
 </head>
 
 <body>
-
+    <!-- Cabeçalho padrão das páginas -->
     <div id="header_page">
         <div id="img_logo">
             <a href="../../../Geral/dashboard.html"><img src="../../../Geral/assets/images/logo.png"></a>
@@ -92,6 +98,7 @@
             <button id="padrao_button"><a href="../area_admin.html">Voltar</a></button>
         </div>
     </div>
+    <!-- Botões que direcionam para as páginas de cadastrar, editar e excluir aeronaves -->
     <div id="botao_cadastrar">
         <button id="cadastrar"><a href="../cadastro/cadastrarAeronaves.html">Cadastrar</a></button>
         <button id="cadastrar"><a href="../edicao/editarAeronave.html">Editar</a></button>
@@ -109,6 +116,8 @@
         </thead>
         <tbody id="dataBody"></tbody>
     </table>
+    <!-- Área para exibir mensagens de status -->
+    <p id="status"></p>
 </body>
 
 </html>
