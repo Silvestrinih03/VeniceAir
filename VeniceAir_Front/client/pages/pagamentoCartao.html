@@ -103,7 +103,28 @@
         function aprovaOuReprova(numero) {
             return numero % 2 === 0;
         }
+        
+        // COMPRAR PASSAGEM
+        function fetchComprarPassagem(idassento, idvoo, nome, email) {
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ idassento, idvoo, nome, email })
+            };
+            return fetch('http://localhost:3000/comprarPassagem', requestOptions).then(T => T.json());
+        }
 
+        // COMPRAR ASSENTO
+        function fetchComprarAssento(idassento) {
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({idassento})
+            };
+            return fetch('http://localhost:3000/comprarAssento', requestOptions).then(T => T.json());
+        }
+
+        // FINAL : PAGAR
         function PAGAR() {
             const numeroCartao = document.getElementById('numeroCartao').value;
             const cvv = document.getElementById('cvv').value;
@@ -130,19 +151,49 @@
 
             else if (aprovaOuReprova(parseInt(cvv))) {
                 alert("PAGAMENTO RECUSADO!");
-                //messageStatus('Pagamento não aprovado!', true);
-                //window.location.href = 'resultado_busca.html';
                 return;
+            } else {
+                // variaveis pra mandar
+                console.log("cheguei aqui");
+                console.log("mandando id assento: ", assentocliente);
+                console.log("mandando id voo: ", voocliente);
+                console.log("mandando nome cliente: ", nomecliente);
+                console.log("mandando email cliente: ", emailcliente);
+            
+                // CHAMA COMPRAR PASSAGEM
+                fetchComprarPassagem(assentocliente, voocliente, nomecliente, emailcliente)
+                .then(customResponse => {
+                    if (customResponse.status === 'SUCCESS') {
+                        messageStatusFinal('FOOOI..', false);
+                    } else {
+                        messageStatusFinal('Erro : ' + customResponse.message, true);
+                        console.log(customResponse.message);
+                    }
+                })
+                .catch((e) => {
+                    messageStatusFinal('erro. Contate o suporte.', true);
+                    console.log('DEU TUDO ERRADO.' + e);
+                });
+
+                // CHAMA COMPRAR ASSENTO
+                fetchComprarAssento(assentocliente)
+                .then(customResponse => {
+                    if (customResponse.status === 'SUCCESS') {
+                        messageStatusFinal('FOOOI..', false);
+                    } else {
+                        messageStatusFinal('Erro : ' + customResponse.message, true);
+                        console.log(customResponse.message);
+                    }
+                })
+                .catch((e) => {
+                    messageStatusFinal('erro. Contate o suporte.', true);
+                    console.log('DEU TUDO ERRADO.' + e);
+                });
+
+                // redireciona pra pag de aprovado
+                window.location.href = 'pagamentoAprovado.html';
             }
-
-            // chegou ate aqui entao os campos estao corretos: hora de pegar tudo e mandar pro banco.
-            // testar se tipo =1: 
-            messageStatusFinal('Pagamento realizado com sucesso!', false);
-            window.location.href = 'pagamentoAprovado.html';
-
-
         }
-
     </script>
 </head>
 
