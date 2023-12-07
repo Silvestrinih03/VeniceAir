@@ -20,6 +20,10 @@
     let p_voo_volta_id = sessionStorage.getItem("ID_VOO_SELECIONADO_VOLTA");
     console.log("ID_VOO_SELECIONADO_VOLTA: ", p_voo_volta_id);
 
+    // preciso colocar: ID ASSENTO IDA, ID ASSENTO VOLTA
+    // NUMERO ASSENTO IDA, NUMERO ASSENTO VOLTA
+
+
     function MessageStatus(msg, error) {
       var pStatus = document.getElementById("status");
       if (error === true) {
@@ -157,7 +161,7 @@
   <div class="container">
     <!-- criar verificacao pra ver se o usuario escolheu um assento / um assento VALIDO -->
     <!-- alerta? -->
-    <p><button id="btnConfirm"><a href="resumoCompra.html">Confirmar</a></button></p>
+    <p><button id="btnConfirm"><a href="resumoVolta.html">Confirmar</a></button></p>
   </div>
 </div>
 </body>

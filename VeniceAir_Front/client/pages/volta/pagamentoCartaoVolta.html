@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VeniceAir Pagamento</title>
+    <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet" />
+    <link href="../../assets/css/pagamento.css" rel="stylesheet" />
+    <script>
+
+        let TT = sessionStorage.getItem("Tipo");
+        console.log("Tipo da passaggggem ", TT)
+
+        let assentocliente = sessionStorage.getItem("ID_DO_ASSENTO");
+        console.log("ID_DO_ASSENTO ", assentocliente)
+
+        let voocliente = sessionStorage.getItem("ID_VOO_SELECIONADO");
+        console.log("ID_VOO_SELECIONADO ", voocliente)
+
+        let nomecliente = sessionStorage.getItem("NOME_DO_CLIENTE");
+        console.log("NOME_DO_CLIENTE ", nomecliente)
+
+        let emailcliente = sessionStorage.getItem("EMAIL_DO_CLIENTE");
+        console.log("EMAIL_DO_CLIENTE ", emailcliente)
+
+        console.log("VOLTAAAAAAAAAAAAA");
+
+        let assentoclienteVolta = sessionStorage.getItem("ID_DO_ASSENTO_VOLTA");
+        console.log("ID_DO_ASSENTO_VOLTA ", assentoclienteVolta)
+
+        let vooclienteVolta = sessionStorage.getItem("ID_VOO_SELECIONADO_VOLTA");
+        console.log("ID_VOO_SELECIONADO_VOLTA ", vooclienteVolta)
+
+        // preciso chamar duas vezes comprar passagem.
+        // 1- mandar assentocliente(ida), voocliente (ida), nome, email;
+        // variaveis (assentocliente, voocliente, nomecliente, emailcliente)
+
+        // 2- mandar assentocliente(volta), voocliente (volta) nome, email;
+        // variaveis (assentoclienteVolta, vooclienteVolta, nomecliente, emailcliente)
+
+        // preciso chamar duas vezes comprar assento.
+        // 1- mandar id do assento de IDA (assentocliente)
+        // 2- mandar id do assento de VOLTA (assentoclienteVolta)
+
+        function messageStatus(msg, error) {
+            const pStatus = document.getElementById('status');
+            if (error) {
+                pStatus.className = 'statusError';
+            } else {
+                pStatus.className = 'statusSuccess';
+            }
+            pStatus.textContent = msg;
+        }
+
+        function clearFirstMessage() {
+            const pStatus = document.getElementById('status');
+            pStatus.textContent = '';  // Limpa o conteúdo
+            pStatus.className = '';     // Limpa a classe
+        }
+
+        function messageStatusFinal(msg, error) {
+            const pStatus = document.getElementById('statusFINAL');
+            if (error) {
+                pStatus.className = 'statusErrorFINAL';
+            } else {
+                pStatus.className = 'statusSuccessFINAL';
+            }
+            pStatus.textContent = msg;
+
+            clearFirstMessage();
+        }
+
+        function contemApenasNumeros(valor) {
+            return /^\d+$/.test(valor);
+        }
+
+        function preencheuNomeTitular() {
+            let resultado = false;
+            const nomeCompletoo = document.getElementById('nome').value;
+            if (nomeCompletoo.length > 0) {
+                resultado = true;
+            }
+            return resultado;
+        }
+
+        function preencheuNumeroCartao() {
+            let resultado = false;
+            const numeroCartaoo = document.getElementById('numeroCartao').value;
+            if (numeroCartaoo.length > 0) {
+                resultado = true;
+            }
+            return resultado;
+        }
+
+        function preencheuDataValidade() {
+            let resultado = false;
+            const dataVal = document.getElementById('dataValidade').value;
+            if (dataVal.length > 0) {
+                resultado = true;
+            }
+            return resultado;
+        }
+
+        function preencheuCVV() {
+            let resultado = false;
+            const cvvv = document.getElementById('cvv').value;
+            if (cvvv.length > 0) {
+                resultado = true;
+            }
+            return resultado;
+        }
+
+        function aprovaOuReprova(numero) {
+            return numero % 2 === 0;
+        }
+        
+        // COMPRAR PASSAGEM
+        function fetchComprarPassagem(idassento, idvoo, nome, email) {
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ idassento, idvoo, nome, email })
+            };
+            return fetch('http://localhost:3000/comprarPassagem', requestOptions).then(T => T.json());
+        }
+
+        // COMPRAR ASSENTO
+        function fetchComprarAssento(idassento) {
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({idassento})
+            };
+            return fetch('http://localhost:3000/comprarAssento', requestOptions).then(T => T.json());
+        }
+
+        // FINAL : PAGAR
+        function PAGAR() {
+            const numeroCartao = document.getElementById('numeroCartao').value;
+            const cvv = document.getElementById('cvv').value;
+
+            if (!preencheuNomeTitular()) {
+                messageStatus('Preencha o nome do titular!', true);
+                return;
+            }
+            else if (!preencheuNumeroCartao() || !contemApenasNumeros(numeroCartao)) {
+                messageStatus('Preencha um número de cartão válido!', true);
+                return;
+            }
+
+            else if (!preencheuDataValidade()) {
+                messageStatus('Preencha a data de validade!', true);
+                return;
+            }
+
+
+            else if (!preencheuCVV() || !contemApenasNumeros(cvv)) {
+                messageStatus('Preencha um código de segurança válido!', true);
+                return;
+            }
+
+            else if (aprovaOuReprova(parseInt(cvv))) {
+                alert("PAGAMENTO RECUSADO!");
+                return;
+            } else {
+                // organizar variaveis por ida e volta!
+                console.log("--------------------------");
+                console.log("Nome: ", nomecliente);
+                console.log("Email: ", emailcliente);
+                console.log("--------------------------");
+                console.log("IDA: id do assento: ", assentocliente);
+                console.log("IDA: id do voo: ", voocliente);
+                console.log("--------------------------");
+                console.log("VOLTA: id do assento: ", assentoclienteVolta);
+                console.log("VOLTA: id do voo: ", vooclienteVolta);
+                console.log("--------------------------");
+
+                //comprar passagem de ida, preciso de:
+                // variaveis (assentocliente, voocliente, nomecliente, emailcliente)
+                fetchComprarPassagem(assentocliente, voocliente, nomecliente, emailcliente)
+                .then(customResponse => {
+                    if (customResponse.status === 'SUCCESS') {
+                        messageStatusFinal('FOOOI..', false);
+                    } else {
+                        messageStatusFinal('Erro : ' + customResponse.message, true);
+                        console.log(customResponse.message);
+                    }
+                })
+                .catch((e) => {
+                    messageStatusFinal('erro. Contate o suporte.', true);
+                    console.log('DEU TUDO ERRADO.' + e);
+                });
+
+                // comprar assento de ida, preciso de:
+                // variaveis (assentocliente)
+                fetchComprarAssento(assentocliente)
+                .then(customResponse => {
+                    if (customResponse.status === 'SUCCESS') {
+                        messageStatusFinal('FOOOI..', false);
+                    } else {
+                        messageStatusFinal('Erro : ' + customResponse.message, true);
+                        console.log(customResponse.message);
+                    }
+                })
+                .catch((e) => {
+                    messageStatusFinal('erro. Contate o suporte.', true);
+                    console.log('DEU TUDO ERRADO.' + e);
+                });
+
+                // comprar passagem de volta, preciso de:
+                // variaveis (assentoclienteVolta, vooclienteVolta, nomecliente, emailcliente)
+                fetchComprarPassagem(assentoclienteVolta, vooclienteVolta, nomecliente, emailcliente)
+                .then(customResponse => {
+                    if (customResponse.status === 'SUCCESS') {
+                        messageStatusFinal('FOOOI..', false);
+                    } else {
+                        messageStatusFinal('Erro : ' + customResponse.message, true);
+                        console.log(customResponse.message);
+                    }
+                })
+                .catch((e) => {
+                    messageStatusFinal('erro. Contate o suporte.', true);
+                    console.log('DEU TUDO ERRADO.' + e);
+                });
+
+                // comprar assento de volta, preciso de:
+                // variaveis (assentoclienteVolta)
+                fetchComprarAssento(assentoclienteVolta)
+                .then(customResponse => {
+                    if (customResponse.status === 'SUCCESS') {
+                        messageStatusFinal('FOOOI..', false);
+                    } else {
+                        messageStatusFinal('Erro : ' + customResponse.message, true);
+                        console.log(customResponse.message);
+                    }
+                })
+                .catch((e) => {
+                    messageStatusFinal('erro. Contate o suporte.', true);
+                    console.log('DEU TUDO ERRADO.' + e);
+                });
+                
+                // redireciona pra pag de aprovado
+                window.location.href = '../pagamentoAprovado.html';
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div id="header_page">
+        <div id="img_logo">
+            <a href="../../../Geral/dashboard.html"><img src="../../../Geral/assets/images/logo.png"></a>
+        </div>
+        <div id="title_page">
+            <h1>VeniceAir <br> Pagamento por cartão</h1>
+        </div>
+        <div id="button_padrao">
+            <button id="padrao_button"><a href="resumoVolta.html">Voltar</a></button>
+        </div>
+    </div>
+    <div class="container_cartao">
+        <form id="finaliza_pagamento">
+            <p>Preencha todos os campos para finalizar a compra.</p>
+            <label for="nome">Nome do titular</label>
+            <!-- <input type="email" placeholder="Insira seu endereço de e-mail" id="email" name="campos_feedback"> -->
+            <input type="text" placeholder="Digite o nome impresso no cartão" id="nome" name="nome" />
+
+            <label for="numeroCartao">Número do cartão</label>
+            <input type="text" placeholder="Digite somente números" id="numeroCartao" name="numeroCartao" />
+
+            <label for="validade">Data de Validade</label>
+            <input type="month" id="dataValidade" name="dataValidade" />
+
+            <label for="codigoSeguranca">Código de Segurança</label>
+            <input type="text" placeholder="ex.: 123" id="cvv" name="cvv" />
+
+            <p id="status" class="statusError"></p>
+            <!-- <button type="button">Continuar</button>
+            <button type="reset">Limpar</button> -->
+            <!-- colocar, no lado dessa div class container, outra div só que com a imagem dos bancos! -->
+        </form>
+        
+    </div>
+    <div class="container_botao">
+        <button class="pagar" type="button" onclick="PAGAR()">PAGAR</button>
+        <p id="statusFINAL" class="statusErrorFINAL"></p>
+    </div>
+    <!-- <div class="container">
+        
+    </div> -->
+    <p></p> <!-- nao sei dar espaco normal -->
+    <div id="footer">
+        <p> Copyright VeniceAir - 2023. Todos os direitos reservados.</p>
+    </div>
+</body>
+
+</html>

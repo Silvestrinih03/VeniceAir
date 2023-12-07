@@ -20,6 +20,18 @@
         let id2 = sessionStorage.getItem("ID_VOO_SELECIONADO_VOLTA");
         console.log("ID_VOO_SELECIONADO_VOLTA: ", id2);
 
+        let NUMEROassentoIDA = sessionStorage.getItem("ASSENTO_DO_CLIENTE");
+        console.log("ASSENTO_DO_CLIENTE: ", NUMEROassentoIDA);
+
+        let NUMEROassentoVOLTA = sessionStorage.getItem("ASSENTO_VOLTA_DO_CLIENTE");
+        console.log("ASSENTO_VOLTA_DO_CLIENTE: ", NUMEROassentoVOLTA);
+
+        let idAssentoIDA = sessionStorage.getItem("ID_DO_ASSENTO");
+        console.log("ID_DO_ASSENTO: ", idAssentoIDA);
+
+        let idAssentoVOLTA = sessionStorage.getItem("ID_DO_ASSENTO_VOLTA");
+        console.log("ID_DO_ASSENTO_VOLTA: ", idAssentoVOLTA);
+
         document.addEventListener('DOMContentLoaded', function () {
             apareceIda();
             apareceVolta();
@@ -32,6 +44,9 @@
             // if (valorArmazenado === '2') {
             //                 document.getElementById('botaoEscolherVolta').style.display = 'block';
             //             }
+
+            document.getElementById('assentoDeIda').textContent = `Assento: ${NUMEROassentoIDA || 'X0'}`;
+            document.getElementById('assentoDeVolta').textContent = `Assento: ${NUMEROassentoVOLTA || 'X0'}`;
 
         });
 
@@ -223,7 +238,14 @@
                 MessageStatus('Preencha o email!', true);
                 return;
             }
-            else { window.location.href = '../pagamentoCartao.html'; }
+            else { 
+                const nomeDoCliente = document.getElementById('nome').value;
+                sessionStorage.setItem('NOME_DO_CLIENTE', nomeDoCliente);
+                const emailDoCliente = document.getElementById('email').value;
+                sessionStorage.setItem('EMAIL_DO_CLIENTE', emailDoCliente);
+
+                window.location.href = 'pagamentoCartaoVolta.html'; 
+            }
         }
 
         function VerificarPix() {
@@ -281,7 +303,7 @@
             <tbody id="dataBody">
             </tbody>
         </table>
-        <p> Assento: X0</p>
+        <p id="assentoDeIda"> Assento: X0</p>
     </div>
 
     <div class="container">
@@ -303,7 +325,7 @@
             <tbody id="dataBody2">
             </tbody>
         </table>
-        <p> Assento: X0</p>
+        <p id="assentoDeVolta"> Assento: X0</p>
     </div>
 
 
