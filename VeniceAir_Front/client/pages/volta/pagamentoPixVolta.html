@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VeniceAir Pagamento</title>
+    <link href="../../../Geral/assets/css/header_page.css" rel="stylesheet" />
+    <link href="../../assets/css/pagamento.css" rel="stylesheet" />
+    <script>
+
+let TT = sessionStorage.getItem("Tipo");
+        console.log("Tipo da passaggggem ", TT)
+
+        let assentocliente = sessionStorage.getItem("ID_DO_ASSENTO");
+        console.log("ID_DO_ASSENTO ", assentocliente)
+
+        let voocliente = sessionStorage.getItem("ID_VOO_SELECIONADO");
+        console.log("ID_VOO_SELECIONADO ", voocliente)
+
+        let nomecliente = sessionStorage.getItem("NOME_DO_CLIENTE");
+        console.log("NOME_DO_CLIENTE ", nomecliente)
+
+        let emailcliente = sessionStorage.getItem("EMAIL_DO_CLIENTE");
+        console.log("EMAIL_DO_CLIENTE ", emailcliente)
+
+        console.log("VOLTAAAAAAAAAAAAA");
+
+        let assentoclienteVolta = sessionStorage.getItem("ID_DO_ASSENTO_VOLTA");
+        console.log("ID_DO_ASSENTO_VOLTA ", assentoclienteVolta)
+
+        let vooclienteVolta = sessionStorage.getItem("ID_VOO_SELECIONADO_VOLTA");
+        console.log("ID_VOO_SELECIONADO_VOLTA ", vooclienteVolta)
+        
+        // preciso chamar duas vezes comprar passagem.
+        // 1- mandar assentocliente(ida), voocliente (ida), nome, email;
+        // variaveis (assentocliente, voocliente, nomecliente, emailcliente)
+
+        // 2- mandar assentocliente(volta), voocliente (volta) nome, email;
+        // variaveis (assentoclienteVolta, vooclienteVolta, nomecliente, emailcliente)
+
+        // preciso chamar duas vezes comprar assento.
+        // 1- mandar id do assento de IDA (assentocliente)
+        // 2- mandar id do assento de VOLTA (assentoclienteVolta)
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('nome').value = nomecliente;
+            document.getElementById('email').value = emailcliente;
+        });
+
+        function ondeVolta() {
+            const voltarOnde = sessionStorage.getItem("Tipo");
+            //console.log("voltarOnde = ", voltarOnde);
+            if (voltarOnde === '2') { window.location.href = 'volta/resumoVolta.html' }
+            else { window.location.href = 'resumoCompra.html' }
+        }
+
+        function messageStatus(msg, error) {
+            const pStatus = document.getElementById('status');
+            if (error) {
+                pStatus.className = 'statusError';
+            } else {
+                pStatus.className = 'statusSuccess';
+            }
+            pStatus.textContent = msg;
+        }
+
+        function clearFirstMessage() {
+            const pStatus = document.getElementById('status');
+            pStatus.textContent = '';  // Limpa o conteúdo
+            pStatus.className = '';     // Limpa a classe
+        }
+
+        function messageStatusFinal(msg, error) {
+            const pStatus = document.getElementById('statusFINAL');
+            if (error) {
+                pStatus.className = 'statusErrorFINAL';
+            } else {
+                pStatus.className = 'statusSuccessFINAL';
+            }
+            pStatus.textContent = msg;
+
+            clearFirstMessage();
+        }
+
+        function contemApenasNumeros(valor) {
+            return /^\d+$/.test(valor);
+        }
+
+        function preencheuNomeCompleto() {
+            let resultado = false;
+            const nomeCompletoo = document.getElementById('nome').value;
+            if (nomeCompletoo.length > 0) {
+                resultado = true;
+            }
+            return resultado;
+        }
+
+        function preencheuCPF() {
+            let resultado = false;
+            const numCPF = document.getElementById('numeroCPF').value;
+            if (numCPF.length > 0) {
+                resultado = true;
+            }
+            return resultado;
+        }
+
+        function aprovaOuReprova(numero) {
+            return numero % 2 === 0;
+        }
+
+        function fetchComprarPassagem(idassento, idvoo, nome, email) {
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ idassento, idvoo, nome, email })
+            };
+            return fetch('http://localhost:3000/comprarPassagem', requestOptions).then(T => T.json());
+        }
+
+        function fetchComprarAssento(idassento) {
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({idassento})
+            };
+            return fetch('http://localhost:3000/comprarAssento', requestOptions).then(T => T.json());
+        }
+
+        function enviarDados() {
+            const numCPF = document.getElementById('numeroCPF').value;
+
+            if (!preencheuNomeCompleto()) {
+                messageStatus('Preencha o nome do titular!', true);
+                return;
+            } else if (!preencheuCPF() || !contemApenasNumeros(numCPF)) {
+                messageStatus('Preencha um CPF válido!', true);
+                return;
+            } else if (aprovaOuReprova(parseInt(numCPF))) {
+                //messageStatusFinal('Pagamento recusado!', true);
+                alert("PAGAMENTO RECUSADO!");
+                return;
+            } else {
+                // organizar variaveis por ida e volta!
+                console.log("--------------------------");
+                console.log("Nome: ", nomecliente);
+                console.log("Email: ", emailcliente);
+                console.log("--------------------------");
+                console.log("IDA: id do assento: ", assentocliente);
+                console.log("IDA: id do voo: ", voocliente);
+                console.log("--------------------------");
+                console.log("VOLTA: id do assento: ", assentoclienteVolta);
+                console.log("VOLTA: id do voo: ", vooclienteVolta);
+                console.log("--------------------------");
+
+                //comprar passagem de ida, preciso de:
+                // variaveis (assentocliente, voocliente, nomecliente, emailcliente)
+                fetchComprarPassagem(assentocliente, voocliente, nomecliente, emailcliente)
+                .then(customResponse => {
+                    if (customResponse.status === 'SUCCESS') {
+                        messageStatusFinal('FOOOI..', false);
+                    } else {
+                        messageStatusFinal('Erro : ' + customResponse.message, true);
+                        console.log(customResponse.message);
+                    }
+                })
+                .catch((e) => {
+                    messageStatusFinal('erro. Contate o suporte.', true);
+                    console.log('DEU TUDO ERRADO.' + e);
+                });
+
+                // comprar assento de ida, preciso de:
+                // variaveis (assentocliente)
+                fetchComprarAssento(assentocliente)
+                .then(customResponse => {
+                    if (customResponse.status === 'SUCCESS') {
+                        messageStatusFinal('FOOOI..', false);
+                    } else {
+                        messageStatusFinal('Erro : ' + customResponse.message, true);
+                        console.log(customResponse.message);
+                    }
+                })
+                .catch((e) => {
+                    messageStatusFinal('erro. Contate o suporte.', true);
+                    console.log('DEU TUDO ERRADO.' + e);
+                });
+
+                // comprar passagem de volta, preciso de:
+                // variaveis (assentoclienteVolta, vooclienteVolta, nomecliente, emailcliente)
+                fetchComprarPassagem(assentoclienteVolta, vooclienteVolta, nomecliente, emailcliente)
+                .then(customResponse => {
+                    if (customResponse.status === 'SUCCESS') {
+                        messageStatusFinal('FOOOI..', false);
+                    } else {
+                        messageStatusFinal('Erro : ' + customResponse.message, true);
+                        console.log(customResponse.message);
+                    }
+                })
+                .catch((e) => {
+                    messageStatusFinal('erro. Contate o suporte.', true);
+                    console.log('DEU TUDO ERRADO.' + e);
+                });
+
+                // comprar assento de volta, preciso de:
+                // variaveis (assentoclienteVolta)
+                fetchComprarAssento(assentoclienteVolta)
+                .then(customResponse => {
+                    if (customResponse.status === 'SUCCESS') {
+                        messageStatusFinal('FOOOI..', false);
+                    } else {
+                        messageStatusFinal('Erro : ' + customResponse.message, true);
+                        console.log(customResponse.message);
+                    }
+                })
+                .catch((e) => {
+                    messageStatusFinal('erro. Contate o suporte.', true);
+                    console.log('DEU TUDO ERRADO.' + e);
+                });
+                
+                // redireciona pra pag de aprovado
+                window.location.href = '../pagamentoAprovado.html';
+            }
+    }
+    </script>
+</head>
+
+<body>
+    <div id="header_page">
+        <div id="img_logo">
+            <a href="../../../Geral/dashboard.html"><img src="../../../Geral/assets/images/logo.png"></a>
+        </div>
+        <div id="title_page">
+            <h1>VeniceAir <br> Pagamento por PIX</h1>
+        </div>
+        <div id="button_padrao">
+            <button id="padrao_button" onclick="ondeVolta()">Voltar</button>
+        </div>
+    </div>
+    <div class="container">
+        <form id="finaliza_pagamento">
+            <label for="nome">Nome completo</label>
+            <!-- <input type="email" placeholder="Insira seu endereço de e-mail" id="email" name="campos_feedback"> -->
+            <input type="text" id="nome" name="nome" readonly/>
+            <label for="email">E-mail</label>
+            <input type="text" id="email" name="email" readonly/>
+            <label for="numeroCPF">CPF</label>
+            <input type="text" placeholder="Digite somente números" id="numeroCPF" name="numeroCPF" />
+            <p>Preencha todos os campos para finalizar a compra.</p>
+            <p id="status" class="statusError"></p>
+        </form>
+
+        <div id="QRCODE">
+            
+            <img id="img_QRCode" src="../../assets/images/pix.png.jpg">
+            <p>Escaneie o QR CODE!</p>
+        </div>
+
+    </div>
+    <div class="container_botao">
+        <button type="button" onclick="enviarDados();">Enviar dados</button>
+        <p id="statusFINAL" class="statusErrorFINAL"></p>
+
+    </div>
+</body>
+
+</html>
