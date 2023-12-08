@@ -178,3 +178,78 @@ exports.vooRouter.get("/listarVoo/:codigo", (req, res) => __awaiter(void 0, void
         res.send(cr);
     }
 }));
+//Rota criada para alterar dados dos voos cadastrados
+exports.vooRouter.put("/editarVoo/:codigo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const codigo = req.params.codigo;
+    const trecho = req.body.trecho;
+    const data_partida = req.body.data_partida;
+    const hora_partida = req.body.hora_partida;
+    const hora_chegada = req.body.hora_chegada;
+    const aeroporto_partida = req.body.aeroporto_partida;
+    const aeroporto_chegada = req.body.aeroporto_chegada;
+    const valor = req.body.valor;
+    console.log(codigo);
+    console.log(trecho);
+    console.log(data_partida);
+    console.log(hora_partida);
+    console.log(hora_chegada);
+    console.log(aeroporto_partida);
+    console.log(aeroporto_chegada);
+    console.log(valor);
+    let cr = {
+        status: "ERROR",
+        message: "",
+        payload: undefined,
+    };
+    let conn;
+    try {
+        conn = yield oracledb_1.default.getConnection({
+            user: process.env.ORACLE_DB_USER,
+            password: process.env.ORACLE_DB_SECRET,
+            connectionString: process.env.ORACLE_DB_CONN_STR,
+        });
+        //Validação dos dados da alteração de voos
+        const cmdUpdateVoo = `
+            UPDATE VOOS
+            SET TRECHO = :trecho, DATA_PARTIDA = :data_partida, HORA_PARTIDA = :hora_partida, HORA_CHEGADA = :hora_chegada, AEROPORTO_PARTIDA = :aeroporto_partida, AEROPORTO_CHEGADA = :aeroporto_chegada, VALOR = :valor
+            WHERE ID_VOO = :codigo
+        `;
+        const bindVariables = {
+            codigo: { val: Number(codigo), type: oracledb_1.default.NUMBER, dir: oracledb_1.default.BIND_IN },
+            trecho: { val: Number(trecho), type: oracledb_1.default.NUMBER, dir: oracledb_1.default.BIND_IN },
+            data_partida: { val: data_partida, type: oracledb_1.default.DATE, dir: oracledb_1.default.BIND_IN },
+            hora_partida: { val: Number(hora_partida), type: oracledb_1.default.NUMBER, dir: oracledb_1.default.BIND_IN },
+            hora_chegada: { val: Number(hora_chegada), type: oracledb_1.default.NUMBER, dir: oracledb_1.default.BIND_IN },
+            aeroporto_partida: { val: Number(aeroporto_partida), type: oracledb_1.default.NUMBER, dir: oracledb_1.default.BIND_IN },
+            aeroporto_chegada: { val: Number(aeroporto_chegada), type: oracledb_1.default.NUMBER, dir: oracledb_1.default.BIND_IN },
+            valor: { val: Number(valor), type: oracledb_1.default.NUMBER, dir: oracledb_1.default.BIND_IN }
+        };
+        const options = {
+            autoCommit: true,
+        };
+        let resUpdate = yield conn.execute(cmdUpdateVoo, bindVariables, options);
+        const rowsUpdated = resUpdate.rowsAffected;
+        if (rowsUpdated !== undefined && rowsUpdated === 1) {
+            cr.status = "SUCCESS";
+            cr.message = "Dados do voo atualizados.";
+        }
+        else {
+            cr.message = "Dados do voo não atualizados.";
+        }
+    }
+    catch (e) {
+        if (e instanceof Error) {
+            cr.message = e.message;
+            console.error(e.message);
+        }
+        else {
+            cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
+        }
+    }
+    finally {
+        if (conn !== undefined) {
+            yield conn.close();
+        }
+        res.send(cr);
+    }
+}));
