@@ -38,5 +38,28 @@
 
 /* Estilizando assentos à direita */
 .buttonAssento:nth-child(10n+1) {
-    margin-left: 0px; /* Remove a margem à esquerda para o primeiro assento de cada linha */
+    margin-left: 0; /* Remove a margem à esquerda para o primeiro assento de cada linha */
 }
+
+#btnConfirm {
+    background-color: #0073e6;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 20px;
+    width: 150px;
+  }
+  #btnConfirm a{
+    color: #fff;
+    text-decoration: none;
+  }
+  #btnConfirm:hover {
+    background-color: #005bad;
+  }
+  
+  #banheiro{
+    text-align: right;
+    justify-content: right;
+  }

@@ -109,13 +109,6 @@
       carregarOrigens('campo_select2');
       carregarDestinos('campo_select3');
 
-
-
-      // saida('campo_select');
-      // saida('campo_select2');
-      // saida('campo_select3');
-      // saida('data_ida');
-
       const tipoPassagemSelect = document.getElementById('campo_select');
       tipoPassagemSelect.addEventListener('change', tipoPassagemAlterado);
 
@@ -124,10 +117,8 @@
 
       const dataVoltaInput = document.getElementById('campo_data_volta');
       dataVoltaInput.addEventListener('change', dataVoltaAlterada);
-
-
-
     });
+
 
     function tipoPassagemAlterado() {
       const tipoSelecionado = document.getElementById('campo_select').value;
@@ -204,16 +195,6 @@
           console.error('Erro ao carregar cidades:', error);
         });
     }
-
-
-
-
-
-
-
-
-
-
 
     // Funções para verificar o preenchimento de cada campo da busca
 
@@ -306,13 +287,11 @@
         messageStatusBUSCA('As cidades de partida e chegada não podem ser iguais!', true);
         return;
       }
-      else if (tipoPassagem === '2') {
-        if (!preencheuDataVolta()) {
-          messageStatusBUSCA('Selecione a data de volta!', true);
-          return;
-        } else window.location.href = 'resultado_busca.html';
+      else if (tipoPassagem === '2' && !preencheuDataVolta()) {
+        messageStatusBUSCA('Selecione a data de volta!', true);
+        return;
+        // else window.location.href = 'resultado_busca.html';
         //window.location.href = 'resultado_busca.html';
-
       }
       else {
 
