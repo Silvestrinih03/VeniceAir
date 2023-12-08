@@ -13,17 +13,48 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.mapaRouter = void 0;
+// Importações dos módulos necessários para que o sistema funcione
 const express_1 = __importDefault(require("express"));
 const oracledb_1 = __importDefault(require("oracledb"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
-// const app = express();
+// Rotas necessárias para o funcionamento do express e definição da porta onde serão realizadas as requisições
 exports.mapaRouter = express_1.default.Router();
 const port = 3000; //muda a porta se não for isso
 exports.mapaRouter.use(express_1.default.json());
 exports.mapaRouter.use((0, cors_1.default)());
+// Chama o dotenv para receber os dados do banco
 dotenv_1.default.config();
-// INSERIR NOVO MAPA DE ASSENTOS
+// Definir rota da requisição listar mapas de voo
+exports.mapaRouter.get("/listarMapas", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let cr = { status: "ERROR", message: "", payload: undefined, };
+    try {
+        const connAttibs = {
+            user: process.env.ORACLE_DB_USER,
+            password: process.env.ORACLE_DB_SECRET,
+            connectionString: process.env.ORACLE_DB_CONN_STR,
+        };
+        const connection = yield oracledb_1.default.getConnection(connAttibs);
+        let resultadoConsulta = yield connection.execute("SELECT * FROM MAP");
+        yield connection.close();
+        cr.status = "SUCCESS";
+        cr.message = "Dados obtidos";
+        cr.payload = resultadoConsulta.rows;
+    }
+    catch (e) {
+        if (e instanceof Error) {
+            cr.message = e.message;
+            console.log(e.message);
+        }
+        else {
+            cr.message = "Erro ao conectar ao oracle. Sem detalhes";
+        }
+    }
+    finally {
+        res.send(cr);
+    }
+}));
+// Definir rota para requisição inserir mapa de assentos
 exports.mapaRouter.post("/inserirMapa", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const aeronave = req.body.aeronave;
     const voo = req.body.voo;
@@ -69,75 +100,7 @@ exports.mapaRouter.post("/inserirMapa", (req, res) => __awaiter(void 0, void 0, 
         res.send(cr);
     }
 }));
-// listar mapas de voo
-exports.mapaRouter.get("/listarMapas", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let cr = { status: "ERROR", message: "", payload: undefined, };
-    try {
-        const connAttibs = {
-            user: process.env.ORACLE_DB_USER,
-            password: process.env.ORACLE_DB_SECRET,
-            connectionString: process.env.ORACLE_DB_CONN_STR,
-        };
-        const connection = yield oracledb_1.default.getConnection(connAttibs);
-        let resultadoConsulta = yield connection.execute("SELECT * FROM MAP");
-        yield connection.close();
-        cr.status = "SUCCESS";
-        cr.message = "Dados obtidos";
-        cr.payload = resultadoConsulta.rows;
-    }
-    catch (e) {
-        if (e instanceof Error) {
-            cr.message = e.message;
-            console.log(e.message);
-        }
-        else {
-            cr.message = "Erro ao conectar ao oracle. Sem detalhes";
-        }
-    }
-    finally {
-        res.send(cr);
-    }
-}));
-// RETIRAR DEPOISSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
-exports.mapaRouter.post("/procedureMapa", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    //const p_aeronave_id = req.body.p_aeronave_id as number;
-    const p_aeronave_id = parseInt(req.body.p_aeronave_id, 10);
-    console.log("Typeof p_aeronave_id:", typeof p_aeronave_id);
-    console.log("veja aqui: ", p_aeronave_id);
-    let cr = { status: "ERROR", message: "", payload: undefined, };
-    let conn;
-    try {
-        conn = yield oracledb_1.default.getConnection({
-            user: process.env.ORACLE_DB_USER,
-            password: process.env.ORACLE_DB_SECRET,
-            connectionString: process.env.ORACLE_DB_CONN_STR,
-        });
-        const cmdProcedure = `BEGIN CADASTRA_ASSENTO(:p_aeronave_id); END;`;
-        const bindVariables = {
-            p_aeronave_id: { val: Number(p_aeronave_id), type: oracledb_1.default.NUMBER, dir: oracledb_1.default.BIND_IN }
-        };
-        const options = {
-            autoCommit: true,
-        };
-        let resultadoProcedure = yield conn.execute(cmdProcedure, bindVariables, options);
-        yield conn.close();
-        cr.status = "SUCCESS";
-        cr.message = "Dados obtidos";
-        cr.payload = resultadoProcedure.rows;
-    }
-    catch (e) {
-        if (e instanceof Error) {
-            cr.message = e.message;
-            console.log(e.message);
-        }
-        else {
-            cr.message = "Erro ao conectar ao oracle. Sem detalhes";
-        }
-    }
-    finally {
-        res.send(cr);
-    }
-}));
+// Definir rota da requisição para chamar o procedure e gerar os assentos
 exports.mapaRouter.post("/procedureMapa2", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //const p_aeronave_id = req.body.p_aeronave_id as number;
     const p_voo_id = parseInt(req.body.p_voo_id, 10);
@@ -177,7 +140,7 @@ exports.mapaRouter.post("/procedureMapa2", (req, res) => __awaiter(void 0, void 
         res.send(cr);
     }
 }));
-// listar mapas de voo
+// Definir rota para encontrar mapa de assentos quando o usuário seleciona o voo
 exports.mapaRouter.get("/acharMapa/:p_voo_id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const p_voo_id = parseInt(req.params.p_voo_id, 10);
     console.log("Voo para achar mapa: ", p_voo_id);

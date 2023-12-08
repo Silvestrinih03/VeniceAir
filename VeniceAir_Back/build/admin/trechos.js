@@ -13,14 +13,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.trechoRouter = void 0;
+// Importações dos módulos necessários para que o sistema funcione
 const express_1 = __importDefault(require("express"));
 const oracledb_1 = __importDefault(require("oracledb"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
+// Rotas necessárias para o funcionamento do express e definição da porta onde serão realizadas as requisições
 exports.trechoRouter = express_1.default.Router();
 const port = 3000;
 exports.trechoRouter.use(express_1.default.json());
 exports.trechoRouter.use((0, cors_1.default)());
+// Chama o dotenv para receber os dados do banco
 dotenv_1.default.config();
 // Rota para listar trechos cadastrados (listagem de registros)
 exports.trechoRouter.get("/listarTrechos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {

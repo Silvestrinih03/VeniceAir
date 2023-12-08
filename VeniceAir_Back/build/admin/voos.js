@@ -13,14 +13,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.vooRouter = void 0;
+// Importações dos módulos necessários para que o sistema funcione
 const express_1 = __importDefault(require("express"));
 const oracledb_1 = __importDefault(require("oracledb"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
+// Rotas necessárias para o funcionamento do express e definição da porta onde serão realizadas as requisições
 exports.vooRouter = express_1.default.Router();
 const port = 3000;
 exports.vooRouter.use(express_1.default.json());
 exports.vooRouter.use((0, cors_1.default)());
+// Chama o dotenv para receber os dados do banco
 dotenv_1.default.config();
 // Rota para listar os voos cadastrados no banco (listagem de registros)
 exports.vooRouter.get("/listarVoos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -51,7 +54,7 @@ exports.vooRouter.get("/listarVoos", (req, res) => __awaiter(void 0, void 0, voi
         res.send(cr);
     }
 }));
-// Rota para inserir voos
+// Definir rota da requisição para inserir voos
 exports.vooRouter.post("/inserirVoo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const trecho = req.body.trecho;
     const data_partida = new Date(req.body.data_partida);
@@ -101,7 +104,7 @@ exports.vooRouter.post("/inserirVoo", (req, res) => __awaiter(void 0, void 0, vo
         res.send(cr);
     }
 }));
-// Rota criada para excluir voos
+// Definir rota da requisição para excluir voos
 exports.vooRouter.delete("/excluirVoo/:codigo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const codigo = req.params.codigo;
     console.log('codigo p excluir', codigo);

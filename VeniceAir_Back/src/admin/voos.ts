@@ -1,17 +1,18 @@
+// Importações dos módulos necessários para que o sistema funcione
 import express from "express";
 import oracledb, { Connection, ConnectionAttributes } from "oracledb";
 import dotenv from "dotenv";
-
 import cors from "cors";
-
+// Rotas necessárias para o funcionamento do express e definição da porta onde serão realizadas as requisições
 export const vooRouter = express.Router();
-
 const port = 3000;
 vooRouter.use(express.json());
 vooRouter.use(cors());
 
-
+// Chama o dotenv para receber os dados do banco
 dotenv.config();
+
+// Padronizar respostas do servidor
 type CustomResponse = {
   status: string,
   message: string,
@@ -50,7 +51,7 @@ vooRouter.get("/listarVoos", async(req,res)=>{
 
 });
 
-// Rota para inserir voos
+// Definir rota da requisição para inserir voos
 vooRouter.post("/inserirVoo", async (req, res) => {
   const trecho = req.body.trecho as number;
   const data_partida = new Date(req.body.data_partida);
@@ -105,7 +106,7 @@ vooRouter.post("/inserirVoo", async (req, res) => {
   }
 });
 
-// Rota criada para excluir voos
+// Definir rota da requisição para excluir voos
 vooRouter.delete("/excluirVoo/:codigo", async (req, res) => {
   const codigo = req.params.codigo;
   console.log('codigo p excluir', codigo);

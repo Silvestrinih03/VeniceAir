@@ -1,17 +1,19 @@
+// Importações dos módulos necessários para que o sistema funcione
 import express from "express";
 import oracledb, { Connection, ConnectionAttributes } from "oracledb";
 import dotenv from "dotenv";
-
 import cors from "cors";
 
-// const app = express();
+// Rotas necessárias para o funcionamento do express e definição da porta onde serão realizadas as requisições
 export const aeroportoRouter = express.Router();
 const port = 3000;
 aeroportoRouter.use(express.json());
 aeroportoRouter.use(cors());
 
-
+// Chama o dotenv para receber os dados do banco
 dotenv.config();
+
+// Padronizar respostas do servidor
 type CustomResponse = {
   status: string,
   message: string,
