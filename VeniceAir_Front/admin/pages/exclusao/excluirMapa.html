@@ -58,6 +58,14 @@
             return fetch(`http://localhost:3000/excluirMapa/${mapa}`, requestOptions).then(T => T.json());
         }
 
+        function fetchAssentos(cod_voo) {
+            const requestOptions = {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+            };
+
+            return fetch(`http://localhost:3000/excluirAssentos/${cod_voo}`, requestOptions).then(T => T.json());
+        }
 
         function excluirMapa() {
             if (!preencheuMapa()) {
