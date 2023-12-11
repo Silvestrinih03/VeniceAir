@@ -1,0 +1,24 @@
+Cadastrar Cidade
+Cascavel
+
+Aeroporto
+CAC - Cascavel
+
+Trecho
+Campinas - Brasília
+Cascavel - Campinas
+Campinas - Cascavel
+
+Aeronave
+AirBus
+A200
+2005
+100
+
+Voo
+São Paulo - Belo Horizonte 12/12/2023  21:00  22:15  GRU   CNF  valor
+
+ORIGEM                 DESTINO               DATA_IDA            DATA_VOLTA
+São Paulo           Belo Horizonte          12/12/2023           19/12/2023
+Brasilia               Campinas             14/12/2023           21/12/2023
+

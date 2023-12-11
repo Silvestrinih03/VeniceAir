@@ -1,3 +1,0 @@
-ORIGEM                 DESTINO               DATA_IDA            DATA_VOLTA
-São Paulo           Belo Horizonte          12/12/2023           19/12/2023
-
