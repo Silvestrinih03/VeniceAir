@@ -187,6 +187,7 @@ mapaRouter.get("/acharMapa/:p_voo_id", async(req,res)=>{
 // Definir rota da requisição "Excluir mapas"
 mapaRouter.delete("/excluirMapa/:codigo", async (req, res) => {
   const codigo = req.params.codigo;
+  console.log("chegou pra excluir da MAP: ", codigo);
 
   let cr = {
       status: "ERROR",
@@ -201,7 +202,7 @@ mapaRouter.delete("/excluirMapa/:codigo", async (req, res) => {
           connectionString: process.env.ORACLE_DB_CONN_STR,
       });
 
-      const cmdDeleteCidade = `DELETE MAP WHERE ID_MAP = :1`;
+      const cmdDeleteCidade = `DELETE MAP WHERE VOO = :1`;
       const dados = [codigo];
       let resDelete = await connection.execute(cmdDeleteCidade, dados);
       await connection.commit();
@@ -230,8 +231,9 @@ mapaRouter.delete("/excluirMapa/:codigo", async (req, res) => {
 });
 
 // Definir rota da requisição "Excluir assentos"
-mapaRouter.delete("/excluirAssentos/:codigo", async (req, res) => {
-  const codigo = req.params.codigo;
+mapaRouter.delete("/excluirAssentos/:cod_voo", async (req, res) => {
+  const cod_voo = req.params.cod_voo;
+  console.log("aqui no back chegou codigo: ", cod_voo);
 
   let cr = {
       status: "ERROR",
@@ -247,7 +249,7 @@ mapaRouter.delete("/excluirAssentos/:codigo", async (req, res) => {
       });
 
       const cmdDeleteCidade = `DELETE ASS WHERE COD_VOO = :1`;
-      const dados = [codigo];
+      const dados = [cod_voo];
       let resDelete = await connection.execute(cmdDeleteCidade, dados);
       await connection.commit();
       await connection.close();

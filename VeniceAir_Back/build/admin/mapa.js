@@ -174,6 +174,7 @@ exports.mapaRouter.get("/acharMapa/:p_voo_id", (req, res) => __awaiter(void 0, v
 // Definir rota da requisição "Excluir mapas"
 exports.mapaRouter.delete("/excluirMapa/:codigo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const codigo = req.params.codigo;
+    console.log("chegou pra excluir da MAP: ", codigo);
     let cr = {
         status: "ERROR",
         message: "",
@@ -185,7 +186,7 @@ exports.mapaRouter.delete("/excluirMapa/:codigo", (req, res) => __awaiter(void 0
             password: process.env.ORACLE_DB_SECRET,
             connectionString: process.env.ORACLE_DB_CONN_STR,
         });
-        const cmdDeleteCidade = `DELETE MAP WHERE ID_MAP = :1`;
+        const cmdDeleteCidade = `DELETE MAP WHERE VOO = :1`;
         const dados = [codigo];
         let resDelete = yield connection.execute(cmdDeleteCidade, dados);
         yield connection.commit();
@@ -197,6 +198,51 @@ exports.mapaRouter.delete("/excluirMapa/:codigo", (req, res) => __awaiter(void 0
         }
         else {
             cr.message = "Mapa não excluído. Verifique se o código informado está correto.";
+        }
+    }
+    catch (e) {
+        // Verifique erros da Oracle
+        if (e instanceof Error) {
+            // Retorna mensagem amigável para o erro ORA-02292 - Ação não pode ser realizada, pois este registro possui filhos cadastrados em outras tabelas
+            // if (e.message.includes("ORA-02292")) {
+            // cr.message = "Antes de excluir esta mapa, certifique-se de remover os trechos e aeroportos vinculados a ela."; 
+            //   console.log(e.message); }
+        }
+        else {
+            cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
+        }
+    }
+    finally {
+        res.send(cr);
+    }
+}));
+// Definir rota da requisição "Excluir assentos"
+exports.mapaRouter.delete("/excluirAssentos/:cod_voo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const cod_voo = req.params.cod_voo;
+    console.log("aqui no back chegou codigo: ", cod_voo);
+    let cr = {
+        status: "ERROR",
+        message: "",
+        payload: undefined,
+    };
+    try {
+        const connection = yield oracledb_1.default.getConnection({
+            user: process.env.ORACLE_DB_USER,
+            password: process.env.ORACLE_DB_SECRET,
+            connectionString: process.env.ORACLE_DB_CONN_STR,
+        });
+        const cmdDeleteCidade = `DELETE ASS WHERE COD_VOO = :1`;
+        const dados = [cod_voo];
+        let resDelete = yield connection.execute(cmdDeleteCidade, dados);
+        yield connection.commit();
+        yield connection.close();
+        const rowsDeleted = resDelete.rowsAffected;
+        if (rowsDeleted !== undefined && rowsDeleted === 1) {
+            cr.status = "SUCCESS";
+            cr.message = "Assentos excluídos.";
+        }
+        else {
+            cr.message = "Assentos não excluídos. Verifique se o código informado está correto.";
         }
     }
     catch (e) {

@@ -12,15 +12,34 @@
             carregarMapas('mapa');
         });
 
+        let mapaSelecionado;
+
         function carregarMapas(idSelect) {
             fetch('http://localhost:3000/listarMapas')
                 .then(response => response.json())
                 .then(mapa => {
                     const select = document.getElementById(idSelect);
+
+                    // pegar o id do mapa pra TESTE
+                    select.addEventListener('change', function () {
+                        // Obtém o ID da cidade selecionada
+                        mapaSelecionado = select.value;
+                        console.log('ID do mapa selecionado:', mapaSelecionado);
+
+                        const selectedOption = select.options[select.selectedIndex];
+                        const codigodovoo = selectedOption.getAttribute('data-cod_voo');
+
+                        // Armazena o valor no sessionStorage
+                        sessionStorage.setItem('cod-voo', codigodovoo);
+                        console.log('Codigo do voo p deletar:', codigodovoo);
+
+                    });
+
                     mapa.payload.forEach(mapa => {
                         const option = document.createElement('option');
-                        option.value = mapa[0]; // or the correct value for the ID of the mapa
-                        option.text = mapa[0]; // or the correct value for the name of the mapa
+                        option.value = mapa[0];
+                        option.text = mapa[0];
+                        option.setAttribute('data-cod_voo', mapa[2]);
                         select.appendChild(option);
                     });
                 })
@@ -49,13 +68,13 @@
             }, 2500);
         }
 
-        function fetchExcluir(mapa) {
+        function fetchExcluir(codigo) {
             const requestOptions = {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
             };
 
-            return fetch(`http://localhost:3000/excluirMapa/${mapa}`, requestOptions).then(T => T.json());
+            return fetch(`http://localhost:3000/excluirMapa/${codigo}`, requestOptions).then(T => T.json());
         }
 
         function fetchAssentos(cod_voo) {
@@ -67,30 +86,72 @@
             return fetch(`http://localhost:3000/excluirAssentos/${cod_voo}`, requestOptions).then(T => T.json());
         }
 
-        function excluirMapa() {
+        async function excluirMapa() {
             if (!preencheuMapa()) {
                 messageStatus('Selecione o mapa que deseja excluir!', true);
                 return;
             }
 
-            const mapa = document.getElementById('mapa').value;
+            const codigo = document.getElementById('mapa').value;
+            console.log("codigo do mapa pra excluir: ", codigo);
+            // testar com cod_voo
+            const cod_voo = sessionStorage.getItem('cod-voo');
+            console.log("oiiii vamos alterar o seguinte voo: ", cod_voo);
 
-            fetchExcluir(mapa)
-                .then(customResponse => {
-                    if (customResponse.status === 'SUCCESS') {
-                        messageStatus('Mapa excluído...', false);
-                        // Limpar campos após o sucesso
-                        document.getElementById("mapa").value = "";
-                    } else {
-                        messageStatus('Erro ao excluir mapa: ' + customResponse.message, true);
-                        console.log(customResponse.message);
-                    }
-                })
-                .catch((e) => {
-                    messageStatus('Erro técnico ao excluir mapa. Contate o suporte.', true);
-                    console.log('Falha grave ao excluir mapa.' + e);
-                });
-        }
+            try {
+                await fetchAssentos(cod_voo);
+
+                // Após excluir os assentos, então exclui o mapa
+                const result = await fetchExcluir(cod_voo);
+
+                if (result.status === 'SUCCESS') {
+                    messageStatus('Mapa excluído...', false);
+                    // Limpar campos após o sucesso
+                    document.getElementById("mapa").value = "";
+                } else {
+                    messageStatus('Erro ao excluir mapa: ' + result.message, true);
+                    console.log(result.message);
+                }
+            } catch (e) {
+                messageStatus('Erro técnico ao excluir mapa. Contate o suporte.', true);
+                console.log('Falha grave ao excluir mapa.' + e);
+                 };
+                // Trate os erros
+            }
+            // fetchAssentos(cod_voo)
+            //     .then(customResponse => {
+            //         if (customResponse.status === 'SUCCESS') {
+            //             messageStatus('Assentos excluídos...', false);
+            //         } else {
+            //             messageStatus('Erro ao excluir assentos: ' + customResponse.message, true);
+            //             console.log(customResponse.message);
+            //         }
+            //     })
+            //     .catch((e) => {
+            //         messageStatus('Erro técnico ao excluir assentos. Contate o suporte.', true);
+            //         console.log('Falha grave ao excluir assentos.' + e);
+            //     });
+
+            // fetchExcluir(cod_voo)
+            //     .then(customResponse => {
+            //         if (customResponse.status === 'SUCCESS') {
+            //             messageStatus('Mapa excluído...', false);
+            //             // Limpar campos após o sucesso
+            //             document.getElementById("mapa").value = "";
+            //         } else {
+            //             messageStatus('Erro ao excluir mapa: ' + customResponse.message, true);
+            //             console.log(customResponse.message);
+            //         }
+            //     })
+            //     .catch((e) => {
+            //         messageStatus('Erro técnico ao excluir mapa. Contate o suporte.', true);
+            //         console.log('Falha grave ao excluir mapa.' + e);
+            //     });
+
+
+
+                
+        
     </script>
 </head>
 
