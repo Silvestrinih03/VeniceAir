@@ -48,12 +48,7 @@ let TT = sessionStorage.getItem("Tipo");
             document.getElementById('email').value = emailcliente;
         });
 
-        function ondeVolta() {
-            const voltarOnde = sessionStorage.getItem("Tipo");
-            //console.log("voltarOnde = ", voltarOnde);
-            if (voltarOnde === '2') { window.location.href = 'volta/resumoVolta.html' }
-            else { window.location.href = 'resumoCompra.html' }
-        }
+    
 
         function messageStatus(msg, error) {
             const pStatus = document.getElementById('status');
@@ -233,7 +228,7 @@ let TT = sessionStorage.getItem("Tipo");
             <h1>VeniceAir <br> Pagamento por PIX</h1>
         </div>
         <div id="button_padrao">
-            <button id="padrao_button" onclick="ondeVolta()">Voltar</button>
+            <button id="padrao_button"><a href="resumoVolta.html">Voltar</a></button>
         </div>
     </div>
     <div class="container">

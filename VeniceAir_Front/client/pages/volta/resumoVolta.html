@@ -257,18 +257,16 @@
                 MessageStatus('Preencha o email!', true);
                 return;
             }
-            else { window.location.href = 'pagamentoPixVolta.html'; }
+            else { 
+                const nomeDoCliente = document.getElementById('nome').value;
+                sessionStorage.setItem('NOME_DO_CLIENTE', nomeDoCliente);
+                const emailDoCliente = document.getElementById('email').value;
+                sessionStorage.setItem('EMAIL_DO_CLIENTE', emailDoCliente);
+
+                window.location.href = 'pagamentoPixVolta.html'; }
         }
 
-        // function exibeContainer(){
-        //     var recebeTipo = sessionStorage.getItem("TIPO DA PASSAGEM");
-        //     if (recebeTipo === '2')
-        //         {
-        //             document.querySelector('.containerInvisivel').style.display = 'block';
-        //         }
 
-        //     else return;
-        // }
     </script>
 </head>
 
